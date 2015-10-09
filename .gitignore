@@ -25,3 +25,9 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# Tsss custom ignore files #
+############################
+# DreamWeaver auto create file
+_notes/
+

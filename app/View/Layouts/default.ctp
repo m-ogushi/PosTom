@@ -61,7 +61,14 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <div id="contents">
 <!-- contents.dashboard -->
 <div id="dashboard">
-<h1 id="logo"><a href="/"><img src="http://placehold.jp/24/39b998/2a7d65/200x150.png?text=PosTom" alt="PosTom" width="200" height="150"></a></h1>
+<h1 id="logo">
+<?php
+echo $this->Html->image("http://placehold.jp/24/39b998/2a7d65/200x150.png?text=PosTom", array(
+	"alt" => "PosTom",
+	'url' => array('controller' => 'events', 'action' => 'index')
+));
+?>
+</h1>
 <ul>
 <li><a href="#">Top</a></li>
 <li><a href="#">Poster</a></li>
