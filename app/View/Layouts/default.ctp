@@ -35,6 +35,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->css('jquery-ui.min');
 		echo $this->Html->css('reset');
 		echo $this->Html->css('base');
+		echo $this->Html->css('font-awesome.min');
 		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -63,19 +64,19 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <div id="dashboard">
 <h1 id="logo">
 <?php
-echo $this->Html->image("http://placehold.jp/24/39b998/2a7d65/200x150.png?text=PosTom", array(
+echo $this->Html->image("http://placehold.jp/24/39b998/77dec6/200x150.png?text=PosTom", array(
 	"alt" => "PosTom",
 	'url' => array('controller' => 'events', 'action' => 'index')
 ));
 ?>
 </h1>
 <ul>
-<li><a href="#">Top</a></li>
-<li><a href="#">Poster</a></li>
-<li><a href="#">Schedule</a></li>
-<li><a href="#">Presentation</a></li>
-<li><a href="#">Floor Map</a></li>
-<li><a href="#">Setting</a></li>
+<li><a href="#"><i class="fa fa-caret-square-o-up fa-2x"></i><span>Top</span></a></li>
+<li><a href="#"><i class="fa fa-file-image-o fa-2x"></i><span>Poster</span></a></li>
+<li><a href="#"><i class="fa fa-calendar fa-2x"></i><span>Schedule</span></a></li>
+<li><a href="#"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>
+<li><a href="#"><i class="fa fa-map-marker fa-2x"></i><span>Floor Map</span></a></li>
+<li><a href="#"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
 </ul>
 </div>
 <!-- //contents.dashboard -->
