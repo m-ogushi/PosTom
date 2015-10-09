@@ -1,0 +1,98 @@
+<?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @package       app.View.Layouts
+ * @since         CakePHP(tm) v 0.10.0.1076
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+
+$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+$cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<?php echo $this->Html->charset(); ?>
+	<title>
+		<?php //echo $this->fetch('title'); ?>
+        <?php  echo $title_for_layout; ?>
+	</title>
+	<?php
+		echo $this->Html->meta('icon');
+
+		//echo $this->Html->css('cake.generic');
+		
+		echo $this->Html->css('bootstrap.min');
+		echo $this->Html->css('bootstrap-select');
+		echo $this->Html->css('jquery-ui.min');
+		echo $this->Html->css('reset');
+		echo $this->Html->css('base');
+		
+		echo $this->fetch('meta');
+		echo $this->fetch('css');
+		echo $this->fetch('script');
+		
+		echo $this->Html->script('jquery-1.11.3.min');
+	?>
+    <!-- fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<!-- header -->
+<!--
+<div id="header">
+<div class="inner">
+
+<h1><?php echo $this->Html->link('PosTom', '/'); ?></h1>
+
+</div>
+</div>
+-->
+<!-- //header -->
+<!-- contents -->
+<div id="contents">
+<!-- contents.dashboard -->
+<div id="dashboard">
+<h1 id="logo"><a href="/"><img src="http://placehold.jp/24/39b998/2a7d65/200x150.png?text=PosTom" alt="PosTom" width="200" height="150"></a></h1>
+<ul>
+<li><a href="#">Top</a></li>
+<li><a href="#">Poster</a></li>
+<li><a href="#">Schedule</a></li>
+<li><a href="#">Presentation</a></li>
+<li><a href="#">Floor Map</a></li>
+<li><a href="#">Setting</a></li>
+</ul>
+</div>
+<!-- //contents.dashboard -->
+<!-- contents.main -->
+<div id="main">
+
+<?php echo $this->Flash->render(); ?>
+<?php echo $this->fetch('content'); ?>
+
+</div>
+<!-- //contents.main -->
+</div>
+<!-- //contents -->
+<!-- footer -->
+<!--
+<div id="footer">
+<div class="inner">
+<p id="copyright">
+Copyright &copy; 2015, University of Tsukuba, Department of Computer Science, AIT, Team tsss.
+</p>
+</div>
+</div>
+-->
+<!-- //footer -->
+<?php echo $this->element('sql_dump'); ?>
+</body>
+</html>

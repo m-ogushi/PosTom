@@ -1,0 +1,67 @@
+@charset "utf-8";
+/*-------------------------------------------------
+ 
+  reset.css
+ 
+ --------------------------------------------------*/
+
+body {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+img,div, p, blockquote,h1, h2, h3, h4, h5, h6,ul, ol, li, dl, dt, dd,form, fieldset, textarea,address,strong,article, aside, dialog, figure, footer, header, hgroup, nav, section {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	list-style-type: none;
+}
+article, aside, dialog, figure, footer, header, hgroup, nav, section {
+	display: block;
+}
+table {
+	width: 100%;
+	border-collapse: collapse; 
+	border-spacing: 0;
+	font-size: 100%;
+}
+th {
+	text-align: left;
+	font-weight: normal;
+}
+a, a:focus, a:hover, a:active {
+	outline: none;
+}
+img,embed,input  {
+	vertical-align: top;
+}
+
+/* clear
+***************************************************************/
+div:after,
+ul:after,
+li:after,
+dl:after{
+    content:".";
+    display: block;
+    height:0px;
+    clear:both;
+    visibility:hidden;
+	overflow:hidden;
+	font-size:0.1em;
+	line-height:0;
+}
+
+/* boxsizing
+***************************************************************/
+div,h1,h2,h3,h4,h5,h6,p,dl,dt,dd,ol,ul,li,form,input,textarea,button,table,tr,th,td,article,aside,footer,header,hgroup,nav,section{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
