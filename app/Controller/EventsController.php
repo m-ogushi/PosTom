@@ -22,6 +22,20 @@ class EventsController extends AppController {
 			}
 		}
 	}
+	
+	public function edit($id = null){
+		$this->Event->id = $id;
+		if($this->request->is('get')){
+			$this->request->data = $this->Event->read();	
+		}else{
+			if($this->Event->save($this->request->data)){
+				$this->Session->setFlash('Success!');
+				$this->redirect(array('action'=>'index'));
+			}else{
+				$this->Session->setFlash('Failed!');	
+			}
+		}
+	}
 }
 
 ?>

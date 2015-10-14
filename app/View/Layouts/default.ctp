@@ -22,13 +22,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php //echo $this->fetch('title'); ?>
         <?php  echo $title_for_layout; ?>
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
-
-		//echo $this->Html->css('cake.generic');
 		
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('bootstrap-select');
@@ -70,13 +67,13 @@ echo $this->Html->image("http://placehold.jp/24/39b998/77dec6/200x150.png?text=P
 ));
 ?>
 </h1>
-<ul>
-<li><a href="#"><i class="fa fa-caret-square-o-up fa-2x"></i><span>Top</span></a></li>
-<li><a href="#"><i class="fa fa-file-image-o fa-2x"></i><span>Poster</span></a></li>
-<li><a href="#"><i class="fa fa-calendar fa-2x"></i><span>Schedule</span></a></li>
-<li><a href="#"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>
-<li><a href="#"><i class="fa fa-map-marker fa-2x"></i><span>Floor Map</span></a></li>
-<li><a href="#"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
+<ul id="gNav">
+<li id="gNavTop"><a href="/postom"><i class="fa fa-caret-square-o-up fa-2x"></i><span>Top</span></a></li>
+<li id="gNavPos"><a href="#"><i class="fa fa-file-image-o fa-2x"></i><span>Poster</span></a></li>
+<li id="gNavSch"><a href="#"><i class="fa fa-calendar fa-2x"></i><span>Schedule</span></a></li>
+<li id="gNavPre"><a href="/postom/presentations"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>
+<li id="gNavFlo"><a href="#"><i class="fa fa-map-marker fa-2x"></i><span>Floor Map</span></a></li>
+<li id="gNavSet"><a href="#"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
 </ul>
 </div>
 <!-- //contents.dashboard -->
