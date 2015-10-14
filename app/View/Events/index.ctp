@@ -9,8 +9,8 @@
 //echo $this->Html->link($event['Event']['event_name'], '/events/view/'.$event['Event']['id']);
 ?>
 <span class="tit"><?php echo h($event['Event']['event_name']); ?></span>
-<span>場所：<?php echo h($event['Event']['event_location']); ?></span>
-<span>日付：<?php echo $event['Event']['event_begin_date']; ?> - <?php echo $event['Event']['event_end_date']; ?></span>
+<span>Location：<?php echo h($event['Event']['event_location']); ?></span>
+<span>DateTime：<?php echo $event['Event']['event_begin_date']; ?> <?php echo $event['Event']['event_begin_time']; ?> - <?php echo $event['Event']['event_end_date']; ?> <?php echo $event['Event']['event_end_time']; ?></span>
 </a>
 </li>
 <?php endforeach; ?>
