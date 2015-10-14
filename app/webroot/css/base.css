@@ -117,8 +117,11 @@ li {
 	color: #77dec6;
 }
 #contents #dashboard ul li a:hover,
-#contents #dashboard ul li a.current {
-	background: #2a7d65;
+#contents #dashboard ul li.current a {
+	background-color: #2a7d65;
+	background-image: url(../img/bg_gnav_current.png);
+	background-position: right center;
+	background-repeat: no-repeat;
 	color: #fff;
 }
 #contents #dashboard ul li a > i {
@@ -164,6 +167,20 @@ li {
 	display: inline-block;
 }
 #contents #main #EventAddForm label {
+	display: block;
+}
+/* main.presentationlist */
+#contents #main #presentationlist li {
+	margin-bottom: 10px;
+}
+#contents #main #presentationlist li a {
+	display: block;
+	width: 80%;
+	padding: 16px 21px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+#contents #main #presentationlist li > a > span {
 	display: block;
 }
 
