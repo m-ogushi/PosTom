@@ -20,7 +20,6 @@ echo $this->Text->truncate(
 	)
 );
 ?></span>
-<span>Presenter : <?php echo h($presentation['Presentation']['presenter']); ?></span>
 </a>
 </li>
 <?php endforeach; ?>
@@ -28,3 +27,10 @@ echo $this->Text->truncate(
 
 <p><?php echo $this->Html->link('Add Presentation From CSV File', array('controller'=>'presentations', 'action'=>'add_csv'), array('class'=>'btn btn-custom')); ?></p>
 <p><?php //echo $this->Html->link('Add Presentation', array('controller'=>'presentations', 'action'=>'add'), array('class'=>'btn btn-custom')); ?></p>
+
+<h3>CSV Import</h3>
+<?php
+    echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file'));
+    echo $this->Form->input('CsvFile',array('label'=>'','type'=>'file'));
+    echo $this->Form->end('Upload');
+?>
