@@ -20,7 +20,6 @@ echo $this->Text->truncate(
 	)
 );
 ?></span>
-<span>Presenter : <?php echo h($presentation['Presentation']['presenter']); ?></span>
 </a>
 </li>
 <?php endforeach; ?>

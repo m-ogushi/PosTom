@@ -2,7 +2,8 @@
 <ul id="eventlist">
 <?php foreach($events as $event) : ?>
 <li>
-<a href="<?php echo '/postom/events/view/'.$event['Event']['id']; ?>">
+<!--<a href="<?php echo '/postom/events/view/'.$event['Event']['id']; ?>">-->
+<a href="<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'view')).'/'.$event['Event']['id']; ?>">
 
 <?php
 // echo h($event['Event']['event_name']);
