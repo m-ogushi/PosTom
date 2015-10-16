@@ -10,7 +10,56 @@ function selectFile(){
 }
 
 </script>
+<h2>CSV Import</h2>
+<p>CSV Format is Number,Title,Abstract,Keyword,Author,Author Belongs</p>
+<p>Example: D3-2,Visualization of Twitter,... of Twitter ...,"Social Media,Social Graph","Tarou Tanaka,Jirou Yamada","Univ. of Tsukuba,Univ. of Nagoya"</p>
+
+<p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
+<?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
+<?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'accept'=>'text/csv', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?>
+<?php echo $this->Form->end(array('label'=>'Upload', 'div'=> array('class' => 'disno'))); ?>
+
+<p> </p>
 <h2>Presentation List</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Title</th>
+			<th>Author</th>
+        </tr>
+    </thead>
+    <tbody>
+    	<?php if(count($presentations)== 0){
+    	echo '<tr>';
+    		echo "<td height='20'>	  </td>";
+    		echo "<td>    </td>";
+    		echo "<td>    </td>";
+    		echo '</tr>';
+    	echo '<tr>';
+    		echo "<td height='20'>	  </td>";
+    		echo "<td>    </td>";
+    		echo "<td>    </td>";
+    		echo '</tr>';
+    	echo '<tr>';
+    		echo "<td height='20'>	  </td>";
+    		echo "<td>    </td>";
+    		echo "<td>    </td>";
+    		echo '</tr>';
+    	}
+    	?>
+        <?php foreach ($presentations as $presentation) :
+		echo '<tr>';
+		echo "<td>{$presentation['Presentation']['number']}</td>";
+		echo "<td>{$presentation['Presentation']['title']}</td>";
+		echo "<td>{$presentation['Presentation']['authors_name']}</td>";
+		echo '</tr>';
+		endforeach;
+        ?>
+    </tbody>
+</table>
+
+<!--
 <ul id="presentationlist">
 <?php foreach($presentations as $presentation) : ?>
 <li>
@@ -31,9 +80,4 @@ echo $this->Text->truncate(
 </li>
 <?php endforeach; ?>
 </ul>
-
-<h3>CSV Import</h3>
-<p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
-<?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
-<?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?>
-<?php echo $this->Form->end(array('label'=>'Upload', 'div'=> array('class' => 'disno'))); ?>
+-->
