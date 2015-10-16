@@ -59,7 +59,8 @@ li {
 	padding: 0 10px;
 	margin: 0 auto;
 }
-.disno {
+.disno,
+input[type=file].disno {
 	display: none;
 }
 .btn-custom {
@@ -127,6 +128,7 @@ li {
 	background-image: url(../img/bg_gnav_current.png);
 	background-position: right center;
 	background-repeat: no-repeat;
+	text-shadow: 0 0 5px #fff;
 	color: #fff;
 }
 #contents #dashboard ul li a > i {
