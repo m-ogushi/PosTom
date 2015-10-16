@@ -9,12 +9,6 @@ function selectFile(){
 	$('#selectFile').trigger('click');
 }
 
-/* 選択中のファイルがチェンジ（onChange）されたら、ファイルをアップロードするボタンを作動させる */
-function fileUpLoad(){
-	$('#PresentationImportForm input[type="submit"]').trigger('click');
-	//var targetForm = $('#PresentationImportForm');
-	//targetForm.submit();
-}
 </script>
 <h2>CSV Import</h2>
 <p>CSV Format is Number,Title,Abstract,Keyword,Author,Author Belongs</p>
@@ -87,4 +81,3 @@ echo $this->Text->truncate(
 <?php endforeach; ?>
 </ul>
 -->
-
