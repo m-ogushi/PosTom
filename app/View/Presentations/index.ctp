@@ -9,12 +9,6 @@ function selectFile(){
 	$('#selectFile').trigger('click');
 }
 
-/* 選択中のファイルがチェンジ（onChange）されたら、ファイルをアップロードするボタンを作動させる */
-function fileUpLoad(){
-	$('#PresentationImportForm input[type="submit"]').trigger('click');
-	//var targetForm = $('#PresentationImportForm');
-	//targetForm.submit();
-}
 </script>
 <h2>Presentation List</h2>
 <ul id="presentationlist">
@@ -41,5 +35,5 @@ echo $this->Text->truncate(
 <h3>CSV Import</h3>
 <p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
-<p><?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?></p>
-<p><?php echo $this->Form->end(array('label'=>'Upload', 'div'=> array('class' => 'disno'))); ?></p>
+<?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?>
+<?php echo $this->Form->end(array('label'=>'Upload', 'div'=> array('class' => 'disno'))); ?>
