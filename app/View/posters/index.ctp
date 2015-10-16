@@ -875,7 +875,7 @@ function deleteObject(){
 			height:140,
 			modal: true,
 			buttons: {
-			"はい": function() {
+			"Yes": function() {
 				// 削除対象のオブジェクトと付与したチェック画像を削除する
 				var childArray = stage.children;
 				for(i=deleteArray.length - 1; i>=0; i--){
@@ -889,7 +889,7 @@ function deleteObject(){
 				}
 				$( this ).dialog( "close" );
 			},
-			"いいえ": function() {
+			"No": function() {
 				$( this ).dialog( "close" );
 			}
 			}
