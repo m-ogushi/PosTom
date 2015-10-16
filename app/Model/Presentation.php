@@ -11,7 +11,6 @@ class Presentation extends AppModel {
                 $isHead = true;
                 while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
                 mb_convert_variables("UTF-8","SJIS", $row);
-
                     $presenData = array(
                         'number' => $row[0],
                         'title' => $row[1],
@@ -28,12 +27,9 @@ class Presentation extends AppModel {
                     $isHead = false;
                 }
                 $this->commit();
-
             }catch(Exception $e){
-				echo $e;
                 $this->rollback();
             }
         }
 }
-
 ?>
