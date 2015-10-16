@@ -68,10 +68,10 @@ echo $this->Html->image("http://placehold.jp/24/39b998/77dec6/200x150.png?text=P
 ?>
 </h1>
 <ul id="gNav">
-<li id="gNavTop"><a href="/postom"><i class="fa fa-caret-square-o-up fa-2x"></i><span>Top</span></a></li>
-<li id="gNavPos"><a href="#"><i class="fa fa-file-image-o fa-2x"></i><span>Poster</span></a></li>
+<li id="gNavTop"><a href="<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'index')); ?>"><i class="fa fa-tachometer fa-2x"></i><span>Dashboard</span></a></li>
+<li id="gNavPos"><a href="<?php echo $this->Html->url(array('controller' => 'posters', 'action' => 'index')); ?>"><i class="fa fa-file-image-o fa-2x"></i><span>Poster</span></a></li>
 <li id="gNavSch"><a href="#"><i class="fa fa-calendar fa-2x"></i><span>Schedule</span></a></li>
-<li id="gNavPre"><a href="/postom/presentations"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>
+<li id="gNavPre"><a href="<?php echo $this->Html->url(array('controller' => 'presentations', 'action' => 'index')); ?>"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>
 <li id="gNavFlo"><a href="#"><i class="fa fa-map-marker fa-2x"></i><span>Floor Map</span></a></li>
 <li id="gNavSet"><a href="#"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
 </ul>
