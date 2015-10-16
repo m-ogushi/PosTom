@@ -1,5 +1,5 @@
 <?php
-
+ini_set('auto_detect_line_endings', true);
 class PresentationsController extends AppController {
 	public $helpers = array('Html', 'Form', 'Text');
 	
