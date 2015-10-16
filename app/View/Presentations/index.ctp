@@ -38,8 +38,30 @@ echo $this->Text->truncate(
 <?php endforeach; ?>
 </ul>
 
+<table　border="1">
+<tr>
+	<th>No.</th>
+	<th>Title</th>
+	<th>Author</th>
+</tr>
+<?php foreach ($presentations as $presentation) : ?>
+		<?php
+//	    var_dump($presentation);
+		echo '<tr>';
+		echo "<td>{$presentation['Presentation']['number']}</td>";
+		echo "<td>{$presentation['Presentation']['title']}</td>";
+		echo "<td>{$presentation['Presentation']['authors_name']}</td>";
+		echo '</tr>';
+		?>
+<?php endforeach; ?>
+</table>
+
+
+
+
 <h3>CSV Import</h3>
 <p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
-<p><?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?></p>
+<p><?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'class'=>'disno', 'accept'=>'text/csv', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?></p>
 <p><?php echo $this->Form->end(array('label'=>'Upload', 'div'=> array('class' => 'disno'))); ?></p>
+
