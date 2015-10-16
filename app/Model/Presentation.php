@@ -10,15 +10,7 @@ class Presentation extends AppModel {
                 //ヘッダー回避用
                 $isHead = True;
                 while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
-                mb_convert_variables("UTF-8","SJIS", $row);
-//                    var_dump($row[5]);
-//                    if(sizeof($row) != 6){
-//
-//                        echo '<script type="text/javascript">' ;
-//                        echo 'alert("Illegal format");' ;
-//                        echo '</script>' ;
-//                        throw new Exception;
-//                    }
+                    mb_convert_variables("UTF-8","SJIS", $row);
                     $presenData = array(
                         'number' => $row[0],
                         'title' => $row[1],
@@ -40,5 +32,4 @@ class Presentation extends AppModel {
             }
         }
 }
-
 ?>
