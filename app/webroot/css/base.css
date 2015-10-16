@@ -14,7 +14,7 @@ html {
 }
 body {
 	font-size: 13px;
-	font-family: "メイリオ", Meiryo,"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	font-family: "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
     color: #333;
 	line-height: 1.7em;
 	letter-spacing: 0.1em;
@@ -31,6 +31,13 @@ h2 {
 	font-weight: bold;
 	margin-bottom: 12px;
 	border-left: 10px solid #39b998;
+	padding: 3px 0 3px 10px;
+}
+h3 {
+	font-size: 22px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	border-left: 8px solid #77dec6;
 	padding: 3px 0 3px 10px;
 }
 a {
@@ -52,7 +59,8 @@ li {
 	padding: 0 10px;
 	margin: 0 auto;
 }
-.disno {
+.disno,
+input[type=file].disno {
 	display: none;
 }
 .btn-custom {
@@ -78,8 +86,7 @@ li {
 	color: #fff;
 	padding: 20px 0;
 }
-#header h1 a,
-#header h1 a:hover {
+#header h1 a, #header h1 a:hover {
 	color: #fff;
 }
 
@@ -116,12 +123,12 @@ li {
 	padding: 10px 18px;
 	color: #77dec6;
 }
-#contents #dashboard ul li a:hover,
 #contents #dashboard ul li.current a {
 	background-color: #2a7d65;
 	background-image: url(../img/bg_gnav_current.png);
 	background-position: right center;
 	background-repeat: no-repeat;
+	text-shadow: 0 0 5px #fff;
 	color: #fff;
 }
 #contents #dashboard ul li a > i {
@@ -141,7 +148,7 @@ li {
 	clear: both;
 	min-width: 800px;
 }
-/* main.eventlist */
+/* main event index */
 #contents #main #eventlist li {
 	margin-bottom: 10px;
 }
@@ -155,7 +162,27 @@ li {
 #contents #main #eventlist li > a > span {
 	display: block;
 }
-/* main.add event */
+/* main event view */
+#contents #main #viewlist li {
+	float: left;
+	text-shadow: rgb(42, 135, 111) 1px 1px, rgb(42, 135, 111) 2px 2px, rgb(42, 135, 111) 3px 3px, rgb(42, 135, 111) 4px 4px, rgb(42, 135, 111) 5px 5px, rgb(42, 135, 111) 6px 6px, rgb(42, 135, 111) 7px 7px, rgb(42, 135, 111) 8px 8px, rgb(42, 135, 111) 9px 9px, rgb(42, 135, 111) 10px 10px, rgb(42, 135, 111) 11px 11px, rgb(42, 135, 111) 12px 12px, rgb(42, 138, 113) 13px 13px, rgb(43, 141, 116) 14px 14px, rgb(44, 144, 118) 15px 15px, rgb(45, 147, 121) 16px 16px, rgb(46, 150, 123) 17px 17px, rgb(47, 153, 126) 18px 18px, rgb(48, 156, 128) 19px 19px, rgb(49, 160, 131) 20px 20px, rgb(50, 163, 134) 21px 21px, rgb(51, 166, 136) 22px 22px, rgb(52, 169, 139) 23px 23px, rgb(53, 172, 141) 24px 24px, rgb(54, 175, 144) 25px 25px, rgb(55, 178, 146) 26px 26px, rgb(56, 181, 149) 27px 27px, rgb(57, 185, 152) 28px 28px;
+}
+#contents #main #viewlist li a {
+	display: table;
+	width: 160px;
+	height: 160px;
+	margin-right: 10px;
+	border-radius: 80px;
+	background: #39b998;
+	color: #fff;
+}
+#contents #main #viewlist li a i {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 5em;
+}
+/* main event add */
 #contents #main #EventAddForm > div {
 	margin-bottom: 10px;
 }
