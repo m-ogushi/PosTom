@@ -29,10 +29,16 @@ Thumbs.db
 # Tsss custom ignore files #
 ############################
 # DreamWeaver auto create file
-/_notes/*
-_notes
-/app/Model/_notes/*.xml
-/app/View/_notes/*.xml
-/app/Controller/_notes/*.xml
-/app/Config/_notes/*.xml
+/_notes/
+/*/_notes/
+/*/*/_notes/
+/*/*/*/_notes/
+/*/*/*/*/_notes/
+/*/*/*/*/*/_notes/
+/*/*/*/*/*/*/_notes/
+/*/*/*/*/*/*/*/_notes/
+/*/*/*/*/*/*/*/*/_notes/
+/*/*/*/*/*/*/*/*/*/_notes/
+/*/*/*/*/*/*/*/*/*/*/_notes/
+
 

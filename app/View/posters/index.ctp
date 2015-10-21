@@ -1,4 +1,9 @@
-
+<script type="text/javascript">
+$(function(){
+	// ダッシュボードのPresentationを選択状態にする
+	$('#dashboard #gNav #gNavPos').addClass('current');
+});
+</script>
 <!-- js -->
 <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 <script src="https://code.createjs.com/easeljs-0.8.0.min.js"></script>
