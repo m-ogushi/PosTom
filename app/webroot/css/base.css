@@ -134,7 +134,6 @@ input[type=file].disno {
 	color: #77dec6;
 }
 #contents #dashboard ul li.current a {
-	background-color: #2a7d65;
 	background-image: url(../img/bg_gnav_current.png);
 	background-position: right center;
 	background-repeat: no-repeat;
