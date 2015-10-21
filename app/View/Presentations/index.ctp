@@ -21,7 +21,7 @@ function selectFile(){
 
 <p> </p>
 <h2>Presentation List</h2>
-<table border="1">
+<table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th>No.</th>
