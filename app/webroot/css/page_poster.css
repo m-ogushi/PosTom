@@ -1,0 +1,114 @@
+@charset "utf-8";
+/*-------------------------------------------------
+ 
+  page_poster.css
+ 
+ --------------------------------------------------*/
+
+/* canvasArea */
+#canvasArea {
+	float: left;
+}
+#canvasArea #demoCanvas {
+	width: 1180;
+	height: 960px;
+}
+
+/* inputArea */
+#inputArea {
+	position: absolute;
+	right: 0;
+	top : 0;
+	background: #fff;
+	width: 320px;
+	height: 100%;
+	padding: 20px;
+}
+#inputArea #tabContents {
+	border: 1px solid #ddd;
+	border-top: transparent;
+	padding: 10px;
+}
+/* inputArea.tcPoster */
+#inputArea .form {
+	margin-bottom: 20px;
+}
+#inputArea p {
+	margin-bottom: 10px;
+}
+#inputArea .bgGRY {
+	background-color: #999999;
+}
+#inputArea .bg1 { background-color: #999999; }
+#inputArea .bg2 { background-color: #000000; }
+#inputArea .bg3 { background-color: #ffffff; }
+#inputArea .bg4 { background-color: #E60012; }
+#inputArea .bg5 { background-color: #F39800; }
+#inputArea .bg6 { background-color: #FFF100; }
+#inputArea .bg7 { background-color: #8FC31F; }
+#inputArea .bg8 { background-color: #009944; }
+#inputArea .bg9 { background-color: #009E96; }
+#inputArea .bg10 { background-color: #00A0E9; }
+#inputArea .bg11 { background-color: #0068B7; }
+#inputArea .bg12 { background-color: #1D2088; }
+#inputArea .bg13 { background-color: #920783; }
+#inputArea .bg14 { background-color: #E4007F; }
+#inputArea .bg15 { background-color: #E5004F; }
+select[name="objectCreateColor"] + .btn-group > .selectpicker > span:first-child,
+select[name="objectEditColor"] + .btn-group > .selectpicker > span:first-child {
+	background-color: #999999;
+	border: 1px solid #f1f1f1;
+}
+#mapForm .form-control {
+	display: inline-block;
+	width: 140px;
+}
+/* inputArea.tcPresentation */
+#inputArea #tcPresentation #presentationlist li {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 7px 12px;
+	margin-bottom: 7px;
+}
+#inputArea #tcPresentation #presentationlist li.related {
+	background-color: #ddd;
+	color: #777;
+}
+
+/* boostrap hack */
+.btn {
+	width: 100%;
+}
+fieldset {
+	padding: 15px;
+	margin: 0;
+	border: 1px solid silver;
+	border-radius: 10px;
+}
+legend {
+	text-align: center;
+	font-size: 16px;
+	width: 80%;
+}
+/* bootstrap-select hack */
+ul.dropdown-menu li {
+	list-style: none;
+}
+.bootstrap-select {
+	width: 100% !important;
+	margin-bottom: 20px;
+}
+.dropdown-menu {
+	width: auto !important;
+}
+.nav-tabs > li {
+	width: 50%;
+	text-align: center;
+}
+/* jquery-ui hack */
+#dialogDeleteConfirm {
+	height: auto !important;
+}
+#dialogEditConfirm {
+    height: auto !important;
+}

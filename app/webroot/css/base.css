@@ -127,15 +127,28 @@ input[type=file].disno {
 #contents #dashboard ul li:first-child {
 	border-top: 1px solid #77dec6;
 }
+#contents #dashboard ul.disabled li {
+	/*border-bottom: 1px solid #bbb;*/
+	opacity: 0.1;
+}
+#contents #dashboard ul.disabled li:first-child {
+	/*border-top: 1px solid #bbb;*/
+}
 #contents #dashboard ul li a {
 	display: table;
 	width: 100%;
 	padding: 10px 18px;
-	color: #77dec6;
+	color: #fff;
+}
+#contents #dashboard ul.disabled li a {
+	/*
+	background-color: #eee !important;
+	color: #bbb;
+	*/
 }
 #contents #dashboard ul li.current a {
-	background-color: #2a7d65;
 	background-image: url(../img/bg_gnav_current.png);
+	background-color: #2a7d65 !important;
 	background-position: right center;
 	background-repeat: no-repeat;
 	text-shadow: 0 0 5px #fff;
