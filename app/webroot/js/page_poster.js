@@ -657,6 +657,7 @@ function saveJson(){
 		if(child.__type=="selectSquare" || child.__type=="text"){
 		continue;
 		}
+		id= child.id;
         x = child.x;
         y = child.y;
         w = parseInt(child.graphics.command.w);
@@ -678,7 +679,7 @@ function saveJson(){
         } else {
             abstract = "";
         }
-        array = {'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
+        array = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
         if (child.__type != "selectSquare") {
             objectArray.push(array);
         }
