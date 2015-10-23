@@ -651,14 +651,18 @@ function selectDelete(eventObject){
 function saveJson(){
 	var objectArray = [];
     var child;              //stage.children[i]格納
-	var id, x, y, w, h,title,presenter,abstract,color;
+	var id, x, y, w, h,title,presenter,abstract,color,relation;
 	for(i=0; i<stage.children.length; i++) {
         child = stage.children[i];
+		if(child.__type=="selectSquare" || child.__type=="text"){
+		continue;
+		}
         x = child.x;
         y = child.y;
         w = parseInt(child.graphics.command.w);
         h = parseInt(child.graphics.command.h);
         color = child.color;
+		relation = child.__relation;
         if (child.__title != undefined) {
             title = child.__title;
         } else {
@@ -674,7 +678,7 @@ function saveJson(){
         } else {
             abstract = "";
         }
-        array = {'x': x, 'y': y, 'w': w, 'h': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract};
+        array = {'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
         if (child.__type != "selectSquare") {
             objectArray.push(array);
         }
@@ -692,7 +696,7 @@ function saveJson(){
 	
 	$.ajax({
 		type: "POST",
-		url: "php/save.php",
+		url: "posters/savesql",
 		data: { "data": objectArray },
 		success: function(msg){
 			alert(msg);
@@ -716,6 +720,9 @@ function saveJson(){
 	for(var i=0; i<stage.children.length; i++) {
 		// objectPresenId, objectBlongs, objectFirst, についてはデモ時点で入力フォームがないため自動的に付与しています
 		child = stage.children[i];
+		if(child.__type=="selectSquare" || child.__type=="text"){
+		continue;
+		}
 		objectId = child.id;
 		objectX = child.x;
 		objectY = child.y;
