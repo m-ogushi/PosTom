@@ -88,6 +88,10 @@ input[type=file].disno {
 	width: 460px;
 	text-align: right;
 }
+.pager li.active a {
+	background-color: #39b998;
+	color: #fff;
+}
 
 /* header
 ****************************************************/
