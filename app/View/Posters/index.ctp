@@ -134,22 +134,62 @@
 <!-- tab contents Presentation -->
 <div id="tcPresentation" class="tab-pane">
 <?php
-echo $this->Paginator->prev('Prev');
-echo $this->Paginator->numbers();
-echo $this->Paginator->next('Next');
-?>
-<ul id="presentationlist">
-<?php
+// 別のモデル（Presentation）から必要なアクションを呼び出す
 $presentations = $this->requestAction('/presentations/getall');
+
+// cakephpで用意されているPaginationを利用すると、ページ遷移が発生してしまうため、独自のページャーで実装する
+// 1ページあたりのプレゼンテーション表示数
+$per_page = 10;
+// 必要ページ数をプレゼンテーション数から算出
+$pages = ceil(count($presentations) / $per_page);
+?>
+
+<ul class="pager">
+<li class="disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+<li class="active"><a href="#" data-target="1">1</a></li>
+<li><a href="#" data-target="2">2</a></li>
+<li><a href="#" data-target="3">3</a></li>
+<li><a href="#" data-target="4">4</a></li>
+<li><a href="#" data-target="5">5</a></li>
+<li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+</ul>
+
+<?php
+// ページ識別用変数
+$page = 1;
+// カウント用変数
+$ct = 0;
+
+// すべてのプレゼンテーション情報を出力する
 foreach($presentations as $presentation){
+	// ページ内の一番最初のプレゼンテーションであるか判定
+	if($ct == 0){
+?>
+<div id="page<?php echo sprintf('%02d', $page); ?>" class="page <?php echo $page==1?'':'disno';  ?>">
+<ul class="presentationlist">
+<?php
+	}
 ?>
 <li id="<?php echo $presentation['Presentation']['id']; ?>" data-num="<?php echo $presentation['Presentation']['number']; ?>" draggable="true">
 <?php echo $presentation['Presentation']['title']; ?>
 </li>
 <?php
-}
+	// カウントアップ
+	$ct ++;
+	
+	// 1ページあたりのプレゼンテーション表示数に達したら、ページ番号を加算しカウント変数を初期化する
+	if($ct == $per_page){
+		$page ++;
+		$ct = 0;
+		// ulタグ, divタグを閉じる
 ?>
 </ul>
+</div>
+<?php
+	}
+}
+?>
+
 </div>
 <!-- //tab contents Presentation -->
 </div>
