@@ -662,7 +662,8 @@ function saveJson(){
         y = child.y;
         w = parseInt(child.graphics.command.w);
         h = parseInt(child.graphics.command.h);
-        color = child.color;
+        color = rgbToHex(child.color);
+		//rgbToHex(color);
 		relation = child.__relation;
         if (child.__title != undefined) {
             title = child.__title;
@@ -702,7 +703,7 @@ function saveJson(){
 		success: function(msg){
 		}
 	});
-	
+
 	// 第一リリース用にPosMAppに合わせた形式のJSONファイルをもう一つ生成します
 	var demoArray = {};
 	demoArray['toppage_img'] = "<?php echo $this->Html->webroot;?>img/toppage_pbla.png";
@@ -762,7 +763,23 @@ function saveJson(){
 		}
 	});
 }
+//色を変える
+		function rgbToHex(color) {
+    if (color.substr(0, 1) === '#') {
+        return color;
+    }
+    var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
 
+    var red = parseInt(digits[2]);
+    var green = parseInt(digits[3]);
+    var blue = parseInt(digits[4]);
+
+    var rgb = blue | (green << 8) | (red << 16);
+    if((digits[1] + '#' + rgb.toString(16)).length == 5){
+        return digits[1] + '#00' + rgb.toString(16);
+    }
+    return digits[1] + '#' + rgb.toString(16);
+}
 /* JSON 読み込み処理 */
 function loadJson(){
 	var objectList;
