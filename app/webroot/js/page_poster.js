@@ -662,7 +662,8 @@ function saveJson(){
         y = child.y;
         w = parseInt(child.graphics.command.w);
         h = parseInt(child.graphics.command.h);
-        color = child.color;
+        color = rgbToHex(child.color);
+		//rgbToHex(color);
 		relation = child.__relation;
         if (child.__title != undefined) {
             title = child.__title;
@@ -702,7 +703,7 @@ function saveJson(){
 		success: function(msg){
 		}
 	});
-	
+
 	// 第一リリース用にPosMAppに合わせた形式のJSONファイルをもう一つ生成します
 	var demoArray = {};
 	demoArray['toppage_img'] = "<?php echo $this->Html->webroot;?>img/toppage_pbla.png";
