@@ -1,15 +1,3 @@
-<script type="text/javascript">
-$(function(){
-	ダッシュボードのPresentationを選択状態にする
-	$('#dashboard #gNav #gNavPre').addClass('current');
-});
-
-// 「Add Presentation From CSV File」ボタンを押すと、ファイル選択ボタンを作動させる
-function selectFile(){
-	$('#selectFile').trigger('click');
-}
-
-</script>
 <h2>CSV Import</h2>
 <p>CSV Format is Number,Title,Abstract,Keyword,Author,Author Belongs</p>
 
@@ -21,7 +9,7 @@ function selectFile(){
 
 <p> </p>
 <h2>Presentation List</h2>
-<table border="1">
+<table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th>No.</th>
