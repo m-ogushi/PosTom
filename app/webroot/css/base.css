@@ -61,7 +61,7 @@ li {
 }
 .disno,
 input[type=file].disno {
-	display: none;
+	display: none !important;
 }
 .btn-custom {
 	color: #2a7d65;
