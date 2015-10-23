@@ -1,10 +1,15 @@
 <?php
 ini_set('auto_detect_line_endings', true);
 class PresentationsController extends AppController {
-	public $helpers = array('Html', 'Form', 'Text');
+	public $helpers = array('Html', 'Form', 'Text', 'Paginator');
+	public $components = array('Paginator');
 	
 	public function index(){
 		$this->set('presentations', $this->Presentation->find('all'));
+	}
+	
+	public function getall(){
+		return $this->Presentation->find('all');
 	}
 
 	public function import(){
