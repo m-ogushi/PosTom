@@ -1125,7 +1125,7 @@ function onDrop(e){
 				// すでにそのオブジェクトがプレゼンテーションと関連済みであった場合
 				if(target.__relation != null || target.__relation != ''){
 					// 関連済みのプレゼンテーションを元の状態に戻す
-					$('#presentationlist li#'+target.__relation).removeClass('related');
+					$('.presentationlist li#'+target.__relation).removeClass('related');
 				}
 				target.graphics._fill.style = '#063a5e';
 				// ポスターオブジェクトに関連付けされたプレゼンテーションIDを付与
@@ -1146,7 +1146,7 @@ function onDrop(e){
 				stage.update();
 				
 				// 選択中のプレゼンテーションの要素を関連付けされた状態にする
-				$('#presentationlist li#'+selectedPresentationID).addClass('related').attr('data-relation',target.id);
+				$('.presentationlist li#'+selectedPresentationID).addClass('related').attr('data-relation',target.id);
 				
 				break;
 			}
@@ -1156,3 +1156,25 @@ function onDrop(e){
 	selectedPresentationID = 0;
 	selectedPresentationNum = '';
 }
+
+ /********************************************************
+ *					ページャーの切り替え処理							*
+ ********************************************************/
+$(function(){
+	// 現在のページ番号
+	var current_page = 1;
+	$(".pager li a").click(function(e){
+		console.log('current_page : '+current_page);
+		// クリックされたターゲットページ番号を取得する
+		var target_page = $(this).attr('data-target');
+		// 現在のページを非表示にする
+		$("#tcPresentation #page"+("0"+current_page).slice(-2)).stop().fadeOut(300, 'linear', function(){
+			// コールバック処理
+			// ターゲットページを表示させる
+			$("#tcPresentation #page"+("0"+target_page).slice(-2)).stop().fadeIn(300, 'linear');
+			// 現在のページ番号を更新
+			current_page = target_page;
+		});
+	});
+});
+
