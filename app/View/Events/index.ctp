@@ -1,9 +1,4 @@
-<script type="text/javascript">
-$(function(){
-	// ダッシュボードのPresentationを選択状態にする
-	$('#dashboard #gNav #gNavDas').addClass('current');
-});
-</script>
+
 <h2>Event List</h2>
 <ul id="eventlist">
 <?php foreach($events as $event) : ?>
