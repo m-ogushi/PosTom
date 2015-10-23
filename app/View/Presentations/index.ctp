@@ -1,15 +1,4 @@
-<script type="text/javascript">
-$(function(){
-	// ダッシュボードのPresentationを選択状態にする
-	$('#dashboard #gNav #gNavPre').addClass('current');
-});
 
-// 「Add Presentation From CSV File」ボタンを押すと、ファイル選択ボタンを作動させる
-function selectFile(){
-	$('#selectFile').trigger('click');
-}
-
-</script>
 <h2>CSV Import</h2>
 <p>CSV Format is Number,Title,Abstract,Keyword,Author,Author Belongs</p>
 <p>Example: D3-2,Visualization of Twitter,... of Twitter ...,"Social Media,Social Graph","Tarou Tanaka,Jirou Yamada","Univ. of Tsukuba,Univ. of Nagoya"</p>
