@@ -1163,17 +1163,88 @@ function onDrop(e){
 $(function(){
 	// 現在のページ番号
 	var current_page = 1;
+	// 必要ページ数
+	var pages = $('.pager li').length - 2; // prev, next の2つ分減らす必要がある
+	
 	$(".pager li a").click(function(e){
-		console.log('current_page : '+current_page);
+		// クリックしたボタンが使用不可またはすでにアクディブである場合、何もしない
+		if($(this).parent().hasClass('disabled') || $(this).parent().hasClass('active')){
+			return false;	
+		}
+		
 		// クリックされたターゲットページ番号を取得する
 		var target_page = $(this).attr('data-target');
-		// 現在のページを非表示にする
-		$("#tcPresentation #page"+("0"+current_page).slice(-2)).stop().fadeOut(300, 'linear', function(){
-			// コールバック処理
-			// ターゲットページを表示させる
-			$("#tcPresentation #page"+("0"+target_page).slice(-2)).stop().fadeIn(300, 'linear');
-			// 現在のページ番号を更新
-			current_page = target_page;
+
+		/* 押されたボタン別に行う処理 */
+		// prevボタンの場合
+		if(target_page == 'prev'){
+			// ターゲットページ番号を現在のページ番号-1にする
+			target_page = parseInt(current_page) - 1;
+			
+		// nextボタンの場合
+		}else if(target_page == 'next'){
+			// ターゲットページ番号を現在のページ番号+1にする
+			target_page = parseInt(current_page) + 1;
+			
+		} // end if
+
+		// アクティブになっているページャーを元に戻す
+		$('.pager li.active').removeClass('active');
+		// クリックされたページャーをアクティブにする
+		$('.pager li a[data-target='+target_page+']').parent().addClass('active');
+		// いったん、すべてのページ内容を非表示にする
+		$('#tcPresentation .page').each(function(index, element) {
+			$(this).stop().fadeOut(300, 'linear').addClass('disno');
 		});
+		// ターゲットページを表示させる
+		$("#tcPresentation #page"+("0"+target_page).slice(-2)).stop().removeClass('disno').fadeIn(300, 'linear');
+		
+		/* 6ページ目以降をページャの真ん中にくるように調整する処理 */
+		if(pages > 5){
+			// いったん、すべてのページャを非表示にする
+			$('.pager li').each(function(index, element) {
+				// prevボタン, nextボタンである場合は何もしない
+				if(!$(this).hasClass('prev') && !$(this).hasClass('next')){
+					$(this).addClass('disno');
+				}
+			});
+			// ページャ内での位置
+			var pos_pager = -2; // ターゲットページが真ん中であれば、左には２つのページャ, 右には２つのページャが存在するため開始ページはターゲットページ番号マイナス２
+			if(target_page == 1){
+				// 1ページ目の場合、1番左に表示する
+				pos_pager = 0;	
+			}else if(target_page == 2){
+				// 2ページ目の場合、左から2番目に表示する
+				pos_pager = -1;	
+			}else if(target_page == pages-1){
+				// 最終ページから2ページ目の場合、右から2番目に表示する
+				pos_pager = -3;
+			}else if(target_page == pages){
+				// 最終ページの場合、1番右に表示する
+				pos_pager = -4;	
+			}
+
+			// 5つのページャーを表示する
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager))+']').parent().removeClass('disno');
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+1))+']').parent().removeClass('disno');
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+2))+']').parent().removeClass('disno');
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+3))+']').parent().removeClass('disno');
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+4))+']').parent().removeClass('disno');
+		}
+		
+		// 現在のページ番号を更新
+		current_page = target_page;
+		console.log(current_page);
+		
+		/* 押されたボタンに関わらず必ず行う処理 */
+		// いったん、すべてのボタンを利用可能状態にする
+		$('.pager li.disabled').removeClass('disabled');
+		// ページ番号が1であれば、prevボタンを使用不可にする
+		if(current_page == 1){
+			$('.pager .prev').addClass('disabled');
+		// ページ番号が必要ページ数であれば、nextボタンを使用不可にする
+		}else if(current_page == pages){
+			$('.pager .next').addClass('disabled');
+		}
 	});
 });
