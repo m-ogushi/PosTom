@@ -699,7 +699,6 @@ function saveJson(){
 		url: "posters/savesql",
 		data: { "data": objectArray },
 		success: function(msg){
-			alert(msg);
 		}
 	});
 	
