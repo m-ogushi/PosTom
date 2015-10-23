@@ -12,7 +12,6 @@ class PostersController extends AppController {
  if ($this->request->is('ajax')) {
 			$savedata = array_slice($this->request->data, 2);
 			$this->Poster->saveAll($savedata); 
-			var_dump($savedata);
 			 
 		}
 	}
