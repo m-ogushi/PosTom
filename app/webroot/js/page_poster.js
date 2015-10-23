@@ -657,11 +657,13 @@ function saveJson(){
 		if(child.__type=="selectSquare" || child.__type=="text"){
 		continue;
 		}
+		id= child.id;
         x = child.x;
         y = child.y;
         w = parseInt(child.graphics.command.w);
         h = parseInt(child.graphics.command.h);
-        color = child.color;
+        color = rgbToHex(child.color);
+		//rgbToHex(color);
 		relation = child.__relation;
         if (child.__title != undefined) {
             title = child.__title;
@@ -678,7 +680,7 @@ function saveJson(){
         } else {
             abstract = "";
         }
-        array = {'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
+        array = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
         if (child.__type != "selectSquare") {
             objectArray.push(array);
         }
@@ -701,7 +703,7 @@ function saveJson(){
 		success: function(msg){
 		}
 	});
-	
+
 	// 第一リリース用にPosMAppに合わせた形式のJSONファイルをもう一つ生成します
 	var demoArray = {};
 	demoArray['toppage_img'] = "<?php echo $this->Html->webroot;?>img/toppage_pbla.png";
