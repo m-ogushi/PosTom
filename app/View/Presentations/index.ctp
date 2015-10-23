@@ -1,7 +1,6 @@
-
 <h2>CSV Import</h2>
 <p>CSV Format is Number,Title,Abstract,Keyword,Author,Author Belongs</p>
-<p>Example: D3-2,Visualization of Twitter,... of Twitter ...,"Social Media,Social Graph","Tarou Tanaka,Jirou Yamada","Univ. of Tsukuba,Univ. of Nagoya"</p>
+
 
 <p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
@@ -48,6 +47,7 @@
     </tbody>
 </table>
 
+<!-- 別の表示方法なので一応コメントアウト -->
 <!--
 <ul id="presentationlist">
 <?php foreach($presentations as $presentation) : ?>
