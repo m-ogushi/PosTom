@@ -5,7 +5,13 @@
 
 <h3>View Your Event</h3>
 <ul id="viewlist">
-<li><a href="#"><i class="fa fa-television  fa-5x"></i></a></li>
-<li><a href="#"><i class="fa fa-mobile  fa-5x"></i></a></li>
-<li><a href="#"><i class="fa fa-print  fa-5x"></i></a></li>
+<li><a href="
+<?php echo $this->Html->url(array('controller' => 'PosMapps', 'action' => 'index')) ?>
+"><i class="fa fa-television  fa-5x"></i></a></li>
+<li><a href="
+<?php echo $this->Html->url(array('controller' => 'PosMapps', 'action' => 'qr')) ?>
+"><i class="fa fa-mobile  fa-5x"></i></a></li>
+<li><a href="
+<?php echo $this->Html->url(array('controller' => 'PosMapps', 'action' => 'makejson')) ?>
+"><i class="fa fa-print  fa-5x"></i></a></li>
 </ul>
