@@ -8,7 +8,7 @@
 
 class PosMappsController extends AppController {
     public $helpers = array('Html', 'Form', 'Text');
-
+    public $uses =array('Poster');
     public function index(){
 //        $this->set('posters', $this->Poster->find('all'));
         $this->autoLayout=false;
@@ -16,29 +16,14 @@ class PosMappsController extends AppController {
     }
     public function makejson()
     {
-        $result=$this->Poster->find('all'
-//            ,
-//            array(
-//                'fields' =>array(
-//                    'Posters.id',
-//                    'Posters.width',
-//                    'Posters.height',
-//                    'Posters.x',
-//                    'Posters.y',
-//                    'Posters.area_id',
-//                    'Posters.date'
-//                ),
-//                'order' => 'Posters.id ASC'
-//            )
-        );
-//        ,array('id','presentation_id','width','height','x','y','area_id','date')
+        $result=$this->Poster->find('all');
         $this->set('posters', $result);
 
     }
-
-    public function  test()
+    public function qr($id)
     {
-
+        $this->set("id",$id);
     }
+
 }
 ?>
