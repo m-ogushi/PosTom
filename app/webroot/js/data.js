@@ -24,7 +24,7 @@ var poster 			= [],
 // json ファイルの置き場所（URL, 仮）
 //var posMAppDataURL = "http://posmapp.tk/api/data.php";
 //var posMAppDataURL = "http://localhost:63342/PosMApp_forked/PosMApp/www/api/data_nosession.json";
-var posMAppDataURL = "../json/data_nosession.json";
+var posMAppDataURL = "../json/data.json";
 
 function initData() {
 
