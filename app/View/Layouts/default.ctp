@@ -37,6 +37,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->css('font-awesome.min');
 		// コントローラ別にcssを切り分ける
 		switch($this->name){
+			case 'Events':
+				echo $this->Html->css('page_event');
+				break;
 			case 'Posters':
 				echo $this->Html->css('page_poster');
 				break;
@@ -56,6 +59,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->script('jquery-ui.min');
 ?>
 		<script type="text/javascript">
+		/* グローバル変数 */
 		// コントローラを取得
 		var controller = "<?php echo $this->name; ?>";
 		// アクションを取得
@@ -90,7 +94,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <div id="dashboard">
 <h1 id="logo">
 <?php
-echo $this->Html->image('../img/i_logo.png', array(
+echo $this->Html->image('i_logo.png', array(
 	"alt" => "PosTom",
 	'url' => array('controller' => 'events', 'action' => 'index')
 ));
