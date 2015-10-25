@@ -655,7 +655,7 @@ function saveJson(){
 	for(i=0; i<stage.children.length; i++) {
         child = stage.children[i];
 		if(child.__type=="selectSquare" || child.__type=="text"){
-		continue;
+			continue;
 		}
 		id= child.id;
         x = child.x;
@@ -663,7 +663,6 @@ function saveJson(){
         w = parseInt(child.graphics.command.w);
         h = parseInt(child.graphics.command.h);
         color = rgbToHex(child.color);
-		//rgbToHex(color);
 		relation = child.__relation;
         if (child.__title != undefined) {
             title = child.__title;
@@ -687,14 +686,18 @@ function saveJson(){
 	}
 	
 	// キャンバスのサイズ情報を、配列の先頭に格納
+	// TODO: データベースに格納するだけなので、この情報はいりません。
 	objectArray.unshift({'mapHeight': canvasHeight});
 	objectArray.unshift({'mapWidth': canvasWidth});
 	
 	// 既に会場図が設置してあれば、画像情報を配列の先頭に格納
 	var searchImageFileName = "backGround.png";
+	// TODO: データベースに格納するだけなので、この情報はいりません。
+	/*
 	if($(canvasElement).css("background-image").indexOf(searchImageFileName) != -1){
 		objectArray.unshift({'filename':searchImageFileName});
 	}
+	*/
 	
 	$.ajax({
 		type: "POST",
@@ -704,9 +707,10 @@ function saveJson(){
 		}
 	});
 
+	// TODO: 必要なくなったので削除してください
 	// 第一リリース用にPosMAppに合わせた形式のJSONファイルをもう一つ生成します
 	var demoArray = {};
-	demoArray['toppage_img'] = "<?php echo $this->Html->webroot;?>img/toppage_pbla.png";
+	demoArray['toppage_img'] = webroot+"img/toppage_pbla.png";
 	var demoPosmappBgArray = []
 	demoPosmappBgArray.push("http://tkb-tsss.sakura.ne.jp/release1/img/" + searchImageFileName);
 	demoArray['posmapp_bg'] = demoPosmappBgArray;
@@ -766,6 +770,7 @@ function saveJson(){
 
 /* JSON 読み込み処理 */
 function loadJson(){
+	alert(webroot);
 	var objectList;
 	stage.removeAllChildren();
 	$.getJSON("json/data.json?"+$.now(), function(json){
@@ -774,7 +779,7 @@ function loadJson(){
 			var file = json[0];
 			json.splice(0, 1);
 			backGroundFileName=file.filename.toString();
-			$(canvasElement).css("background-image","url(<?php echo $this->Html->webroot;?>img/dot.png), url(<?php echo $this->Html->webroot;?>img/"+file.filename.toString()+"?"+$.now()+")");
+			$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
 			$(canvasElement).css("background-repeat","repeat, no-repeat");
 		}
 		
@@ -937,7 +942,7 @@ function fileUpLoad(){
 	.done(function(msg) {
 		alert(msg);
 		backGroundFileName = "backGround.png";
-		$(canvasElement).css("background-image","url(<?php echo $this->Html->webroot;?>img/dot.png), url(<?php echo $this->Html->webroot;?>img/"+backGroundFileName.toString()+"?"+$.now()+")");
+		$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+backGroundFileName.toString()+"?"+$.now()+")");
 		$(canvasElement).css("background-repeat","repeat, no-repeat");
 	});
 }

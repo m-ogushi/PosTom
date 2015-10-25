@@ -12,6 +12,12 @@ class PresentationsController extends AppController {
 	public function getall(){
 		return $this->Presentation->find('all');
 	}
+	
+	public function getByID($id){
+		return $this->Presentation->find('all', array(
+			'conditions' => array('id' => $id)
+		));
+	}
 
 	public function import(){
         if($this->request->is('post')){
@@ -24,12 +30,8 @@ class PresentationsController extends AppController {
                 $this->redirect(array('action'=>'index'));
             }
         }else{
-//            <script type="text/javascript">
-//            alert("Upload Failed");
-//            </script>
             echo "error";
         }
-            //$this->redirect(array('action'=>'index'));
     }
 }
 
