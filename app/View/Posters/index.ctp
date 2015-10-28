@@ -139,27 +139,27 @@ $presentations = $this->requestAction('/presentations/getall');
 
 // cakephpで用意されているPaginationを利用すると、ページ遷移が発生してしまうため、独自のページャーで実装する
 // 1ページあたりのプレゼンテーション表示数
-$per_page = 5;
+$per_page = 10;
 // 必要ページ数をプレゼンテーション数から算出
 $pages = ceil(count($presentations) / $per_page);
 ?>
 
 <ul class="pager">
-<li class="disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+<li class="prev disabled"><a href="#" data-target="prev"><i class="fa fa-angle-double-left"></i></a></li>
 <?php
 // 必要ページ数だけページャーを設置（6ページ以降は非表示にする）
 for($i=0; $i<$pages; $i++){
 ?>
 <li class="
 <?php
-if($i == 0){ echo 'active'; }
-if($i > 5){ echo 'disno'; }
+echo $i == 0 ? 'active' : '';
+echo $i > 4 ? ' disno' : '';
 ?>
 "><a href="#" data-target="<?php echo $i+1; ?>"><?php echo $i+1; ?></a></li>
 <?php
 }
 ?>
-<li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+<li class="next"><a href="#" data-target="next"><i class="fa fa-angle-double-right"></i></a></li>
 </ul>
 
 <?php
