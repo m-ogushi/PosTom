@@ -10,17 +10,18 @@ class Schedule extends AppModel {
                 while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
                 mb_convert_variables("UTF-8","SJIS", $row);
                     $scheduleData = array(
-                        'number' => $row[0],
-                        'category' => $row[1],
-                        'date' => $row[2],
-                        'start_time' =>  $row[3],
-                        'end_time' => $row[4],
-                        'chairperson_name' => $row[5],
-                        'chairperson_belongs' => $row[6],
-                        'commentator_name' => $row[7],
-                        'commentator_belongs' => $row[6]
+                        'venue' => $row[0],
+                        'order' => $row[1],
+                        'category' => $row[2],
+                        'date' => $row[3],
+                        'start_time' =>  $row[4],
+                        'end_time' => $row[5],
+                        'chairperson_name' => $row[6],
+                        'chairperson_belongs' => $row[7],
+                        'commentator_name' => $row[8],
+                        'commentator_belongs' => $row[9]
                     );
-                    if($row[0] != "number") {
+                    if($row[0] != "venue") {
                             $this->create($scheduleData);
                             $this->save();
                     }
@@ -29,6 +30,6 @@ class Schedule extends AppModel {
             }catch(Exception $e){
                 $this->rollback();
             }
-        }
+    }
 }
 ?>
