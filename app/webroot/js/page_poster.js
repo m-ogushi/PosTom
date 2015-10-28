@@ -10,6 +10,20 @@
  $(function(){
 	// ダッシュボードのPosterを選択状態にする
 	$('#dashboard #gNav #gNavPos').addClass('current');
+	//var a = <?php echo $a; ?>;
+	//var data = <?php var_dump($data) ?>
+
+			/*for(i=0; i<json.length; i++){
+			var instance = createObject(parseInt(objectList[i].x), parseInt(objectList[i].y), parseInt(objectList[i].w), parseInt(objectList[i].h), objectList[i].color);
+			instance.cursor = "pointer";
+			instance.__deleteSelected = false;
+			instance.__title = objectList[i].title;
+            instance.__presenter = objectList[i].presenter;
+            instance.__abstract = objectList[i].abstract;
+			stage.addChild(instance);
+			instance.addEventListener("mousedown", startDrag);
+		}
+		stage.update();*/
 });
  
  /********************************************************
@@ -701,6 +715,7 @@ function saveJson(){
 	
 	$.ajax({
 		type: "POST",
+		cache : false,
 		url: "posters/savesql",
 		data: { "data": objectArray },
 		success: function(msg){
