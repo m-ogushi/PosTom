@@ -651,14 +651,19 @@ function selectDelete(eventObject){
 function saveJson(){
 	var objectArray = [];
     var child;              //stage.children[i]格納
-	var id, x, y, w, h,title,presenter,abstract,color;
+	var id, x, y, w, h,title,presenter,abstract,color,relation;
 	for(i=0; i<stage.children.length; i++) {
         child = stage.children[i];
+		if(child.__type=="selectSquare" || child.__type=="text"){
+			continue;
+		}
+		id= child.id;
         x = child.x;
         y = child.y;
         w = parseInt(child.graphics.command.w);
         h = parseInt(child.graphics.command.h);
-        color = child.color;
+        color = rgbToHex(child.color);
+		relation = child.__relation;
         if (child.__title != undefined) {
             title = child.__title;
         } else {
@@ -674,34 +679,38 @@ function saveJson(){
         } else {
             abstract = "";
         }
-        array = {'x': x, 'y': y, 'w': w, 'h': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract};
+        array = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
         if (child.__type != "selectSquare") {
             objectArray.push(array);
         }
 	}
 	
 	// キャンバスのサイズ情報を、配列の先頭に格納
+	// TODO: データベースに格納するだけなので、この情報はいりません。
 	objectArray.unshift({'mapHeight': canvasHeight});
 	objectArray.unshift({'mapWidth': canvasWidth});
 	
 	// 既に会場図が設置してあれば、画像情報を配列の先頭に格納
 	var searchImageFileName = "backGround.png";
+	// TODO: データベースに格納するだけなので、この情報はいりません。
+	/*
 	if($(canvasElement).css("background-image").indexOf(searchImageFileName) != -1){
 		objectArray.unshift({'filename':searchImageFileName});
 	}
+	*/
 	
 	$.ajax({
 		type: "POST",
-		url: "php/save.php",
+		url: "posters/savesql",
 		data: { "data": objectArray },
 		success: function(msg){
-			alert(msg);
 		}
 	});
-	
+
+	// TODO: 必要なくなったので削除してください
 	// 第一リリース用にPosMAppに合わせた形式のJSONファイルをもう一つ生成します
 	var demoArray = {};
-	demoArray['toppage_img'] = "<?php echo $this->Html->webroot;?>img/toppage_pbla.png";
+	demoArray['toppage_img'] = webroot+"img/toppage_pbla.png";
 	var demoPosmappBgArray = []
 	demoPosmappBgArray.push("http://tkb-tsss.sakura.ne.jp/release1/img/" + searchImageFileName);
 	demoArray['posmapp_bg'] = demoPosmappBgArray;
@@ -716,6 +725,9 @@ function saveJson(){
 	for(var i=0; i<stage.children.length; i++) {
 		// objectPresenId, objectBlongs, objectFirst, についてはデモ時点で入力フォームがないため自動的に付与しています
 		child = stage.children[i];
+		if(child.__type=="selectSquare" || child.__type=="text"){
+		continue;
+		}
 		objectId = child.id;
 		objectX = child.x;
 		objectY = child.y;
@@ -758,6 +770,7 @@ function saveJson(){
 
 /* JSON 読み込み処理 */
 function loadJson(){
+	alert(webroot);
 	var objectList;
 	stage.removeAllChildren();
 	$.getJSON("json/data.json?"+$.now(), function(json){
@@ -766,7 +779,7 @@ function loadJson(){
 			var file = json[0];
 			json.splice(0, 1);
 			backGroundFileName=file.filename.toString();
-			$(canvasElement).css("background-image","url(<?php echo $this->Html->webroot;?>img/dot.png), url(<?php echo $this->Html->webroot;?>img/"+file.filename.toString()+"?"+$.now()+")");
+			$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
 			$(canvasElement).css("background-repeat","repeat, no-repeat");
 		}
 		
@@ -929,7 +942,7 @@ function fileUpLoad(){
 	.done(function(msg) {
 		alert(msg);
 		backGroundFileName = "backGround.png";
-		$(canvasElement).css("background-image","url(<?php echo $this->Html->webroot;?>img/dot.png), url(<?php echo $this->Html->webroot;?>img/"+backGroundFileName.toString()+"?"+$.now()+")");
+		$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+backGroundFileName.toString()+"?"+$.now()+")");
 		$(canvasElement).css("background-repeat","repeat, no-repeat");
 	});
 }
@@ -1119,7 +1132,7 @@ function onDrop(e){
 				// すでにそのオブジェクトがプレゼンテーションと関連済みであった場合
 				if(target.__relation != null || target.__relation != ''){
 					// 関連済みのプレゼンテーションを元の状態に戻す
-					$('#presentationlist li#'+target.__relation).removeClass('related');
+					$('.presentationlist li#'+target.__relation).removeClass('related');
 				}
 				target.graphics._fill.style = '#063a5e';
 				// ポスターオブジェクトに関連付けされたプレゼンテーションIDを付与
@@ -1140,7 +1153,7 @@ function onDrop(e){
 				stage.update();
 				
 				// 選択中のプレゼンテーションの要素を関連付けされた状態にする
-				$('#presentationlist li#'+selectedPresentationID).addClass('related').attr('data-relation',target.id);
+				$('.presentationlist li#'+selectedPresentationID).addClass('related').attr('data-relation',target.id);
 				
 				break;
 			}
@@ -1150,3 +1163,95 @@ function onDrop(e){
 	selectedPresentationID = 0;
 	selectedPresentationNum = '';
 }
+
+ /********************************************************
+ *					ページャーの切り替え処理							*
+ ********************************************************/
+$(function(){
+	// 現在のページ番号
+	var current_page = 1;
+	// 必要ページ数
+	var pages = $('.pager li').length - 2; // prev, next の2つ分減らす必要がある
+	
+	$(".pager li a").click(function(e){
+		// クリックしたボタンが使用不可またはすでにアクディブである場合、何もしない
+		if($(this).parent().hasClass('disabled') || $(this).parent().hasClass('active')){
+			return false;	
+		}
+		
+		// クリックされたターゲットページ番号を取得する
+		var target_page = $(this).attr('data-target');
+
+		/* 押されたボタン別に行う処理 */
+		// prevボタンの場合
+		if(target_page == 'prev'){
+			// ターゲットページ番号を現在のページ番号-1にする
+			target_page = parseInt(current_page) - 1;
+			
+		// nextボタンの場合
+		}else if(target_page == 'next'){
+			// ターゲットページ番号を現在のページ番号+1にする
+			target_page = parseInt(current_page) + 1;
+			
+		} // end if
+
+		// アクティブになっているページャーを元に戻す
+		$('.pager li.active').removeClass('active');
+		// クリックされたページャーをアクティブにする
+		$('.pager li a[data-target='+target_page+']').parent().addClass('active');
+		// いったん、すべてのページ内容を非表示にする
+		$('#tcPresentation .page').each(function(index, element) {
+			$(this).stop().fadeOut(300, 'linear').addClass('disno');
+		});
+		// ターゲットページを表示させる
+		$("#tcPresentation #page"+("0"+target_page).slice(-2)).stop().removeClass('disno').fadeIn(300, 'linear');
+		
+		/* 6ページ目以降をページャの真ん中にくるように調整する処理 */
+		if(pages > 5){
+			// いったん、すべてのページャを非表示にする
+			$('.pager li').each(function(index, element) {
+				// prevボタン, nextボタンである場合は何もしない
+				if(!$(this).hasClass('prev') && !$(this).hasClass('next')){
+					$(this).addClass('disno');
+				}
+			});
+			// ページャ内での位置
+			var pos_pager = -2; // ターゲットページが真ん中であれば、左には２つのページャ, 右には２つのページャが存在するため開始ページはターゲットページ番号マイナス２
+			if(target_page == 1){
+				// 1ページ目の場合、1番左に表示する
+				pos_pager = 0;	
+			}else if(target_page == 2){
+				// 2ページ目の場合、左から2番目に表示する
+				pos_pager = -1;	
+			}else if(target_page == pages-1){
+				// 最終ページから2ページ目の場合、右から2番目に表示する
+				pos_pager = -3;
+			}else if(target_page == pages){
+				// 最終ページの場合、1番右に表示する
+				pos_pager = -4;	
+			}
+
+			// 5つのページャーを表示する
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager))+']').parent().removeClass('disno');
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+1))+']').parent().removeClass('disno');
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+2))+']').parent().removeClass('disno');
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+3))+']').parent().removeClass('disno');
+			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+4))+']').parent().removeClass('disno');
+		}
+		
+		// 現在のページ番号を更新
+		current_page = target_page;
+		console.log(current_page);
+		
+		/* 押されたボタンに関わらず必ず行う処理 */
+		// いったん、すべてのボタンを利用可能状態にする
+		$('.pager li.disabled').removeClass('disabled');
+		// ページ番号が1であれば、prevボタンを使用不可にする
+		if(current_page == 1){
+			$('.pager .prev').addClass('disabled');
+		// ページ番号が必要ページ数であれば、nextボタンを使用不可にする
+		}else if(current_page == pages){
+			$('.pager .next').addClass('disabled');
+		}
+	});
+});

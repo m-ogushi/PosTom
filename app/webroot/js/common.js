@@ -4,13 +4,6 @@
  
  --------------------------------------------------*/
  
-/**
- * 
- * controller : コントローラ名(Events, Posters, Presentations, ...)
- * action : アクション名（index, view, ...）
- * url : 現在のURL(ドメイン以降)
- *
- **/
 $(function(){
 	$('a > img, #viewlist a > i').hover(
 		function(){
