@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>PosMApp</title>
-	<!-- meta‚Å•¶ŽšƒR[ƒh‚ðŽw’è‚µ‚È‚¢‚Æ•¶Žš‰»‚¯‚·‚é -->
-	<meta http-equiv="Content-Type" content="text/html; charset=Shift-JIS" />
+	<!-- metaã§æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’æŒ‡å®šã—ãªã„ã¨æ–‡å­—åŒ–ã‘ã™ã‚‹ -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="shortcut icon" href="<?php echo $this->Html->webroot;?>favicon.ico" />
 
 	<link rel="stylesheet" type="text/css" href="<?php echo $this->Html->webroot;?>css/lib/jquery-ui-1.11.2.custom.min.css" />
@@ -24,7 +24,7 @@
 	<script type="text/javascript" charset="utf-8" src="<?php echo $this->Html->webroot;?>js/lib/md5.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $this->Html->webroot;?>js/lib/jquery.xpost.js"></script>
 
-	<!-- DB—p”­•\ƒf[ƒ^ -->
+	<!-- DBç”¨ç™ºè¡¨ãƒ‡ãƒ¼ã‚¿ -->
 	<script type="text/javascript" charset="utf-8" src="<?php echo $this->Html->webroot;?>js/data.js"></script>
 
 	<script type="text/javascript" charset="utf-8" src="<?php echo $this->Html->webroot;?>js/logdata-function.js"></script>
@@ -46,27 +46,27 @@
 
 <body>
 
-<!-- ƒ[ƒfƒBƒ“ƒO‰æ–Ê -->
+<!-- ãƒ­ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ç”»é¢ -->
 <div id="loading">
 	<img src="<?php echo $this->Html->webroot;?>img/loading.gif">
 </div>
 
-<!-- ƒgƒbƒvƒƒjƒ…[‰æ–Ê -->
+<!-- ãƒˆãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ç”»é¢ -->
 <div data-role="page" id="topPage">
-	<!-- ”wŒi‰æ‘œ -->
+	<!-- èƒŒæ™¯ç”»åƒ -->
 	<img id="topPageBackground" src="<?php echo $this->Html->webroot;?>img/toppage.png"/>
-	<!-- ƒRƒ“ƒeƒ“ƒc -->
+	<!-- ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ -->
 	<div id="topPageContent">
 		<!--
 		<div id="reDownloadDIV" class="reDownloadDIV" align="center">
 			<img src="<?php echo $this->Html->webroot;?>img/gif-load.gif" class="downloading" style="zoom: 25%;"><font class="downloadMsg"></font>
 		</div>
 		-->
-		<button id="reDownloadDIV" class="reDownloadDIVCLS"><img src="<?php echo $this->Html->webroot;?>img/loading.gif" style="zoom: 18%;">ƒf[ƒ^‚ðƒ_ƒEƒ“ƒ[ƒh</button>
+		<button id="reDownloadDIV" class="reDownloadDIVCLS"><img src="<?php echo $this->Html->webroot;?>img/loading.gif" style="zoom: 18%;">ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰</button>
 		<!--
 		<div class="ui-grid-solo">
 			<div class="ui-block-a">
-				<div id="selectLocale">“ú–{Œê | <span style="text-decoration:line-through;color:lightgray;">English</span></div>
+				<div id="selectLocale">æ—¥æœ¬èªž | <span style="text-decoration:line-through;color:lightgray;">English</span></div>
 			</div>
 		</div>
 		-->
@@ -74,13 +74,13 @@
 			<div class="ui-block-a">
 				<div align="center">
 					<img id="goToInformation" class="topmenuicon" src="<?php echo $this->Html->webroot;?>img/topmenu/schedule.png"/>
-					<div class="topMenuIconLabel">ƒ^ƒCƒ€ƒe[ƒuƒ‹</div>
+					<div class="topMenuIconLabel">ã‚¿ã‚¤ãƒ ãƒ†ãƒ¼ãƒ–ãƒ«</div>
 				</div>
 			</div>
 			<div class="ui-block-b">
 				<div align="center">
 					<img id="goToVenue" class="topmenuicon" src="<?php echo $this->Html->webroot;?>img/topmenu/venue.png"/>
-					<div class="topMenuIconLabel">‰ïê}</div>
+					<div class="topMenuIconLabel">ä¼šå ´å›³</div>
 				</div>
 			</div>
 		</div>
@@ -88,13 +88,13 @@
 			<div class="ui-block-a">
 				<div align="center">
 					<img id="goToList" class="topmenuicon" src="<?php echo $this->Html->webroot;?>img/topmenu/list.png"/>
-					<div class="topMenuIconLabel">”­•\ˆê——</div>
+					<div class="topMenuIconLabel">ç™ºè¡¨ä¸€è¦§</div>
 				</div>
 			</div>
 			<div class="ui-block-b">
 				<div align="center">
 					<img id="goToMap" class="topmenuicon" src="<?php echo $this->Html->webroot;?>img/topmenu/map.png"></img>
-					<div class="topMenuIconLabel">ƒ|ƒXƒ^[ƒ}ƒbƒv</div>
+					<div class="topMenuIconLabel">ãƒã‚¹ã‚¿ãƒ¼ãƒžãƒƒãƒ—</div>
 				</div>
 			</div>
 		</div>
@@ -102,7 +102,7 @@
 			<div class="ui-block-a">
 				<div id="copyright">
 					<br />
-					<span style="font-size:smaller;">Copyright &copy; <a href="http://www.cs.tsukuba.ac.jp/ITsoft/">’}”g‘åŠwCSêU ‚“xITƒR[ƒX</a></span><br />
+					<span style="font-size:smaller;">Copyright &copy; <a href="http://www.cs.tsukuba.ac.jp/ITsoft/">ç­‘æ³¢å¤§å­¦CSå°‚æ”» é«˜åº¦ITã‚³ãƒ¼ã‚¹</a></span><br />
 					<span style="font-size:smaller;">Team S.A.Y. (<a href="https://twitter.com/posmapp_say">@posmapp_say</a>)</span>
 				</div>
 			</div>
@@ -110,31 +110,31 @@
 	</div>
 </div>
 
-<!-- ƒ|ƒXƒ^[ƒ}ƒbƒv‰æ–Ê -->
+<!-- ãƒã‚¹ã‚¿ãƒ¼ãƒžãƒƒãƒ—ç”»é¢ -->
 <div data-role="page" id="posterMapPage">
  	<div id="menuPanel" data-display="overlay" data-role="panel" data-position="right">
 		<!-- <div id="changelabel" data-position="fixed" style="border: 2px;">
  			<a data-role="button" href="#changeLabelDialog"
  					data-inline="true" data-rel="dialog"
- 					data-transition="pop">ƒ‰ƒxƒ‹Ø‘Ö</a>
+ 					data-transition="pop">ãƒ©ãƒ™ãƒ«åˆ‡æ›¿</a>
  		</div> -->
  		<div style="text-align: center;">
- 			ƒ|ƒXƒ^[‚Ìƒ‰ƒxƒ‹•\Ž¦•ÏX
+ 			ãƒã‚¹ã‚¿ãƒ¼ã®ãƒ©ãƒ™ãƒ«è¡¨ç¤ºå¤‰æ›´
  		</div>
  		<a class="changelabel" id="label-presenid"
-			href="#posterMapPage" data-role="button">”­•\”Ô†</a>
+			href="#posterMapPage" data-role="button">ç™ºè¡¨ç•ªå·</a>
 		<a class="changelabel" id="label-title"
-			href="#posterMapPage" data-role="button">ƒ^ƒCƒgƒ‹</a>
+			href="#posterMapPage" data-role="button">ã‚¿ã‚¤ãƒˆãƒ«</a>
 		<a class="changelabel" id="label-authorname"
-			href="#posterMapPage" data-role="button">‘ã•\ŽÒ–¼</a>
+			href="#posterMapPage" data-role="button">ä»£è¡¨è€…å</a>
 		<a class="changelabel" id="label-authorbelongs"
-			href="#posterMapPage" data-role="button">Š‘®</a>
+			href="#posterMapPage" data-role="button">æ‰€å±ž</a>
 	</div>
-	<div data-role="header"@data-tap-toggle="false" data-position:"fixed" style="z-index: 200;">
+	<div data-role="header"ã€€data-tap-toggle="false" data-position:"fixed" style="z-index: 200;">
 		<div class="ui-grid-b">
 			<div class="ui-block-a" style="width: 70%;">
 				<input type="search" id="search-bar-title"
-	    		placeholder="ŒŸõ" data-inline="true" style="width:75%;" onchange="searchChanged(this)"/>
+	    		placeholder="æ¤œç´¢" data-inline="true" style="width:75%;" onchange="searchChanged(this)"/>
 			</div>
 			<div class="ui-block-b" style="width: 25%;">
 				<div id="searchResult"></div>
@@ -144,69 +144,69 @@
 				class="ui-btn ui-btn-right ui-icon-bars ui-btn-icon-notext ui-corner-all"></a>
 			</div>
 		</div>
-	</div>??
+	</div>
 	<div style="position: relative;">
-			<a data-role="button" class="ReDownloadBtn">ƒf[ƒ^‚ðƒ_ƒEƒ“ƒ[ƒh</a>
+			<a data-role="button" class="ReDownloadBtn">ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰</a>
 		<div id="subheader" style="top: 0px;">
-			<!-- ŒŸõŒ‹‰ÊŒ” -->
+			<!-- æ¤œç´¢çµæžœä»¶æ•° -->
 			<!--<div id="searchResult"
 				style="position: fixed; z-index: 100;">
 			</div>-->
-			<!-- ƒGƒŠƒAƒ^ƒbƒvŒã‚ÌƒY[ƒ€ƒAƒEƒgƒ{ƒ^ƒ“ -->
+			<!-- ã‚¨ãƒªã‚¢ã‚¿ãƒƒãƒ—å¾Œã®ã‚ºãƒ¼ãƒ ã‚¢ã‚¦ãƒˆãƒœã‚¿ãƒ³ -->
 			<div id="resetScaleButtonFrame" data-position="fixed" style="border: 2px;">
 				<a id="resetScaleButton" data-role="button"
-					data-inline="true">–ß‚é</a>
+					data-inline="true">æˆ»ã‚‹</a>
 			</div>
 		</div>
-		<!-- ƒ|ƒXƒ^[ƒ}ƒbƒv–{‘Ì -->
+		<!-- ãƒã‚¹ã‚¿ãƒ¼ãƒžãƒƒãƒ—æœ¬ä½“ -->
 		<div id="mapFrame" style="z-index: 255;background-color:#FFFFFF">
 			<div id="mapMain">
-				<!-- ƒ|ƒXƒ^[ƒ}ƒbƒv•\Ž¦ -->
+				<!-- ãƒã‚¹ã‚¿ãƒ¼ãƒžãƒƒãƒ—è¡¨ç¤º -->
 				<img id="mapImg" src="<?php echo $this->Html->webroot;?>img/postermap_1.png" border="0"
 					style="position: relative; z-index: 1;"></img>
-				<!-- ƒ|ƒXƒ^[ƒAƒCƒRƒ“ -->
+				<!-- ãƒã‚¹ã‚¿ãƒ¼ã‚¢ã‚¤ã‚³ãƒ³ -->
 				<div id="posters"></div>
-				<!-- ƒ|ƒXƒ^[ƒGƒŠƒA -->
+				<!-- ãƒã‚¹ã‚¿ãƒ¼ã‚¨ãƒªã‚¢ -->
 				<div id="posterArea"></div>
 			</div>
-			<!-- ‘O‚Ì“ú -->
+			<!-- å‰ã®æ—¥ -->
 			<img id="prevDayButton" src="<?php echo $this->Html->webroot;?>img/prevday.png"></img>
-			<!-- ŽŸ‚Ì“ú -->
+			<!-- æ¬¡ã®æ—¥ -->
 			<img id="nextDayButton" src="<?php echo $this->Html->webroot;?>img/nextday.png"></img>
 		</div>
-		<!-- Šî–{î•ñƒpƒlƒ‹ -->
+		<!-- åŸºæœ¬æƒ…å ±ãƒ‘ãƒãƒ« -->
 		<div style="position: relative;">
 			<div id="basicinfopanel" style="display:none;">
 				<div id="basicinfo"></div>
-				<!-- ƒuƒbƒNƒ}[ƒNƒ{ƒ^ƒ“ -->
-				<!-- ƒAƒCƒRƒ“‚ÌØ‚è‘Ö‚¦‚Ípostermap.js‚Ås‚¤ -->
+				<!-- ãƒ–ãƒƒã‚¯ãƒžãƒ¼ã‚¯ãƒœã‚¿ãƒ³ -->
+				<!-- ã‚¢ã‚¤ã‚³ãƒ³ã®åˆ‡ã‚Šæ›¿ãˆã¯postermap.jsã§è¡Œã† -->
 				<img id="bookmarkbutton"></img>
-				<!-- Ú×î•ñƒ{ƒ^ƒ“ -->
+				<!-- è©³ç´°æƒ…å ±ãƒœã‚¿ãƒ³ -->
 				<img id="detailinfobutton" src="<?php echo $this->Html->webroot;?>img/detail.png"></img>
 			</div>
 		</div>
 	</div>
 
-	<!-- ƒ^ƒuƒo[ -->
+	<!-- ã‚¿ãƒ–ãƒãƒ¼ -->
 	<!-- <div class="tabbar"></div> -->
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ƒgƒbƒv</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ãƒˆãƒƒãƒ—</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >‰ïê}</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">”­•\ˆê——</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ƒ|ƒXƒ^[</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >ä¼šå ´å›³</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">ç™ºè¡¨ä¸€è¦§</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">ãƒã‚¹ã‚¿ãƒ¼</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 
-<!-- Ú×î•ñ‰æ–Ê -->
+<!-- è©³ç´°æƒ…å ±ç”»é¢ -->
 <div data-role="page" id="detailPage">
 	<div data-role="header">
-		<h1 style="text-align:center"@>Ú×î•ñ</h1>
-		<a href="#" class="ui-btn-left"  data-icon="carat-l" id="detailBackButton" >–ß‚é</a>
+		<h1 style="text-align:center"ã€€>è©³ç´°æƒ…å ±</h1>
+		<a href="#" class="ui-btn-left"  data-icon="carat-l" id="detailBackButton" >æˆ»ã‚‹</a>
 	</div>
 	<div data-role="content">
 	<div id="detail-presenid"></div>
@@ -217,73 +217,73 @@
 		<p>
 			<span id="detail-abstract"></span>
 		</p>
-		<p>ƒL[ƒ[ƒhF<br /><span id="detail-keywords"></span></p>
+		<p>ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ï¼š<br /><span id="detail-keywords"></span></p>
 
 	</div>
-	<!-- ƒ^ƒuƒo[ -->
+	<!-- ã‚¿ãƒ–ãƒãƒ¼ -->
 	<!-- <div class="tabbar"></div> -->
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ƒgƒbƒv</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ãƒˆãƒƒãƒ—</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >‰ïê}</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">”­•\ˆê——</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ƒ|ƒXƒ^[</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >ä¼šå ´å›³</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">ç™ºè¡¨ä¸€è¦§</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">ãƒã‚¹ã‚¿ãƒ¼</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 
-<!-- ”­•\ƒŠƒXƒg‰æ–Ê -->
+<!-- ç™ºè¡¨ãƒªã‚¹ãƒˆç”»é¢ -->
 <div data-role="page" id="presenListPage">
-	<!-- ŒŸõ‚ÌTIPS-->
+	<!-- æ¤œç´¢ã®TIPS-->
 	<div data-role="popup" data-position-to="window" id="search-tips">
-		<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">•Â‚¶‚é</a>
+		<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">é–‰ã˜ã‚‹</a>
 		<div data-role="header">
-			<h1>ŒŸõ‚Ìƒqƒ“ƒg</h1>
+			<h1>æ¤œç´¢ã®ãƒ’ãƒ³ãƒˆ</h1>
 		</div>
 		<div data-role="main">
-			<p style="padding: 0.5em;">ˆê——‚ÌŒŸõ‚É‚ÍA<br />ƒuƒ‰ƒEƒU‚ÌŒŸõ‹@”\‚ð‚²—˜—p‰º‚³‚¢</p>
-			<p style="padding: 0.5em;">Google Chrome‚Å‚Í‰Eã‚Ìƒƒjƒ…[<br />ƒ{ƒ^ƒ“‚©‚çuƒy[ƒW“àŒŸõv‚ð‘I‘ð‚·‚é‚±‚Æ‚ÅŒŸõ‚Å‚«‚Ü‚·</p>
+			<p style="padding: 0.5em;">ä¸€è¦§ã®æ¤œç´¢ã«ã¯ã€<br />ãƒ–ãƒ©ã‚¦ã‚¶ã®æ¤œç´¢æ©Ÿèƒ½ã‚’ã”åˆ©ç”¨ä¸‹ã•ã„</p>
+			<p style="padding: 0.5em;">Google Chromeã§ã¯å³ä¸Šã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼<br />ãƒœã‚¿ãƒ³ã‹ã‚‰ã€Œãƒšãƒ¼ã‚¸å†…æ¤œç´¢ã€ã‚’é¸æŠžã™ã‚‹ã“ã¨ã§æ¤œç´¢ã§ãã¾ã™</p>
 		</div>
 	</div>
 	<div id="presenHeader" data-role="header" data-position="fixed" data-tap-toggle="false">
-		<h1 style="text-align:center">”­•\ˆê——</h1>
+		<h1 style="text-align:center">ç™ºè¡¨ä¸€è¦§</h1>
 		<a href="#search-tips" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-btn-right ui-icon-search ui-corner-all"></a>
 		<div data-role="controlgroup" data-type="horizontal" class="ui-btn-left" style="top: 3px;">
 			<a id="listIconAll" class="ui-btn
 			ui-corner-all ui-btn-active" data-mini="true">All</a>
-			<a id="listIconStar" class="ui-btn ui-corner-all" data-mini="true" >š</a>
+			<a id="listIconStar" class="ui-btn ui-corner-all" data-mini="true" >â˜…</a>
 		</div>
 	</div>
 	<div data-role="content">
-			<a data-role="button" class="ReDownloadBtn">ƒf[ƒ^‚ðƒ_ƒEƒ“ƒ[ƒh</a>
+			<a data-role="button" class="ReDownloadBtn">ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰</a>
 		<div style="overflow:auto; height:100%;">
-			<!-- ”­•\ƒŠƒXƒg -->
+			<!-- ç™ºè¡¨ãƒªã‚¹ãƒˆ -->
 			<div id="presenList" class="listcolor"></div>
 			<div id="bookmarkList" class="listcolor"></div>
 		</div>
 	</div>
-	<!-- ƒ^ƒuƒo[ -->
+	<!-- ã‚¿ãƒ–ãƒãƒ¼ -->
 	<!-- <div class="tabbar"></div> -->
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ƒgƒbƒv</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ãƒˆãƒƒãƒ—</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >‰ïê}</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">”­•\ˆê——</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ƒ|ƒXƒ^[</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >ä¼šå ´å›³</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">ç™ºè¡¨ä¸€è¦§</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">ãƒã‚¹ã‚¿ãƒ¼</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 
-<!-- ‰ïêƒ}ƒbƒv‰æ–Ê -->
+<!-- ä¼šå ´ãƒžãƒƒãƒ—ç”»é¢ -->
 <div data-role="page" id="venuePage">
 	<div data-role="header" data-position="fixed">
-		<h1 style="text-align:center"@>‰ïê}</h1>
+		<h1 style="text-align:center"ã€€>ä¼šå ´å›³</h1>
 	</div>
 	<div align="center">
 			        <br/><br/><br/>
@@ -292,228 +292,228 @@
 					<img  style="width:100%"; src="<?php echo $this->Html->webroot;?>img/venue2.png"></img>
 
 	</div>
-	<!-- ƒ^ƒuƒo[ -->
+	<!-- ã‚¿ãƒ–ãƒãƒ¼ -->
 	<!-- <div class="tabbar"></div> -->
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ƒgƒbƒv</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ãƒˆãƒƒãƒ—</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >‰ïê}</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">”­•\ˆê——</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ƒ|ƒXƒ^[</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >ä¼šå ´å›³</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">ç™ºè¡¨ä¸€è¦§</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">ãƒã‚¹ã‚¿ãƒ¼</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 
 
-<!-- •\Ž¦Ø‘Öƒ{ƒ^ƒ“‚Ìƒ_ƒCƒAƒƒO -->
+<!-- è¡¨ç¤ºåˆ‡æ›¿ãƒœã‚¿ãƒ³ã®ãƒ€ã‚¤ã‚¢ãƒ­ã‚° -->
 <div data-role="page" id="changeLabelDialog">
 	<div data-role="header">
-		<h1>ƒ‰ƒxƒ‹‚Ì•\Ž¦Ø‚è‘Ö‚¦</h1>
+		<h1>ãƒ©ãƒ™ãƒ«ã®è¡¨ç¤ºåˆ‡ã‚Šæ›¿ãˆ</h1>
 	</div>
 	<div data-role="content">
 		<a class="changelabel" id="label-presenid"
-			href="#posterMapPage" data-role="button">”­•\”Ô†</a>
+			href="#posterMapPage" data-role="button">ç™ºè¡¨ç•ªå·</a>
 		<a class="changelabel" id="label-title"
-			href="#posterMapPage" data-role="button">ƒ^ƒCƒgƒ‹</a>
+			href="#posterMapPage" data-role="button">ã‚¿ã‚¤ãƒˆãƒ«</a>
 		<a class="changelabel" id="label-authorname"
-			href="#posterMapPage" data-role="button">‘ã•\ŽÒ–¼</a>
+			href="#posterMapPage" data-role="button">ä»£è¡¨è€…å</a>
 		<a class="changelabel" id="label-authorbelongs"
-			href="#posterMapPage" data-role="button">Š‘®</a>
+			href="#posterMapPage" data-role="button">æ‰€å±ž</a>
 	</div>
 </div>
 
-<!-- ƒZƒbƒVƒ‡ƒ“ƒe[ƒuƒ‹ -->
-<!-- DEIM2014‚ÌƒZƒbƒVƒ‡ƒ“ƒe[ƒuƒ‹‚Ì“à—e -->
+<!-- ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒ†ãƒ¼ãƒ–ãƒ« -->
+<!-- DEIM2014ã®ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒ†ãƒ¼ãƒ–ãƒ«ã®å†…å®¹ -->
 <div data-role="page" id="informationPage">
   <div data-role="header" data-position="fixed">
-    <h1 id="sessionHyou" style="text-align:center">ƒvƒƒOƒ‰ƒ€</h1>
+    <h1 id="sessionHyou" style="text-align:center">ãƒ—ãƒ­ã‚°ãƒ©ãƒ </h1>
   </div>
   <div data-role="content">
-    <!--&lt;!&ndash;dateØ‘Öƒ{ƒ^ƒ“&ndash;&gt; -->
+    <!--&lt;!&ndash;dateåˆ‡æ›¿ãƒœã‚¿ãƒ³&ndash;&gt; -->
     <!--<p id="changeDateButton" data-role="controlgroup" data-type="horizontal" align="center">-->
-        <!--<a id="changeDate01" class="sessiontable1" href="#sessiontable1" data-role="button">3ŒŽ2“ú</a>-->
-        <!--<a id="changeDate02" class="sessiontable2" href="#sessiontable2" data-role="button">3ŒŽ3“ú</a>-->
-        <!--<a id="changeDate03" class="sessiontable3" href="#sessiontable3" data-role="button">3ŒŽ4“ú</a>-->
+        <!--<a id="changeDate01" class="sessiontable1" href="#sessiontable1" data-role="button">3æœˆ2æ—¥</a>-->
+        <!--<a id="changeDate02" class="sessiontable2" href="#sessiontable2" data-role="button">3æœˆ3æ—¥</a>-->
+        <!--<a id="changeDate03" class="sessiontable3" href="#sessiontable3" data-role="button">3æœˆ4æ—¥</a>-->
       <!--</p>-->
     <!--<h3 align="center" id="sessionDate"></h3>-->
-      <!--&lt;!&ndash; ƒZƒbƒVƒ‡ƒ“ƒe[ƒuƒ‹–{‘Ì &ndash;&gt;-->
+      <!--&lt;!&ndash; ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒ†ãƒ¼ãƒ–ãƒ«æœ¬ä½“ &ndash;&gt;-->
       <!--<div id="sessiontables">-->
       <!--<div id="sessiontable1" class="sessiontable">-->
         <!--<table class="session_table">-->
-          <!--<tr><th>ŽžŠÔ</th><th>‰ïê</th><th>“à—e</th></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">13:00<br />-<br />14:30</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA1" class="jumpToPresen">A1FQAEECƒTƒCƒg</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB1" class="jumpToPresen">B1Fî•ñ“`”ÀEƒNƒ‰ƒEƒhƒ\[ƒVƒ“ƒO</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC1" class="jumpToPresen">C1FHEƒŒƒVƒsî•ñ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD1" class="jumpToPresen">D1FƒgƒsƒbƒN•ª—Þ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE1" class="jumpToPresen">E1FƒNƒ‰ƒEƒhEIoT</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF1" class="jumpToPresen">F1F‰¹Šyî•ñˆ—</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG1" class="jumpToPresen">G1Fƒvƒ‰ƒCƒoƒV[(1)</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"@bgcolor="red">‹xŒe</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">14:45<br />-<br />16:15</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA2" class="jumpToPresen">A2FƒeƒLƒXƒgƒ}ƒCƒjƒ“ƒO</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB2" class="jumpToPresen">B2Fî•ñ„‘E(1)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC2" class="jumpToPresen">C2Fƒlƒbƒgƒ[ƒNEƒZƒ“ƒVƒ“ƒO</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD2" class="jumpToPresen">D2Fƒf[ƒ^•ªÍ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE2" class="jumpToPresen">E2Fƒ}ƒCƒjƒ“ƒOE‰ÂŽ‹‰»</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF2" class="jumpToPresen">F2F“®‰æ‘œƒf[ƒ^•ªÍ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG2" class="jumpToPresen">G2Fƒvƒ‰ƒCƒoƒV[(2-->
+          <!--<tr><th>æ™‚é–“</th><th>ä¼šå ´</th><th>å†…å®¹</th></tr>-->
+          <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">13:00<br />-<br />14:30</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA1" class="jumpToPresen">A1ï¼šQAãƒ»ECã‚µã‚¤ãƒˆ</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB1" class="jumpToPresen">B1ï¼šæƒ…å ±ä¼æ¬ãƒ»ã‚¯ãƒ©ã‚¦ãƒ‰ã‚½ãƒ¼ã‚·ãƒ³ã‚°</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC1" class="jumpToPresen">C1ï¼šé£Ÿãƒ»ãƒ¬ã‚·ãƒ”æƒ…å ±</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD1" class="jumpToPresen">D1ï¼šãƒˆãƒ”ãƒƒã‚¯åˆ†é¡ž</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE1" class="jumpToPresen">E1ï¼šã‚¯ãƒ©ã‚¦ãƒ‰ãƒ»IoT</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF1" class="jumpToPresen">F1ï¼šéŸ³æ¥½æƒ…å ±å‡¦ç†</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG1" class="jumpToPresen">G1ï¼šãƒ—ãƒ©ã‚¤ãƒã‚·ãƒ¼(1)</a></td></tr>-->
+          <!--<tr><td class="rest" colspan="3"ã€€bgcolor="red">ä¼‘æ†©</td></tr>-->
+          <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">14:45<br />-<br />16:15</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA2" class="jumpToPresen">A2ï¼šãƒ†ã‚­ã‚¹ãƒˆãƒžã‚¤ãƒ‹ãƒ³ã‚°</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB2" class="jumpToPresen">B2ï¼šæƒ…å ±æŽ¨è–¦(1)</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC2" class="jumpToPresen">C2ï¼šãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒ»ã‚»ãƒ³ã‚·ãƒ³ã‚°</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD2" class="jumpToPresen">D2ï¼šãƒ‡ãƒ¼ã‚¿åˆ†æž</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE2" class="jumpToPresen">E2ï¼šãƒžã‚¤ãƒ‹ãƒ³ã‚°ãƒ»å¯è¦–åŒ–</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF2" class="jumpToPresen">F2ï¼šå‹•ç”»åƒãƒ‡ãƒ¼ã‚¿åˆ†æž</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG2" class="jumpToPresen">G2ï¼šãƒ—ãƒ©ã‚¤ãƒã‚·ãƒ¼(2-->
           	<!--)</a></td></tr>-->
 
-          <!--<tr><td class="rest" colspan="3"@>‹xŒe</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">16:30<br />-<br />18:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA3" class="jumpToPresen">A3:î•ñŒŸõ</a><p class="phdsession">iPh.DƒZƒbƒVƒ‡ƒ“j</p></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB3" class="jumpToPresen">B3:î•ñ„‘E(2)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC3" class="jumpToPresen">C3:È“d—Í</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD3" class="jumpToPresen">D3:ƒ†[ƒU[ƒŒƒrƒ…[</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE3" class="jumpToPresen">E3:”¼\‘¢ƒf[ƒ^EƒI[ƒvƒ“ƒf[ƒ^</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF3" class="jumpToPresen">F3:Šwpî•ñ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG3" class="jumpToPresen">G3:GPUEƒXƒgƒŒ[ƒW</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"@>‹xŒe</td></tr>-->
-          <!--<tr style="height:30px"><th class="showtime">19:00<br />-<br />21:00</th><td class="banquetRoom"><a class="jumpToVenue">§e‰ï‰ïê</a></td><td>ƒCƒ“ƒ^ƒ‰ƒNƒeƒBƒu<br />ƒZƒbƒVƒ‡ƒ“(1)</td></tr>-->
+          <!--<tr><td class="rest" colspan="3"ã€€>ä¼‘æ†©</td></tr>-->
+          <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">16:30<br />-<br />18:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA3" class="jumpToPresen">A3:æƒ…å ±æ¤œç´¢</a><p class="phdsession">ï¼ˆPh.Dã‚»ãƒƒã‚·ãƒ§ãƒ³ï¼‰</p></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB3" class="jumpToPresen">B3:æƒ…å ±æŽ¨è–¦(2)</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC3" class="jumpToPresen">C3:çœé›»åŠ›</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD3" class="jumpToPresen">D3:ãƒ¦ãƒ¼ã‚¶ãƒ¼ãƒ¬ãƒ“ãƒ¥ãƒ¼</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE3" class="jumpToPresen">E3:åŠæ§‹é€ ãƒ‡ãƒ¼ã‚¿ãƒ»ã‚ªãƒ¼ãƒ—ãƒ³ãƒ‡ãƒ¼ã‚¿</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF3" class="jumpToPresen">F3:å­¦è¡“æƒ…å ±</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG3" class="jumpToPresen">G3:GPUãƒ»ã‚¹ãƒˆãƒ¬ãƒ¼ã‚¸</a></td></tr>-->
+          <!--<tr><td class="rest" colspan="3"ã€€>ä¼‘æ†©</td></tr>-->
+          <!--<tr style="height:30px"><th class="showtime">19:00<br />-<br />21:00</th><td class="banquetRoom"><a class="jumpToVenue">æ‡‡è¦ªä¼šä¼šå ´</a></td><td>ã‚¤ãƒ³ã‚¿ãƒ©ã‚¯ãƒ†ã‚£ãƒ–<br />ã‚»ãƒƒã‚·ãƒ§ãƒ³(1)</td></tr>-->
           <!--<tr>-->
           	<!--<th  class="showtime" >21:00<br />-<br />23:30</th>-->
-            <!--<td colspan="2"@>ƒ„ƒ“ƒOƒŠƒT[ƒ`ƒƒ[ƒfƒBƒXƒJƒbƒVƒ‡ƒ“</td>-->
+            <!--<td colspan="2"ã€€>ãƒ¤ãƒ³ã‚°ãƒªã‚µãƒ¼ãƒãƒ£ãƒ¼ãƒ‡ã‚£ã‚¹ã‚«ãƒƒã‚·ãƒ§ãƒ³</td>-->
           <!--</tr>-->
         <!--</table>-->
       <!--</div>-->
-      <!--&lt;!&ndash;“ñ“ú–Ú&ndash;&gt; -->
+      <!--&lt;!&ndash;äºŒæ—¥ç›®&ndash;&gt; -->
       <!--<div id="sessiontable2" class="sessiontable">-->
         <!--<table class="session_table">-->
-          <!--<tr><th>ŽžŠÔ</th><th>‰ïê</th><th>“à—e</th></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" >8:45<br />-<br />10:15</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA4" class="jumpToPresen">A4:Webî•ñƒVƒXƒeƒ€<p class="phdsession">iPh.DƒZƒbƒVƒ‡ƒ“j</p></a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB4" class="jumpToPresen">B4:î•ñ’Šo</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC4" class="jumpToPresen">C4:ƒ}ƒCƒNƒƒuƒƒO(1)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD4" class="jumpToPresen">D4:î•ñM—Š«</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE4" class="jumpToPresen">E4:ƒf[ƒ^ˆ—Šî”Õ</a></td></tr>-->
+          <!--<tr><th>æ™‚é–“</th><th>ä¼šå ´</th><th>å†…å®¹</th></tr>-->
+          <!--<tr><th  class="showtime" rowspan="7" >8:45<br />-<br />10:15</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA4" class="jumpToPresen">A4:Webæƒ…å ±ã‚·ã‚¹ãƒ†ãƒ <p class="phdsession">ï¼ˆPh.Dã‚»ãƒƒã‚·ãƒ§ãƒ³ï¼‰</p></a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB4" class="jumpToPresen">B4:æƒ…å ±æŠ½å‡º</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC4" class="jumpToPresen">C4:ãƒžã‚¤ã‚¯ãƒ­ãƒ–ãƒ­ã‚°(1)</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD4" class="jumpToPresen">D4:æƒ…å ±ä¿¡é ¼æ€§</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE4" class="jumpToPresen">E4:ãƒ‡ãƒ¼ã‚¿å‡¦ç†åŸºç›¤</a></td></tr>-->
           <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF4" class="jumpToPresen">F4:HCI</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG4" class="jumpToPresen">G4:ƒf[ƒ^ƒ}ƒCƒjƒ“ƒOEƒ}ƒCƒNƒƒuƒƒO</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"@bgcolor="red">‹xŒe</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7">10:30<br />-<br />12:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA5" class="jumpToPresen">A5:ƒf[ƒ^ƒ}ƒCƒjƒ“ƒO(1)<p class="phdsession">iPh.DƒZƒbƒVƒ‡ƒ“j</p></a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB5" class="jumpToPresen">B5:î•ñŒŸõ‰ž—p</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC5" class="jumpToPresen">C5:ƒNƒGƒŠ‚“x‰»</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD5" class="jumpToPresen">D5:ƒhƒLƒ…ƒƒ“ƒg‚Æ‹@ŠBŠwK</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE5" class="jumpToPresen">E5:ƒOƒ‰ƒt‚Æ•ªŽUˆ—</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF5" class="jumpToPresen">F5:Š´î‚ÆŠ´«</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG5" class="jumpToPresen">G5:ˆã—Ãî•ñ</a></td></tr>-->
-          <!--<tr><td class="rest">12:00<br />-<br />13:00</td><td class="rest" colspan="2"@>’‹Hi{DBS‰^‰cˆÏˆõ‰ï/DEê–åˆÏˆõ‰ïj</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" >13:00<br />-<br />14:30</th><td><a class="jumpToVenue">A</a></td><td><a>A6:ƒf[ƒ^ƒ}ƒCƒjƒ“ƒO(2)(Ph.DƒZƒbƒVƒ‡ƒ“)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB6" class="jumpToPresen">B6:•ªŽUˆ—EŠÇ—</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC6" class="jumpToPresen">C6:ƒNƒ‰ƒEƒhƒ\[ƒVƒ“ƒOESNS</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG4" class="jumpToPresen">G4:ãƒ‡ãƒ¼ã‚¿ãƒžã‚¤ãƒ‹ãƒ³ã‚°ãƒ»ãƒžã‚¤ã‚¯ãƒ­ãƒ–ãƒ­ã‚°</a></td></tr>-->
+          <!--<tr><td class="rest" colspan="3"ã€€bgcolor="red">ä¼‘æ†©</td></tr>-->
+          <!--<tr><th  class="showtime" rowspan="7">10:30<br />-<br />12:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA5" class="jumpToPresen">A5:ãƒ‡ãƒ¼ã‚¿ãƒžã‚¤ãƒ‹ãƒ³ã‚°(1)<p class="phdsession">ï¼ˆPh.Dã‚»ãƒƒã‚·ãƒ§ãƒ³ï¼‰</p></a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB5" class="jumpToPresen">B5:æƒ…å ±æ¤œç´¢å¿œç”¨</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC5" class="jumpToPresen">C5:ã‚¯ã‚¨ãƒªé«˜åº¦åŒ–</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD5" class="jumpToPresen">D5:ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã¨æ©Ÿæ¢°å­¦ç¿’</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE5" class="jumpToPresen">E5:ã‚°ãƒ©ãƒ•ã¨åˆ†æ•£å‡¦ç†</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF5" class="jumpToPresen">F5:æ„Ÿæƒ…ã¨æ„Ÿæ€§</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG5" class="jumpToPresen">G5:åŒ»ç™‚æƒ…å ±</a></td></tr>-->
+          <!--<tr><td class="rest">12:00<br />-<br />13:00</td><td class="rest" colspan="2"ã€€>æ˜¼é£Ÿï¼ˆï¼‹DBSé‹å–¶å§”å“¡ä¼š/DEå°‚é–€å§”å“¡ä¼šï¼‰</td></tr>-->
+          <!--<tr><th  class="showtime" rowspan="7" >13:00<br />-<br />14:30</th><td><a class="jumpToVenue">A</a></td><td><a>A6:ãƒ‡ãƒ¼ã‚¿ãƒžã‚¤ãƒ‹ãƒ³ã‚°(2)(Ph.Dã‚»ãƒƒã‚·ãƒ§ãƒ³)</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB6" class="jumpToPresen">B6:åˆ†æ•£å‡¦ç†ãƒ»ç®¡ç†</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC6" class="jumpToPresen">C6:ã‚¯ãƒ©ã‚¦ãƒ‰ã‚½ãƒ¼ã‚·ãƒ³ã‚°ãƒ»SNS</a></td></tr>-->
           <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD6" class="jumpToPresen">D6:OLAP</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE6" class="jumpToPresen">E6:ƒOƒ‰ƒtƒ}ƒCƒjƒ“ƒO</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF6" class="jumpToPresen">F6:ˆÊ’uî•ñ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG6" class="jumpToPresen">G6:‰ÈŠwEˆã—Ãƒf[ƒ^ƒ}ƒCƒjƒ“ƒO</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"@>‹xŒe</td></tr>-->
-          <!--<tr><th class="showtime">14:45<br />-<br />16:35</th><td><a class="jumpToVenue">AEB</a></td><td>µ‘Òu‰‰</td></tr>-->
-          <!--<tr><td class="rest" colspan="3"@>‹xŒe</td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE6" class="jumpToPresen">E6:ã‚°ãƒ©ãƒ•ãƒžã‚¤ãƒ‹ãƒ³ã‚°</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF6" class="jumpToPresen">F6:ä½ç½®æƒ…å ±</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG6" class="jumpToPresen">G6:ç§‘å­¦ãƒ»åŒ»ç™‚ãƒ‡ãƒ¼ã‚¿ãƒžã‚¤ãƒ‹ãƒ³ã‚°</a></td></tr>-->
+          <!--<tr><td class="rest" colspan="3"ã€€>ä¼‘æ†©</td></tr>-->
+          <!--<tr><th class="showtime">14:45<br />-<br />16:35</th><td><a class="jumpToVenue">Aãƒ»B</a></td><td>æ‹›å¾…è¬›æ¼”</td></tr>-->
+          <!--<tr><td class="rest" colspan="3"ã€€>ä¼‘æ†©</td></tr>-->
           <!--<tr><th class="showtime">16:45<br />-<br />18:15</th>-->
-          <!--<td><a class="jumpToVenue">AEB</a></td><td>DBSJƒAƒ[<br />EŒ÷˜JÜ‹L”Ou‰‰</td></tr>-->
-          <!--<tr><td class="rest" colspan="3"@>‹xŒe</td></tr>-->
+          <!--<td><a class="jumpToVenue">Aãƒ»B</a></td><td>DBSJã‚¢ãƒ¯ãƒ¼<br />ãƒ»åŠŸåŠ´è³žè¨˜å¿µè¬›æ¼”</td></tr>-->
+          <!--<tr><td class="rest" colspan="3"ã€€>ä¼‘æ†©</td></tr>-->
           <!--<tr>-->
             <!--<th  class="showtime"  >19:00<br />-<br />21:00</th>-->
-            <!--<td class="banquetRoom"><a class="jumpToVenue">§e‰ï‰ïê</a></td>-->
-            <!--<td>ƒCƒ“ƒ^ƒ‰ƒNƒeƒBƒu<br />ƒZƒbƒVƒ‡ƒ“i‚Qj</td>-->
+            <!--<td class="banquetRoom"><a class="jumpToVenue">æ‡‡è¦ªä¼šä¼šå ´</a></td>-->
+            <!--<td>ã‚¤ãƒ³ã‚¿ãƒ©ã‚¯ãƒ†ã‚£ãƒ–<br />ã‚»ãƒƒã‚·ãƒ§ãƒ³ï¼ˆï¼’ï¼‰</td>-->
           <!--</tr>-->
           <!--<tr>-->
             <!--<th  class="showtime">21:00<br />-<br />22:00</th>-->
-            <!--<td><a class="jumpToVenue">§e‰ï‰ïê</a></td>-->
-            <!--<td>BoFƒZƒbƒVƒ‡ƒ“</td>-->
+            <!--<td><a class="jumpToVenue">æ‡‡è¦ªä¼šä¼šå ´</a></td>-->
+            <!--<td>BoFã‚»ãƒƒã‚·ãƒ§ãƒ³</td>-->
           <!--</tr>-->
           <!--<tr>-->
           	<!--<th  class="showtime" >22:00<br />-<br />23:30</th>-->
-            <!--<td colspan="2"@>ƒ„ƒ“ƒOƒŠƒT[ƒ`ƒƒ[ƒfƒBƒXƒJƒbƒVƒ‡ƒ“</td>-->
+            <!--<td colspan="2"ã€€>ãƒ¤ãƒ³ã‚°ãƒªã‚µãƒ¼ãƒãƒ£ãƒ¼ãƒ‡ã‚£ã‚¹ã‚«ãƒƒã‚·ãƒ§ãƒ³</td>-->
           <!--</tr>-->
         <!--</table>-->
       <!--</div>-->
-      <!--&lt;!&ndash;ŽO“ú–Ú&ndash;&gt; -->
+      <!--&lt;!&ndash;ä¸‰æ—¥ç›®&ndash;&gt; -->
       <!--<div id="sessiontable3" class="sessiontable">-->
         <!--<table class="session_table">-->
-          <!--<tr><th>ŽžŠÔ</th><th>‰ïê</th><th>“à—e</th></tr>-->
-          <!--<tr><th  class="showtime" rowspan="6" >8:45<br />-<br />10:15</th><td><a class="jumpToVenue">AEB</a></td><td><a id="presenlinkB7" class="jumpToPresen">“Á•ÊƒZƒbƒVƒ‡ƒ“</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlistC7" class="jumpToPresen">C7:ÐŠQî•ñ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlistD7" class="jumpToPresen">D7:æi“I‰ž—p</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlistE7" class="jumpToPresen">E7:ƒvƒ‰ƒbƒgƒtƒH[ƒ€‹Zp</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlistF7" class="jumpToPresen">F7:’n—EŠÏŒõ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG7" class="jumpToPresen">G7:ŠÏŒõî•ñ</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"@bgcolor="red">‹xŒe</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7">10:30<br />-<br />12:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlistA8" class="jumpToPresen">A8:ƒ}ƒCƒNƒƒuƒƒO(2)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlistB8" class="jumpToPresen">B8:‰¹ŠyE“®‰æ„‘E</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlistC8" class="jumpToPresen">C8:ƒCƒxƒ“ƒg’Šo‚Æ’n—î•ñ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlistD8" class="jumpToPresen">D8:SNSƒ†[ƒUî•ñ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlistE8" class="jumpToPresen">E8:î•ñ’ŠoEŒŸõ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlistF8" class="jumpToPresen">F8:ŽžŒn—ñƒf[ƒ^</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG8" class="jumpToPresen">G8:Ž©‘RŒ¾Œêˆ—</a></td></tr>-->
+          <!--<tr><th>æ™‚é–“</th><th>ä¼šå ´</th><th>å†…å®¹</th></tr>-->
+          <!--<tr><th  class="showtime" rowspan="6" >8:45<br />-<br />10:15</th><td><a class="jumpToVenue">Aãƒ»B</a></td><td><a id="presenlinkB7" class="jumpToPresen">ç‰¹åˆ¥ã‚»ãƒƒã‚·ãƒ§ãƒ³</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlistC7" class="jumpToPresen">C7:ç½å®³æƒ…å ±</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlistD7" class="jumpToPresen">D7:å…ˆé€²çš„å¿œç”¨</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlistE7" class="jumpToPresen">E7:ãƒ—ãƒ©ãƒƒãƒˆãƒ•ã‚©ãƒ¼ãƒ æŠ€è¡“</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlistF7" class="jumpToPresen">F7:åœ°ç†ãƒ»è¦³å…‰</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG7" class="jumpToPresen">G7:è¦³å…‰æƒ…å ±</a></td></tr>-->
+          <!--<tr><td class="rest" colspan="3"ã€€bgcolor="red">ä¼‘æ†©</td></tr>-->
+          <!--<tr><th  class="showtime" rowspan="7">10:30<br />-<br />12:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlistA8" class="jumpToPresen">A8:ãƒžã‚¤ã‚¯ãƒ­ãƒ–ãƒ­ã‚°(2)</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlistB8" class="jumpToPresen">B8:éŸ³æ¥½ãƒ»å‹•ç”»æŽ¨è–¦</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlistC8" class="jumpToPresen">C8:ã‚¤ãƒ™ãƒ³ãƒˆæŠ½å‡ºã¨åœ°ç†æƒ…å ±</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlistD8" class="jumpToPresen">D8:SNSãƒ¦ãƒ¼ã‚¶æƒ…å ±</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlistE8" class="jumpToPresen">E8:æƒ…å ±æŠ½å‡ºãƒ»æ¤œç´¢</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlistF8" class="jumpToPresen">F8:æ™‚ç³»åˆ—ãƒ‡ãƒ¼ã‚¿</a></td></tr>-->
+          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG8" class="jumpToPresen">G8:è‡ªç„¶è¨€èªžå‡¦ç†</a></td></tr>-->
        <!-- -->
           <!--<tr>-->
           	<!--<th id="closingH" class="showtime" >12:00<br />-<br />12:15</th>-->
-          	<!--<td class="closingD" ><a class="jumpToVenue">AEB</a></td>-->
-          	<!--<td class="closingD" >ƒNƒ[ƒWƒ“ƒO<br />•\²Ž®</td>-->
+          	<!--<td class="closingD" ><a class="jumpToVenue">Aãƒ»B</a></td>-->
+          	<!--<td class="closingD" >ã‚¯ãƒ­ãƒ¼ã‚¸ãƒ³ã‚°<br />è¡¨å½°å¼</td>-->
           <!--</tr>-->
           <!--<tr>-->
           	<!--<th  class="showtime" >12:15<br />-<br />13:15</th>-->
-          	<!--<td  colspan="2"@>’‹Hi{ƒRƒƒ“ƒe[ƒ^ˆÏˆõ‰ïj</td>-->
+          	<!--<td  colspan="2"ã€€>æ˜¼é£Ÿï¼ˆï¼‹ã‚³ãƒ¡ãƒ³ãƒ†ãƒ¼ã‚¿å§”å“¡ä¼šï¼‰</td>-->
           <!--</tr>-->
 
         <!--</table>-->
       <!--</div>-->
       <!--</div>-->
   </div>
-  	<!-- ƒ^ƒuƒo[ -->
+  	<!-- ã‚¿ãƒ–ãƒãƒ¼ -->
 	<!-- <div class="tabbar"></div> -->
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ƒgƒbƒv</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">ãƒˆãƒƒãƒ—</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >‰ïê}</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">”­•\ˆê——</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ƒ|ƒXƒ^[</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >ä¼šå ´å›³</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">ç™ºè¡¨ä¸€è¦§</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">ãƒã‚¹ã‚¿ãƒ¼</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 
-<!-- —˜—pƒƒOƒf[ƒ^‰ñŽû‹–‘øƒ_ƒCƒAƒƒO  -->
+<!-- åˆ©ç”¨ãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿å›žåŽè¨±è«¾ãƒ€ã‚¤ã‚¢ãƒ­ã‚°  -->
 <div data-role="dialog" data-close-btn="none" id="checkCollectLogDialog">
 	<div data-role="header">
-		<h1>ƒƒO‘—M‚ÉŠÖ‚·‚é‚¨Šè‚¢</h1>
+		<h1>ãƒ­ã‚°é€ä¿¡ã«é–¢ã™ã‚‹ãŠé¡˜ã„</h1>
 	</div>
 	<div data-role="content">
-		’}”g‘åŠw‚“xITƒR[ƒXEƒ`[ƒ€S.A.Y.‚Å‚ÍAƒ†[ƒU‚Ìs“®•ªÍ‚ðs‚¢ƒAƒvƒŠ‚Ì‰ü‘P‚ð‚·‚éŒ¤‹†‚ðs‚Á‚Ä‚¨‚è‚Ü‚·B‚Â‚«‚Ü‚µ‚Ä‚ÍA–{ƒAƒvƒŠ‚Ì—˜—pƒƒO‚Ì‰ñŽû‚É‚²‹¦—Í’¸‚«‚½‚¢‚Æl‚¦‚Ä‚¨‚è‚Ü‚·B—˜—pƒƒO‚É‚ÍŒÂl‚ð“Á’è‚Å‚«‚éî•ñ‚ÍŠÜ‚Ü‚ê‚¸A“Œv“I‚È•ªÍ‚Ì‚Ý‚ÉŽg—p‚µ‚Ü‚·B‚²‹¦—Í’¸‚¯‚éê‡‚ÍA[‚Í‚¢]ƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚Ä‰º‚³‚¢B<br />
-		<a data-role="button" id="acceptCollectLog">‚Í‚¢</a>
-		<a data-role="button" id="denyCollectLog">‚¢‚¢‚¦</a>
+		ç­‘æ³¢å¤§å­¦é«˜åº¦ITã‚³ãƒ¼ã‚¹ãƒ»ãƒãƒ¼ãƒ S.A.Y.ã§ã¯ã€ãƒ¦ãƒ¼ã‚¶ã®è¡Œå‹•åˆ†æžã‚’è¡Œã„ã‚¢ãƒ—ãƒªã®æ”¹å–„ã‚’ã™ã‚‹ç ”ç©¶ã‚’è¡Œã£ã¦ãŠã‚Šã¾ã™ã€‚ã¤ãã¾ã—ã¦ã¯ã€æœ¬ã‚¢ãƒ—ãƒªã®åˆ©ç”¨ãƒ­ã‚°ã®å›žåŽã«ã”å”åŠ›é ‚ããŸã„ã¨è€ƒãˆã¦ãŠã‚Šã¾ã™ã€‚åˆ©ç”¨ãƒ­ã‚°ã«ã¯å€‹äººã‚’ç‰¹å®šã§ãã‚‹æƒ…å ±ã¯å«ã¾ã‚Œãšã€çµ±è¨ˆçš„ãªåˆ†æžã®ã¿ã«ä½¿ç”¨ã—ã¾ã™ã€‚ã”å”åŠ›é ‚ã‘ã‚‹å ´åˆã¯ã€[ã¯ã„]ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ã¦ä¸‹ã•ã„ã€‚<br />
+		<a data-role="button" id="acceptCollectLog">ã¯ã„</a>
+		<a data-role="button" id="denyCollectLog">ã„ã„ãˆ</a>
 	</div>
 </div>
 
-<!-- ƒ†[ƒUƒJƒeƒSƒŠ‘I‘ðƒ_ƒCƒAƒƒO -->
+<!-- ãƒ¦ãƒ¼ã‚¶ã‚«ãƒ†ã‚´ãƒªé¸æŠžãƒ€ã‚¤ã‚¢ãƒ­ã‚° -->
 <div data-role="dialog" data-close-btn="none" id="selectUserCategoryDialog">
 	<div data-role="header">
-		<h1>ƒ†[ƒU‘®«‚Ì‘I‘ð</h1>
+		<h1>ãƒ¦ãƒ¼ã‚¶å±žæ€§ã®é¸æŠž</h1>
 	</div>
 	<div data-role="content">
-		ˆÈ‰º‚Ì’†‚ÅA“–‚Ä‚Í‚Ü‚é‘®«‚ð‘I‘ð‚µ‚Ä‰º‚³‚¢B<br />
-		<a data-role="button" class="selectUserCategoryButton" id="usercat-1">”­•\ŽÒ</a>
-		<a data-role="button" class="selectUserCategoryButton" id="usercat-2">À’·EƒRƒƒ“ƒe[ƒ^</a>
-		<a data-role="button" class="selectUserCategoryButton" id="usercat-3">‚»‚êˆÈŠO‚ÌŽQ‰ÁŽÒ</a>
-		<a data-role="button" class="selectUserCategoryButton" id="usercat-4">‚»‚Ì‘¼</a>
+		ä»¥ä¸‹ã®ä¸­ã§ã€å½“ã¦ã¯ã¾ã‚‹å±žæ€§ã‚’é¸æŠžã—ã¦ä¸‹ã•ã„ã€‚<br />
+		<a data-role="button" class="selectUserCategoryButton" id="usercat-1">ç™ºè¡¨è€…</a>
+		<a data-role="button" class="selectUserCategoryButton" id="usercat-2">åº§é•·ãƒ»ã‚³ãƒ¡ãƒ³ãƒ†ãƒ¼ã‚¿</a>
+		<a data-role="button" class="selectUserCategoryButton" id="usercat-3">ãã‚Œä»¥å¤–ã®å‚åŠ è€…</a>
+		<a data-role="button" class="selectUserCategoryButton" id="usercat-4">ãã®ä»–</a>
 	</div>
 </div>
 
-<!-- ƒ_ƒEƒ“ƒ[ƒhŽ¸”s‚µ‚½ƒ_ƒCƒAƒƒO  -->
+<!-- ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¤±æ•—ã—ãŸãƒ€ã‚¤ã‚¢ãƒ­ã‚°  -->
 <div data-role="dialog" data-close-btn="none" id="downloadFailDialog">
 	<div data-role="header">
-		<h1>“Ç‚Ýž‚Ý‚ÉŽ¸”s‚µ‚Ü‚µ‚½</h1>
+		<h1>èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ</h1>
 	</div>
 	<div data-role="content">
-		“Ç‚Ýž‚Ý‚ÉŽ¸”s‚µ‚Ü‚µ‚½B<br />
-		‚à‚¤ˆê“xŽæ“¾‚µ‚Ü‚·‚©H<br />
-		<a data-role="button" id="ReDownload">‚Í‚¢</a>
-		<a data-role="button" id="CancelDownload">‚¢‚¢‚¦</a>
+		èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸã€‚<br />
+		ã‚‚ã†ä¸€åº¦å–å¾—ã—ã¾ã™ã‹ï¼Ÿ<br />
+		<a data-role="button" id="ReDownload">ã¯ã„</a>
+		<a data-role="button" id="CancelDownload">ã„ã„ãˆ</a>
 	</div>
 </div>
 
-<!-- •¶Žš‚Ì‘å‚«‚³‚ð’²‚×‚é—pdiv -->
+<!-- æ–‡å­—ã®å¤§ãã•ã‚’èª¿ã¹ã‚‹ç”¨div -->
 <div id="emScale"></div>
 
 </body>

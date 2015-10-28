@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tianhang
- * Date: 2015/10/21
- * Time: 16:11
- */
-
 class PosMappsController extends AppController {
+
     public $helpers = array('Html', 'Form', 'Text');
     public $uses =array('Poster');
     public function index(){
@@ -33,5 +27,6 @@ class PosMappsController extends AppController {
                 ->subject('PosMapp URL')
                 ->send('<a href="'.$content.'"/>');
     }
+
 }
 ?>
