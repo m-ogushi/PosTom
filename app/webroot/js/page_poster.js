@@ -701,6 +701,7 @@ function saveJson(){
 	
 	$.ajax({
 		type: "POST",
+		cache : false,
 		url: "posters/savesql",
 		data: { "data": objectArray },
 		success: function(msg){
