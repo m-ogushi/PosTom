@@ -9,11 +9,13 @@ $(window).load(function() {
   poster[<?php echo $i ?>].x=<?php echo $data[$i]["Poster"]["x"]; ?>;
   poster[<?php echo $i ?>].y=<?php echo $data[$i]["Poster"]["y"]; ?>;
   poster[<?php echo $i ?>].color="<?php echo $data[$i]["Poster"]["color"]; ?>";
+  poster[<?php echo $i ?>].presentation_id="<?php echo $data[$i]["Poster"]["presentation_id"]; ?>";
   <?php } ?>
   for(i=0; i<poster.length; i++){
 			var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
 			instance.cursor = "pointer";
 			instance.__deleteSelected = false;
+			instance.__relation = poster[i].presentation_id;
 			/*instance.__title = objectList[i].title;
             instance.__presenter = objectList[i].presenter;
             instance.__abstract = objectList[i].abstract;*/
