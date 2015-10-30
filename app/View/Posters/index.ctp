@@ -1,4 +1,30 @@
-
+<script type="text/javascript">
+$(window).load(function() {
+  var poster = new Array();
+  var data = <?php echo count($data); ?>;
+  <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
+  poster[<?php echo $i ?>] = new Array();
+  poster[<?php echo $i ?>].width=<?php echo $data[$i]["Poster"]["width"]; ?>;
+  poster[<?php echo $i ?>].height=<?php echo $data[$i]["Poster"]["height"]; ?>;
+  poster[<?php echo $i ?>].x=<?php echo $data[$i]["Poster"]["x"]; ?>;
+  poster[<?php echo $i ?>].y=<?php echo $data[$i]["Poster"]["y"]; ?>;
+  poster[<?php echo $i ?>].color="<?php echo $data[$i]["Poster"]["color"]; ?>";
+  poster[<?php echo $i ?>].presentation_id="<?php echo $data[$i]["Poster"]["presentation_id"]; ?>";
+  <?php } ?>
+  for(i=0; i<poster.length; i++){
+			var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
+			instance.cursor = "pointer";
+			instance.__deleteSelected = false;
+			instance.__relation = poster[i].presentation_id;
+			/*instance.__title = objectList[i].title;
+            instance.__presenter = objectList[i].presenter;
+            instance.__abstract = objectList[i].abstract;*/
+			stage.addChild(instance);
+			instance.addEventListener("mousedown", startDrag);
+		}
+		stage.update();
+});
+</script>
 <div>
 
 <!-- canvasArea -->
@@ -184,7 +210,7 @@ foreach($presentations as $presentation){
 <?php
 	// カウントアップ
 	$ct ++;
-	
+
 	// 1ページあたりのプレゼンテーション表示数に達したら、ページ番号を加算しカウント変数を初期化する
 	if($ct == $per_page){
 		$page ++;

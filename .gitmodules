@@ -1,0 +1,3 @@
+[submodule "Plugin/Phpunit"]
+	path = Plugin/Phpunit
+	url = https://github.com/dereuromark/cakephp-phpunit
