@@ -208,7 +208,7 @@ foreach($presentations as $presentation){
 <?php
 	// カウントアップ
 	$ct ++;
-	
+
 	// 1ページあたりのプレゼンテーション表示数に達したら、ページ番号を加算しカウント変数を初期化する
 	if($ct == $per_page){
 		$page ++;
