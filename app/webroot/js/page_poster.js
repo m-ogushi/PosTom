@@ -702,7 +702,7 @@ function saveJson(){
 	$.ajax({
 		type: "POST",
 		cache : false,
-		url: "posters/savesql",
+		url: "savesql",
 		data: { "data": objectArray },
 		success: function(msg){
 		}
@@ -758,7 +758,7 @@ function saveJson(){
 	demoArray['author'] = demoAuthorArray;
 	demoArray['presen'] = demoPresenArray;
 	demoArray['poster'] = demoPosterArray;
-	$.ajax({
+	/*$.ajax({
 		type: "POST",
 		url: "php/save_demo.php",
 		data: { "data": demoArray },
@@ -766,7 +766,7 @@ function saveJson(){
 		success: function(msg){
 			alert(msg);
 		}
-	});
+	});*/
 }
 
 /* JSON 読み込み処理 */
