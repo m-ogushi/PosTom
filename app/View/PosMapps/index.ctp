@@ -62,11 +62,11 @@
 			<img src="<?php echo $this->Html->webroot;?>img/gif-load.gif" class="downloading" style="zoom: 25%;"><font class="downloadMsg"></font>
 		</div>
 		-->
-		<button id="reDownloadDIV" class="reDownloadDIVCLS"><img src="<?php echo $this->Html->webroot;?>img/loading.gif" style="zoom: 18%;">データをダウンロード</button>
+		<button id="reDownloadDIV" class="reDownloadDIVCLS"><img src="<?php echo $this->Html->webroot;?>img/loading.gif" style="zoom: 18%;">DownLoad Data</button>
 		<!--
 		<div class="ui-grid-solo">
 			<div class="ui-block-a">
-				<div id="selectLocale">日本語 | <span style="text-decoration:line-through;color:lightgray;">English</span></div>
+				<div id="selectLocale">Japanese | <span style="text-decoration:line-through;color:lightgray;">English</span></div>
 			</div>
 		</div>
 		-->
@@ -74,13 +74,13 @@
 			<div class="ui-block-a">
 				<div align="center">
 					<img id="goToInformation" class="topmenuicon" src="<?php echo $this->Html->webroot;?>img/topmenu/schedule.png"/>
-					<div class="topMenuIconLabel">タイムテーブル</div>
+					<div class="topMenuIconLabel">Time Table</div>
 				</div>
 			</div>
 			<div class="ui-block-b">
 				<div align="center">
 					<img id="goToVenue" class="topmenuicon" src="<?php echo $this->Html->webroot;?>img/topmenu/venue.png"/>
-					<div class="topMenuIconLabel">会場図</div>
+					<div class="topMenuIconLabel">Floor Map</div>
 				</div>
 			</div>
 		</div>
@@ -88,13 +88,13 @@
 			<div class="ui-block-a">
 				<div align="center">
 					<img id="goToList" class="topmenuicon" src="<?php echo $this->Html->webroot;?>img/topmenu/list.png"/>
-					<div class="topMenuIconLabel">発表一覧</div>
+					<div class="topMenuIconLabel">Presentation List</div>
 				</div>
 			</div>
 			<div class="ui-block-b">
 				<div align="center">
 					<img id="goToMap" class="topmenuicon" src="<?php echo $this->Html->webroot;?>img/topmenu/map.png"></img>
-					<div class="topMenuIconLabel">ポスターマップ</div>
+					<div class="topMenuIconLabel">Poster Map</div>
 				</div>
 			</div>
 		</div>
@@ -102,7 +102,7 @@
 			<div class="ui-block-a">
 				<div id="copyright">
 					<br />
-					<span style="font-size:smaller;">Copyright &copy; <a href="http://www.cs.tsukuba.ac.jp/ITsoft/">筑波大学CS専攻 高度ITコース</a></span><br />
+					<span style="font-size:smaller;">Copyright &copy; <a href="http://www.cs.tsukuba.ac.jp/ITsoft/">Tsukuba University.Department of Computer Science</a></span><br />
 					<span style="font-size:smaller;">Team S.A.Y. (<a href="https://twitter.com/posmapp_say">@posmapp_say</a>)</span>
 				</div>
 			</div>
@@ -116,19 +116,19 @@
 		<!-- <div id="changelabel" data-position="fixed" style="border: 2px;">
  			<a data-role="button" href="#changeLabelDialog"
  					data-inline="true" data-rel="dialog"
- 					data-transition="pop">ラベル切替</a>
+ 					data-transition="pop">Change Label</a>
  		</div> -->
  		<div style="text-align: center;">
- 			ポスターのラベル表示変更
+			Change the poster's label display.
  		</div>
  		<a class="changelabel" id="label-presenid"
-			href="#posterMapPage" data-role="button">発表番号</a>
+			href="#posterMapPage" data-role="button">Orator NO.</a>
 		<a class="changelabel" id="label-title"
-			href="#posterMapPage" data-role="button">タイトル</a>
+			href="#posterMapPage" data-role="button">Title</a>
 		<a class="changelabel" id="label-authorname"
-			href="#posterMapPage" data-role="button">代表者名</a>
+			href="#posterMapPage" data-role="button">Orator</a>
 		<a class="changelabel" id="label-authorbelongs"
-			href="#posterMapPage" data-role="button">所属</a>
+			href="#posterMapPage" data-role="button">Belong</a>
 	</div>
 	<div data-role="header"　data-tap-toggle="false" data-position:"fixed" style="z-index: 200;">
 		<div class="ui-grid-b">
@@ -146,7 +146,7 @@
 		</div>
 	</div>
 	<div style="position: relative;">
-			<a data-role="button" class="ReDownloadBtn">データをダウンロード</a>
+			<a data-role="button" class="ReDownloadBtn">Download Data</a>
 		<div id="subheader" style="top: 0px;">
 			<!-- 検索結果件数 -->
 			<!--<div id="searchResult"
@@ -155,7 +155,7 @@
 			<!-- エリアタップ後のズームアウトボタン -->
 			<div id="resetScaleButtonFrame" data-position="fixed" style="border: 2px;">
 				<a id="resetScaleButton" data-role="button"
-					data-inline="true">戻る</a>
+					data-inline="true">Back</a>
 			</div>
 		</div>
 		<!-- ポスターマップ本体 -->
@@ -192,11 +192,11 @@
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">トップ</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">Top</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >会場図</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">発表一覧</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ポスター</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >Floor Map</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">Presentation List</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">Poster Map</a></li>
 			</ul>
 		</div>
 	</div>
@@ -205,8 +205,8 @@
 <!-- 詳細情報画面 -->
 <div data-role="page" id="detailPage">
 	<div data-role="header">
-		<h1 style="text-align:center"　>詳細情報</h1>
-		<a href="#" class="ui-btn-left"  data-icon="carat-l" id="detailBackButton" >戻る</a>
+		<h1 style="text-align:center"　>Information</h1>
+		<a href="#" class="ui-btn-left"  data-icon="carat-l" id="detailBackButton" >Back</a>
 	</div>
 	<div data-role="content">
 	<div id="detail-presenid"></div>
@@ -225,11 +225,11 @@
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">トップ</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">Top</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >会場図</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">発表一覧</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ポスター</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >Floor Map</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">Presentation List</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">Poster Map</a></li>
 			</ul>
 		</div>
 	</div>
@@ -244,12 +244,12 @@
 			<h1>検索のヒント</h1>
 		</div>
 		<div data-role="main">
-			<p style="padding: 0.5em;">一覧の検索には、<br />ブラウザの検索機能をご利用下さい</p>
-			<p style="padding: 0.5em;">Google Chromeでは右上のメニュー<br />ボタンから「ページ内検索」を選択することで検索できます</p>
+			<p style="padding: 0.5em;">Please use the browser search <br />if you want to search from all<br /></p>
+			<p style="padding: 0.5em;">If you use the Google Chrome ,please touch the [Menu]<br /> button,then you can use the [search in the page] to search</p>
 		</div>
 	</div>
 	<div id="presenHeader" data-role="header" data-position="fixed" data-tap-toggle="false">
-		<h1 style="text-align:center">発表一覧</h1>
+		<h1 style="text-align:center">Presentation List</h1>
 		<a href="#search-tips" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-icon-notext ui-btn-right ui-icon-search ui-corner-all"></a>
 		<div data-role="controlgroup" data-type="horizontal" class="ui-btn-left" style="top: 3px;">
 			<a id="listIconAll" class="ui-btn
@@ -258,7 +258,7 @@
 		</div>
 	</div>
 	<div data-role="content">
-			<a data-role="button" class="ReDownloadBtn">データをダウンロード</a>
+			<a data-role="button" class="ReDownloadBtn">Download Data</a>
 		<div style="overflow:auto; height:100%;">
 			<!-- 発表リスト -->
 			<div id="presenList" class="listcolor"></div>
@@ -270,11 +270,11 @@
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">トップ</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">Top</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >会場図</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">発表一覧</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ポスター</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >Floor Map</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">Presentation List</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">Poster Map</a></li>
 			</ul>
 		</div>
 	</div>
@@ -283,7 +283,7 @@
 <!-- 会場マップ画面 -->
 <div data-role="page" id="venuePage">
 	<div data-role="header" data-position="fixed">
-		<h1 style="text-align:center"　>会場図</h1>
+		<h1 style="text-align:center"　>Floor Map</h1>
 	</div>
 	<div align="center">
 			        <br/><br/><br/>
@@ -297,11 +297,11 @@
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">トップ</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">Top</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >会場図</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">発表一覧</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ポスター</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >Floor Map</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">Presentation List</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">Poster Map</a></li>
 			</ul>
 		</div>
 	</div>
@@ -311,17 +311,17 @@
 <!-- 表示切替ボタンのダイアログ -->
 <div data-role="page" id="changeLabelDialog">
 	<div data-role="header">
-		<h1>ラベルの表示切り替え</h1>
+		<h1>Change Label</h1>
 	</div>
 	<div data-role="content">
 		<a class="changelabel" id="label-presenid"
-			href="#posterMapPage" data-role="button">発表番号</a>
+			href="#posterMapPage" data-role="button">Orator NO.</a>
 		<a class="changelabel" id="label-title"
-			href="#posterMapPage" data-role="button">タイトル</a>
+			href="#posterMapPage" data-role="button">Title</a>
 		<a class="changelabel" id="label-authorname"
-			href="#posterMapPage" data-role="button">代表者名</a>
+			href="#posterMapPage" data-role="button">Orator</a>
 		<a class="changelabel" id="label-authorbelongs"
-			href="#posterMapPage" data-role="button">所属</a>
+			href="#posterMapPage" data-role="button">Belong</a>
 	</div>
 </div>
 
@@ -464,11 +464,11 @@
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
 			<ul>
-				<li><a class="topPageButton" id="totoppage" data-icon="toppage">トップ</a></li>
+				<li><a class="topPageButton" id="totoppage" data-icon="toppage">Top</a></li>
 				<li><a class="informationPageButton" id="information" data-icon="informationgray">TimeTable</a></li>
-				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >会場図</a></li>
-				<li><a class="presenListPageButton" id="list" data-icon="list">発表一覧</a></li>
-				<li><a class="posterMapPageButton" id="map" data-icon="map">ポスター</a></li>
+				<li><a class="venuePageButton"  id="venue"  data-icon="venue" >Floor Map</a></li>
+				<li><a class="presenListPageButton" id="list" data-icon="list">Presentation List</a></li>
+				<li><a class="posterMapPageButton" id="map" data-icon="map">Poster Map</a></li>
 			</ul>
 		</div>
 	</div>
@@ -481,35 +481,35 @@
 	</div>
 	<div data-role="content">
 		筑波大学高度ITコース・チームS.A.Y.では、ユーザの行動分析を行いアプリの改善をする研究を行っております。つきましては、本アプリの利用ログの回収にご協力頂きたいと考えております。利用ログには個人を特定できる情報は含まれず、統計的な分析のみに使用します。ご協力頂ける場合は、[はい]ボタンを押して下さい。<br />
-		<a data-role="button" id="acceptCollectLog">はい</a>
-		<a data-role="button" id="denyCollectLog">いいえ</a>
+		<a data-role="button" id="acceptCollectLog">Yes</a>
+		<a data-role="button" id="denyCollectLog">No</a>
 	</div>
 </div>
 
 <!-- ユーザカテゴリ選択ダイアログ -->
 <div data-role="dialog" data-close-btn="none" id="selectUserCategoryDialog">
 	<div data-role="header">
-		<h1>ユーザ属性の選択</h1>
+		<h1>Chose User Type</h1>
 	</div>
 	<div data-role="content">
-		以下の中で、当てはまる属性を選択して下さい。<br />
-		<a data-role="button" class="selectUserCategoryButton" id="usercat-1">発表者</a>
-		<a data-role="button" class="selectUserCategoryButton" id="usercat-2">座長・コメンテータ</a>
-		<a data-role="button" class="selectUserCategoryButton" id="usercat-3">それ以外の参加者</a>
-		<a data-role="button" class="selectUserCategoryButton" id="usercat-4">その他</a>
+		Please select the one what you are<br />
+		<a data-role="button" class="selectUserCategoryButton" id="usercat-1">Orator</a>
+		<a data-role="button" class="selectUserCategoryButton" id="usercat-2">Komennteetaa</a>
+		<a data-role="button" class="selectUserCategoryButton" id="usercat-3">Other Orator</a>
+		<a data-role="button" class="selectUserCategoryButton" id="usercat-4">other</a>
 	</div>
 </div>
 
 <!-- ダウンロード失敗したダイアログ  -->
 <div data-role="dialog" data-close-btn="none" id="downloadFailDialog">
 	<div data-role="header">
-		<h1>読み込みに失敗しました</h1>
+		<h1>Load Failed</h1>
 	</div>
 	<div data-role="content">
-		読み込みに失敗しました。<br />
-		もう一度取得しますか？<br />
-		<a data-role="button" id="ReDownload">はい</a>
-		<a data-role="button" id="CancelDownload">いいえ</a>
+		Load Failed<br />
+		Try Again?<br />
+		<a data-role="button" id="ReDownload">Yes</a>
+		<a data-role="button" id="CancelDownload">No</a>
 	</div>
 </div>
 
