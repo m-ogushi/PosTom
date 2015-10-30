@@ -18,6 +18,7 @@
 *.txt text
 *.xml text
 *.yml text
+*./sftp-config.json
 .htaccess text
 
 # Declare files that will always have CRLF line endings on checkout.
