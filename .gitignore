@@ -13,7 +13,7 @@
 # IDE and editor specific files #
 #################################
 /nbproject
-./sftp-config.json
+sftp-config.json
 .idea
 
 # OS generated files #
