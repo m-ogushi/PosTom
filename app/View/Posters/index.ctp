@@ -6,7 +6,7 @@ $(window).load(function() {
 //データベースの情報をローカルに格納
   <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
   poster[<?php echo $i ?>] = new Array();
-  poster[<?php echo $i ?>].number=<?php echo $data[$i]["Poster"]["id"]; ?>;
+  poster[<?php echo $i ?>].NextId=<?php echo $data[$i]["Poster"]["id"]; ?>;
   poster[<?php echo $i ?>].width=<?php echo $data[$i]["Poster"]["width"]; ?>;
   poster[<?php echo $i ?>].height=<?php echo $data[$i]["Poster"]["height"]; ?>;
   poster[<?php echo $i ?>].x=<?php echo $data[$i]["Poster"]["x"]; ?>;
@@ -17,9 +17,9 @@ $(window).load(function() {
   for(i=0; i<poster.length; i++){
   //ポスター情報を反映
 			var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
-			instance.number= poster[i].number;
-			if(poster[i].number >= number){
-			number = poster[i].number+1;
+			instance.NextId= poster[i].NextId;
+			if(poster[i].NextId >= NextId){
+			NextId = poster[i].NextIdr+1;
 			}
 			instance.cursor = "pointer";
 			instance.__deleteSelected = false;
