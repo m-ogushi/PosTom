@@ -4,6 +4,7 @@ $(window).load(function() {
   var data = <?php echo count($data); ?>;
   <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
   poster[<?php echo $i ?>] = new Array();
+  poster[<?php echo $i ?>].number=<?php echo $data[$i]["Poster"]["id"]; ?>;
   poster[<?php echo $i ?>].width=<?php echo $data[$i]["Poster"]["width"]; ?>;
   poster[<?php echo $i ?>].height=<?php echo $data[$i]["Poster"]["height"]; ?>;
   poster[<?php echo $i ?>].x=<?php echo $data[$i]["Poster"]["x"]; ?>;
@@ -13,9 +14,13 @@ $(window).load(function() {
   <?php } ?>
   for(i=0; i<poster.length; i++){
 			var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
+			instance.number= poster[i].number;
+			if(poster[i].number >= number){
+			number = poster[i].number+1;
+			}
 			instance.cursor = "pointer";
 			instance.__deleteSelected = false;
-			instance.__relation = poster[i].presentation_id;
+			instance.__relation = poster[i].presentation_id;;
 			/*instance.__title = objectList[i].title;
             instance.__presenter = objectList[i].presenter;
             instance.__abstract = objectList[i].abstract;*/
@@ -23,6 +28,7 @@ $(window).load(function() {
 			instance.addEventListener("mousedown", startDrag);
 		}
 		stage.update();
+		loading=0;
 });
 </script>
 <div>

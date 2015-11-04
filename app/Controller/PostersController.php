@@ -15,5 +15,19 @@ class PostersController extends AppController {
 			$this->Poster->saveAll($savedata);
 		}
 	}
+	
+		public function singlesavesql(){
+		$uses = array('Poster');
+		if ($this->request->is('ajax')) {
+			$this->Poster->save($this->request->data);
+		}
+	}
+			public function deletesql(){
+		$uses = array('Poster');
+		if ($this->request->is('ajax')) {
+		$id = $this->request->data["id"];
+			$this->Poster->delete($id);
+		}
+	}
 }
 ?>
