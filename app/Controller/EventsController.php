@@ -1,17 +1,23 @@
 <?php
 
 class EventsController extends AppController {
-	
+
 	public $helpers = array('Html', 'Form');
-	
+	public $uses =array('Event','Poster');
+
 	public function index() {
 		$this->set('events', $this->Event->find('all'));
 		$this->set('title_for_layout', 'イベント一覧');
 	}
 	
 	public function view($id = null) {
+
 		$this->Event->id = $id;
 		$this->set('event', $this->Event->read());
+
+
+		$result=$this->Poster->find('all');
+		$this->set('posters', $result);
 	}
 	
 	public function add(){

@@ -8,10 +8,11 @@ class PosMappsController extends AppController {
         $this->autoLayout=false;
 
     }
-    public function makejson()
+    public function makejson($id = null)
     {
         $result=$this->Poster->find('all');
         $this->set('posters', $result);
+        $this->set('id',$id);
     }
     public function qr($id)
     {
@@ -27,6 +28,8 @@ class PosMappsController extends AppController {
                 ->subject('PosMapp URL')
                 ->send('<a href="'.$content.'"/>');
     }
+    public function deletestorage()
+    {}
 
 }
 ?>
