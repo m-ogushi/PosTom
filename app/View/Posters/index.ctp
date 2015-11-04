@@ -1,9 +1,12 @@
 <script type="text/javascript">
 $(window).load(function() {
+//ページ読み込み時に、データベースから取得した、ポスター情報を反映
   var poster = new Array();
   var data = <?php echo count($data); ?>;
+//データベースの情報をローカルに格納
   <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
   poster[<?php echo $i ?>] = new Array();
+  poster[<?php echo $i ?>].number=<?php echo $data[$i]["Poster"]["id"]; ?>;
   poster[<?php echo $i ?>].width=<?php echo $data[$i]["Poster"]["width"]; ?>;
   poster[<?php echo $i ?>].height=<?php echo $data[$i]["Poster"]["height"]; ?>;
   poster[<?php echo $i ?>].x=<?php echo $data[$i]["Poster"]["x"]; ?>;
@@ -12,7 +15,12 @@ $(window).load(function() {
   poster[<?php echo $i ?>].presentation_id="<?php echo $data[$i]["Poster"]["presentation_id"]; ?>";
   <?php } ?>
   for(i=0; i<poster.length; i++){
+  //ポスター情報を反映
 			var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
+			instance.number= poster[i].number;
+			if(poster[i].number >= number){
+			number = poster[i].number+1;
+			}
 			instance.cursor = "pointer";
 			instance.__deleteSelected = false;
 			instance.__relation = poster[i].presentation_id;
@@ -23,6 +31,7 @@ $(window).load(function() {
 			instance.addEventListener("mousedown", startDrag);
 		}
 		stage.update();
+		loading = false;
 });
 </script>
 <div>

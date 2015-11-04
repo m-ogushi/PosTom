@@ -75,8 +75,10 @@ var mapMaxHeight = 2000;
 var selectedPresentationID = 0;
 // 選択中のプレゼンテーションナンバー
 var selectedPresentationNum = '';
-
-
+//次のid
+var NextId=1;
+//読み込み中
+var loading = true;
 /********************************************************
  *							読み込み時の処理							*
  ********************************************************/
@@ -161,6 +163,8 @@ function createObject(x, y, w, h, color) {
     object.__title = "";
     object.__presenter = "";
     object.__abstract = "";
+	object.NextId=NextId;
+	NextId++;
 	object.graphics.beginFill(color);
 
 	var OUT;
@@ -194,6 +198,10 @@ function createObject(x, y, w, h, color) {
 		object.graphics.drawRect(0,0, w, h);
 	}
 	object.cursor = "pointer";
+	if(loading == false){
+	//生成終了後、保存
+		singlesaveJson(object);
+	}
 	return object;
 }
 
@@ -309,6 +317,8 @@ function stopDrag(eventObject) {
 		}
 	}
 	stage.update();
+	//移動終了後、保存
+	singlesaveJson(instance);
 }
 /********************************************************
  *						オブジェクトの選択処理						*
@@ -517,6 +527,8 @@ function FrameDragOver(eventObject){
 		}
 	}
 	onResizing = false;
+	//サイズ変更終了後、保存
+	singlesaveJson(stage.children[i]);
 }
 
 // 選択されたオブジェクトが持つデータを編集フォームに反映する
@@ -647,6 +659,39 @@ function selectDelete(eventObject){
 /********************************************************
  *								JSON処理									*
  ********************************************************/
+ //データベースにポスター情報を保存
+ function singlesaveJson(object){
+ 		id= object.NextId;
+        x = object.x;
+        y = object.y;
+        w = parseInt(object.graphics.command.w);
+        h = parseInt(object.graphics.command.h);
+        color = rgbToHex(object.color);
+		relation = object.__relation;
+		title = object.__title;
+		presenter = object.__presenter;
+        abstract = object.__abstract;
+        poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
+			$.ajax({
+		type: "POST",
+		cache : false,
+		url: "posters/singlesavesql",
+		data: { "data": poster },
+		success: function(msg){
+		}
+	});
+	}
+	//データベースから、ポスター情報を削除
+	function deleteJson(object){
+				$.ajax({
+		type: "POST",
+		cache : false,
+		url: "posters/deletesql",
+		data: { "id": object.NextId },
+		success: function(msg){
+		}
+	});
+	}
 /* JSON 書き込み処理 */
 function saveJson(){
 	var objectArray = [];
@@ -657,7 +702,7 @@ function saveJson(){
 		if(child.__type=="selectSquare" || child.__type=="text"){
 			continue;
 		}
-		id= child.id;
+		id= child.NextId;
         x = child.x;
         y = child.y;
         w = parseInt(child.graphics.command.w);
@@ -905,6 +950,10 @@ function deleteObject(){
 				for(i=deleteArray.length - 1; i>=0; i--){
 					for(j=childArray.length - 1; j>=0; j--){
 						if(childArray[j].id == deleteArray[i] || childArray[j].__relationID == deleteArray[i]){
+						if(childArray[j].id == deleteArray[i]){
+						//解除するポスター情報を、データベースから削除
+							deleteJson(childArray[j]);
+						}
 							stage.removeChildAt(j);
 							stage.update();
 						}
@@ -1151,6 +1200,7 @@ function onDrop(e){
 				text.__parent = target.id;
 				
 				stage.addChild(target, text);
+				singlesaveJson(target);
 				stage.update();
 				
 				// 選択中のプレゼンテーションの要素を関連付けされた状態にする
