@@ -75,10 +75,10 @@ var mapMaxHeight = 2000;
 var selectedPresentationID = 0;
 // 選択中のプレゼンテーションナンバー
 var selectedPresentationNum = '';
-//図形の数
-var number=1;
+//次のid
+var NextId=1;
 //読み込み中
-var loading = 1;
+var loading = true;
 /********************************************************
  *							読み込み時の処理							*
  ********************************************************/
@@ -163,8 +163,8 @@ function createObject(x, y, w, h, color) {
     object.__title = "";
     object.__presenter = "";
     object.__abstract = "";
-	object.number=number;
-	number++;
+	object.NextId=NextId;
+	NextId++;
 	object.graphics.beginFill(color);
 
 	var OUT;
@@ -198,7 +198,8 @@ function createObject(x, y, w, h, color) {
 		object.graphics.drawRect(0,0, w, h);
 	}
 	object.cursor = "pointer";
-	if(loading != 1){
+	if(loading == false){
+	//生成終了後、保存
 		singlesaveJson(object);
 	}
 	return object;
@@ -316,6 +317,7 @@ function stopDrag(eventObject) {
 		}
 	}
 	stage.update();
+	//移動終了後、保存
 	singlesaveJson(instance);
 }
 /********************************************************
@@ -525,6 +527,7 @@ function FrameDragOver(eventObject){
 		}
 	}
 	onResizing = false;
+	//サイズ変更終了後、保存
 	singlesaveJson(stage.children[i]);
 }
 
@@ -656,8 +659,9 @@ function selectDelete(eventObject){
 /********************************************************
  *								JSON処理									*
  ********************************************************/
+ //データベースにポスター情報を保存
  function singlesaveJson(object){
- 		id= object.number;
+ 		id= object.NextId;
         x = object.x;
         y = object.y;
         w = parseInt(object.graphics.command.w);
@@ -677,13 +681,13 @@ function selectDelete(eventObject){
 		}
 	});
 	}
-	
+	//データベースから、ポスター情報を削除
 	function deleteJson(object){
 				$.ajax({
 		type: "POST",
 		cache : false,
 		url: "posters/deletesql",
-		data: { "id": object.number },
+		data: { "id": object.NextId },
 		success: function(msg){
 		}
 	});
@@ -698,7 +702,7 @@ function saveJson(){
 		if(child.__type=="selectSquare" || child.__type=="text"){
 			continue;
 		}
-		id= child.number;
+		id= child.NextId;
         x = child.x;
         y = child.y;
         w = parseInt(child.graphics.command.w);
@@ -947,6 +951,7 @@ function deleteObject(){
 					for(j=childArray.length - 1; j>=0; j--){
 						if(childArray[j].id == deleteArray[i] || childArray[j].__relationID == deleteArray[i]){
 						if(childArray[j].id == deleteArray[i]){
+						//解除するポスター情報を、データベースから削除
 							deleteJson(childArray[j]);
 						}
 							stage.removeChildAt(j);
