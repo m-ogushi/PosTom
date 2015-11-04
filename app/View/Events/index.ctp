@@ -3,7 +3,7 @@
 <ul id="eventlist">
 <?php foreach($events as $event) : ?>
 <li>
-<a href="<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'view')).'/'.$event['Event']['id']; ?>">
+<a href="<?php echo $this->Html->url(array('controller' => 'Events', 'action' => 'view')).'/'.$event['Event']['id']; ?>">
 
 <span class="tit"><?php echo h($event['Event']['event_name']); ?></span>
 <span>Location：<?php echo h($event['Event']['event_location']); ?></span>
