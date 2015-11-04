@@ -19,7 +19,7 @@ $(window).load(function() {
 			var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
 			instance.NextId= poster[i].NextId;
 			if(poster[i].NextId >= NextId){
-			NextId = poster[i].NextIdr+1;
+			NextId = poster[i].NextId+1;
 			}
 			instance.cursor = "pointer";
 			instance.__deleteSelected = false;
