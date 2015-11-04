@@ -1,18 +1,7 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>Local Storageを全て削除するやつ</title>
-</head>
-<body>
 	<script type="text/javascript">
-		var r = confirm("Local Storageを全て削除しますか？");
-		if (r === true) {
+				 window.onload=function()
+                 {
 			localStorage.clear();
-			document.write("Local Storageを全て削除しました。");
-		} else {
-			document.write("キャンセルしました。");
-		}
+			window.location.href="<?php echo $this->Html->url(array('controller' => 'PosMapps', 'action' => 'index')) ?>";
+			}
 	</script>
-</body>
-</html>

@@ -1,8 +1,13 @@
+<script type="text/javascript">
+			 window.onload=function()
+             {
+        localStorage.clear();
+        }
+</script>
 <center>
 <h1>
 You can select one method to view on PosMapp:
 </h1>
-
 </br>
 
 <div style="clear:both;margin-left: auto; margin-right: auto;">
