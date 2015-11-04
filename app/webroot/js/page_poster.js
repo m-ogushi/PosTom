@@ -674,7 +674,6 @@ function selectDelete(eventObject){
 		url: "posters/singlesavesql",
 		data: { "data": poster },
 		success: function(msg){
-		console.log("いいじゃん");
 		}
 	});
 	}
@@ -686,7 +685,6 @@ function selectDelete(eventObject){
 		url: "posters/deletesql",
 		data: { "id": object.number },
 		success: function(msg){
-		console.log("いいじゃん");
 		}
 	});
 	}
@@ -748,7 +746,6 @@ function saveJson(){
 		url: "posters/savesql",
 		data: { "data": objectArray },
 		success: function(msg){
-		console.log("いいじゃん");
 		}
 	});
 
@@ -950,7 +947,6 @@ function deleteObject(){
 					for(j=childArray.length - 1; j>=0; j--){
 						if(childArray[j].id == deleteArray[i] || childArray[j].__relationID == deleteArray[i]){
 						if(childArray[j].id == deleteArray[i]){
-							console.log(childArray[j]);
 							deleteJson(childArray[j]);
 						}
 							stage.removeChildAt(j);

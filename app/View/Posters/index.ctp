@@ -20,7 +20,7 @@ $(window).load(function() {
 			}
 			instance.cursor = "pointer";
 			instance.__deleteSelected = false;
-			instance.__relation = poster[i].presentation_id;;
+			instance.__relation = poster[i].presentation_id;
 			/*instance.__title = objectList[i].title;
             instance.__presenter = objectList[i].presenter;
             instance.__abstract = objectList[i].abstract;*/
