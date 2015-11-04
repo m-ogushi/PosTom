@@ -8,10 +8,11 @@ class PosMappsController extends AppController {
         $this->autoLayout=false;
 
     }
-    public function makejson()
+    public function makejson($id = null)
     {
         $result=$this->Poster->find('all');
         $this->set('posters', $result);
+        $this->set('id',$id);
     }
     public function qr($id)
     {
@@ -19,7 +20,7 @@ class PosMappsController extends AppController {
     }
     public function  sendmail()
     {
-            $content= Router::url('/PosMapps/index/', true);
+            $content= Router::url('/PosMapps/phoneclear/', true);
             App::uses('CakeEmail','Network/Email');
             $Email = new CakeEmail('gmail');
             $Email->from(array('tkb.tsss@gmail.com' => 'POSTOM'))
@@ -27,6 +28,11 @@ class PosMappsController extends AppController {
                 ->subject('PosMapp URL')
                 ->send('<a href="'.$content.'"/>');
     }
-
+    public function deletestorage()
+    {}
+    public function phoneclear()
+    {
+        $this->autoLayout=false;
+    }
 }
 ?>
