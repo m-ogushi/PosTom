@@ -14,7 +14,7 @@ You can select one method to view on PosMapp:
 <div style="float:left;margin-left: auto; margin-right: auto;"><h3>QR Code</h3>
 </br>
 <?php
-$urlToEncode= 'http://'.$_SERVER['HTTP_HOST'].$this->Html->url(array('controller' => 'PosMapps', 'action' => 'index'));
+$urlToEncode= 'http://'.$_SERVER['HTTP_HOST'].$this->Html->url(array('controller' => 'PosMapps', 'action' => 'phoneclear'));
 generateQRfromGoogle($urlToEncode);
 function generateQRfromGoogle($chl,$widhtHeight ='150',$EC_level='L',$margin='0')
 {
