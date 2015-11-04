@@ -75,8 +75,10 @@ var mapMaxHeight = 2000;
 var selectedPresentationID = 0;
 // 選択中のプレゼンテーションナンバー
 var selectedPresentationNum = '';
-
-
+//図形の数
+var number=1;
+//読み込み中
+var loading = 1;
 /********************************************************
  *							読み込み時の処理							*
  ********************************************************/
@@ -161,6 +163,8 @@ function createObject(x, y, w, h, color) {
     object.__title = "";
     object.__presenter = "";
     object.__abstract = "";
+	object.number=number;
+	number++;
 	object.graphics.beginFill(color);
 
 	var OUT;
@@ -194,6 +198,9 @@ function createObject(x, y, w, h, color) {
 		object.graphics.drawRect(0,0, w, h);
 	}
 	object.cursor = "pointer";
+	if(loading != 1){
+		singlesaveJson(object);
+	}
 	return object;
 }
 
@@ -309,6 +316,7 @@ function stopDrag(eventObject) {
 		}
 	}
 	stage.update();
+	singlesaveJson(instance);
 }
 /********************************************************
  *						オブジェクトの選択処理						*
@@ -517,6 +525,7 @@ function FrameDragOver(eventObject){
 		}
 	}
 	onResizing = false;
+	singlesaveJson(stage.children[i]);
 }
 
 // 選択されたオブジェクトが持つデータを編集フォームに反映する
@@ -647,6 +656,40 @@ function selectDelete(eventObject){
 /********************************************************
  *								JSON処理									*
  ********************************************************/
+ function singlesaveJson(object){
+ 		id= object.number;
+        x = object.x;
+        y = object.y;
+        w = parseInt(object.graphics.command.w);
+        h = parseInt(object.graphics.command.h);
+        color = rgbToHex(object.color);
+		relation = object.__relation;
+		title = object.__title;
+		presenter = object.__presenter;
+        abstract = object.__abstract;
+        poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
+			$.ajax({
+		type: "POST",
+		cache : false,
+		url: "posters/singlesavesql",
+		data: { "data": poster },
+		success: function(msg){
+		console.log("いいじゃん");
+		}
+	});
+	}
+	
+	function deleteJson(object){
+				$.ajax({
+		type: "POST",
+		cache : false,
+		url: "posters/deletesql",
+		data: { "id": object.number },
+		success: function(msg){
+		console.log("いいじゃん");
+		}
+	});
+	}
 /* JSON 書き込み処理 */
 function saveJson(){
 	var objectArray = [];
@@ -657,7 +700,7 @@ function saveJson(){
 		if(child.__type=="selectSquare" || child.__type=="text"){
 			continue;
 		}
-		id= child.id;
+		id= child.number;
         x = child.x;
         y = child.y;
         w = parseInt(child.graphics.command.w);
@@ -705,6 +748,7 @@ function saveJson(){
 		url: "posters/savesql",
 		data: { "data": objectArray },
 		success: function(msg){
+		console.log("いいじゃん");
 		}
 	});
 
@@ -905,6 +949,10 @@ function deleteObject(){
 				for(i=deleteArray.length - 1; i>=0; i--){
 					for(j=childArray.length - 1; j>=0; j--){
 						if(childArray[j].id == deleteArray[i] || childArray[j].__relationID == deleteArray[i]){
+						if(childArray[j].id == deleteArray[i]){
+							console.log(childArray[j]);
+							deleteJson(childArray[j]);
+						}
 							stage.removeChildAt(j);
 							stage.update();
 						}
@@ -1151,6 +1199,7 @@ function onDrop(e){
 				text.__parent = target.id;
 				
 				stage.addChild(target, text);
+				singlesaveJson(target);
 				stage.update();
 				
 				// 選択中のプレゼンテーションの要素を関連付けされた状態にする
