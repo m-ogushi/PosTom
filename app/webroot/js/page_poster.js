@@ -240,12 +240,30 @@ function startDrag(eventObject) {
 // ＜移動＞ドラッグ中の処理
 function drag(eventObject) {
 	var instance = eventObject.target;
+	var dragedID = instance.id;
 	var width = parseInt(instance.graphics.command.w);
 	var height = parseInt(instance.graphics.command.h);
 	var leftTop = { x: instance.x, y: instance.y };
 	var rightTop = { x: instance.x + width , y: instance.y };
 	var rightBottom = { x:instance.x + width , y: instance.y + height };
 	var leftBottom = { x: instance.x , y: instance.y + height };
+	// ドラッグ中のオブジェクトが関連付け済みである場合、関連付けされているプレゼンテーションテキストも移動させる
+	if(instance.__relation != "" && instance.__relation != undefined){
+		// 関連付けされているプゼンテーションテキストを特定する
+		for(var i=0; i<stage.children.length; i++){
+			var object = stage.children[i];
+			if(object.__parent == dragedID){
+				// テキストオブジェクトの横幅と高さを取得
+				var textWidth = object.getMeasuredWidth();
+				var textHeight = object.getMeasuredHeight();
+				// テキストをポスターオブジェクトの中央に配置
+				object.x = instance.x + (instance.width - textWidth)/2;
+				object.y = instance.y + (instance.height - textHeight)/2;
+				
+				break;
+			}
+		}
+	}
 	// ポインタ位置が画面外だった時の分岐
 	if((onPointX <= eventObject.stageX)&&(eventObject.stageX <= canvasWidth - width + onPointX)
 	&&(onPointY <= eventObject.stageY)&&(eventObject.stageY <= canvasHeight -height + onPointY)){
