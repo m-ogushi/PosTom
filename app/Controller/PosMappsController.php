@@ -23,7 +23,7 @@ class PosMappsController extends AppController {
             App::uses('CakeEmail','Network/Email');
             $Email = new CakeEmail('gmail');
             $Email->from(array('tkb.tsss@gmail.com' => 'POSTOM'))
-                ->to('tkb.tsss@gmail.com')
+                ->to('jun.obata0@gmail.com')
                 ->subject('PosMapp URL')
                 ->send('<a href="'.$content.'"/>');
     }
