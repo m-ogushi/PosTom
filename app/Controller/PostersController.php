@@ -6,7 +6,7 @@ class PostersController extends AppController {
 	public function index(){
 		$this->set('data',$this->Poster->find('all'));
 	}
-	
+
 	public function savesql(){
 		$uses = array('Poster');
 		if ($this->request->is('ajax')) {
