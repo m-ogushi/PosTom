@@ -44,7 +44,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				echo $this->Html->css('page_poster');
 				break;
 		}
-		
+
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
@@ -88,6 +88,15 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 </head>
 <body>
+<!-- header -->
+<nav class="navbar navbar-default">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'signup')); ?>">SignUp</a></li>
+            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'login')); ?>">SignIn</a></li>
+            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'logoff')); ?>">SignOut</a></li>
+            <li><a href="#">   </a></li>
+        </ul>
+</nav>
 <!-- contents -->
 <div id="contents">
 <!-- contents.dashboard -->
