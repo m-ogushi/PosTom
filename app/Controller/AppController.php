@@ -31,7 +31,7 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-
+/*
 public $components = array('Session', 'Auth');
 
 	public function beforeFilter() {
@@ -66,4 +66,5 @@ public $components = array('Session', 'Auth');
 		// 必要ならばここで権限判定
 		return true;    //許可
 	}
+	*/
 }
