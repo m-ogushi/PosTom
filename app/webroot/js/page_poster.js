@@ -30,6 +30,8 @@ var initX = 0, initY = 0;
 var gridX, gridY;
 // 現在のモード
 var selectMode = "create";
+// 前回のモード
+var formerMode = "";
 // 削除対象を記憶する配列
 var deleteArray = [];
 // サイズ変更を受け付ける領域のサイズ（１辺の長さ）
@@ -38,8 +40,10 @@ var resizeArea = 10;
 var resizeFlg = false;
 // サイズ変更中であるかどうか
 var onResizing = false;
-// sprint1 デフォルトの色
+// デフォルトの色
 var defaultColor = "#999999";
+// 関連済みを示すの色
+var relatedColor = "#063a5e";
 // 会場図画像ファイル名
 var backGroundFileName = "";
 // キャンバを基準にクリックした位置
@@ -1168,23 +1172,36 @@ function rgbToHex(color) {
  *				プレゼン情報との関連付け							*
  ********************************************************/
 $(function(){
-$('li[draggable="true"]').on('dragstart', onDragStart);
-$('#demoCanvas').on('dragover', onDragOver);
-$('#demoCanvas').on('drop', onDrop);
+	$('li[draggable="true"]').on('dragstart', onDragStart);
+	$('#demoCanvas').on('dragover', onDragOver);
+	$('#demoCanvas').on('drop', onDrop);
+	
+	// Presentationタブがクリックされたとき、移動・サイズ変更はできないようにする（生成モードから削除モードへ切り替えることと同様）
+	$('#tab #presentationTab').click(function(){
+		cancelFrame();
+		// 現在のモードを記憶しておく
+		formerMode = selectMode;
+		selectMode = 'presentation';
+	});
+	// PosterEditタブがクリックされたとき、移動・サイズ変更ができるようにする
+	$('#tab #posterEditTab').click(function(){
+		selectMode = formerMode;
+	});
 });
 
+// ドラッグが開始したときの処理
 function onDragStart(e){
 	selectedPresentationID = this.id;
 	selectedPresentationNum = $(e.target).attr('data-num');
 	e.originalEvent.dataTransfer.setData('text', this.id);
 }
 
+// ドラッグ中のときの処理
 function onDragOver(e){
-	//console.log('drag over');
 	e.preventDefault();
-	this.textContent = 'onDragOver';
 }
 
+// ドロップしたときの処理
 function onDrop(e){
 	// キャンバス上の位置を取得
 	var onCanvasX = e.originalEvent.clientX - e.target.offsetLeft;
@@ -1197,12 +1214,37 @@ function onDrop(e){
 		if(target.__type != 'selectSquare' && target.__type != 'text'){
 			// オブジェクトの内側かどうか判定
 			if(target.x <= onCanvasX && onCanvasX <= target.x + target.width && target.y <= onCanvasY && onCanvasY <= target.y + target.height){
-				// すでにそのオブジェクトがプレゼンテーションと関連済みであった場合
-				if(target.__relation != null || target.__relation != ''){
-					// 関連済みのプレゼンテーションを元の状態に戻す
-					$('.presentationlist li#'+target.__relation).removeClass('related');
+				// すでにそのプレゼンテーションが別のポスターに関連済みであった場合
+				if($('.presentationlist li#'+selectedPresentationID).hasClass('related') == true){
+					// もともと関連済みであったポスターのIDを取得
+					var formerRelatedPosterID = $('.presentationlist li#'+selectedPresentationID).attr('data-relation');
+					for(var j=0; j<stage.children.length; j++){
+						var object = stage.children[j];
+						// もともと関連済みであったポスターを特定
+						if(object.id == formerRelatedPosterID){
+							// ポスターを元の状態に戻す
+							object.graphics._fill.style = defaultColor;
+							object.color = defaultColor;
+							object.__relation = '';
+							// もともと関連済みであったポスターも変更部分をデータベースに反映させる
+							singlesaveJson(object);
+						}
+						// もともと関連済みであったポスターを親とするテキストオブジェクトを特定
+						if(object.__parent == formerRelatedPosterID){
+							// テキストオブジェクトを削除する
+							stage.removeChildAt(j);
+						}
+					}
 				}
-				target.graphics._fill.style = '#063a5e';
+				
+				// すでにそのポスターがプレゼンテーションと関連済みであった場合
+				if(target.__relation != undefined && target.__relation != '' && target.__relation != '0'){
+					// もともと関連済みであったプレゼンテーションを元の状態に戻す
+					$('.presentationlist li#'+target.__relation).removeClass('related').attr('data-relation', null);
+				}
+				
+				target.graphics._fill.style = relatedColor;
+				target.color = relatedColor;
 				// ポスターオブジェクトに関連付けされたプレゼンテーションIDを付与
 				target.__relation = selectedPresentationID;
 
