@@ -38,7 +38,7 @@ public $components = array('Session', 'Auth');
 	// ログインを扱うアクション
 	$this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
 	// ログイン後のリダイレクト先のアクション
-	$this->Auth->loginRedirect = array('controller' => 'users', 'action' => 'index');
+	$this->Auth->loginRedirect = array('controller' => 'events', 'action' => 'index');
 	// ユーザがログアウトした後のリダイレクト先となるデフォルトのアクション
 	$this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
 	// ユーザの権限判定のためにアクティブなコントローラの isAuthorized() の戻り値を使う
