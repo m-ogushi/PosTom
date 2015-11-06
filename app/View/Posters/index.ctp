@@ -229,7 +229,7 @@ echo $i > 4 ? ' disno' : '';
 <?php
 }
 ?>
-<li class="next"><a href="#" data-target="next"><i class="fa fa-angle-double-right"></i></a></li>
+<li class="next disabled"><a href="#" data-target="next"><i class="fa fa-angle-double-right"></i></a></li>
 </ul>
 
 <?php
