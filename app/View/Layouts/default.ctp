@@ -93,7 +93,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <ul class="nav navbar-nav navbar-right">
             <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'signup')); ?>">SignUp</a></li>
             <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'login')); ?>">SignIn</a></li>
-            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'logoff')); ?>">SignOut</a></li>
+            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'logout')); ?>">SignOut</a></li>
             <li><a href="#">   </a></li>
         </ul>
 </nav>
