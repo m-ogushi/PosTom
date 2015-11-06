@@ -115,7 +115,7 @@ echo $this->Html->image('i_logo.png', array(
 <li id="gNavSch"><a href="<?php echo $this->Html->url(array('controller' => 'schedules', 'action' => 'index')); ?>"><i class="fa fa-calendar fa-2x"></i><span>Schedule</span></a></li>
 <li id="gNavPre"><a href="<?php echo $this->Html->url(array('controller' => 'presentations', 'action' => 'index')); ?>"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>
 <li id="gNavFlo"><a href="#"><img src="<?php echo $this->webroot; ?>/img/ico_floormap.png" alt="Floor Map"><span>Floor Map</span></a></li>
-<li id="gNavSet"><a href="#"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
+<li id="gNavSet"><a href="<?php echo $this->Html->url(array('controller' => 'settings', 'action' => 'index')); ?>"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
 </ul>
 </div>
 <!-- //contents.dashboard -->
