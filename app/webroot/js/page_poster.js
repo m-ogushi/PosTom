@@ -329,11 +329,29 @@ function stopDrag(eventObject) {
             continue;
 		}
 		// 他のオブジェクトと重なった場合は移動する前に戻す
-		if(instance.x > stage.children[k].x - (instance.graphics.command.w) && instance.x < stage.children[k].x + (stage.children[k].graphics.command.w) && instance.y > stage.children[k].y- (instance.graphics.command.h) && instance.y < stage.children[k].y + (stage.children[k].graphics.command.h)){
-			instance.x =previewscalex;
-			instance.y =previewscaley;
-			if(instance.array!=null){
-				updateFrame(instance.x,instance.y,instance.graphics.command.w,instance.graphics.command.h);
+		if(instance.x > stage.children[k].x - (instance.width) && instance.x < stage.children[k].x + (stage.children[k].width) && instance.y > stage.children[k].y- (instance.height) && instance.y < stage.children[k].y + (stage.children[k].height)){
+			instance.x = previewscalex;
+			instance.y = previewscaley;
+			// SelectSquareの更新
+			if(instance.array != null){
+				updateFrame(instance.x,instance.y,instance.width,instance.height);
+			}
+			
+			// 関連済みポスターの場合、テキストオブジェクトも元の位置に戻す
+			if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
+				// テキストオブジェクトを特定
+				for(var i=0; i<stage.children.length; i++){
+					var object = stage.children[i];
+					if(object.__parent == instance.id){
+						// テキストオブジェクトの横幅と高さを取得
+						var textWidth = object.getMeasuredWidth();
+						var textHeight = object.getMeasuredHeight();
+						// テキストをポスターオブジェクトの中央に配置
+						object.x = instance.x + (instance.width - textWidth)/2;
+						object.y = instance.y + (instance.height - textHeight)/2;
+						break;
+					}
+				}
 			}
 			break;
 		}
@@ -358,7 +376,7 @@ function click(eventObject){
 		cancelFrame();
 		selectFlag=false;
 	}
-	selectedObject=eventObject.target;
+	selectedObject = eventObject.target;
 	select();
 	selectedObject.array=objectArray;
 	inputEditForm();
@@ -426,7 +444,7 @@ function cancelFrame(eventObject){
     if(selectFlag==true) {
         if (selectedObject != null) {  // canvasクリック2回連続以降は呼ばれないようにする
             var formColor = $('select[name="objectEditColor"] + .btn-group > .selectpicker > span:first-child').css('background-color');//　rgb
-            if (selectedObject.__title != $('[name^="title"]').val() || selectedObject.__presenter != $('[name^="presenter"]').val() || selectedObject.__abstract != $('[name^="abstract"]').val() || rgbToHex(formColor).toLowerCase() != rgbToHex(selectedObject.color).toLowerCase()) {
+			if (selectedObject.__title != $('[name^="title"]').val() || selectedObject.__presenter != $('[name^="presenter"]').val() || selectedObject.__abstract != $('[name^="abstract"]').val() || rgbToHex(formColor).toLowerCase() != rgbToHex(selectedObject.color).toLowerCase()) {
                 changeSelectObject(selectedObject, $('[name^="title"]').val(), $('[name^="presenter"]').val(), $('[name^="abstract"]').val(), formColor);  //　JSが先にselectedObjectとフォーム内容を消すので引数で渡しておく
             }
         }
@@ -616,7 +634,7 @@ function changeSelectObject(editObject, title, presenter, abstract, formColor){
         height:140,
         modal: true,
         buttons: {
-            "確定": function() {
+            "Confirm": function() {
                 // 編集フォームの内容を書き込む
                 editObject.__title=title;
                 editObject.__presenter=presenter;
@@ -626,7 +644,7 @@ function changeSelectObject(editObject, title, presenter, abstract, formColor){
                 stage.update();
                 $( this ).dialog( "close" );
             },
-            "キャンセル": function() {
+            "Cancel": function() {
                 $( this ).dialog( "close" );
             }
         }
@@ -1152,6 +1170,7 @@ function checkTextIsNumeric(inputElement){
 
 // RGB to HEX
 function rgbToHex(color) {
+	// すでにHEX(#123456)の形式をとっている場合は、返す
     if (color.substr(0, 1) === '#') {
         return color;
     }
@@ -1162,8 +1181,9 @@ function rgbToHex(color) {
     var blue = parseInt(digits[4]);
 
     var rgb = blue | (green << 8) | (red << 16);
-    if((digits[1] + '#' + rgb.toString(16)).length == 5){
-        return digits[1] + '#00' + rgb.toString(16);
+	// ex. rgb(6, 58, 94) => #63a5e のように最初の0が表示されず6文字の場合、0を埋める
+    if((digits[1] + '#' + rgb.toString(16)).length == 6){
+        return digits[1] + '#0' + rgb.toString(16);
     }
     return digits[1] + '#' + rgb.toString(16);
 }
@@ -1352,7 +1372,6 @@ $(function(){
 
 		// 現在のページ番号を更新
 		current_page = target_page;
-		console.log(current_page);
 
 		/* 押されたボタンに関わらず必ず行う処理 */
 		// いったん、すべてのボタンを利用可能状態にする
@@ -1360,8 +1379,9 @@ $(function(){
 		// ページ番号が1であれば、prevボタンを使用不可にする
 		if(current_page == 1){
 			$('.pager .prev').addClass('disabled');
+		}
 		// ページ番号が必要ページ数であれば、nextボタンを使用不可にする
-		}else if(current_page == pages){
+		if(current_page == pages){
 			$('.pager .next').addClass('disabled');
 		}
 	});
