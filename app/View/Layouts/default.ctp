@@ -35,6 +35,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->css('reset');
 		echo $this->Html->css('base');
 		echo $this->Html->css('font-awesome.min');
+		echo $this->Html->css('layout_header');
 		// コントローラ別にcssを切り分ける
 		switch($this->name){
 			case 'Events':
@@ -98,7 +99,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			//ログインか否かで表示を変更
 			if($username != null){
 				$signoutLink = $this->Html->url(array('controller' => 'users', 'action' => 'logout'));
-				echo '<p class="navbar-text">Welcome to PosTom ' . $username . '!!</p>';
+				echo '<p class="navbar-text">Welcome to PosTom ' . $username . ' !!</p>';
 				echo '<li><a href="' . $signoutLink . '">SignOut</a></li>';
 			}else{
 				$signupLink = $this->Html->url(array('controller' => 'users', 'action' => 'signup'));
