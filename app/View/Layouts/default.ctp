@@ -90,11 +90,23 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <body>
 <!-- header -->
 <nav class="navbar navbar-default">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'signup')); ?>">SignUp</a></li>
-            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'login')); ?>">SignIn</a></li>
-            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'logout')); ?>">SignOut</a></li>
-            <li><a href="#">   </a></li>
+		<ul class="nav navbar-nav navbar-right">
+			<?php
+			//ログインしているユーザ名取得
+			$user = AuthComponent::user();
+			$username = $user['username'];
+			//ログインか否かで表示を変更
+			if($username != null){
+				$signoutLink = $this->Html->url(array('controller' => 'users', 'action' => 'logout'));
+				echo '<p class="navbar-text">Welcome to PosTom ' . $username . '!!</p>';
+				echo '<li><a href="' . $signoutLink . '">SignOut</a></li>';
+			}else{
+				$signupLink = $this->Html->url(array('controller' => 'users', 'action' => 'signup'));
+				$signinLink = $this->Html->url(array('controller' => 'users', 'action' => 'login'));
+				echo '<li><a href="' . $signupLink . '">SignUp</a></li>';
+				echo '<li><a href="' . $signinLink . '">SignIn</a></li>';
+			}
+			?>
         </ul>
 </nav>
 <!-- contents -->
