@@ -1,9 +1,9 @@
 /*-------------------------------------------------
- 
+
   Poster javascript
- 
+
  --------------------------------------------------*/
- 
+
  /********************************************************
  *		グローバルナビゲーション カレント処理					*
  ********************************************************/
@@ -11,7 +11,7 @@
 	// ダッシュボードのPosterを選択状態にする
 	$('#dashboard #gNav #gNavPos').addClass('current');
 });
- 
+
  /********************************************************
  *							変数定義										*
  ********************************************************/
@@ -30,6 +30,8 @@ var initX = 0, initY = 0;
 var gridX, gridY;
 // 現在のモード
 var selectMode = "create";
+// 前回のモード
+var formerMode = "";
 // 削除対象を記憶する配列
 var deleteArray = [];
 // サイズ変更を受け付ける領域のサイズ（１辺の長さ）
@@ -38,8 +40,10 @@ var resizeArea = 10;
 var resizeFlg = false;
 // サイズ変更中であるかどうか
 var onResizing = false;
-// sprint1 デフォルトの色
+// デフォルトの色
 var defaultColor = "#999999";
+// 関連済みを示すの色
+var relatedColor = "#063a5e";
 // 会場図画像ファイル名
 var backGroundFileName = "";
 // キャンバを基準にクリックした位置
@@ -75,8 +79,10 @@ var mapMaxHeight = 2000;
 var selectedPresentationID = 0;
 // 選択中のプレゼンテーションナンバー
 var selectedPresentationNum = '';
-
-
+//次のid
+var NextId=1;
+//読み込み中
+var loading = true;
 /********************************************************
  *							読み込み時の処理							*
  ********************************************************/
@@ -85,7 +91,7 @@ $(function() {
 	$( '#demoCanvas' ).get( 0 ).height = canvasHeight;
 	$('[name^="objectWidth"]').attr("max",canvasWidth/gridSize);
 	$('[name^="objectHeight"]').attr("max",canvasHeight/gridSize);
-	
+
 	canvasElement = document.getElementById("demoCanvas");
 	stage = new createjs.Stage(canvasElement);
 	stage.enableMouseOver();
@@ -161,6 +167,8 @@ function createObject(x, y, w, h, color) {
     object.__title = "";
     object.__presenter = "";
     object.__abstract = "";
+	object.NextId=NextId;
+	NextId++;
 	object.graphics.beginFill(color);
 
 	var OUT;
@@ -175,7 +183,7 @@ function createObject(x, y, w, h, color) {
 						break;
 					}
 					if(k==0){
-						break OUT;	
+						break OUT;
 					}
 					if(ynow>=canvasHeight-h && xnow >=canvasWidth-w){
 						alert("you can't create any more");
@@ -194,6 +202,10 @@ function createObject(x, y, w, h, color) {
 		object.graphics.drawRect(0,0, w, h);
 	}
 	object.cursor = "pointer";
+	if(loading == false){
+	//生成終了後、保存
+		singlesaveJson(object);
+	}
 	return object;
 }
 
@@ -210,7 +222,7 @@ function startDrag(eventObject) {
 	// オブジェクトを基準にクリックした位置
 	onPointX = eventObject.stageX - instance.x;
 	onPointY = eventObject.stageY - instance.y;
-	
+
 	if(selectMode == "create"){
 		if(!resizeFlg){
 			// 移動
@@ -220,7 +232,7 @@ function startDrag(eventObject) {
 			previewscaley=instance.y;
 		}else if(resizeFlg){
 			// サイズ変更
-			instance.addEventListener("pressmove", resizeDrag);	
+			instance.addEventListener("pressmove", resizeDrag);
 			instance.addEventListener("pressup", stopResizeDrag);
 		}
 	}else if(selectMode == "delete"){
@@ -232,12 +244,30 @@ function startDrag(eventObject) {
 // ＜移動＞ドラッグ中の処理
 function drag(eventObject) {
 	var instance = eventObject.target;
+	var dragedID = instance.id;
 	var width = parseInt(instance.graphics.command.w);
 	var height = parseInt(instance.graphics.command.h);
 	var leftTop = { x: instance.x, y: instance.y };
 	var rightTop = { x: instance.x + width , y: instance.y };
 	var rightBottom = { x:instance.x + width , y: instance.y + height };
 	var leftBottom = { x: instance.x , y: instance.y + height };
+	// ドラッグ中のオブジェクトが関連付け済みである場合、関連付けされているプレゼンテーションテキストも移動させる
+	if(instance.__relation != "" && instance.__relation != undefined){
+		// 関連付けされているプゼンテーションテキストを特定する
+		for(var i=0; i<stage.children.length; i++){
+			var object = stage.children[i];
+			if(object.__parent == dragedID){
+				// テキストオブジェクトの横幅と高さを取得
+				var textWidth = object.getMeasuredWidth();
+				var textHeight = object.getMeasuredHeight();
+				// テキストをポスターオブジェクトの中央に配置
+				object.x = instance.x + (instance.width - textWidth)/2;
+				object.y = instance.y + (instance.height - textHeight)/2;
+				
+				break;
+			}
+		}
+	}
 	// ポインタ位置が画面外だった時の分岐
 	if((onPointX <= eventObject.stageX)&&(eventObject.stageX <= canvasWidth - width + onPointX)
 	&&(onPointY <= eventObject.stageY)&&(eventObject.stageY <= canvasHeight -height + onPointY)){
@@ -299,16 +329,36 @@ function stopDrag(eventObject) {
             continue;
 		}
 		// 他のオブジェクトと重なった場合は移動する前に戻す
-		if(instance.x > stage.children[k].x - (instance.graphics.command.w) && instance.x < stage.children[k].x + (stage.children[k].graphics.command.w) && instance.y > stage.children[k].y- (instance.graphics.command.h) && instance.y < stage.children[k].y + (stage.children[k].graphics.command.h)){
-			instance.x =previewscalex;
-			instance.y =previewscaley;
-			if(instance.array!=null){
-				updateFrame(instance.x,instance.y,instance.graphics.command.w,instance.graphics.command.h);
+		if(instance.x > stage.children[k].x - (instance.width) && instance.x < stage.children[k].x + (stage.children[k].width) && instance.y > stage.children[k].y- (instance.height) && instance.y < stage.children[k].y + (stage.children[k].height)){
+			instance.x = previewscalex;
+			instance.y = previewscaley;
+			// SelectSquareの更新
+			if(instance.array != null){
+				updateFrame(instance.x,instance.y,instance.width,instance.height);
+			}
+			
+			// 関連済みポスターの場合、テキストオブジェクトも元の位置に戻す
+			if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
+				// テキストオブジェクトを特定
+				for(var i=0; i<stage.children.length; i++){
+					var object = stage.children[i];
+					if(object.__parent == instance.id){
+						// テキストオブジェクトの横幅と高さを取得
+						var textWidth = object.getMeasuredWidth();
+						var textHeight = object.getMeasuredHeight();
+						// テキストをポスターオブジェクトの中央に配置
+						object.x = instance.x + (instance.width - textWidth)/2;
+						object.y = instance.y + (instance.height - textHeight)/2;
+						break;
+					}
+				}
 			}
 			break;
 		}
 	}
 	stage.update();
+	//移動終了後、保存
+	singlesaveJson(instance);
 }
 /********************************************************
  *						オブジェクトの選択処理						*
@@ -326,7 +376,7 @@ function click(eventObject){
 		cancelFrame();
 		selectFlag=false;
 	}
-	selectedObject=eventObject.target;
+	selectedObject = eventObject.target;
 	select();
 	selectedObject.array=objectArray;
 	inputEditForm();
@@ -394,7 +444,7 @@ function cancelFrame(eventObject){
     if(selectFlag==true) {
         if (selectedObject != null) {  // canvasクリック2回連続以降は呼ばれないようにする
             var formColor = $('select[name="objectEditColor"] + .btn-group > .selectpicker > span:first-child').css('background-color');//　rgb
-            if (selectedObject.__title != $('[name^="title"]').val() || selectedObject.__presenter != $('[name^="presenter"]').val() || selectedObject.__abstract != $('[name^="abstract"]').val() || rgbToHex(formColor).toLowerCase() != rgbToHex(selectedObject.color).toLowerCase()) {
+			if (selectedObject.__title != $('[name^="title"]').val() || selectedObject.__presenter != $('[name^="presenter"]').val() || selectedObject.__abstract != $('[name^="abstract"]').val() || rgbToHex(formColor).toLowerCase() != rgbToHex(selectedObject.color).toLowerCase()) {
                 changeSelectObject(selectedObject, $('[name^="title"]').val(), $('[name^="presenter"]').val(), $('[name^="abstract"]').val(), formColor);  //　JSが先にselectedObjectとフォーム内容を消すので引数で渡しておく
             }
         }
@@ -427,16 +477,16 @@ function cancelFrame(eventObject){
 function FrameMouseOver(sq){
 	resizeFlg = false;
 	//　フレームによってマウスカーソルを変える
-	if(sq.__number== 0 || sq.__number==8){ 
+	if(sq.__number== 0 || sq.__number==8){
 		sq.cursor = "se-resize";
 	}
-	if(sq.__number== 2 || sq.__number==6){ 
+	if(sq.__number== 2 || sq.__number==6){
 		sq.cursor = "sw-resize";
 	}
-	if(sq.__number== 1 || sq.__number==7){ 
+	if(sq.__number== 1 || sq.__number==7){
 		sq.cursor = "s-resize";
 	}
-	if(sq.__number== 3 || sq.__number==5){ 
+	if(sq.__number== 3 || sq.__number==5){
 		sq.cursor = "e-resize";
 	}
 }
@@ -494,7 +544,7 @@ function FrameDragOver(eventObject){
 	var instance = eventObject.target;
 	instance.graphics.command.w = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
 	instance.graphics.command.h =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
-	
+
 	var i=stage.children.length-1;
 	while(selectedObject!= stage.children[i]){
 		i=i-1;
@@ -517,6 +567,8 @@ function FrameDragOver(eventObject){
 		}
 	}
 	onResizing = false;
+	//サイズ変更終了後、保存
+	singlesaveJson(stage.children[i]);
 }
 
 // 選択されたオブジェクトが持つデータを編集フォームに反映する
@@ -582,7 +634,7 @@ function changeSelectObject(editObject, title, presenter, abstract, formColor){
         height:140,
         modal: true,
         buttons: {
-            "確定": function() {
+            "Confirm": function() {
                 // 編集フォームの内容を書き込む
                 editObject.__title=title;
                 editObject.__presenter=presenter;
@@ -592,7 +644,7 @@ function changeSelectObject(editObject, title, presenter, abstract, formColor){
                 stage.update();
                 $( this ).dialog( "close" );
             },
-            "キャンセル": function() {
+            "Cancel": function() {
                 $( this ).dialog( "close" );
             }
         }
@@ -616,7 +668,7 @@ function selectDelete(eventObject){
 	var instance = eventObject.target;
 	var width = parseInt(instance.graphics.command.w);
 	var height = parseInt(instance.graphics.command.h);
-	
+
 	if(instance.__deleteSelected == null || instance.__deleteSelected == false){
 		instance.__deleteSelected = true;
 		var checkImage = new createjs.Bitmap(webroot + 'img/ico_check.png');
@@ -647,6 +699,39 @@ function selectDelete(eventObject){
 /********************************************************
  *								JSON処理									*
  ********************************************************/
+ //データベースにポスター情報を保存
+ function singlesaveJson(object){
+ 		id= object.NextId;
+        x = object.x;
+        y = object.y;
+        w = parseInt(object.graphics.command.w);
+        h = parseInt(object.graphics.command.h);
+        color = rgbToHex(object.color);
+		relation = object.__relation;
+		title = object.__title;
+		presenter = object.__presenter;
+        abstract = object.__abstract;
+        poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
+			$.ajax({
+		type: "POST",
+		cache : false,
+		url: "posters/singlesavesql",
+		data: { "data": poster },
+		success: function(msg){
+		}
+	});
+	}
+	//データベースから、ポスター情報を削除
+	function deleteJson(object){
+				$.ajax({
+		type: "POST",
+		cache : false,
+		url: "posters/deletesql",
+		data: { "id": object.NextId },
+		success: function(msg){
+		}
+	});
+	}
 /* JSON 書き込み処理 */
 function saveJson(){
 	var objectArray = [];
@@ -657,7 +742,7 @@ function saveJson(){
 		if(child.__type=="selectSquare" || child.__type=="text"){
 			continue;
 		}
-		id= child.id;
+		id= child.NextId;
         x = child.x;
         y = child.y;
         w = parseInt(child.graphics.command.w);
@@ -684,12 +769,12 @@ function saveJson(){
             objectArray.push(array);
         }
 	}
-	
+
 	// キャンバスのサイズ情報を、配列の先頭に格納
 	// TODO: データベースに格納するだけなので、この情報はいりません。
 	objectArray.unshift({'mapHeight': canvasHeight});
 	objectArray.unshift({'mapWidth': canvasWidth});
-	
+
 	// 既に会場図が設置してあれば、画像情報を配列の先頭に格納
 	var searchImageFileName = "backGround.png";
 	// TODO: データベースに格納するだけなので、この情報はいりません。
@@ -698,7 +783,7 @@ function saveJson(){
 		objectArray.unshift({'filename':searchImageFileName});
 	}
 	*/
-	
+
 	$.ajax({
 		type: "POST",
 		cache : false,
@@ -717,7 +802,7 @@ function saveJson(){
 	demoArray['posmapp_bg'] = demoPosmappBgArray;
 	demoArray['STATIC_WIDTH'] = canvasWidth;
 	demoArray['STATIC_HEIGHT'] = canvasHeight;
-	
+
 	// 各種（position, author, presen, poster） 配列を作成
 	var demoPositionArray = [];
 	var demoAuthorArray = [];
@@ -741,12 +826,12 @@ function saveJson(){
 		objectBelongs = "筑波大";
 		objectTitle = child.__title;
 		objectAbstract = child.__abstract;
-		
+
 		demoPositionData = {'id': objectId,'x': objectX, 'y': objectY, 'width': objectWidth, 'height': objectHeight, 'direction': 'sideways'};
 		demoAuthorData = {'presenid': objectPresenId, 'name': objectPresenter, 'belongs': objectBelongs, 'first': 1};
 		demoPresenData = {'presenid': objectPresenId, 'title': objectTitle, 'abstract': objectAbstract, 'bookmark': 0};
 		demoPosterData = {'presenid': objectPresenId, 'posterid': objectId, 'star': 1, 'date': 1};
-		
+
 		if (child.__type != "selectSquare") {
 			demoPositionArray.push(demoPositionData);
 			demoAuthorArray.push(demoAuthorData);
@@ -783,7 +868,7 @@ function loadJson(){
 			$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
 			$(canvasElement).css("background-repeat","repeat, no-repeat");
 		}
-		
+
 		// マップのサイズを読み込む（この方法だとjsonの並びが変わったときに動作しない）
 		if(json[0].mapWidth != null && json[1].mapHeight != null){
 			// グローバル変数を更新
@@ -800,9 +885,9 @@ function loadJson(){
 			$('input[name="mapHeight"]').val(canvasHeight);
 			json.splice(0, 2);
 		}
-		
+
 		objectList=json;
-		
+
 		for(i=0; i<json.length; i++){
 			var instance = createObject(parseInt(objectList[i].x), parseInt(objectList[i].y), parseInt(objectList[i].w), parseInt(objectList[i].h), objectList[i].color);
 			instance.cursor = "pointer";
@@ -905,6 +990,10 @@ function deleteObject(){
 				for(i=deleteArray.length - 1; i>=0; i--){
 					for(j=childArray.length - 1; j>=0; j--){
 						if(childArray[j].id == deleteArray[i] || childArray[j].__relationID == deleteArray[i]){
+						if(childArray[j].id == deleteArray[i]){
+						//解除するポスター情報を、データベースから削除
+							deleteJson(childArray[j]);
+						}
 							stage.removeChildAt(j);
 							stage.update();
 						}
@@ -1010,7 +1099,7 @@ function onBlurMapHeight(){
 function resizeMap(){
 	var mapWidth = $('input[name^="mapWidth"]').val();
 	var mapHeight = $('input[name^="mapHeight"]').val();
-	
+
 	// マップの最小値より小さい場合
 	if(mapWidth < mapMinWidth || mapHeight < mapMinHeight ){
 		alert("The min map size is width："+mapMinWidth+"px，height："+mapMinHeight+"px");
@@ -1024,7 +1113,7 @@ function resizeMap(){
 	// グリッドサイズに合わせるため四捨五入
 	mapWidth = Math.round(mapWidth / gridSize) * gridSize;
 	mapHeight = Math.round(mapHeight / gridSize) * gridSize;
-	
+
 	// マップを小さくする際に、入りきらないオブジェクトがある場合
 	if(existMapOverObject(mapWidth, mapHeight)){
 		alert("Some object are out of map");
@@ -1081,6 +1170,7 @@ function checkTextIsNumeric(inputElement){
 
 // RGB to HEX
 function rgbToHex(color) {
+	// すでにHEX(#123456)の形式をとっている場合は、返す
     if (color.substr(0, 1) === '#') {
         return color;
     }
@@ -1091,8 +1181,9 @@ function rgbToHex(color) {
     var blue = parseInt(digits[4]);
 
     var rgb = blue | (green << 8) | (red << 16);
-    if((digits[1] + '#' + rgb.toString(16)).length == 5){
-        return digits[1] + '#00' + rgb.toString(16);
+	// ex. rgb(6, 58, 94) => #63a5e のように最初の0が表示されず6文字の場合、0を埋める
+    if((digits[1] + '#' + rgb.toString(16)).length == 6){
+        return digits[1] + '#0' + rgb.toString(16);
     }
     return digits[1] + '#' + rgb.toString(16);
 }
@@ -1101,28 +1192,41 @@ function rgbToHex(color) {
  *				プレゼン情報との関連付け							*
  ********************************************************/
 $(function(){
-$('li[draggable="true"]').on('dragstart', onDragStart);
-$('#demoCanvas').on('dragover', onDragOver);
-$('#demoCanvas').on('drop', onDrop);
+	$('li[draggable="true"]').on('dragstart', onDragStart);
+	$('#demoCanvas').on('dragover', onDragOver);
+	$('#demoCanvas').on('drop', onDrop);
+	
+	// Presentationタブがクリックされたとき、移動・サイズ変更はできないようにする（生成モードから削除モードへ切り替えることと同様）
+	$('#tab #presentationTab').click(function(){
+		cancelFrame();
+		// 現在のモードを記憶しておく
+		formerMode = selectMode;
+		selectMode = 'presentation';
+	});
+	// PosterEditタブがクリックされたとき、移動・サイズ変更ができるようにする
+	$('#tab #posterEditTab').click(function(){
+		selectMode = formerMode;
+	});
 });
 
+// ドラッグが開始したときの処理
 function onDragStart(e){
 	selectedPresentationID = this.id;
 	selectedPresentationNum = $(e.target).attr('data-num');
-	e.originalEvent.dataTransfer.setData('text', this.id); 
+	e.originalEvent.dataTransfer.setData('text', this.id);
 }
 
+// ドラッグ中のときの処理
 function onDragOver(e){
-	//console.log('drag over');
 	e.preventDefault();
-	this.textContent = 'onDragOver';
 }
 
+// ドロップしたときの処理
 function onDrop(e){
 	// キャンバス上の位置を取得
 	var onCanvasX = e.originalEvent.clientX - e.target.offsetLeft;
 	var onCanvasY = e.originalEvent.clientY - e.target.offsetTop;
-	
+
 	// ステージ上に存在するオブジェクトを特定する
 	for(var i=0; i<stage.children.length; i++){
 		var target = stage.children[i];
@@ -1130,15 +1234,40 @@ function onDrop(e){
 		if(target.__type != 'selectSquare' && target.__type != 'text'){
 			// オブジェクトの内側かどうか判定
 			if(target.x <= onCanvasX && onCanvasX <= target.x + target.width && target.y <= onCanvasY && onCanvasY <= target.y + target.height){
-				// すでにそのオブジェクトがプレゼンテーションと関連済みであった場合
-				if(target.__relation != null || target.__relation != ''){
-					// 関連済みのプレゼンテーションを元の状態に戻す
-					$('.presentationlist li#'+target.__relation).removeClass('related');
+				// すでにそのプレゼンテーションが別のポスターに関連済みであった場合
+				if($('.presentationlist li#'+selectedPresentationID).hasClass('related') == true){
+					// もともと関連済みであったポスターのIDを取得
+					var formerRelatedPosterID = $('.presentationlist li#'+selectedPresentationID).attr('data-relation');
+					for(var j=0; j<stage.children.length; j++){
+						var object = stage.children[j];
+						// もともと関連済みであったポスターを特定
+						if(object.id == formerRelatedPosterID){
+							// ポスターを元の状態に戻す
+							object.graphics._fill.style = defaultColor;
+							object.color = defaultColor;
+							object.__relation = '';
+							// もともと関連済みであったポスターも変更部分をデータベースに反映させる
+							singlesaveJson(object);
+						}
+						// もともと関連済みであったポスターを親とするテキストオブジェクトを特定
+						if(object.__parent == formerRelatedPosterID){
+							// テキストオブジェクトを削除する
+							stage.removeChildAt(j);
+						}
+					}
 				}
-				target.graphics._fill.style = '#063a5e';
+				
+				// すでにそのポスターがプレゼンテーションと関連済みであった場合
+				if(target.__relation != undefined && target.__relation != '' && target.__relation != '0'){
+					// もともと関連済みであったプレゼンテーションを元の状態に戻す
+					$('.presentationlist li#'+target.__relation).removeClass('related').attr('data-relation', null);
+				}
+				
+				target.graphics._fill.style = relatedColor;
+				target.color = relatedColor;
 				// ポスターオブジェクトに関連付けされたプレゼンテーションIDを付与
 				target.__relation = selectedPresentationID;
-				
+
 				var text = new createjs.Text(selectedPresentationNum, '20px Meiryo', '#fff');
 				var textWidth = text.getMeasuredWidth();
 				var textHeight = text.getMeasuredHeight();
@@ -1149,13 +1278,14 @@ function onDrop(e){
 				text.__type = 'text';
 				// テキストオブジェクトに親要素であるポスターオブジェクトのIDを付与（ポスターが移動した際に、テキストもついていくようにするため）
 				text.__parent = target.id;
-				
+
 				stage.addChild(target, text);
+				singlesaveJson(target);
 				stage.update();
-				
+
 				// 選択中のプレゼンテーションの要素を関連付けされた状態にする
 				$('.presentationlist li#'+selectedPresentationID).addClass('related').attr('data-relation',target.id);
-				
+
 				break;
 			}
 		}
@@ -1173,13 +1303,13 @@ $(function(){
 	var current_page = 1;
 	// 必要ページ数
 	var pages = $('.pager li').length - 2; // prev, next の2つ分減らす必要がある
-	
+
 	$(".pager li a").click(function(e){
 		// クリックしたボタンが使用不可またはすでにアクディブである場合、何もしない
 		if($(this).parent().hasClass('disabled') || $(this).parent().hasClass('active')){
-			return false;	
+			return false;
 		}
-		
+
 		// クリックされたターゲットページ番号を取得する
 		var target_page = $(this).attr('data-target');
 
@@ -1188,12 +1318,12 @@ $(function(){
 		if(target_page == 'prev'){
 			// ターゲットページ番号を現在のページ番号-1にする
 			target_page = parseInt(current_page) - 1;
-			
+
 		// nextボタンの場合
 		}else if(target_page == 'next'){
 			// ターゲットページ番号を現在のページ番号+1にする
 			target_page = parseInt(current_page) + 1;
-			
+
 		} // end if
 
 		// アクティブになっているページャーを元に戻す
@@ -1206,7 +1336,7 @@ $(function(){
 		});
 		// ターゲットページを表示させる
 		$("#tcPresentation #page"+("0"+target_page).slice(-2)).stop().removeClass('disno').fadeIn(300, 'linear');
-		
+
 		/* 6ページ目以降をページャの真ん中にくるように調整する処理 */
 		if(pages > 5){
 			// いったん、すべてのページャを非表示にする
@@ -1220,16 +1350,16 @@ $(function(){
 			var pos_pager = -2; // ターゲットページが真ん中であれば、左には２つのページャ, 右には２つのページャが存在するため開始ページはターゲットページ番号マイナス２
 			if(target_page == 1){
 				// 1ページ目の場合、1番左に表示する
-				pos_pager = 0;	
+				pos_pager = 0;
 			}else if(target_page == 2){
 				// 2ページ目の場合、左から2番目に表示する
-				pos_pager = -1;	
+				pos_pager = -1;
 			}else if(target_page == pages-1){
 				// 最終ページから2ページ目の場合、右から2番目に表示する
 				pos_pager = -3;
 			}else if(target_page == pages){
 				// 最終ページの場合、1番右に表示する
-				pos_pager = -4;	
+				pos_pager = -4;
 			}
 
 			// 5つのページャーを表示する
@@ -1239,19 +1369,19 @@ $(function(){
 			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+3))+']').parent().removeClass('disno');
 			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+4))+']').parent().removeClass('disno');
 		}
-		
+
 		// 現在のページ番号を更新
 		current_page = target_page;
-		console.log(current_page);
-		
+
 		/* 押されたボタンに関わらず必ず行う処理 */
 		// いったん、すべてのボタンを利用可能状態にする
 		$('.pager li.disabled').removeClass('disabled');
 		// ページ番号が1であれば、prevボタンを使用不可にする
 		if(current_page == 1){
 			$('.pager .prev').addClass('disabled');
+		}
 		// ページ番号が必要ページ数であれば、nextボタンを使用不可にする
-		}else if(current_page == pages){
+		if(current_page == pages){
 			$('.pager .next').addClass('disabled');
 		}
 	});

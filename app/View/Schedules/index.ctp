@@ -11,7 +11,9 @@
 		$('[data-toggle="popover"]').popover({container: 'body'});
 	});
 </script>
-
+<?php
+echo $this->Html->css('page_schedule');
+?>
 <h2>CSV Import</h2>
 <p>CSV Format is Number,Category,StartTime,EndTime,ChairpersonName,ChairpersonBelongs,CommentatorsName,CommentatorsBelongs</p>
 <p><?php echo $this->Html->tag('button', 'Add Session From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
@@ -38,6 +40,7 @@
 <!-- 内容設置 -->
 <div class="tab-content">
 	<?php
+	// start day loop
 	for($i=1; $i<=$day_diff; $i++){
 		$day = "$i";
 		if($i == 1){
@@ -50,26 +53,46 @@
 <!-- タブの内容 -->
 <p> </p>
 <div class="container">
-<div class="btn-toolbar">
 <?php
-	$venue = "";
-	// btn-groupを日数分追加
-	for ($j = 0; $j < count($schedules); $j++) {
+	// 時間が最遅時間のセッションがあるroomを特定
+	$max_room = "";
+	$max_order = 0;
+	foreach ($schedules as $sch) :
+		if($day == $sch['Schedule']['date']){
+			if($max_order < $sch['Schedule']['order']){
+				$max_room = $sch['Schedule']['room'];
+				$max_order = $sch['Schedule']['order'];
+			}
+		}
+	endforeach;
+	// 時間構成設置
+	echo '<div class="time-group">';
+	$venu = "";
+	for ($j = 0; $j < count($schedules); $j++){
+		$sch = $schedules[$j];
+		if($day == $sch['Schedule']['date'] && $max_room == $sch['Schedule']['room']){
+			echo '<p>'. substr($sch['Schedule']['start_time'], 0, 5) .' ~ '. substr($sch['Schedule']['end_time'], 0, 5) .'</p>';
+		}
+	}
+	echo '</div>';
+
+	// セッション設置
+	$room = "";
+	for ($j = 0; $j < count($schedules); $j++){
 		$sch = $schedules[$j];
 		if ($day == $sch['Schedule']['date']) {
-			if ($venue != $sch['Schedule']['venue']) {
-				$venue = $sch['Schedule']['venue'];
-				echo '<div class="btn-group-vertical" role="group">';
-				echo '<button type="button" class="btn btn-info btn-large">' . $sch['Schedule']['venue'] . '</button>';
+			if ($room != $sch['Schedule']['room']){
+				$room = $sch['Schedule']['room'];
+				echo '<div class="btn-group-vertical">';
+				echo '<button type="button" class="btn btn-info">' . $sch['Schedule']['room'] . '</button>';
 			}
-			echo '<button type="button" class="btn btn-default btn-large" data-toggle="popover" data-trigger="hover" data-placement="top" title="Category: '. $sch['Schedule']['category'] .'" data-content=" '. $sch['Schedule']['start_time'] . '~' . $sch['Schedule']['end_time'] . ' " >' . $sch['Schedule']['venue'] . '' . $sch['Schedule']['order'] . '</button>';
-			if($j == count($schedules)-1 || $venue != $schedules[$j+1]['Schedule']['venue']){
-				echo '</div>';  // button-group end
+			echo '<button type="button" class="btn btn-default" data-toggle="popover" data-trigger="hover" data-placement="top" data-content=" '. $sch['Schedule']['start_time'] . '~' . $sch['Schedule']['end_time'] . ' " >' . $sch['Schedule']['room'] . '' . $sch['Schedule']['order'] . ': ' . $sch['Schedule']['category'] . '</button>';
+			if($j == count($schedules)-1 || $room != $schedules[$j+1]['Schedule']['room']){
+				echo '</div>';  // venu-group end
 			}
 		}
 	}
 	echo '</div>'; // tab-pane end
-	echo '</div>'; // btn-toolbar end
 	echo '</div>'; // container end
 	} // day loop end
 ?>

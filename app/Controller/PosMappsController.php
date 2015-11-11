@@ -20,13 +20,14 @@ class PosMappsController extends AppController {
     }
     public function  sendmail()
     {
+        $this->Email->sendAs = 'html';
         $content= Router::url('/PosMapps/phoneclear/', true);
         App::uses('CakeEmail','Network/Email');
         $Email = new CakeEmail('gmail');
         $Email->from(array('tkb.tsss@gmail.com' => 'POSTOM'))
-            ->to('jun.obata0@gmail.com')
-            ->subject('PosMapp URL')
-            ->send('<a href="'.$content.'"/>');
+            ->to('tkb.tsss@gmail.com')
+            ->subject('PosMapp Preview')
+            ->send('Please click the following link if you want to preview PosmApp :'.$content);
     }
     public function deletestorage()
     {}
