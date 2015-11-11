@@ -20,13 +20,13 @@ class PosMappsController extends AppController {
     }
     public function  sendmail()
     {
-            $content= Router::url('/PosMapps/phoneclear/', true);
-            App::uses('CakeEmail','Network/Email');
-            $Email = new CakeEmail('gmail');
-            $Email->from(array('tkb.tsss@gmail.com' => 'POSTOM'))
-                ->to('tkb.tsss@gmail.com')
-                ->subject('PosMapp URL')
-                ->send('<a href="'.$content.'"/>');
+        $content= Router::url('/PosMapps/phoneclear/', true);
+        App::uses('CakeEmail','Network/Email');
+        $Email = new CakeEmail('gmail');
+        $Email->from(array('tkb.tsss@gmail.com' => 'POSTOM'))
+            ->to('jun.obata0@gmail.com')
+            ->subject('PosMapp URL')
+            ->send('<a href="'.$content.'"/>');
     }
     public function deletestorage()
     {}
