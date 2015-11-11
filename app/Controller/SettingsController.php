@@ -20,10 +20,8 @@ class SettingsController extends AppController {
 			$path = IMAGES;
       $image = $this->request->data["Event"]["event_top_image"];
 	  $name = $this->params["pass"][0].".".explode("/",$image['type'])[1];;
-	  var_dump($name);
       $this->Session->setFlash('画像を登録しました');
       move_uploaded_file($image['tmp_name'], $path .'thumb'. DS . $name);
-	  var_dump($image);
       			}else{
 			}
 		}
