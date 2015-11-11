@@ -17,7 +17,7 @@ class SettingsController extends AppController {
 			 $save = $this->request->data;
 			 $save["Event"]["id"] = $this->params["pass"][0];
 			 if($save["Event"]["event_top_image"]["name"] =="" and $save["Event"]["event_top_image"]["type"] ==""){
-			 unset($save["Event"]["event_top_image"]);
+				 unset($save["Event"]["event_top_image"]);
 			 }
 			if($this->Event->save($save)){
 			$path = IMAGES;
