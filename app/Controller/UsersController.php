@@ -13,14 +13,14 @@ class UsersController extends AppController {
 				// 本登録用のリンクを作成
 				$url = 'activate/' . $this->User->id . '/' . $this->User->getActivationHash();
 				$url = Router::url($url, true);
-				//--------------------------------------------------------------
+
 				// 本登録の案内メールを送信
 				$email = new CakeEmail('gmail');
 				$email->from(array('tkb.tsss@gmail.com' => 'PosTom'));
 				$email->to($this->data['User']['email']);
 				$email->subject('Please finish registration');
 				$email->send($url); // メール本文に本登録用リンクを記す
-				//--------------------------------------------------------------
+
 				$this->Session->setFlash('Email was sent. Please finish registration');
 			} else {
 				$this->Session->setFlash('Input error happened');
@@ -41,22 +41,26 @@ class UsersController extends AppController {
 
 	// ログイン
 	public function login() {
-	//TODO 後で実装
+		if ($this->request->is('post')) {
+			if ($this->Auth->login()) {
+				//UserID 格納
+				$this->User->id = $this->Auth->user('id');
+				return $this->redirect($this->Auth->redirectUrl());
+			} else{
+			$active = $this->User->field('active', array('username' => $this->data['User']['username']));
+			if ($active === 0) {
+			$this->Session->setFlash('Do not finish registration');
+			} else {
+			$this->Session->setFlash('Wrong User Name or Password');
+			}
+			}
+		}
 	}
 
 	// ログアウト
 	public function logout() {
-	//TODO 後で実装
-	}
-
-	// ダッシュボード (ログイン直後に表示されるホーム画面)
-	public function dashboard() {
-	//TODO 後で実装
-	}
-
-	// パスワード変更
-	public function password() {
-	//TODO 後で実装
+		$this->Session->setFlash('Sign Out');
+		return $this->redirect($this->Auth->logout());
 	}
 }
 ?>

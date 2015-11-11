@@ -47,7 +47,7 @@ class EmailConfig {
         'username' => 'tkb.tsss@gmail.com',
         'password' => 'XkYCnLfn',
         'client' => null,  
-        'log' => true,
+        'log' => true
         //'charset' => 'utf-8',
         //'headerCharset' => 'utf-8',
     );

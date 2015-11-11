@@ -1,0 +1,22 @@
+.btn-group-vertical{
+	vertical-align: top;
+	margin-top: 20px;
+	text-align: left;
+}
+div.btn-group-vertical .btn {
+	text-align: left;
+}
+.btn-group-vertical:not(:first-child){
+	margin-left: 10px;
+}
+.btn-group-vertical>.btn:not(:first-child){
+	background-color: #FCFEFF;
+}
+.time-group{
+	margin-top: 53px;
+	float: left;
+}
+div.time-group p {
+	font-size: 105%;
+	line-height: 2.48em;
+}

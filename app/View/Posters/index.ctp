@@ -2,36 +2,71 @@
 $(window).load(function() {
 //ページ読み込み時に、データベースから取得した、ポスター情報を反映
   var poster = new Array();
+  var presentations = new Array();
   var data = <?php echo count($data); ?>;
 //データベースの情報をローカルに格納
-  <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
-  poster[<?php echo $i ?>] = new Array();
-  poster[<?php echo $i ?>].NextId=<?php echo $data[$i]["Poster"]["id"]; ?>;
-  poster[<?php echo $i ?>].width=<?php echo $data[$i]["Poster"]["width"]; ?>;
-  poster[<?php echo $i ?>].height=<?php echo $data[$i]["Poster"]["height"]; ?>;
-  poster[<?php echo $i ?>].x=<?php echo $data[$i]["Poster"]["x"]; ?>;
-  poster[<?php echo $i ?>].y=<?php echo $data[$i]["Poster"]["y"]; ?>;
-  poster[<?php echo $i ?>].color="<?php echo $data[$i]["Poster"]["color"]; ?>";
-  poster[<?php echo $i ?>].presentation_id="<?php echo $data[$i]["Poster"]["presentation_id"]; ?>";
-  <?php } ?>
-  for(i=0; i<poster.length; i++){
-  //ポスター情報を反映
-			var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
-			instance.NextId= poster[i].NextId;
-			if(poster[i].NextId >= NextId){
+<?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
+	poster[<?php echo $i ?>] = new Array();
+	poster[<?php echo $i ?>].NextId=<?php echo $data[$i]["Poster"]["id"]; ?>;
+	poster[<?php echo $i ?>].width=<?php echo $data[$i]["Poster"]["width"]; ?>;
+	poster[<?php echo $i ?>].height=<?php echo $data[$i]["Poster"]["height"]; ?>;
+	poster[<?php echo $i ?>].x=<?php echo $data[$i]["Poster"]["x"]; ?>;
+	poster[<?php echo $i ?>].y=<?php echo $data[$i]["Poster"]["y"]; ?>;
+	poster[<?php echo $i ?>].color="<?php echo $data[$i]["Poster"]["color"]; ?>";
+	poster[<?php echo $i ?>].presentation_id="<?php echo $data[$i]["Poster"]["presentation_id"]; ?>";
+	// もし関連済みプレゼンテーションがあれば、そのプレゼンテーション情報を取得する
+	<?php
+	if($data[$i]["Poster"]["presentation_id"] != '0' && $data[$i]["Poster"]["presentation_id"] != NULL){
+		// 別のモデル（Presentation）から必要なクションを呼び出す
+		$relatedPresentation = $this->requestAction('/presentations/getByID/'.$data[$i]["Poster"]["presentation_id"]);
+	?>
+	// PHPから関連付けされたプレゼンテーション情報を取得する（IDをキーとして取得するため1件のみ）
+	presentations[<?php echo $i; ?>] = <?php echo json_encode($relatedPresentation[0]['Presentation']); ?>;
+<?php
+	} // end if
+} // end for
+?>
+	for(i=0; i<poster.length; i++){
+		//ポスター情報を反映
+		var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
+		instance.NextId= poster[i].NextId;
+		if(poster[i].NextId >= NextId){
 			NextId = poster[i].NextId+1;
-			}
-			instance.cursor = "pointer";
-			instance.__deleteSelected = false;
-			instance.__relation = poster[i].presentation_id;
-			/*instance.__title = objectList[i].title;
-            instance.__presenter = objectList[i].presenter;
-            instance.__abstract = objectList[i].abstract;*/
-			stage.addChild(instance);
-			instance.addEventListener("mousedown", startDrag);
 		}
-		stage.update();
-		loading = false;
+		instance.cursor = "pointer";
+		instance.__deleteSelected = false;
+		instance.__relation = poster[i].presentation_id;
+		/*instance.__title = objectList[i].title;
+		instance.__presenter = objectList[i].presenter;
+		instance.__abstract = objectList[i].abstract;*/
+		stage.addChild(instance);
+		instance.addEventListener("mousedown", startDrag);
+		
+		// ポスターに関連済みプレゼンテーションがあれば、テキストオブジェクトを生成する
+		if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
+			// ポスターの色を関連済みの色に変更する
+			instance.graphics._fill.style = relatedColor;
+			instance.color = relatedColor;
+			// テキストオブジェクトを生成する
+			var text = new createjs.Text(presentations[i].number, '20px Meiryo', '#fff');
+			var textWidth = text.getMeasuredWidth();
+			var textHeight = text.getMeasuredHeight();
+			// テキストをオブジェクトの中央に配置
+			text.x = instance.x + (instance.width - textWidth)/2;
+			text.y = instance.y + (instance.height - textHeight)/2;
+			// テキストオブジェクトにオブジェクトタイプを付与
+			text.__type = 'text';
+			// テキストオブジェクトに親要素であるポスターオブジェクトのIDを付与（ポスターが移動した際に、テキストもついていくようにするため）
+			text.__parent = instance.id;
+			
+			stage.addChild(text);
+			
+			// 選択中のプレゼンテーションの要素を関連付けされた状態にする
+			$('.presentationlist li#'+instance.__relation).addClass('related').attr('data-relation', instance.id);
+		}
+	}
+	stage.update();
+	loading = false;
 });
 </script>
 <div>
@@ -48,8 +83,8 @@ $(window).load(function() {
 <!-- tab -->
 <div id="tab">
 <ul class="nav nav-tabs">
-<li class="active"><a href="#tcPoster" data-toggle="tab">Poster Edit</a></li>
-<li><a href="#tcPresentation" data-toggle="tab">Presentation</a></li>
+<li id="posterEditTab" class="active"><a href="#tcPoster" data-toggle="tab">Poster Edit</a></li>
+<li id="presentationTab"><a href="#tcPresentation" data-toggle="tab">Presentation</a></li>
 </ul>
 </div>
 <!-- //tab -->
@@ -194,7 +229,7 @@ echo $i > 4 ? ' disno' : '';
 <?php
 }
 ?>
-<li class="next"><a href="#" data-target="next"><i class="fa fa-angle-double-right"></i></a></li>
+<li class="next disabled"><a href="#" data-target="next"><i class="fa fa-angle-double-right"></i></a></li>
 </ul>
 
 <?php
@@ -214,7 +249,12 @@ foreach($presentations as $presentation){
 	}
 ?>
 <li id="<?php echo $presentation['Presentation']['id']; ?>" data-num="<?php echo $presentation['Presentation']['number']; ?>" draggable="true">
-<?php echo $presentation['Presentation']['title']; ?>
+<?php
+// プレゼンテーションナンバーの表示
+echo $presentation['Presentation']['number'].": ";
+// プレゼンテーションタイトルの表示
+echo $presentation['Presentation']['title'];
+?>
 </li>
 <?php
 	// カウントアップ

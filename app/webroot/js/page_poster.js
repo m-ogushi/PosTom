@@ -30,6 +30,8 @@ var initX = 0, initY = 0;
 var gridX, gridY;
 // 現在のモード
 var selectMode = "create";
+// 前回のモード
+var formerMode = "";
 // 削除対象を記憶する配列
 var deleteArray = [];
 // サイズ変更を受け付ける領域のサイズ（１辺の長さ）
@@ -38,8 +40,10 @@ var resizeArea = 10;
 var resizeFlg = false;
 // サイズ変更中であるかどうか
 var onResizing = false;
-// sprint1 デフォルトの色
+// デフォルトの色
 var defaultColor = "#999999";
+// 関連済みを示すの色
+var relatedColor = "#063a5e";
 // 会場図画像ファイル名
 var backGroundFileName = "";
 // キャンバを基準にクリックした位置
@@ -325,11 +329,29 @@ function stopDrag(eventObject) {
             continue;
 		}
 		// 他のオブジェクトと重なった場合は移動する前に戻す
-		if(instance.x > stage.children[k].x - (instance.graphics.command.w) && instance.x < stage.children[k].x + (stage.children[k].graphics.command.w) && instance.y > stage.children[k].y- (instance.graphics.command.h) && instance.y < stage.children[k].y + (stage.children[k].graphics.command.h)){
-			instance.x =previewscalex;
-			instance.y =previewscaley;
-			if(instance.array!=null){
-				updateFrame(instance.x,instance.y,instance.graphics.command.w,instance.graphics.command.h);
+		if(instance.x > stage.children[k].x - (instance.width) && instance.x < stage.children[k].x + (stage.children[k].width) && instance.y > stage.children[k].y- (instance.height) && instance.y < stage.children[k].y + (stage.children[k].height)){
+			instance.x = previewscalex;
+			instance.y = previewscaley;
+			// SelectSquareの更新
+			if(instance.array != null){
+				updateFrame(instance.x,instance.y,instance.width,instance.height);
+			}
+			
+			// 関連済みポスターの場合、テキストオブジェクトも元の位置に戻す
+			if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
+				// テキストオブジェクトを特定
+				for(var i=0; i<stage.children.length; i++){
+					var object = stage.children[i];
+					if(object.__parent == instance.id){
+						// テキストオブジェクトの横幅と高さを取得
+						var textWidth = object.getMeasuredWidth();
+						var textHeight = object.getMeasuredHeight();
+						// テキストをポスターオブジェクトの中央に配置
+						object.x = instance.x + (instance.width - textWidth)/2;
+						object.y = instance.y + (instance.height - textHeight)/2;
+						break;
+					}
+				}
 			}
 			break;
 		}
@@ -354,7 +376,7 @@ function click(eventObject){
 		cancelFrame();
 		selectFlag=false;
 	}
-	selectedObject=eventObject.target;
+	selectedObject = eventObject.target;
 	select();
 	selectedObject.array=objectArray;
 	inputEditForm();
@@ -422,7 +444,7 @@ function cancelFrame(eventObject){
     if(selectFlag==true) {
         if (selectedObject != null) {  // canvasクリック2回連続以降は呼ばれないようにする
             var formColor = $('select[name="objectEditColor"] + .btn-group > .selectpicker > span:first-child').css('background-color');//　rgb
-            if (selectedObject.__title != $('[name^="title"]').val() || selectedObject.__presenter != $('[name^="presenter"]').val() || selectedObject.__abstract != $('[name^="abstract"]').val() || rgbToHex(formColor).toLowerCase() != rgbToHex(selectedObject.color).toLowerCase()) {
+			if (selectedObject.__title != $('[name^="title"]').val() || selectedObject.__presenter != $('[name^="presenter"]').val() || selectedObject.__abstract != $('[name^="abstract"]').val() || rgbToHex(formColor).toLowerCase() != rgbToHex(selectedObject.color).toLowerCase()) {
                 changeSelectObject(selectedObject, $('[name^="title"]').val(), $('[name^="presenter"]').val(), $('[name^="abstract"]').val(), formColor);  //　JSが先にselectedObjectとフォーム内容を消すので引数で渡しておく
             }
         }
@@ -612,7 +634,7 @@ function changeSelectObject(editObject, title, presenter, abstract, formColor){
         height:140,
         modal: true,
         buttons: {
-            "確定": function() {
+            "Confirm": function() {
                 // 編集フォームの内容を書き込む
                 editObject.__title=title;
                 editObject.__presenter=presenter;
@@ -622,7 +644,7 @@ function changeSelectObject(editObject, title, presenter, abstract, formColor){
                 stage.update();
                 $( this ).dialog( "close" );
             },
-            "キャンセル": function() {
+            "Cancel": function() {
                 $( this ).dialog( "close" );
             }
         }
@@ -1148,6 +1170,7 @@ function checkTextIsNumeric(inputElement){
 
 // RGB to HEX
 function rgbToHex(color) {
+	// すでにHEX(#123456)の形式をとっている場合は、返す
     if (color.substr(0, 1) === '#') {
         return color;
     }
@@ -1158,8 +1181,9 @@ function rgbToHex(color) {
     var blue = parseInt(digits[4]);
 
     var rgb = blue | (green << 8) | (red << 16);
-    if((digits[1] + '#' + rgb.toString(16)).length == 5){
-        return digits[1] + '#00' + rgb.toString(16);
+	// ex. rgb(6, 58, 94) => #63a5e のように最初の0が表示されず6文字の場合、0を埋める
+    if((digits[1] + '#' + rgb.toString(16)).length == 6){
+        return digits[1] + '#0' + rgb.toString(16);
     }
     return digits[1] + '#' + rgb.toString(16);
 }
@@ -1168,23 +1192,36 @@ function rgbToHex(color) {
  *				プレゼン情報との関連付け							*
  ********************************************************/
 $(function(){
-$('li[draggable="true"]').on('dragstart', onDragStart);
-$('#demoCanvas').on('dragover', onDragOver);
-$('#demoCanvas').on('drop', onDrop);
+	$('li[draggable="true"]').on('dragstart', onDragStart);
+	$('#demoCanvas').on('dragover', onDragOver);
+	$('#demoCanvas').on('drop', onDrop);
+	
+	// Presentationタブがクリックされたとき、移動・サイズ変更はできないようにする（生成モードから削除モードへ切り替えることと同様）
+	$('#tab #presentationTab').click(function(){
+		cancelFrame();
+		// 現在のモードを記憶しておく
+		formerMode = selectMode;
+		selectMode = 'presentation';
+	});
+	// PosterEditタブがクリックされたとき、移動・サイズ変更ができるようにする
+	$('#tab #posterEditTab').click(function(){
+		selectMode = formerMode;
+	});
 });
 
+// ドラッグが開始したときの処理
 function onDragStart(e){
 	selectedPresentationID = this.id;
 	selectedPresentationNum = $(e.target).attr('data-num');
 	e.originalEvent.dataTransfer.setData('text', this.id);
 }
 
+// ドラッグ中のときの処理
 function onDragOver(e){
-	//console.log('drag over');
 	e.preventDefault();
-	this.textContent = 'onDragOver';
 }
 
+// ドロップしたときの処理
 function onDrop(e){
 	// キャンバス上の位置を取得
 	var onCanvasX = e.originalEvent.clientX - e.target.offsetLeft;
@@ -1197,12 +1234,37 @@ function onDrop(e){
 		if(target.__type != 'selectSquare' && target.__type != 'text'){
 			// オブジェクトの内側かどうか判定
 			if(target.x <= onCanvasX && onCanvasX <= target.x + target.width && target.y <= onCanvasY && onCanvasY <= target.y + target.height){
-				// すでにそのオブジェクトがプレゼンテーションと関連済みであった場合
-				if(target.__relation != null || target.__relation != ''){
-					// 関連済みのプレゼンテーションを元の状態に戻す
-					$('.presentationlist li#'+target.__relation).removeClass('related');
+				// すでにそのプレゼンテーションが別のポスターに関連済みであった場合
+				if($('.presentationlist li#'+selectedPresentationID).hasClass('related') == true){
+					// もともと関連済みであったポスターのIDを取得
+					var formerRelatedPosterID = $('.presentationlist li#'+selectedPresentationID).attr('data-relation');
+					for(var j=0; j<stage.children.length; j++){
+						var object = stage.children[j];
+						// もともと関連済みであったポスターを特定
+						if(object.id == formerRelatedPosterID){
+							// ポスターを元の状態に戻す
+							object.graphics._fill.style = defaultColor;
+							object.color = defaultColor;
+							object.__relation = '';
+							// もともと関連済みであったポスターも変更部分をデータベースに反映させる
+							singlesaveJson(object);
+						}
+						// もともと関連済みであったポスターを親とするテキストオブジェクトを特定
+						if(object.__parent == formerRelatedPosterID){
+							// テキストオブジェクトを削除する
+							stage.removeChildAt(j);
+						}
+					}
 				}
-				target.graphics._fill.style = '#063a5e';
+				
+				// すでにそのポスターがプレゼンテーションと関連済みであった場合
+				if(target.__relation != undefined && target.__relation != '' && target.__relation != '0'){
+					// もともと関連済みであったプレゼンテーションを元の状態に戻す
+					$('.presentationlist li#'+target.__relation).removeClass('related').attr('data-relation', null);
+				}
+				
+				target.graphics._fill.style = relatedColor;
+				target.color = relatedColor;
 				// ポスターオブジェクトに関連付けされたプレゼンテーションIDを付与
 				target.__relation = selectedPresentationID;
 
@@ -1310,7 +1372,6 @@ $(function(){
 
 		// 現在のページ番号を更新
 		current_page = target_page;
-		console.log(current_page);
 
 		/* 押されたボタンに関わらず必ず行う処理 */
 		// いったん、すべてのボタンを利用可能状態にする
@@ -1318,8 +1379,9 @@ $(function(){
 		// ページ番号が1であれば、prevボタンを使用不可にする
 		if(current_page == 1){
 			$('.pager .prev').addClass('disabled');
+		}
 		// ページ番号が必要ページ数であれば、nextボタンを使用不可にする
-		}else if(current_page == pages){
+		if(current_page == pages){
 			$('.pager .next').addClass('disabled');
 		}
 	});
