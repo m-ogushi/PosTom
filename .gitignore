@@ -30,6 +30,7 @@ Thumbs.db
 # Tsss custom ignore files #
 ############################
 # dreamweaver
+app/_notes/dwsync.xml
 _notes/
 dwsync.xml
 *.xml
