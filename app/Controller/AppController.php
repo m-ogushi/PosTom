@@ -31,4 +31,40 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+public $components = array('Session', 'Auth');
+
+	public function beforeFilter() {
+	// ログインを扱うアクション
+	$this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
+	// ログイン後のリダイレクト先のアクション
+	$this->Auth->loginRedirect = array('controller' => 'events', 'action' => 'index');
+	// ユーザがログアウトした後のリダイレクト先となるデフォルトのアクション
+	$this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+	// ユーザの権限判定のためにアクティブなコントローラの isAuthorized() の戻り値を使う
+	$this->Auth->authorize = array('Controller');
+	// ユーザのログインに使いたい認証オブジェクトの配列
+	$this->Auth->authenticate = array(
+			'Form' => array(
+			'userModel' => 'User',
+			'fields' => array(
+			'username' => 'username',
+			'password' => 'password'
+		),
+			'scope' => array('User.active' => 1)    //本登録済みユーザのみログイン可能
+		)
+	);
+
+		if ($this->Session->check('Auth.User')) {   //ログイン済み
+			$loggedin = $this->Session->read('Auth.User');
+			$this->set(compact('loggedin'));
+		}
+	}
+
+	// 権限判定チェック
+	public function isAuthorized($user) {
+		// 必要ならばここで権限判定
+		return true;    //許可
+	}
+
 }

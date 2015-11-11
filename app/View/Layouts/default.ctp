@@ -35,6 +35,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->css('reset');
 		echo $this->Html->css('base');
 		echo $this->Html->css('font-awesome.min');
+		echo $this->Html->css('layout_header');
 		// コントローラ別にcssを切り分ける
 		switch($this->name){
 			case 'Events':
@@ -44,7 +45,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				echo $this->Html->css('page_poster');
 				break;
 		}
-		
+
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
@@ -88,6 +89,27 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 </head>
 <body>
+<!-- header -->
+<nav class="navbar navbar-default">
+		<ul class="nav navbar-nav navbar-right">
+			<?php
+			//ログインしているユーザ名取得
+			$user = AuthComponent::user();
+			$username = $user['username'];
+			//ログインか否かで表示を変更
+			if($username != null){
+				$signoutLink = $this->Html->url(array('controller' => 'users', 'action' => 'logout'));
+				echo '<p class="navbar-text">Welcome to PosTom ' . $username . ' !!</p>';
+				echo '<li><a href="' . $signoutLink . '">SignOut</a></li>';
+			}else{
+				$signupLink = $this->Html->url(array('controller' => 'users', 'action' => 'signup'));
+				$signinLink = $this->Html->url(array('controller' => 'users', 'action' => 'login'));
+				echo '<li><a href="' . $signupLink . '">SignUp</a></li>';
+				echo '<li><a href="' . $signinLink . '">SignIn</a></li>';
+			}
+			?>
+        </ul>
+</nav>
 <!-- contents -->
 <div id="contents">
 <!-- contents.dashboard -->
@@ -105,8 +127,8 @@ echo $this->Html->image('i_logo.png', array(
 <li id="gNavPos"><a href="<?php echo $this->Html->url(array('controller' => 'posters', 'action' => 'index')); ?>"><i class="fa fa-file-image-o fa-2x"></i><span>Poster</span></a></li>
 <li id="gNavSch"><a href="<?php echo $this->Html->url(array('controller' => 'schedules', 'action' => 'index')); ?>"><i class="fa fa-calendar fa-2x"></i><span>Schedule</span></a></li>
 <li id="gNavPre"><a href="<?php echo $this->Html->url(array('controller' => 'presentations', 'action' => 'index')); ?>"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>
-<li id="gNavFlo"><a href="#"><i class="fa fa-map-marker fa-2x"></i><span>Floor Map</span></a></li>
-<li id="gNavSet"><a href="#"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
+<li id="gNavFlo"><a href="#"><img src="<?php echo $this->webroot; ?>/img/ico_floormap.png" alt="Floor Map"><span>Floor Map</span></a></li>
+<li id="gNavSet"><a href="<?php echo $this->Html->url(array('controller' => 'settings', 'action' => 'index')); ?>"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
 </ul>
 </div>
 <!-- //contents.dashboard -->

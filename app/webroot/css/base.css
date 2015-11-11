@@ -220,6 +220,24 @@ input[type=file].disno {
 	content: "*";
 	color: #e74c3c;
 }
+/* main event edit */
+#contents #main #EventEventeditForm > div {
+	margin-bottom: 10px;
+}
+#contents #main #EventEventeditForm > div > input.form-control {
+	width: 460px;
+}
+#contents #main #EventEventeditForm > div > select.form-control {
+	width: 150px;
+	display: inline-block;
+}
+#contents #main #EventEventeditForm label {
+	display: block;
+}
+#contents #main #EventEventeditForm div.required label:after {
+	content: "*";
+	color: #e74c3c;
+}
 
 /* main.presentationlist */
 #contents #main #presentationlist li {
