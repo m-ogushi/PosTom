@@ -55,6 +55,7 @@ class User extends AppModel {
 
 	// パスワードと確認入力が一致するかチェックする
 	public function password_match($field, $password) {
+		//return ($field['password_confirm'] === $this->data['User']['password']);
 		return ($field['password_confirm'] === $this->data[$this->name][$password]);
 	}
 
@@ -73,7 +74,7 @@ class User extends AppModel {
 		if (isset($this->data[$this->alias]['password'])) {
 			$this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
 		}
-	return true;
+		return true;
 	}
 }
 ?>
