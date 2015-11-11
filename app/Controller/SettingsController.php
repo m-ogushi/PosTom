@@ -24,6 +24,7 @@ class SettingsController extends AppController {
       move_uploaded_file($image['tmp_name'], $path .'thumb'. DS . $name);
       			}else{
 			}
+		$this->redirect(array('action'=>'index'));
 		}
 	}
 

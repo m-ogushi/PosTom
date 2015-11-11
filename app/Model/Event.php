@@ -29,7 +29,7 @@ class Event extends AppModel {
 		),
 		'event_end_time' =>  array(
 			'rule' => 'notEmpty'
-		)
+		),
 		'event_top_image' => array(
 
         // ルール：uploadError => errorを検証 (2.2 以降)
