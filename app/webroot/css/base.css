@@ -176,6 +176,7 @@ input[type=file].disno {
 	margin-right: -20px;
 	margin-bottom: 40px;
 	padding: 13px 0 13px 0;
+	box-shadow: 0 3px 5px #ccc;
 }
 #contents #main #header #hNav li {
 	float: right;
