@@ -179,7 +179,7 @@ function createObject(x, y, w, h, color) {
 					if(stage.children[k].__type == "selectSquare"){
 						continue;
 					}
-					if(xnow > stage.children[k].x - w && xnow < stage.children[k].x + (stage.children[k].graphics.command.w) && ynow > stage.children[k].y- h && ynow < stage.children[k].y + (stage.children[k].graphics.command.h)){
+					if(xnow > stage.children[k].x - w && xnow < stage.children[k].x + (stage.children[k].w) && ynow > stage.children[k].y- h && ynow < stage.children[k].y + (stage.children[k].h)){
 						break;
 					}
 					if(k==0){
