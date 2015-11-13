@@ -257,13 +257,7 @@ function drag(eventObject) {
 		for(var i=0; i<stage.children.length; i++){
 			var object = stage.children[i];
 			if(object.__parent == dragedID){
-				// テキストオブジェクトの横幅と高さを取得
-				var textWidth = object.getMeasuredWidth();
-				var textHeight = object.getMeasuredHeight();
-				// テキストをポスターオブジェクトの中央に配置
-				object.x = instance.x + (instance.width - textWidth)/2;
-				object.y = instance.y + (instance.height - textHeight)/2;
-				
+				object = relocateCenter(object, instance);
 				break;
 			}
 		}
@@ -343,12 +337,7 @@ function stopDrag(eventObject) {
 				for(var i=0; i<stage.children.length; i++){
 					var object = stage.children[i];
 					if(object.__parent == instance.id){
-						// テキストオブジェクトの横幅と高さを取得
-						var textWidth = object.getMeasuredWidth();
-						var textHeight = object.getMeasuredHeight();
-						// テキストをポスターオブジェクトの中央に配置
-						object.x = instance.x + (instance.width - textWidth)/2;
-						object.y = instance.y + (instance.height - textHeight)/2;
+						object = relocateCenter(object, instance);
 						break;
 					}
 				}
@@ -554,7 +543,7 @@ function FrameDragOver(eventObject){
 			continue;
 		}
 //他のオブジェクトと重なった場合は、位置、大きさ共に元に戻す
-		if(stage.children[i].x > stage.children[k].x - (stage.children[i].graphics.command.w) && stage.children[i].x < stage.children[k].x + (stage.children[k].graphics.command.w) && stage.children[i].y > stage.children[k].y- (stage.children[i].graphics.command.h) && stage.children[i].y < stage.children[k].y + (stage.children[k].graphics.command.h)){
+		if(stage.children[i].x > stage.children[k].x - (stage.children[i].width) && stage.children[i].x < stage.children[k].x + (stage.children[k].width) && stage.children[i].y > stage.children[k].y- (stage.children[i].height) && stage.children[i].y < stage.children[k].y + (stage.children[k].height)){
 			stage.children[i].graphics.command.w =previewbigx;
 			stage.children[i].graphics.command.h =previewbigy;
 			stage.children[i].x =previewscalex;
@@ -583,26 +572,31 @@ function inputEditForm(){
 function resizeDrag(eventObject) {
 	var changeFrame = stage.children[nowwhite].__number;
 	var instance = eventObject.target;
+	var dragedID = instance.id;
 	// 0:左上		1:中央上		2:右上
 	// 3:左中央	4:-			5:右中央
 	// 6:左下		7:中央下		8:右下
 	// 図形の右部分
 	if(changeFrame == 2 || changeFrame == 5 || changeFrame==8){
 		instance.graphics.command.w = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
+		instance.width = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
 	}
 	// 図形の下部分
 	if(changeFrame == 6 || changeFrame == 7 || changeFrame==8){
 		instance.graphics.command.h =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
+		instance.height =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
 	}
 	// 図形の左部分
 	if(changeFrame == 0 || changeFrame==3 || changeFrame==6){
 		instance.x = Math.round((eventObject.stageX - onPointX)/gridSize)*gridSize;
 		instance.graphics.command.w = nowright-instance.x;
+		instance.width = nowright-instance.x;
 	}
 	// 図形の上部分
 	if(changeFrame == 0 || changeFrame==1 || changeFrame==2){
 		instance.y = Math.round((eventObject.stageY - onPointY)/gridSize)*gridSize;
 		instance.graphics.command.h = nowbottom-instance.y;
+		instance.height = nowbottom-instance.y;
 	}
 	//　x座標は右端より左
 	if(instance.x>=nowright){
@@ -615,14 +609,28 @@ function resizeDrag(eventObject) {
 	// 横幅がグリッドサイズより小さいとき
 	if(instance.graphics.command.w < gridSize){
 		instance.graphics.command.w = gridSize;
+		instance.width = gridSize;
 	}
 	// 高さがグリッドサイズより小さいとき
 	if(instance.graphics.command.h < gridSize){
 		instance.graphics.command.h = gridSize;
+		instance.height = gridSize;
 	}
     if(instance.array!=null){
         updateFrame(instance.x,instance.y,instance.graphics.command.w,instance.graphics.command.h);
     }
+	// ドラッグ中のオブジェクトが関連付け済みである場合、関連付けされているプレゼンテーションテキストも移動させる
+	if(instance.__relation != "" && instance.__relation != undefined){
+		// 関連付けされているプゼンテーションテキストを特定する
+		for(var i=0; i<stage.children.length; i++){
+			var object = stage.children[i];
+			if(object.__parent == dragedID){
+				object = relocateCenter(object, instance);
+				break;
+			}
+		}
+	}
+	
 	stage.update();
 	onResizing = true;
 }
@@ -889,7 +897,7 @@ function loadJson(){
 		objectList=json;
 
 		for(i=0; i<json.length; i++){
-			var instance = createObject(parseInt(objectList[i].x), parseInt(objectList[i].y), parseInt(objectList[i].w), parseInt(objectList[i].h), objectList[i].color);
+			var instance = createObject(parseInt(objectList[i].x), parseInt(objectList[i].y), parseInt(objectList[i].width), parseInt(objectList[i].height), objectList[i].color);
 			instance.cursor = "pointer";
 			instance.__deleteSelected = false;
 			instance.__title = objectList[i].title;
@@ -1269,11 +1277,8 @@ function onDrop(e){
 				target.__relation = selectedPresentationID;
 
 				var text = new createjs.Text(selectedPresentationNum, '20px Meiryo', '#fff');
-				var textWidth = text.getMeasuredWidth();
-				var textHeight = text.getMeasuredHeight();
-				// テキストをオブジェクトの中央に配置
-				text.x = target.x + (target.width - textWidth)/2;
-				text.y = target.y + (target.height - textHeight)/2;
+				// テキストを中央に配置
+				text = relocateCenter(text, target);
 				// テキストオブジェクトにオブジェクトタイプを付与
 				text.__type = 'text';
 				// テキストオブジェクトに親要素であるポスターオブジェクトのIDを付与（ポスターが移動した際に、テキストもついていくようにするため）
@@ -1293,6 +1298,17 @@ function onDrop(e){
 	// 選択中のプレゼンテーションID・ナンバーを初期化する
 	selectedPresentationID = 0;
 	selectedPresentationNum = '';
+}
+
+// テキストオブジェクトをポスターオブジェクトの中央に配置する処理
+function relocateCenter(textObj, posterObj){
+	// テキストオブジェクトの横幅と高さを取得
+	var textWidth = textObj.getMeasuredWidth();
+	var textHeight = textObj.getMeasuredHeight();
+	// テキストをポスターオブジェクトの中央に配置
+	textObj.x = posterObj.x + (posterObj.width - textWidth)/2;
+	textObj.y = posterObj.y + (posterObj.height - textHeight)/2;
+	return textObj;
 }
 
  /********************************************************
@@ -1363,11 +1379,9 @@ $(function(){
 			}
 
 			// 5つのページャーを表示する
-			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager))+']').parent().removeClass('disno');
-			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+1))+']').parent().removeClass('disno');
-			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+2))+']').parent().removeClass('disno');
-			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+3))+']').parent().removeClass('disno');
-			$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+4))+']').parent().removeClass('disno');
+			for(var i=0; i<5; i++){
+				$('.pager li a[data-target='+(parseInt(target_page)+(pos_pager+i))+']').parent().removeClass('disno');
+			}
 		}
 
 		// 現在のページ番号を更新
