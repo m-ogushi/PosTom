@@ -169,6 +169,24 @@ input[type=file].disno {
 	clear: both;
 	min-width: 800px;
 }
+/* main form layout */
+#contents #main form > div {
+	margin-bottom: 10px;
+}
+#contents #main form > div > input.form-control {
+	width: 460px;
+}
+#contents #main form > div > select.form-control {
+	width: 150px;
+	display: inline-block;
+}
+#contents #main form label {
+	display: block;
+}
+#contents #main form label.required:after {
+	content: "*";
+	color: #e74c3c;
+}
 /* main event index */
 #contents #main #eventlist li {
 	margin-bottom: 10px;
@@ -203,75 +221,6 @@ input[type=file].disno {
 	vertical-align: middle;
 	font-size: 5em;
 }
-/* main event add */
-#contents #main #EventAddForm > div {
-	margin-bottom: 10px;
-}
-#contents #main #EventAddForm > div > input.form-control {
-	width: 460px;
-}
-#contents #main #EventAddForm > div > select.form-control {
-	width: 150px;
-	display: inline-block;
-}
-#contents #main #EventAddForm label {
-	display: block;
-}
-#contents #main #EventAddForm div.required label:after {
-	content: "*";
-	color: #e74c3c;
-}
-/* main event edit */
-#contents #main #EventEventeditForm > div {
-	margin-bottom: 10px;
-}
-#contents #main #EventEventeditForm > div > input.form-control {
-	width: 460px;
-}
-#contents #main #EventEventeditForm > div > select.form-control {
-	width: 150px;
-	display: inline-block;
-}
-#contents #main #EventEventeditForm label {
-	display: block;
-}
-#contents #main #EventEventeditForm div.required label:after {
-	content: "*";
-	color: #e74c3c;
-}
-/* main user login */
-#contents #main #UserLoginForm > div {
-	margin-bottom: 10px;
-}
-#contents #main #UserLoginForm > div > input.form-control {
-	width: 460px;
-}
-#contents #main #UserLoginForm > div > select.form-control {
-	width: 150px;
-	display: inline-block;
-}
-#contents #main #UserLoginForm label {
-	display: block;
-}
-/* main user signup */
-#contents #main #UserSignupForm > div {
-	margin-bottom: 10px;
-}
-#contents #main #UserSignupForm > div > input.form-control {
-	width: 460px;
-}
-#contents #main #UserSignupForm > div > select.form-control {
-	width: 150px;
-	display: inline-block;
-}
-#contents #main #UserSignupForm label {
-	display: block;
-}
-#contents #main #UserSignupForm div.required label:after {
-	content: "*";
-	color: #e74c3c;
-}
-
 /* main.presentationlist */
 #contents #main #presentationlist li {
 	margin-bottom: 10px;

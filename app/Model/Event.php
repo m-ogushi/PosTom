@@ -34,7 +34,7 @@ class Event extends AppModel {
 
         // ルール：uploadError => errorを検証 (2.2 以降)
         'upload-file' => array( 
-            'rule' => array( 'uploadError'),
+            'rule' => array('uploadError'),
             'message' => array( 'Error uploading file')
         ),
 

@@ -16,6 +16,9 @@ class SettingsController extends AppController {
 		if($this->request->is('post')){
 			 $save = $this->request->data;
 			 $save["Event"]["id"] = $this->params["pass"][0];
+			 if($save["Event"]["event_top_image"]["name"] =="" and $save["Event"]["event_top_image"]["type"] ==""){
+				 unset($save["Event"]["event_top_image"]);
+			 }
 			if($this->Event->save($save)){
 			$path = IMAGES;
       $image = $this->request->data["Event"]["event_top_image"];
@@ -24,6 +27,7 @@ class SettingsController extends AppController {
       move_uploaded_file($image['tmp_name'], $path .'thumb'. DS . $name);
       			}else{
 			}
+		$this->redirect(array('action'=>'index'));
 		}
 	}
 
