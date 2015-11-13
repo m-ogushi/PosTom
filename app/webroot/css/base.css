@@ -71,6 +71,7 @@ input[type=file].disno {
 }
 .btn-custom:hover {
 	margin-top: 3px;
+	margin-bottom: -3px;
 	box-shadow: 0 2px 0 #2a7d65;
 	color: #fff;
 }
@@ -235,6 +236,38 @@ input[type=file].disno {
 	display: block;
 }
 #contents #main #EventEventeditForm div.required label:after {
+	content: "*";
+	color: #e74c3c;
+}
+/* main user login */
+#contents #main #UserLoginForm > div {
+	margin-bottom: 10px;
+}
+#contents #main #UserLoginForm > div > input.form-control {
+	width: 460px;
+}
+#contents #main #UserLoginForm > div > select.form-control {
+	width: 150px;
+	display: inline-block;
+}
+#contents #main #UserLoginForm label {
+	display: block;
+}
+/* main user signup */
+#contents #main #UserSignupForm > div {
+	margin-bottom: 10px;
+}
+#contents #main #UserSignupForm > div > input.form-control {
+	width: 460px;
+}
+#contents #main #UserSignupForm > div > select.form-control {
+	width: 150px;
+	display: inline-block;
+}
+#contents #main #UserSignupForm label {
+	display: block;
+}
+#contents #main #UserSignupForm div.required label:after {
 	content: "*";
 	color: #e74c3c;
 }
