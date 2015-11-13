@@ -15,6 +15,6 @@
    ?>
 <center>
 <?php echo $message;?></br>
-<img src="<?php echo $this->html->webroot.$url;?>"/>
+<img src="<?php echo $this->html->webroot.$url;?>" height="920px" width="720px"/>
 </center>
 <br/>
