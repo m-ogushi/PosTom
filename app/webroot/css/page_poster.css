@@ -16,9 +16,7 @@
 
 /* inputArea */
 #inputArea {
-	position: absolute;
-	right: 0;
-	top : 0;
+	float: right;
 	background: #fff;
 	width: 320px;
 	height: 100%;

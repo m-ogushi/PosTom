@@ -89,27 +89,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<!-- header -->
-<nav class="navbar navbar-default">
-		<ul class="nav navbar-nav navbar-right">
-			<?php
-			//ログインしているユーザ名取得
-			$user = AuthComponent::user();
-			$username = $user['username'];
-			//ログインか否かで表示を変更
-			if($username != null){
-				$signoutLink = $this->Html->url(array('controller' => 'users', 'action' => 'logout'));
-				echo '<p class="navbar-text">Welcome to PosTom ' . $username . ' !!</p>';
-				echo '<li><a href="' . $signoutLink . '">SignOut</a></li>';
-			}else{
-				$signupLink = $this->Html->url(array('controller' => 'users', 'action' => 'signup'));
-				$signinLink = $this->Html->url(array('controller' => 'users', 'action' => 'login'));
-				echo '<li><a href="' . $signupLink . '">SignUp</a></li>';
-				echo '<li><a href="' . $signinLink . '">SignIn</a></li>';
-			}
-			?>
-        </ul>
-</nav>
 <!-- contents -->
 <div id="contents">
 <!-- contents.dashboard -->
@@ -134,6 +113,30 @@ echo $this->Html->image('i_logo.png', array(
 <!-- //contents.dashboard -->
 <!-- contents.main -->
 <div id="main">
+
+<!-- header -->
+<div id="header">
+	<ul id="hNav">
+	<?php
+	//ログインしているユーザ名取得
+	$user = AuthComponent::user();
+	$username = $user['username'];
+	//ログインか否かで表示を変更
+	if($username != null){
+		$signoutLink = $this->Html->url(array('controller' => 'users', 'action' => 'logout'));
+		echo '<li><a href="' . $signoutLink . '">SignOut</a></li>';
+		echo '<li><p>Welcome to PosTom ' . $username . ' !!</p></li>';
+	}else{
+		$signupLink = $this->Html->url(array('controller' => 'users', 'action' => 'signup'));
+		$signinLink = $this->Html->url(array('controller' => 'users', 'action' => 'login'));
+		echo '<li><a href="' . $signinLink . '">SignIn</a></li>';
+		echo '<li><a href="' . $signupLink . '">SignUp</a></li>';
+	}
+	?>
+	</ul>
+</div>
+<!-- //header -->
+
 
 <?php echo $this->Flash->render(); ?>
 <?php echo $this->fetch('content'); ?>
