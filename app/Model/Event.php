@@ -15,20 +15,20 @@ class Event extends AppModel {
 
     public $validate = array(
 		'event_name' => array(
-			'rule' => 'notEmpty',
+			'rule' => 'notBlank',
 			'message' => 'Please input 100 characters or less.'
 		),
 		'event_begin_date' =>  array(
-			'rule' => 'notEmpty'
+			'rule' => 'notBlank'
 		),
 		'event_begin_time' =>  array(
-			'rule' => 'notEmpty'
+			'rule' => 'notBlank'
 		),
 		'event_end_date' =>  array(
-			'rule' => 'notEmpty'
+			'rule' => 'notBlank'
 		),
 		'event_end_time' =>  array(
-			'rule' => 'notEmpty'
+			'rule' => 'notBlank'
 		),
 		'event_top_image' => array(
 
