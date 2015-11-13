@@ -1,6 +1,9 @@
+<?php
+	echo $this->Html->css('page_presen');
+?>
 <h2>CSV Import</h2>
 <p>CSV Format is Number,Title,Abstract,Keyword,Author,Author Belongs</p>
-<p>you can click <a href="<?php echo $this->Html->webroot;?>format/format.csv">here</a> to get the file format </p>
+<a href="<?php echo $this->Html->webroot;?>format/format.csv">Download Format Sample</a>
 
 <p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
@@ -57,7 +60,7 @@
 <a href="<?php echo '/postom/presentations/view/'.$presentation['Presentation']['id']; ?>">
 
 <span class="tit"><?php echo h($presentation['Presentation']['id']); ?> : <?php echo h($presentation['Presentation']['title']); ?></span>
-<span>Abstract : 
+<span>Abstract :
 <?php
 echo $this->Text->truncate(
 	$presentation['Presentation']['abstract'],

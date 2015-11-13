@@ -40,7 +40,7 @@
 <div class="error-messages disno"></div>
 <?php
 echo $this->Form->create('Event');
-echo $this->Form->input('event_name', array('class'=>'form-control', 'required' => false));
+echo $this->Form->input('event_name', array('class'=>'form-control required', 'required' => false));
 echo $this->Form->input('event_location', array('class'=>'form-control'));
 echo $this->Form->input('event_begin_date', array('class'=>'form-control'));
 echo $this->Form->input('event_begin_time', array('class'=>'form-control'));
