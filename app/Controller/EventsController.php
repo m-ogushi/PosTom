@@ -16,6 +16,9 @@ class EventsController extends AppController {
 		$this->set('event', $this->Event->read());
 
 
+		$_SESSION['event_id']=$id;
+
+
 		$result=$this->Poster->find('all');
 		$this->set('posters', $result);
 	}

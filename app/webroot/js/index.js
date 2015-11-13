@@ -133,7 +133,6 @@ function init() {
 	
 	// $("#bookmarkList").showBookmarkList();
 
-
 	// トップページ
 	$("#goToMap").goToMapPage("click");
 	$("#goToList").goToListPage("click");
@@ -145,6 +144,7 @@ function init() {
 	}
 	if(venuemap != null){
 		$("#goToVenue").goToVenuePage("click");
+		$("#floormap").attr("src",venuemap);
 	}
 	else{
 		$("#goToVenue").attr("src","img/topmenu/venue_gray.png");

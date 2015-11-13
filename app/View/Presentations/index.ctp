@@ -1,6 +1,6 @@
 <h2>CSV Import</h2>
 <p>CSV Format is Number,Title,Abstract,Keyword,Author,Author Belongs</p>
-
+<p>you can click <a href="<?php echo $this->Html->webroot;?>format/format.csv">here</a> to get the file format </p>
 
 <p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
@@ -9,6 +9,7 @@
 
 <p> </p>
 <h2>Presentation List</h2>
+
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
@@ -50,6 +51,7 @@
 <!-- 別の表示方法なので一応コメントアウト -->
 <!--
 <ul id="presentationlist">
+
 <?php foreach($presentations as $presentation) : ?>
 <li>
 <a href="<?php echo '/postom/presentations/view/'.$presentation['Presentation']['id']; ?>">
