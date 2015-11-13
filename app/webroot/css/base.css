@@ -10,7 +10,7 @@
 ****************************************************/
 html {
 	width: 100%;
-	min-width: 960px; /* map width 720 + input area width 240 */
+	min-width: 1301px;
 }
 body {
 	font-size: 13px;
@@ -163,11 +163,32 @@ input[type=file].disno {
 }
 /* main */
 #contents #main {
-	padding: 20px;
-	margin: 0 0 0 220px;
+	padding: 0 20px 20px 40px;
+	margin: 0 0 0 200px;
 	overflow: auto;
 	clear: both;
 	min-width: 800px;
+}
+/* main header */
+#contents #main #header {
+	background-color: #063a5e;
+	margin-left: -40px;
+	margin-right: -20px;
+	margin-bottom: 40px;
+	padding: 13px 0 13px 0;
+}
+#contents #main #header #hNav li {
+	float: right;
+	margin-right: 20px;
+}
+#contents #main #header #hNav li a {
+	border: 1px solid #fff;
+	border-radius: 5px;
+	padding: 5px 10px 5px 10px;
+	color: #fff;
+}
+#contents #main #header #hNav li a:hover {
+	background-color: #37617e;
 }
 /* main form layout */
 #contents #main form > div {
