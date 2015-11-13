@@ -71,6 +71,7 @@ input[type=file].disno {
 }
 .btn-custom:hover {
 	margin-top: 3px;
+	margin-bottom: -3px;
 	box-shadow: 0 2px 0 #2a7d65;
 	color: #fff;
 }
@@ -168,6 +169,24 @@ input[type=file].disno {
 	clear: both;
 	min-width: 800px;
 }
+/* main form layout */
+#contents #main form > div {
+	margin-bottom: 10px;
+}
+#contents #main form > div > input.form-control {
+	width: 460px;
+}
+#contents #main form > div > select.form-control {
+	width: 150px;
+	display: inline-block;
+}
+#contents #main form label {
+	display: block;
+}
+#contents #main form label.required:after {
+	content: "*";
+	color: #e74c3c;
+}
 /* main event index */
 #contents #main #eventlist li {
 	margin-bottom: 10px;
@@ -202,43 +221,6 @@ input[type=file].disno {
 	vertical-align: middle;
 	font-size: 5em;
 }
-/* main event add */
-#contents #main #EventAddForm > div {
-	margin-bottom: 10px;
-}
-#contents #main #EventAddForm > div > input.form-control {
-	width: 460px;
-}
-#contents #main #EventAddForm > div > select.form-control {
-	width: 150px;
-	display: inline-block;
-}
-#contents #main #EventAddForm label {
-	display: block;
-}
-#contents #main #EventAddForm div.required label:after {
-	content: "*";
-	color: #e74c3c;
-}
-/* main event edit */
-#contents #main #EventEventeditForm > div {
-	margin-bottom: 10px;
-}
-#contents #main #EventEventeditForm > div > input.form-control {
-	width: 460px;
-}
-#contents #main #EventEventeditForm > div > select.form-control {
-	width: 150px;
-	display: inline-block;
-}
-#contents #main #EventEventeditForm label {
-	display: block;
-}
-#contents #main #EventEventeditForm div.required label:after {
-	content: "*";
-	color: #e74c3c;
-}
-
 /* main.presentationlist */
 #contents #main #presentationlist li {
 	margin-bottom: 10px;
