@@ -20,7 +20,7 @@
 	background: #fff;
 	width: 320px;
 	height: 100%;
-	padding: 20px;
+	padding: 0 20px 20px 20px;
 }
 #inputArea #tabContents {
 	border: 1px solid #ddd;
