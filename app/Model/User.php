@@ -5,6 +5,10 @@ class User extends AppModel {
 	public $validate = array(
 		'username' => array(
 			array(
+				'rule' => 'notBlank',
+				'message' => 'Please input this field'
+			),
+			array(
 				'rule' => 'isUnique', //重複禁止
 				'message' => 'already in use'
 			),
