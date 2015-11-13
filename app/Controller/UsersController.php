@@ -4,7 +4,7 @@ App::uses('CakeEmail', 'Network/Email');
 class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow(array('signup', 'activate', 'login'));
+		$this->Auth->allow(array('signup', 'activate', 'login', 'interim'));
 	}
 	// ユーザ登録 (フォームの入力をDBに保存して仮登録し、本登録のためのメールを送信)
 	public function signup() {
@@ -22,10 +22,14 @@ class UsersController extends AppController {
 				$email->send($url); // メール本文に本登録用リンクを記す
 
 				$this->Session->setFlash('Email was sent. Please finish registration');
+				$this->redirect(array('action' => 'interim'));
 			} else {
 				$this->Session->setFlash('Input error happened');
 			}
 		}
+	}
+	// 仮登録終了
+	public function interim() {
 	}
 
 	// 本登録
@@ -33,7 +37,7 @@ class UsersController extends AppController {
 		$this->User->id = $user_id;
 		if ($this->User->exists() && $in_hash == $this->User->getActivationHash()) {
 			$this->User->saveField('active', 1);
-			$this->Session->setFlash('Registration was complete');
+			$this->Session->setFlash('Registration was completed');
 		} else {
 		$this->Session->setFlash('Unjust Link');
 		}
