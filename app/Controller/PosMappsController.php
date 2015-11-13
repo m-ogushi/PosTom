@@ -16,6 +16,8 @@ class PosMappsController extends AppController {
     }
     public function qr($id)
     {
+        $result=$this->Poster->find('all');
+        $this->set('posters', $result);
         $this->set("id",$id);
     }
     public function  sendmail()
@@ -33,7 +35,10 @@ class PosMappsController extends AppController {
             ->send('Please click the following link if you want to preview PosmApp :'.$content);
     }
     public function deletestorage()
-    {}
+    {
+        $result=$this->Poster->find('all');
+        $this->set('posters', $result);
+    }
     public function phoneclear()
     {
         $this->autoLayout=false;
