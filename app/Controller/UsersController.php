@@ -39,7 +39,7 @@ class UsersController extends AppController {
 			$this->User->saveField('active', 1);
 			$this->Session->setFlash('Registration was completed');
 		} else {
-		$this->Session->setFlash('Unjust Link');
+			$this->Session->setFlash('Unjust Link');
 		}
 	}
 
@@ -47,16 +47,19 @@ class UsersController extends AppController {
 	public function login() {
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
-				//UserID 格納
+				// UserID 格納
 				$this->User->id = $this->Auth->user('id');
-				return $this->redirect($this->Auth->redirectUrl());
-			} else{
-			$active = $this->User->field('active', array('username' => $this->data['User']['username']));
-			if ($active === 0) {
-			$this->Session->setFlash('Do not finish registration');
-			} else {
-			$this->Session->setFlash('Wrong User Name or Password');
-			}
+				// セッションにログインユーザーのIDを記憶
+				$_SESSION['login_user_id'] = $this->Auth->user('id');
+				// ログイン後はイベント一覧ページへリダイレクト
+				return $this->redirect(array('controller'=>'events', 'action'=>'index'));
+			}else{
+				$active = $this->User->field('active', array('username' => $this->data['User']['username']));
+				if ($active === 0) {
+					$this->Session->setFlash('Do not finish registration');
+				}else{
+					$this->Session->setFlash('Wrong User Name or Password');
+				}
 			}
 		}
 	}
@@ -64,6 +67,8 @@ class UsersController extends AppController {
 	// ログアウト
 	public function logout() {
 		$this->Session->setFlash('Sign Out');
+		// セッションに記憶していたログインユーザーのIDを破棄
+		unset($_SESSION['login_user_id']);
 		return $this->redirect($this->Auth->logout());
 	}
 }
