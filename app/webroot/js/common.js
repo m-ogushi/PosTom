@@ -38,8 +38,8 @@ $(function(){
 
 // グローバルメニューを使用不可能にする処理
 function disabledGNav(){
-			$('#dashboard #gNav').addClass('disabled');
-			$('#dashboard #gNav li').each(function(index, element) {
-                $(this).children('a').attr('href', 'javascript:void(0)');
-            });
+	$('#dashboard #gNav').addClass('disabled');
+	$('#dashboard #gNav li').each(function(index, element) {
+		$(this).children('a').attr('href', 'javascript:void(0)');
+	});
 }
