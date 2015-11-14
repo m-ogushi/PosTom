@@ -69,6 +69,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		var url = "<?php echo $this->here ?>";
 		// webrootのURLを取得
 		var webroot = "<?php echo $this->webroot; ?>";
+		// ログイン中のユーザIDを取得(ログイン中でない場合は空)
+		var loginUserID = "<?php echo isset($_SESSION['login_user_id'])? $_SESSION['login_user_id'] : ''; ?>";
         </script>
 <?php
 		echo $this->Html->script('common');
@@ -102,7 +104,15 @@ echo $this->Html->image('i_logo.png', array(
 ?>
 </h1>
 <ul id="gNav">
-<li id="gNavDas"><a href="<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'view', $_SESSION['event_str'])); ?>"><i class="fa fa-tachometer fa-2x"></i><span>Dashboard</span></a></li>
+<li id="gNavDas"><a href="
+<?php
+	if(isset($_SESSION['event_str'])){
+		echo $this->Html->url(array('controller' => 'events', 'action' => 'view', $_SESSION['event_str']));
+	}else{
+		echo '#';
+	}
+?>
+"><i class="fa fa-tachometer fa-2x"></i><span>Dashboard</span></a></li>
 <li id="gNavPos"><a href="<?php echo $this->Html->url(array('controller' => 'posters', 'action' => 'index')); ?>"><i class="fa fa-file-image-o fa-2x"></i><span>Poster</span></a></li>
 <li id="gNavSch"><a href="<?php echo $this->Html->url(array('controller' => 'schedules', 'action' => 'index')); ?>"><i class="fa fa-calendar fa-2x"></i><span>Schedule</span></a></li>
 <li id="gNavPre"><a href="<?php echo $this->Html->url(array('controller' => 'presentations', 'action' => 'index')); ?>"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>

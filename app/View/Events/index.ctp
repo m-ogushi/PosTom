@@ -7,7 +7,7 @@
 
 <span class="tit"><?php echo h($event['Event']['event_name']); ?></span>
 <span>Location：<?php echo h($event['Event']['event_location']); ?></span>
-<span>DateTime：<?php echo $event['Event']['event_begin_date']; ?> <?php echo $event['Event']['event_begin_time']; ?> - <?php echo $event['Event']['event_end_date']; ?> <?php echo $event['Event']['event_end_time']; ?></span>
+<span>DateTime：<?php echo $event['Event']['event_begin_date']; ?> <?php echo $this->Time->format($event['Event']['event_begin_time'], '%H:%M'); ?> - <?php echo $event['Event']['event_end_date']; ?> <?php echo $this->Time->format($event['Event']['event_end_time'], '%H:%M');?></span>
 </a>
 </li>
 <?php endforeach; ?>
