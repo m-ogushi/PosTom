@@ -30,5 +30,18 @@ class PostersController extends AppController {
 			$this->Poster->delete($id);
 		}
 	}
+	
+	// 任意のプレゼンテーションを関連付けしているポスターを取得する関数
+	public function getRelatedPoster($presentation_id){
+		return $this->Poster->find('all', array(
+			'conditions' => array('presentation_id' => $presentation_id)
+		));
+	}
+	
+	// ポスターの関連付けプレゼンテーションID属性を初期化する
+	public function initRelatedPoster($id){
+		$data = array('id' => $id, 'presentation_id' => 0, 'color' => '#999999');
+		$this->Poster->save($data);
+	}
 }
 ?>
