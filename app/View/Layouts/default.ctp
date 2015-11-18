@@ -44,6 +44,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			case 'Posters':
 				echo $this->Html->css('page_poster');
 				break;
+			case 'Presentations':
+				echo $this->Html->css('page_presentation');
+				break;
 		}
 
 		echo $this->fetch('meta');
@@ -84,6 +87,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				break;
 			case 'Presentations':
 				echo $this->Html->script('page_presentation');
+				break;
+			case 'Floormaps':
+				echo $this->Html->script('page_floormap');
 				break;
 		}
 	?>
