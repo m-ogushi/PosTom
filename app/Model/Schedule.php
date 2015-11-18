@@ -17,9 +17,9 @@ class Schedule extends AppModel {
                         'start_time' =>  $row[4],
                         'end_time' => $row[5],
                         'chairperson_name' => $row[6],
-                        'chairperson_belongs' => $row[7],
+                        'chairperson_affiliation' => $row[7],
                         'commentator_name' => $row[8],
-                        'commentator_belongs' => $row[9]
+                        'commentator_affiliation' => $row[9]
                     );
                     // フォーマットヘッダー無視用
                     if($row[0] != "room") {

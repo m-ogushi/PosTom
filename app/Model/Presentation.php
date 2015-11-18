@@ -10,14 +10,16 @@ class Presentation extends AppModel {
                 while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
                 mb_convert_variables("UTF-8","SJIS", $row);
                     $presenData = array(
-                        'number' => $row[0],
-                        'title' => $row[1],
-                        'abstract' => $row[2],
-                        'keyword' =>  $row[3],
-                        'authors_name' => $row[4],
-                        'authors_belongs' => $row[5]
+						'room' => $row[0],
+						'session_order' => $row[1],
+						'presentation_order' => $row[2],
+						'title' => $row[3],
+						'abstract' => $row[4],
+						'keyword' =>  $row[5],
+						'authors_name' => $row[6],
+						'authors_affiliation' => $row[7]
                     );
-                    if($row[0] != "number") {
+                    if($row[0] != "room") {
                             $this->create($presenData);
                             $this->save();
                     }
