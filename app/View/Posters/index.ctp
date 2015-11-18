@@ -240,6 +240,8 @@ $ct = 0;
 
 // すべてのプレゼンテーション情報を出力する
 foreach($presentations as $presentation){
+	// プレゼンテーションのroom, session_order, presentation_orderの情報からナンバー（A1-1）を変数として格納
+	$presentationNum = $presentation['Presentation']['room'].$presentation['Presentation']['session_order'].'-'.$presentation['Presentation']['presentation_order'];
 	// ページ内の一番最初のプレゼンテーションであるか判定
 	if($ct == 0){
 ?>
@@ -248,10 +250,10 @@ foreach($presentations as $presentation){
 <?php
 	}
 ?>
-<li id="<?php echo $presentation['Presentation']['id']; ?>" data-num="<?php echo $presentation['Presentation']['number']; ?>" draggable="true">
+<li id="<?php echo $presentation['Presentation']['id']; ?>" data-num="<?php echo $presentationNum; ?>" draggable="true">
 <?php
 // プレゼンテーションナンバーの表示
-echo $presentation['Presentation']['number'].": ";
+echo $presentationNum.": ";
 // プレゼンテーションタイトルの表示
 echo $presentation['Presentation']['title'];
 ?>
