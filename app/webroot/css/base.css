@@ -93,6 +93,13 @@ input[type=file].disno {
 	background-color: #39b998;
 	color: #fff;
 }
+.formatDownload a {
+	text-decoration: underline;
+	color: #39B998;
+}
+.formatDownload a:hover {
+	text-decoration: none;
+}
 
 /* header
 ****************************************************/
