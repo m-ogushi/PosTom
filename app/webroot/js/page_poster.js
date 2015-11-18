@@ -179,7 +179,7 @@ function createObject(x, y, w, h, color) {
 					if(stage.children[k].__type == "selectSquare"){
 						continue;
 					}
-					if(xnow > stage.children[k].x - w && xnow < stage.children[k].x + (stage.children[k].w) && ynow > stage.children[k].y- h && ynow < stage.children[k].y + (stage.children[k].h)){
+					if(xnow > stage.children[k].x - w && xnow < stage.children[k].x + (stage.children[k].width) && ynow > stage.children[k].y- h && ynow < stage.children[k].y + (stage.children[k].height)){
 						break;
 					}
 					if(k==0){
@@ -533,6 +533,8 @@ function FrameDragOver(eventObject){
 	var instance = eventObject.target;
 	instance.graphics.command.w = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
 	instance.graphics.command.h =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
+	instance.width = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
+	instance.height =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
 
 	var i=stage.children.length-1;
 	while(selectedObject!= stage.children[i]){
