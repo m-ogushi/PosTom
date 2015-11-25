@@ -3,13 +3,21 @@
 class EventsController extends AppController {
 
 	public $helpers = array('Html', 'Form');
-	public $uses =array('Event','Poster');
+	public $uses =array('Event','Poster','Editor');
 
 	public function index() {
-		$this->set('events', $this->Event->find('all'));
+		// ログイン中ユーザID取得
+		$user_id = $_SESSION['Auth']['User']['id'];
+		// ユーザIDと関連するイベントをセット
+		$event_id_group = array();
+		$editors = $this->Editor->find('all', array('conditions'=>array('account_id'=>$user_id)));
+		foreach ($editors as $editor) :
+			array_push($event_id_group, $editor['Editor']['event_id']);
+		endforeach;
+		$this->set('events', $this->Event->find('all', array('conditions'=>array('id'=>$event_id_group))));
 		$this->set('title_for_layout', 'イベント一覧');
 	}
-	
+
 	public function view($unique_str = null) {
 		// ユニーク文字列からイベントIDを取得
 		$id = self::getIDByUniqueStr($unique_str);
@@ -22,20 +30,20 @@ class EventsController extends AppController {
 		$result=$this->Poster->find('all');
 		$this->set('posters', $result);
 	}
-	
+
 	public function add(){
-		if($this->request->is('post')){		
+		if($this->request->is('post')){
 			// イベントを一意に示すユニークな文字列を生成する
 			$unique_str = self::createUniqueStr();
 			// イベントを一意に示すユニークな文字列を登録するデータに追加する
 			$this->request->data['Event']['unique_str'] = $unique_str;
-			if($this->Event->save($this->request->data)){
+			if($this->Event->save_plus($this->request->data)){
 				// 登録が完了したらイベント一覧ページにリダイレクト
 				$this->redirect(array('action'=>'index'));
 			}
 		}
 	}
-	
+
 	/* 一意の文字列を生成する関数 */
 	public function createUniqueStr() {
 		// 他のイベントと文字列がだぶる場合があるため、かぶらない文字列が生成できるまで繰り返す
@@ -52,17 +60,17 @@ class EventsController extends AppController {
 		}
 		return $unique_str;
 	}
-	
+
 	/* 乱数から任意桁の文字列を生成する関数 */
 	public function createRandomStr($length) {
 		static $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJLKMNOPQRSTUVWXYZ0123456789';
 		$str = '';
 		for($i=0; $i<$length; ++$i){
-			$str .= $chars[mt_rand(0, 61)];	
+			$str .= $chars[mt_rand(0, 61)];
 		}
 		return $str;
 	}
-	
+
 	/* イベントを一意に示す文字列がすでに登録されているか確認する関数 */
 	public function checkAlreadyRegistedUniqueStr($str){
 		$results = $this->Event->find('all', array(
@@ -74,7 +82,7 @@ class EventsController extends AppController {
 		}
 		return true;
 	}
-	
+
 	/* イベントIDからユニーク文字列を取得する関数 */
 	public function getUniqueStrByID($id){
 		$results = $this->Event->find('all', array(
@@ -83,7 +91,7 @@ class EventsController extends AppController {
 		// IDによる検索のため結果は1件のみ
 		return $results[0]['Event']['unique_str'];
 	}
-	
+
 	/* ユニーク文字列からイベントIDを取得する関数 */
 	public function getIDByUniqueStr($unique_str){
 		$results = $this->Event->find('all', array(
@@ -92,17 +100,17 @@ class EventsController extends AppController {
 		// ユニークな文字列による検索のため結果は1件のみ
 		return $results[0]['Event']['id'];
 	}
-	
+
 	public function edit($id = null){
 		$this->Event->id = $id;
 		if($this->request->is('get')){
-			$this->request->data = $this->Event->read();	
+			$this->request->data = $this->Event->read();
 		}else{
 			if($this->Event->save($this->request->data)){
 				$this->Session->setFlash('Success!');
 				$this->redirect(array('action'=>'index'));
 			}else{
-				$this->Session->setFlash('Failed!');	
+				$this->Session->setFlash('Failed!');
 			}
 		}
 	}
