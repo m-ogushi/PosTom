@@ -30,4 +30,8 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+	protected function _getCurrentUser(){
+		App::uses('AuthComponent', 'Controller/Component');
+		return AuthComponent::user();
+	}
 }
