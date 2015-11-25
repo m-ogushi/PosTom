@@ -1,19 +1,21 @@
 <?php
 //$JsonFile='{"toppage_img":"'.$this->Html->webroot.'img/thumb/toppage_pbla.png","posmapp_bg":["'.$this->Html->webroot.'img/bg/backGround.png"],"STATIC_WIDTH":"720","STATIC_HEIGHT":"960",';
    $url="";
-  if (file_exists("floormap/".$_SESSION["event_id"]."." ."jpg"))
-  {
-   $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.jpg",';
-    }
-   else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."png"))
+   if($floormap==true)
    {
-  $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.png",';
-   }
-   else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."gif"))
-   {
-    $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.gif",';
-   }
-
+	  if (file_exists("floormap/".$_SESSION["event_id"]."." ."jpg"))
+	  {
+	   $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.jpg",';
+		}
+	   else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."png"))
+	   {
+	  $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.png",';
+	   }
+	   else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."gif"))
+	   {
+		$url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.gif",';
+	   }
+	}
 
 
 $JsonFile='{"toppage_img":"'.str_replace('/','\/',$this->Html->webroot).'img\/thumb\/toppage_pbla.png","posmapp_bg":["'.str_replace('/','\/',$this->Html->webroot).'img\/bg\/backGround.png"],'.$url.'"STATIC_WIDTH":"720","STATIC_HEIGHT":"960",';
