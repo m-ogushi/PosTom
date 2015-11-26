@@ -4,7 +4,13 @@ class PostersController extends AppController {
     public $helpers = array('Html', 'Form', 'Text');
 
 	public function index(){
-		$this->set('data',$this->Poster->find('all'));
+		// 選択中のイベントをevent_idにもつポスターのみ抽出
+		//$this->set('data',$this->Poster->find('all'));
+		$this->set('data',
+			$this->Poster->find('all', array(
+				'conditions' => array('event_id' => $_SESSION['event_id'])
+			))
+		);
 	}
 
 	public function savesql(){
@@ -28,6 +34,16 @@ class PostersController extends AppController {
 		if ($this->request->is('ajax')) {
 		$id = $this->request->data["id"];
 			$this->Poster->delete($id);
+		}
+	}
+	
+	// ポスター配置画面でポスターキャンバスタブが切り替わった際に呼び出されるセッション記録用処理
+	public function saveSelectedDay(){
+		if ($this->request->is('ajax')) {
+			$day = $this->request->data["day"];
+			// セッションに選択中の日数を記録
+			$_SESSION['selected_day'] = $day;
+			return true;
 		}
 	}
 	
