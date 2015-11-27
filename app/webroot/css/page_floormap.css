@@ -1,0 +1,13 @@
+@charset "utf-8";
+/*-------------------------------------------------
+ 
+  page_floormap.css
+ 
+ --------------------------------------------------*/
+
+#pageFloormap div {
+	margin-bottom: 10px;
+}
+#pageFloormap p {
+	margin-bottom: 10px;
+}
