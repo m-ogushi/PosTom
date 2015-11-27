@@ -47,5 +47,5 @@ echo $this->Form->input('event_begin_time', array('class'=>'form-control','defau
 echo $this->Form->input('event_end_date', array('class'=>'form-control','default' => $datas["Event"]["event_end_date"],'required' => false));
 echo $this->Form->input('event_end_time', array('class'=>'form-control','default' => $datas["Event"]["event_end_time"],'required' => false));
 echo $this->Form->input('event_top_image', array('type'=>'file','required' => false));
-echo $this->Form->submit('Edit', array('class'=>'btn btn-custom'));
+echo $this->Form->submit('Update', array('class'=>'btn btn-custom'));
 ?>
