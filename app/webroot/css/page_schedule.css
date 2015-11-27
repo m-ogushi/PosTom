@@ -1,22 +1,30 @@
-.btn-group-vertical{
-	vertical-align: top;
-	margin-top: 20px;
-	text-align: left;
-}
-div.btn-group-vertical .btn {
-	text-align: left;
-}
-.btn-group-vertical:not(:first-child){
-	margin-left: 10px;
-}
-.btn-group-vertical>.btn:not(:first-child){
-	background-color: #FCFEFF;
-}
+/*時間軸*/
 .time-group{
-	margin-top: 53px;
+	margin-top: 10px;
 	float: left;
 }
 div.time-group p {
 	font-size: 105%;
-	line-height: 2.48em;
+	line-height: 90px;
+}
+.container{
+	position: relative;
+}
+/*セッション会場*/
+.room{
+	width: 100px;
+	height: 30px;
+	margin-top: 5px;
+}
+
+.room-group>.btn:not(:first-child){
+	margin-left: 15px;
+}
+.room-group{
+	margin-left: 60px;
+}
+/*各セッション*/
+.session-group>.btn{
+	width: 100px;
+	padding: 6px 2px;
 }

@@ -6,13 +6,23 @@ class PresentationsController extends AppController {
 
 
 	public function index(){
-		$this->set('presentations', $this->Presentation->find('all'));
+		$event_id = $_SESSION['event_id'];
+		$this->set('presentations', $this->Presentation->find('all', array('conditions' => array('event_id' => $event_id))));
 	}
 
+	// すべてのプレゼンテーションを取得する
 	public function getall(){
 		return $this->Presentation->find('all');
 	}
+	
+	// 特定イベントのプレゼンテーションをすべて取得する
+	public function getByEventID($event_id){
+		return $this->Presentation->find('all', array(
+			'conditions' => array('event_id' => $event_id)
+		));
+	}
 
+	// 固有のプレゼンテーションを１つ取得する
 	public function getByID($id){
 		return $this->Presentation->find('all', array(
 			'conditions' => array('id' => $id)
