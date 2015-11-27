@@ -25,7 +25,6 @@
 				echo '</tr>';
 			}
     	}
-    	debug($presentations);
     	?>
         <?php foreach ($presentations as $presentation) :
 			echo '<tr>';
