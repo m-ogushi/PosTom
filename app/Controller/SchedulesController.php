@@ -5,9 +5,9 @@ class SchedulesController extends AppController {
 	public $helpers = array('Html', 'Form', 'Text');
     public $uses = array('Schedule','Event');
 	public function index(){
-        $this->set('schedules', $this->Schedule->find('all'));
-        $this->set('events', $this->Event->find('all'));
-        $this->set('day_diff', $this->Event->dayDiff());
+		$event_id = $_SESSION['event_id'];
+		$this->set('schedules', $this->Schedule->find('all', array('conditions' => array('event_id' => $event_id))));
+		$this->set('day_diff', $this->Event->dayDiff());
     }
 	public function import(){
         if($this->request->is('post')){
@@ -22,6 +22,14 @@ class SchedulesController extends AppController {
         }else{
         	echo "error";
         }
+    }
+    public function _calcStyle(){
+    	$str = "<!-- #B{ width: 60px;} -->";
+    	return $str;
+    }
+    public function test(){
+    	debug($str);
+    	echo "11jiofjowejfioewjofijwoifjoiwejfoiewjoifjiowejflkvneoirjviorwjfiorwje";
     }
 }
 ?>
