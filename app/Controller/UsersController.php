@@ -5,6 +5,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow(array('signup', 'activate', 'login', 'interim'));
+		// $this->Auth->allow(array('controller' => 'posmapps', 'action' => 'index'));
 	}
 	// ユーザ登録 (フォームの入力をDBに保存して仮登録し、本登録のためのメールを送信)
 	public function signup() {
