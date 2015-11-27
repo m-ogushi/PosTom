@@ -47,6 +47,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			case 'Presentations':
 				echo $this->Html->css('page_presentation');
 				break;
+			case 'Floormaps':
+				echo $this->Html->css('page_floormap');
+				break;
 		}
 
 		echo $this->fetch('meta');
@@ -125,7 +128,7 @@ echo $this->Html->image('i_logo.png', array(
 <li id="gNavSch"><a href="<?php echo $this->Html->url(array('controller' => 'schedules', 'action' => 'index')); ?>"><i class="fa fa-calendar fa-2x"></i><span>Schedule</span></a></li>
 <li id="gNavPre"><a href="<?php echo $this->Html->url(array('controller' => 'presentations', 'action' => 'index')); ?>"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>
 <li id="gNavFlo"><a href="<?php echo $this->Html->url(array('controller' => 'floormaps', 'action' => 'index')); ?>"><img src="<?php echo $this->webroot; ?>/img/ico_floormap.png" alt="Floor Map"><span>Floor Map</span></a></li>
-<li id="gNavSet"><a href="<?php echo $this->Html->url(array('controller' => 'settings', 'action' => 'index')); ?>"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
+<li id="gNavSet"><a href="<?php echo $this->Html->url(array('controller' => 'settings', 'action' => 'eventedit', $_SESSION['event_id'])); ?>"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
 </ul>
 </div>
 <!-- //contents.dashboard -->

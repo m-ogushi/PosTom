@@ -22,12 +22,12 @@ class SettingsController extends AppController {
 			if($this->Event->save($save)){
 			$path = IMAGES;
       $image = $this->request->data["Event"]["event_top_image"];
-	  $name = $this->params["pass"][0].".".explode("/",$image['type'])[1];;
+	  $name = $this->params["pass"][0].".".explode("/",$image['type'])[1];
       $this->Session->setFlash('画像を登録しました');
       move_uploaded_file($image['tmp_name'], $path .'thumb'. DS . $name);
       			}else{
 			}
-		$this->redirect(array('action'=>'index'));
+		$this->redirect(array('action'=>'eventedit', $_SESSION['event_id']));
 		}
 	}
 
