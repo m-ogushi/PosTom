@@ -17,8 +17,6 @@
 	   }
 	}
 
-
-
     $JsonFile='{"toppage_img":"'.str_replace('/','\/',$this->Html->webroot).'img\/thumb\/toppage_pbla.png","posmapp_bg":["'.str_replace('/','\/',$this->Html->webroot).'img\/bg\/backGround.png"],'.$url.'"STATIC_WIDTH":"720","STATIC_HEIGHT":"960",';
     //echo str_replace('/','\/',$this->Html->webroot);
     $pointer=1;
