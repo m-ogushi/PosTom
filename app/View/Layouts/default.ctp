@@ -74,6 +74,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		var webroot = "<?php echo $this->webroot; ?>";
 		// ログイン中のユーザIDを取得(ログイン中でない場合は空)
 		var loginUserID = "<?php echo isset($_SESSION['login_user_id'])? $_SESSION['login_user_id'] : ''; ?>";
+		// 選択中のイベントIDを取得
+		var selectedEventID = "<?php echo isset($_SESSION['event_id'])? $_SESSION['event_id'] : ''; ?>";
         </script>
 <?php
 		echo $this->Html->script('common');

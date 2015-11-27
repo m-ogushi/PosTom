@@ -100,7 +100,24 @@ class EventsController extends AppController {
 		// ユニークな文字列による検索のため結果は1件のみ
 		return $results[0]['Event']['id'];
 	}
-
+	
+	/* イベントの開催日数を取得する関数 */
+	public function getEventDays($id) {
+		$diff = 0;
+		$results = $this->Event->find('all', array(
+			'conditions' => array('id' => $id)
+		));
+		// ユニークな文字列による検索のため結果は1件のみ
+		$begin = $results[0]['Event']['event_begin_date'];
+		$end = $results[0]['Event']['event_end_date'];
+		
+        $timeStamp1 = strtotime($begin);
+        $timeStamp2 = strtotime($end);
+        $timeDiff = abs($timeStamp2 - $timeStamp1);
+        $diff = ($timeDiff / (60 * 60 * 24)) + 1;
+    	return $diff;
+	}
+	
 	public function edit($id = null){
 		$this->Event->id = $id;
 		if($this->request->is('get')){

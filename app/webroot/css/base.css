@@ -100,6 +100,11 @@ input[type=file].disno {
 .formatDownload a:hover {
 	text-decoration: none;
 }
+.tab-content {
+	border: 1px solid #ddd;
+	border-top: transparent;
+	padding: 10px;
+}
 
 /* header
 ****************************************************/
@@ -279,19 +284,22 @@ input[type=file].disno {
 
 /* canvas
 ****************************************************/
-#demoCanvas {
+.posterCanvas {
 	background-image: url(../img/dot.png);
 	background-repeat: repeat;
 	border: 1px solid #e1e1e1;
 	display: block;
 	margin: 0 auto;
 }
+canvas.disuse {
+	background-color: rgba(100,100,100,0.4);
+}
 
 
 /* responsive
 ****************************************************/
 @media screen and (max-width: 1200px) {
-#demoCanvas {
+.posterCanvas {
 	margin: 0;
 }
 }
