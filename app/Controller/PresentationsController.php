@@ -26,11 +26,11 @@ class PresentationsController extends AppController {
 			if(is_uploaded_file($up_file)){
 				move_uploaded_file($up_file, $fileName);
 				$this->Presentation->loadCSV($fileName);
-				$this->Presentation->setFlash('Uploaded');
+				// $this->Presentation->setFlash('Uploaded');
 				$this->redirect(array('action'=>'index'));
 			}
 		}else{
-		echo "error";
+			echo "error";
 		}
 	}
 }

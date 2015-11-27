@@ -1,82 +1,100 @@
 <script type="text/javascript">
-$(window).load(function() {
-//ページ読み込み時に、データベースから取得した、ポスター情報を反映
-  var poster = new Array();
-  var presentations = new Array();
-  var data = <?php echo count($data); ?>;
+// イベントの開催日数を取得
+var eventDays = "<?php echo $this->requestAction('/events/getEventDays/'.$_SESSION['event_id']); ?>";
+
+// データベースから取得したポスターデータを格納するためのポスター配列変数
+var poster = new Array();
+// データベースから取得したポスターデータを元に関連するプレゼンテーションデータを格納するためのプレゼンテーション配列変数
+var presentations = new Array();
+
+// Disuseになっている日数を格納するための配列
+var disuses = new Array(eventDays);
+// Disuseの初期化　はじめはすべてdisuseにチェックが入っていない状態とする
+for(var i=0; i<eventDays; i++){
+	disuses[i] = false;
+}
+	
 //データベースの情報をローカルに格納
 <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
 	poster[<?php echo $i ?>] = new Array();
-	poster[<?php echo $i ?>].NextId=<?php echo $data[$i]["Poster"]["id"]; ?>;
-	poster[<?php echo $i ?>].width=<?php echo $data[$i]["Poster"]["width"]; ?>;
-	poster[<?php echo $i ?>].height=<?php echo $data[$i]["Poster"]["height"]; ?>;
-	poster[<?php echo $i ?>].x=<?php echo $data[$i]["Poster"]["x"]; ?>;
-	poster[<?php echo $i ?>].y=<?php echo $data[$i]["Poster"]["y"]; ?>;
-	poster[<?php echo $i ?>].color="<?php echo $data[$i]["Poster"]["color"]; ?>";
-	poster[<?php echo $i ?>].presentation_id="<?php echo $data[$i]["Poster"]["presentation_id"]; ?>";
+	poster[<?php echo $i ?>].NextId = <?php echo $data[$i]["Poster"]["id"]; ?>;
+	poster[<?php echo $i ?>].width = <?php echo $data[$i]["Poster"]["width"]; ?>;
+	poster[<?php echo $i ?>].height = <?php echo $data[$i]["Poster"]["height"]; ?>;
+	poster[<?php echo $i ?>].x = <?php echo $data[$i]["Poster"]["x"]; ?>;
+	poster[<?php echo $i ?>].y = <?php echo $data[$i]["Poster"]["y"]; ?>;
+	poster[<?php echo $i ?>].color = "<?php echo $data[$i]["Poster"]["color"]; ?>";
+	poster[<?php echo $i ?>].presentation_id = <?php echo $data[$i]["Poster"]["presentation_id"]; ?>;
+	poster[<?php echo $i ?>].date = <?php echo $data[$i]["Poster"]["date"]; ?>;
+	poster[<?php echo $i ?>].event_id = <?php echo $data[$i]["Poster"]["event_id"]; ?>;
+
 	// もし関連済みプレゼンテーションがあれば、そのプレゼンテーション情報を取得する
 	<?php
 	if($data[$i]["Poster"]["presentation_id"] != '0' && $data[$i]["Poster"]["presentation_id"] != NULL){
 		// 別のモデル（Presentation）から必要なクションを呼び出す
 		$relatedPresentation = $this->requestAction('/presentations/getByID/'.$data[$i]["Poster"]["presentation_id"]);
 	?>
-	// PHPから関連付けされたプレゼンテーション情報を取得する（IDをキーとして取得するため1件のみ）
-	presentations[<?php echo $i; ?>] = <?php echo json_encode($relatedPresentation[0]['Presentation']); ?>;
+		// PHPから関連付けされたプレゼンテーション情報を取得する（IDをキーとして取得するため1件のみ）
+		presentations[<?php echo $i; ?>] = <?php echo json_encode($relatedPresentation[0]['Presentation']); ?>;
 <?php
 	} // end if
 } // end for
+
+
+// イベントの開催日数を取得
+$days = $this->requestAction('/events/getEventDays/'.$_SESSION['event_id']);
+
+// Disuseの状態を格納するための配列を初期化（はじめはすべて利用する状態にしておく）
+for($i=0; $i<$days; $i++){
+	$disuses[$i] = false;
+}
+// Disuseになっている日程を取得する
+$disuseArray = $this->requestAction('/disuses/getByEventID/'.$_SESSION['event_id']);
+
+for($i=0; $i<count($disuseArray); $i++){
+	// Disuseにチェックがついている日数のみをtrueに変更させる
+	$disuses[$disuseArray[$i]['Disuse']['date']-1] = true;
 ?>
-	for(i=0; i<poster.length; i++){
-		//ポスター情報を反映
-		var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
-		instance.NextId= poster[i].NextId;
-		if(poster[i].NextId >= NextId){
-			NextId = poster[i].NextId+1;
-		}
-		instance.cursor = "pointer";
-		instance.__deleteSelected = false;
-		instance.__relation = poster[i].presentation_id;
-		/*instance.__title = objectList[i].title;
-		instance.__presenter = objectList[i].presenter;
-		instance.__abstract = objectList[i].abstract;*/
-		stage.addChild(instance);
-		instance.addEventListener("mousedown", startDrag);
-		
-		// ポスターに関連済みプレゼンテーションがあれば、テキストオブジェクトを生成する
-		if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
-			// ポスターの色を関連済みの色に変更する
-			instance.graphics._fill.style = relatedColor;
-			instance.color = relatedColor;
-			// テキストオブジェクトを生成する
-			var text = new createjs.Text(presentations[i].number, '20px Meiryo', '#fff');
-			var textWidth = text.getMeasuredWidth();
-			var textHeight = text.getMeasuredHeight();
-			// テキストをオブジェクトの中央に配置
-			text.x = instance.x + (instance.width - textWidth)/2;
-			text.y = instance.y + (instance.height - textHeight)/2;
-			// テキストオブジェクトにオブジェクトタイプを付与
-			text.__type = 'text';
-			// テキストオブジェクトに親要素であるポスターオブジェクトのIDを付与（ポスターが移動した際に、テキストもついていくようにするため）
-			text.__parent = instance.id;
-			
-			stage.addChild(text);
-			
-			// 選択中のプレゼンテーションの要素を関連付けされた状態にする
-			$('.presentationlist li#'+instance.__relation).addClass('related').attr('data-relation', instance.id);
-		}
-	}
-	stage.update();
-	loading = false;
-});
+	disuses[<?php echo $disuseArray[$i]['Disuse']['date']-1; ?>] = true;
+<?php	
+} // end for
+?>
 </script>
 <div>
 
 <!-- canvasArea -->
 <div id="canvasArea">
-<canvas id="demoCanvas" dropzone="copy"></canvas>
+<!-- tab -->
+<div id="tab">
+<ul class="nav nav-tabs">
+<?php
+	
+	// イベントの開催日数分のタブを生成する
+	for($i=1; $i<=$days; $i++){
+?>
+<li id="canvasTab<?php echo $i; ?>" class="<?php echo $i==1?'active':''; ?>"><a href="#tcCanvas<?php echo $i ?>" data-toggle="tab" data-days="<?php echo $i; ?>"><?php echo $i; ?></a></li>
+<?php
+	} // end for
+?>
+</ul>
+</div>
+<!-- //tab -->
+<!-- tab contents -->
+<div class="tab-content">
+<?php
+	// イベントの開催日数分のキャンバスを生成する
+	for($i=1; $i<=$days; $i++){
+?>
+<div id="tcCanvas<?php echo $i; ?>" class="tab-pane <?php echo $i==1?'active':''; ?>">
+<p><input type="checkbox" name="checkDisuse<?php  echo $i; ?>" onChange="onChangeDisuse(this, <?php echo $i; ?>)" <?php echo $disuses[$i-1]==true?'checked':''; ?>>&nbsp;Disuse</p>
+<canvas id="posterCanvas<?php echo $i; ?>" class="posterCanvas <?php echo $disuses[$i-1]?'disuse':''; ?>" dropzone="copy"></canvas>
+</div>
+<?php
+	} // end for
+?>
+</div>
+<!-- //tab contents -->
 </div>
 <!-- //canvasArea -->
-
 
 <!-- inputArea -->
 <div id="inputArea">
@@ -89,7 +107,7 @@ $(window).load(function() {
 </div>
 <!-- //tab -->
 <!-- tab contents -->
-<div id="tabContents" class="tab-content">
+<div class="tab-content">
 <!-- tab contents Poster -->
 <div id="tcPoster" class="tab-pane active">
 
@@ -240,6 +258,8 @@ $ct = 0;
 
 // すべてのプレゼンテーション情報を出力する
 foreach($presentations as $presentation){
+	// プレゼンテーションのroom, session_order, presentation_orderの情報からナンバー（A1-1）を変数として格納
+	$presentationNum = $presentation['Presentation']['room'].$presentation['Presentation']['session_order'].'-'.$presentation['Presentation']['presentation_order'];
 	// ページ内の一番最初のプレゼンテーションであるか判定
 	if($ct == 0){
 ?>
@@ -248,10 +268,10 @@ foreach($presentations as $presentation){
 <?php
 	}
 ?>
-<li id="<?php echo $presentation['Presentation']['id']; ?>" data-num="<?php echo $presentation['Presentation']['number']; ?>" draggable="true">
+<li id="<?php echo $presentation['Presentation']['id']; ?>" data-num="<?php echo $presentationNum; ?>" draggable="true">
 <?php
 // プレゼンテーションナンバーの表示
-echo $presentation['Presentation']['number'].": ";
+echo $presentationNum.": ";
 // プレゼンテーションタイトルの表示
 echo $presentation['Presentation']['title'];
 ?>
