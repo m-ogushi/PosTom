@@ -140,14 +140,14 @@ function init() {
 		$("#goToInformation").goToInformationPage("click");
 	}
 	else{
-		$("#goToInformation").attr("src","img/topmenu/schedule_gray.png");
+		$("#goToInformation").attr("src","../../img/topmenu/schedule_gray.png");
 	}
 	if(venuemap != null){
 		$("#goToVenue").goToVenuePage("click");
 		$("#floormap").attr("src",venuemap);
 	}
 	else{
-		$("#goToVenue").attr("src","img/topmenu/venue_gray.png");
+		$("#goToVenue").attr("src","../../img/topmenu/venue_gray.png");
 	}
 
 	//トップページの背景を設定する

@@ -40,7 +40,7 @@ class PosMappsController extends AppController {
         $mailAdress = $user['email'];
 
         $this->Email->sendAs = 'html';
-        $content= Router::url('/PosMapps/phoneclear/', true);
+        $content= Router::url('/PosMapps/phoneclear/'.$_SESSION['event_str'], true);
         App::uses('CakeEmail','Network/Email');
         $Email = new CakeEmail('gmail');
         $Email->from(array('tkb.tsss@gmail.com' => 'POSTOM'))

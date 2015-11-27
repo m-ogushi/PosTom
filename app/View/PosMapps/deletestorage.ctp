@@ -1,19 +1,19 @@
-	<?php
+<?php
     //$JsonFile='{"toppage_img":"'.$this->Html->webroot.'img/thumb/toppage_pbla.png","posmapp_bg":["'.$this->Html->webroot.'img/bg/backGround.png"],"STATIC_WIDTH":"720","STATIC_HEIGHT":"960",';
    $url="";
    if($floormap==true)
    {
-	  if (file_exists("floormap/".$_SESSION["event_id"]."." ."jpg"))
+	  if (file_exists("floormap/".$_SESSION["event_str"]."." ."jpg"))
 	  {
-	   $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.jpg",';
+	   $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_str"] .'.jpg",';
 		}
-	   else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."png"))
+	   else  if (file_exists("floormap/".$_SESSION["event_str"]."."  ."png"))
 	   {
-	  $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.png",';
+	  $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_str"] .'.png",';
 	   }
-	   else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."gif"))
+	   else  if (file_exists("floormap/".$_SESSION["event_str"]."."  ."gif"))
 	   {
-		$url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.gif",';
+		$url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_str"] .'.gif",';
 	   }
 	}
 
@@ -133,7 +133,7 @@
     //echo $JsonFile;
 
     // JSONÇ÷ïœä∑ÇµÇƒèëÇ´çûÇ›
-    $filename ='../webroot/json/data.json';
+    $filename ='../webroot/json/'.$_SESSION['event_str'].'.json';
 
     $handle = fopen($filename, 'w');
     fwrite($handle,$JsonFile);
@@ -145,6 +145,6 @@
 				 window.onload=function()
                  {
 			localStorage.clear();
-			window.location.href="<?php echo $this->Html->url(array('controller' => 'PosMapps', 'action' => 'index')) ?>";
+			window.location.href="<?php echo $this->Html->url(array('controller' => 'PosMapps', 'action' => 'index',$_SESSION['event_str'])) ?>";
 			}
 	</script>
