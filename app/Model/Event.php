@@ -1,11 +1,13 @@
 <?php
 
 class Event extends AppModel {
-	// イベント日数計算 TODO 最初の要素持ってきてるから要変更
+	// イベント日数計算
     public function dayDiff(){
-    	$event = $this->find('first');
-        $begin = $event['Event']['event_begin_date'];
-        $end = $event['Event']['event_end_date'];
+    	$event_id = $_SESSION['event_id'];
+    	$event = $this->find('all', array('conditions' => array('id' => $event_id)));
+    	// 謎なんでevent[0]つけなきゃエラーでるようになった？
+        $begin = $event[0]['Event']['event_begin_date'];
+        $end = $event[0]['Event']['event_end_date'];
         $timeStamp1 = strtotime($begin);
         $timeStamp2 = strtotime($end);
         $timeDiff = abs($timeStamp2 - $timeStamp1);
