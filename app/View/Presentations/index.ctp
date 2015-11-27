@@ -1,6 +1,6 @@
 <h2>CSV Import</h2>
 <p>CSV Format is Number, Title, Abstract, Keyword, Author, AuthorAffiliation</p>
-<p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/format_presentation.csv">Download CSV Sample</a></p>
+<p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/presentation_format.csv">Download CSV Sample</a></p>
 <p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
 <?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'accept'=>'text/csv', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?>
