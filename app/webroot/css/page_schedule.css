@@ -1,11 +1,14 @@
 /*時間軸*/
 .time-group{
-	margin-top: 35px;
+	margin-top: 10px;
 	float: left;
 }
 div.time-group p {
 	font-size: 105%;
 	line-height: 90px;
+}
+.container{
+	position: relative;
 }
 /*セッション会場*/
 .room{
