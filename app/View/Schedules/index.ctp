@@ -55,44 +55,72 @@ echo $this->Html->css('page_schedule');
 <p> </p>
 <div class="container">
 <?php
-	// 時間が最遅時間のセッションがあるroomを特定
-	$max_room = "";
-	$max_order = 0;
+	$first = '23:59:59';
+	$end = '0:0:0';
+	$roomGroup = array();
 	foreach ($schedules as $sch) :
-		if($day == $sch['Schedule']['date']){
-			if($max_order < $sch['Schedule']['order']){
-				$max_room = $sch['Schedule']['room'];
-				$max_order = $sch['Schedule']['order'];
-			}
+		if($first >= $sch['Schedule']['start_time']){
+			$first = $sch['Schedule']['start_time'];
+		}
+		if($end <= $sch['Schedule']['end_time']){
+			$end = $sch['Schedule']['end_time'];
+		}
+		// 存在するroomを洗い出す
+		if(!in_array($sch['Schedule']['room'], $roomGroup)){
+			array_push($roomGroup, $sch['Schedule']['room']);
 		}
 	endforeach;
+	sort($roomGroup);
+	// 後述css生成部分でfirstTimeを使用
+	$firstTime = $first;
+	$first = substr($first,0,2);
+	$first = (Int)$first;
+	// 最後のセッションがはみ出さないようにする
+	if(substr($end,3,2) == '00'){
+		$end = substr($end,0,2);
+	}else{
+		$end = substr($end,0,2);
+		$end++;
+	}
 	// 時間構成設置
 	echo '<div class="time-group">';
 	$venu = "";
-	for ($j = 0; $j < count($schedules); $j++){
-		$sch = $schedules[$j];
-		if($day == $sch['Schedule']['date'] && $max_room == $sch['Schedule']['room']){
-			echo '<p>'. substr($sch['Schedule']['start_time'], 0, 5) .' ~ '. substr($sch['Schedule']['end_time'], 0, 5) .'</p>';
-		}
+	for ($first; $first <= $end; $first++){
+			echo '<p id="'. $first .'">'. $first .':00</p>';
 	}
 	echo '</div>';
-
+	// roomボタン設置
+	echo '<div class="room-group">';
+	for($countRoom = 0; $countRoom < count($roomGroup); $countRoom++){
+		echo '<button type="button" id="' . $roomGroup[$countRoom] . '" class="btn btn-info room">' . $roomGroup[$countRoom] . '</button>';
+	}
+	echo '</div>';
 	// セッション設置
-	$room = "";
+	echo '<div class="session-group">';
 	for ($j = 0; $j < count($schedules); $j++){
 		$sch = $schedules[$j];
 		if ($day == $sch['Schedule']['date']) {
-			if ($room != $sch['Schedule']['room']){
-				$room = $sch['Schedule']['room'];
-				echo '<div class="btn-group-vertical">';
-				echo '<button type="button" class="btn btn-info">' . $sch['Schedule']['room'] . '</button>';
-			}
-			echo '<button type="button" class="btn btn-default" data-toggle="popover" data-trigger="hover" data-placement="top" data-content=" '. $sch['Schedule']['start_time'] . '~' . $sch['Schedule']['end_time'] . ' " >' . $sch['Schedule']['room'] . '' . $sch['Schedule']['order'] . ': ' . $sch['Schedule']['category'] . '</button>';
-			if($j == count($schedules)-1 || $room != $schedules[$j+1]['Schedule']['room']){
-				echo '</div>';  // venu-group end
-			}
+			// $position = _calcPosition();
+			$session = $sch['Schedule']['room'].$sch['Schedule']['order'];
+			$id = $sch['Schedule']['room'].$sch['Schedule']['date'].$sch['Schedule']['order'];
+			echo '<button type="button" id='. $id .' class="btn btn-default session" data-toggle="popover" data-trigger="hover" data-placement="top" data-content=" '. $sch['Schedule']['start_time'] . '~' . $sch['Schedule']['end_time'] . ' " >' . $session . ': ' . $sch['Schedule']['category'] . '</button>';
+			// 秒数削除で格納
+			$sessionStart = substr($sch['Schedule']['start_time'],0,5);
+			$sessionEnd = substr($sch['Schedule']['end_time'],0,5);
+			// 差分計算
+			$sessionWidth = (strtotime($sessionEnd)-strtotime($sessionStart))/60/60*90;
+			// セッションの開始時間計算
+			$top = strtotime(substr($sch['Schedule']['start_time'],0,5)) - strtotime(substr($firstTime,0,5));
+			$roomN = array_search($sch['Schedule']['room'], $roomGroup);
+			$left = 352 + ($roomN * 114);
+			$top = 353 + ($top / 60 / 60 * 90);
+			echo '<style type="text/css">';
+			echo '<!-- #'. $id .'{ position: absolute; top: '. $top .'px; left: '. $left .'px; height: '. $sessionWidth .'px; } -->';
+
+			echo '</style>';
 		}
 	}
+	echo '</div>'; // session-group end
 	echo '</div>'; // tab-pane end
 	echo '</div>'; // container end
 	} // day loop end

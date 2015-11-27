@@ -4,8 +4,6 @@ class Schedule extends AppModel {
     public function loadCSV($filename){
 	        $this->begin();
             try{
-                //最初にTable:sessionを初期化
-                $this->deleteAll('1=1',false);
                 $handle = fopen($filename,"r");
                 while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
                 mb_convert_variables("UTF-8","SJIS", $row);
@@ -19,7 +17,8 @@ class Schedule extends AppModel {
                         'chairperson_name' => $row[6],
                         'chairperson_affiliation' => $row[7],
                         'commentator_name' => $row[8],
-                        'commentator_affiliation' => $row[9]
+                        'commentator_affiliation' => $row[9],
+                        'event_id' => $_SESSION['event_id']
                     );
                     // フォーマットヘッダー無視用
                     if($row[0] != "room") {
