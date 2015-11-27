@@ -52,20 +52,20 @@ class FloormapsController extends AppController {
             }
             else
             {
-                if (file_exists("floormap/".$_SESSION["event_id"]."." ."jpg"))
+                if (file_exists("floormap/".$_SESSION["event_str"]."." ."jpg"))
                 {
-                    unlink("floormap/".$_SESSION["event_id"]."." ."jpg");
+                    unlink("floormap/".$_SESSION["event_str"]."." ."jpg");
                 }
-                if (file_exists("floormap/".$_SESSION["event_id"]."."  ."png"))
+                if (file_exists("floormap/".$_SESSION["event_str"]."."  ."png"))
                 {
-                    unlink("floormap/".$_SESSION["event_id"]."." ."png");
+                    unlink("floormap/".$_SESSION["event_str"]."." ."png");
                 }
-                if (file_exists("floormap/".$_SESSION["event_id"]."."  ."gif"))
+                if (file_exists("floormap/".$_SESSION["event_str"]."."  ."gif"))
                 {
-                    unlink("floormap/".$_SESSION["event_id"]."." ."gif");
+                    unlink("floormap/".$_SESSION["event_str"]."." ."gif");
                 }
                 move_uploaded_file($_FILES["file"]["tmp_name"],
-                    $this->Html->webroot  ."floormap/".$_SESSION["event_id"].".". pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION));
+                    $this->Html->webroot  ."floormap/".$_SESSION["event_str"].".". pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION));
                 $this->set("message", $_FILES["file"]["name"] . " upload success!");
                 $event=array('Event'=>array('id'=>$_SESSION['event_id'],'set_floormap'=>true));
                 $fields=array('set_floormap');
