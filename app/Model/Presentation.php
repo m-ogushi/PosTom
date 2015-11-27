@@ -8,7 +8,6 @@ class Presentation extends AppModel {
 				self::checkRelatedPoster();
                 $handle = fopen($filename,"r");
                 while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
-                debug($row);
                 mb_convert_variables("UTF-8","SJIS", $row);
                     $presenData = array(
 						'room' => $row[0],
