@@ -1,7 +1,7 @@
 room,session_order,presentation_order,date,title,abstract,keyword,authors_name,authors_belongs
-F,6,6,1a,title1,abstract1,keyword1,"name1,name2","belongs1,belongs2"
-A,1,1,1b,title2,abstract2,keyword2,"name3,name4,name5","belongs3,belongs4,belongs5"
-B,2,2,1c,title3,abstract3,keyword3,"name6,name7,name8,name9","belongs6,belongs7,belongs8,belongs9"
-C,3,3,2a,title4,abstract4,keyword4,name10,belongs10
-D,4,4,2b,title5,abstract5,keyword5,"name11,name12,name13","belongs11,belongs12,belongs13"
-E,5,5,2c,title6,abstract6,keyword6,"name14,name15","belongs14,belongs15"
+F,6,6,1,title1,abstract1,keyword1,"name1,name2","belongs1,belongs2"
+A,1,1,1,title2,abstract2,keyword2,"name3,name4,name5","belongs3,belongs4,belongs5"
+B,2,2,1,title3,abstract3,keyword3,"name6,name7,name8,name9","belongs6,belongs7,belongs8,belongs9"
+C,3,3,2,title4,abstract4,keyword4,name10,belongs10
+D,4,4,2,title5,abstract5,keyword5,"name11,name12,name13","belongs11,belongs12,belongs13"
+E,5,5,2,title6,abstract6,keyword6,"name14,name15","belongs14,belongs15"
