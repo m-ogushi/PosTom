@@ -112,8 +112,8 @@ echo $this->Html->css('page_schedule');
 			// セッションの開始時間計算
 			$top = strtotime(substr($sch['Schedule']['start_time'],0,5)) - strtotime(substr($firstTime,0,5));
 			$roomN = array_search($sch['Schedule']['room'], $roomGroup);
-			$left = 352 + ($roomN * 114);
-			$top = 353 + ($top / 60 / 60 * 90);
+			$left = 75 + ($roomN * 114);
+			$top = 56 + ($top / 60 / 60 * 90);
 			echo '<style type="text/css">';
 			echo '<!-- #'. $id .'{ position: absolute; top: '. $top .'px; left: '. $left .'px; height: '. $sessionWidth .'px; } -->';
 
