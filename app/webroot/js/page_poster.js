@@ -28,7 +28,7 @@ var gridSize = 10;
 var initX = 0, initY = 0;
 // グリッドにおける番地
 var gridX, gridY;
-// 現在のモード
+// 現在のモード(create, delete, presentation, disuse)
 var selectMode = "create";
 // 前回のモード
 var formerMode = "";
@@ -79,24 +79,125 @@ var mapMaxHeight = 2000;
 var selectedPresentationID = 0;
 // 選択中のプレゼンテーションナンバー
 var selectedPresentationNum = '';
-//次のid
+// 次のid
 var NextId=1;
-//読み込み中
+// 読み込み中
 var loading = true;
+// 選択中のポスターキャンバスタブの日数
+var selectedDay = 1;
+// 前状態のポスターキャンバスタブの日数
+var previousDay = 1;
+// 複数日対応 canvas要素配列
+var canvasElementArray = new Array();
+// 複数日対応 stage配列
+var stageArray = new Array();
+// 選択中のcanvas要素
+var canvasElement;
+// 選択中のstage
+var stage;
+
+
 /********************************************************
  *							読み込み時の処理							*
  ********************************************************/
 $(function() {
-	$( '#demoCanvas' ).get( 0 ).width = canvasWidth;
-	$( '#demoCanvas' ).get( 0 ).height = canvasHeight;
 	$('[name^="objectWidth"]').attr("max",canvasWidth/gridSize);
 	$('[name^="objectHeight"]').attr("max",canvasHeight/gridSize);
-
-	canvasElement = document.getElementById("demoCanvas");
+	
+	// 複数日対応 canvas要素配列, stage配列の格納
+	for(var i=0; i<eventDays; i++){
+		// それぞれのcanvasサイズを指定する
+		$('#posterCanvas'+(i+1)).get(0).width = canvasWidth;
+		$('#posterCanvas'+(i+1)).get(0).height = canvasHeight;
+		// プレゼンテーションからの関連づけのマウスイベントを受け付ける
+		$('#posterCanvas'+(i+1)).on('dragover', onDragOver);
+		$('#posterCanvas'+(i+1)).on('drop', onDrop);
+		
+		canvasElementArray[i] = document.getElementById("posterCanvas"+(i+1));
+		stageArray[i] = new createjs.Stage(canvasElementArray[i]);
+		stageArray[i].enableMouseOver();
+		stageArray[i].enableDOMEvents(true);
+		document.getElementById("posterCanvas"+(i+1)).addEventListener("click",cancelFrame);
+	}
+	
+	// 初期状態は、canvas要素, stageともにイベント初日とする
+	canvasElement = document.getElementById("posterCanvas1");
 	stage = new createjs.Stage(canvasElement);
 	stage.enableMouseOver();
 	stage.enableDOMEvents(true);
-    document.getElementById("demoCanvas").addEventListener("click",cancelFrame);
+    document.getElementById("posterCanvas1").addEventListener("click",cancelFrame);
+	// イベントの初日にdisuseが設定されていたらメニューの利用可能状態を利用できない状態にする
+	if(disuses[0]){
+		// 読み込みのタイミングによってはモード選択のセレクトボックスの生成のほうが遅れるため、モード選択のセレクトボックスが生成されるまで繰り返す
+		timerCheckExistSelectBox = setInterval(function(){
+			if($('[name^="selectMode"] + div.btn-group > button').length){
+				// セレクトボックスが生成されたとき
+				changeDisabledState(true, true);
+				// canvasの背景色を変更する
+				$('#posterCanvas1').addClass('disuse');
+				// タイマーを停止させる
+				clearInterval(timerCheckExistSelectBox);
+			}else{
+				// セレクトボックスがまだなければ何もしない
+			}
+		}, 100);
+	}
+	
+	// データベースから取得したポスターを各日数におけるcanvasに描写する処理
+	// イベントの日数分繰り返す
+	for(j=0; j<eventDays; j++){
+		// stageを次の日に差し替える
+		stage = stageArray[j];
+		// データベースから取得したポスター分繰り返す
+		for(i=0; i<poster.length; i++){
+			// ポスターのdateが(j+1)日と一致していれば、そのキャンバスに描写する
+			if(poster[i].date == (j+1)){
+				//ポスター情報を反映
+				var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
+				instance.NextId= poster[i].NextId;
+				if(poster[i].NextId >= NextId){
+					NextId = poster[i].NextId+1;
+				}
+				instance.cursor = "pointer";
+				instance.__deleteSelected = false;
+				instance.__relation = poster[i].presentation_id;
+				// instance.__title = objectList[i].title;
+				// instance.__presenter = objectList[i].presenter;
+				// instance.__abstract = objectList[i].abstract;
+				stage.addChild(instance);
+				instance.addEventListener("mousedown", startDrag);
+				
+				// ポスターに関連済みプレゼンテーションがあれば、テキストオブジェクトを生成する
+				if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
+					// ポスターの色を関連済みの色に変更する
+					instance.graphics._fill.style = relatedColor;
+					instance.color = relatedColor;
+					// テキストオブジェクトを生成する
+					var text = new createjs.Text(presentations[i].number, '20px Meiryo', '#fff');
+					var textWidth = text.getMeasuredWidth();
+					var textHeight = text.getMeasuredHeight();
+					// テキストをオブジェクトの中央に配置
+					text.x = instance.x + (instance.width - textWidth)/2;
+					text.y = instance.y + (instance.height - textHeight)/2;
+					// テキストオブジェクトにオブジェクトタイプを付与
+					text.__type = 'text';
+					// テキストオブジェクトに親要素であるポスターオブジェクトのIDを付与（ポスターが移動した際に、テキストもついていくようにするため）
+					text.__parent = instance.id;
+					
+					stage.addChild(text);
+					
+					// 選択中のプレゼンテーションの要素を関連付けされた状態にする
+					$('.presentationlist li#'+instance.__relation).addClass('related').attr('data-relation', instance.id);
+				} // end if
+			} // end if
+		} // end for
+		// stageの状態をcanvasに反映させる
+		stage.update();
+		// stageの状態を配列に格納
+		stageArray[j] = stage;
+	} // end for
+	loading = false;
+	
 });
 
 /********************************************************
@@ -105,13 +206,23 @@ $(function() {
 $(window).on('load resize', function(){
 });
 
+/********************************************************
+ *					任意の要素が存在するかどうか確認する関数						*
+ ********************************************************/
+function isExistElement(ele){
+	if($(ele).get(0)){
+		return true;
+	}else{
+		return false;
+	}
+}
 
 /********************************************************
  *	オブジェクトのリサイズ領域にマウスポインタがあるか検査	*
  ********************************************************/
 function checkResize(x, y){
 	if(selectMode == "create" && !onResizing){
-		childArray = stage.children;
+		childArray = stageArray[selectedDay-1].children;
 		resizeFlg = false;
 		for(i=0; i<childArray.length; i++){
 			objectX = childArray[i].x;
@@ -179,7 +290,7 @@ function createObject(x, y, w, h, color) {
 					if(stage.children[k].__type == "selectSquare"){
 						continue;
 					}
-					if(xnow > stage.children[k].x - w && xnow < stage.children[k].x + (stage.children[k].w) && ynow > stage.children[k].y- h && ynow < stage.children[k].y + (stage.children[k].h)){
+					if(xnow > stage.children[k].x - w && xnow < stage.children[k].x + (stage.children[k].width) && ynow > stage.children[k].y- h && ynow < stage.children[k].y + (stage.children[k].height)){
 						break;
 					}
 					if(k==0){
@@ -533,6 +644,8 @@ function FrameDragOver(eventObject){
 	var instance = eventObject.target;
 	instance.graphics.command.w = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
 	instance.graphics.command.h =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
+	instance.width = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
+	instance.height =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
 
 	var i=stage.children.length-1;
 	while(selectedObject!= stage.children[i]){
@@ -709,7 +822,7 @@ function selectDelete(eventObject){
  ********************************************************/
  //データベースにポスター情報を保存
  function singlesaveJson(object){
- 		id= object.NextId;
+ 		id = object.NextId;
         x = object.x;
         y = object.y;
         w = parseInt(object.graphics.command.w);
@@ -719,26 +832,24 @@ function selectDelete(eventObject){
 		title = object.__title;
 		presenter = object.__presenter;
         abstract = object.__abstract;
-        poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation};
-			$.ajax({
-		type: "POST",
-		cache : false,
-		url: "posters/singlesavesql",
-		data: { "data": poster },
-		success: function(msg){
-		}
-	});
+        poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation, 'date': selectedDay, 'event_id': selectedEventID};
+		$.ajax({
+			type: "POST",
+			cache : false,
+			url: "posters/singlesavesql",
+			data: { "data": poster },
+			success: function(msg){}
+		});
 	}
 	//データベースから、ポスター情報を削除
 	function deleteJson(object){
-				$.ajax({
-		type: "POST",
-		cache : false,
-		url: "posters/deletesql",
-		data: { "id": object.NextId },
-		success: function(msg){
-		}
-	});
+		$.ajax({
+			type: "POST",
+			cache : false,
+			url: "posters/deletesql",
+			data: { "id": object.NextId },
+			success: function(msg){}
+		});
 	}
 /* JSON 書き込み処理 */
 function saveJson(){
@@ -873,8 +984,13 @@ function loadJson(){
 			var file = json[0];
 			json.splice(0, 1);
 			backGroundFileName=file.filename.toString();
+			/*
 			$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
 			$(canvasElement).css("background-repeat","repeat, no-repeat");
+			*/
+			$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
+			$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
+
 		}
 
 		// マップのサイズを読み込む（この方法だとjsonの並びが変わったときに動作しない）
@@ -883,8 +999,8 @@ function loadJson(){
 			canvasWidth = json[0].mapWidth;
 			canvasHeight = json[1].mapHeight;
 			// マップのサイズ変更
-			$( '#demoCanvas' ).get( 0 ).width = canvasWidth;
-			$( '#demoCanvas' ).get( 0 ).height = canvasHeight;
+			$('#posterCanvas'+(selectedDay-1)).get( 0 ).width = canvasWidth;
+			$('#posterCanvas'+(selectedDay-1)).get( 0 ).height = canvasHeight;
 			// 生成できるオブジェクトサイズ上限値の更新
 			$('[name^="objectWidth"]').attr("max",canvasWidth/gridSize);
 			$('[name^="objectHeight"]').attr("max",canvasHeight/gridSize);
@@ -920,32 +1036,8 @@ function changeMode(){
 	selectMode = $('[name^="selectMode"]').val();
 	if(selectMode == "delete"){
 		cancelFrame();
-		// 生成フォームを利用不可に
-		$('[name^="objectWidth"]').prop("disabled", true);
-		$('[name^="objectHeight"]').prop("disabled", true);
-		$('[name^="objectCreateColor"]').prop("disabled", true);
-		$('[name^="createButton"]').prop("disabled", true);
-		// JSON保存・読み込みボタンを利用不可に
-		$('[name^="saveButton"]').prop("disabled", true);
-		$('[name^="loadButton"]').prop("disabled", true);
-		// 会場設置ボタンを利用不可に
-		$('[name^="selectFile"]').prop("disabled", true);
-		// 削除ボタンを利用可能に
-		$('[name^="deleteButton"]').prop("disabled", false);
-		// 編集フォームを利用不可に
-		$('[name="title"]').prop("disabled", true);
-		$('[name="presenter"]').prop("disabled", true);
-		$('[name="abstract"]').prop("disabled", true);
-		$('[name="objectEditColor"]').prop("disabled", true);
-		$('[name="inputForm"]').prop("disabled", true);
-		// マップフォームを利用不可に
-		$('[name^="checkRatio"]').prop("disabled", true);
-		$('[name^="mapWidth"]').prop("disabled", true);
-		$('[name^="mapHeight"]').prop("disabled", true);
-		$('[name^="resizeMap"]').prop("disabled", true);
-		cancelFrame();
+		changeDisabledState(true, false);
 	}else if(selectMode == "create"){
-		/* もう少しスマートな方法さがしています */
 		// 削除対象に付与したチェック画像を削除する
 		var array = stage.children;
 		for(i=array.length-1; i>=0; i--){
@@ -957,31 +1049,44 @@ function changeMode(){
 			}
 		}
 		deleteArray = [];
-		// 生成フォームを利用可能に
-		$('[name^="objectWidth"]').prop("disabled", false);
-		$('[name^="objectHeight"]').prop("disabled", false);
-		$('[name^="objectCreateColor"]').prop("disabled", false);
-		$('[name^="createButton"]').prop("disabled", false);
-		// JSON保存・読み込みボタンを利用可能に
-		$('[name^="saveButton"]').prop("disabled", false);
-		$('[name^="loadButton"]').prop("disabled", false);
-		// 会場設置ボタンを利用可能に
-		$('[name^="selectFile"]').prop("disabled", false);
-		// 削除ボタンを利用不可に
-		$('[name^="deleteButton"]').prop("disabled", true);
-		// 編集フォームを利用可能に
-		$('[name="title"]').prop("disabled", false);
-		$('[name="presenter"]').prop("disabled", false);
-		$('[name="abstract"]').prop("disabled", false);
-		$('[name="objectEditColor"]').prop("disabled", false);
-		$('[name="inputForm"]').prop("disabled", false);
-		// マップフォームを利用可能に
-		$('[name^="checkRatio"]').prop("disabled", false);
-		$('[name^="mapWidth"]').prop("disabled", false);
-		$('[name^="mapHeight"]').prop("disabled", false);
-		$('[name^="resizeMap"]').prop("disabled", false);
+		changeDisabledState(false, false);
 	}
  }
+ 
+// メニューの使用可能状態を変更させる関数
+/* 
+ * changeState: 生成フォーム, 編集フォーム, 各種ボタンの状態 
+ * selectState: 生成・削除を選択するセレクトボックスの状態
+ * 
+ */
+function changeDisabledState(chageState, selectState){
+	// 生成フォーム
+	$('[name^="objectWidth"]').prop("disabled", chageState);
+	$('[name^="objectHeight"]').prop("disabled", chageState);
+	$('[name^="objectCreateColor"]').prop("disabled", chageState);
+	$('[name^="createButton"]').prop("disabled", chageState);
+	// 保存・読み込みボタン
+	$('[name^="saveButton"]').prop("disabled", chageState);
+	$('[name^="loadButton"]').prop("disabled", chageState);
+	// 会場設置ボタン
+	$('[name^="selectFile"]').prop("disabled", chageState);
+	// 削除ボタン
+	$('[name^="deleteButton"]').prop("disabled", !chageState);
+	// 編集フォーム
+	$('[name="title"]').prop("disabled", chageState);
+	$('[name="presenter"]').prop("disabled", chageState);
+	$('[name="abstract"]').prop("disabled", chageState);
+	$('[name="objectEditColor"]').prop("disabled", chageState);
+	$('[name="inputForm"]').prop("disabled", chageState);
+	// マップフォーム
+	$('[name^="checkRatio"]').prop("disabled", chageState);
+	$('[name^="mapWidth"]').prop("disabled", chageState);
+	$('[name^="mapHeight"]').prop("disabled", chageState);
+	$('[name^="resizeMap"]').prop("disabled", chageState);
+	// モード選択
+	$('[name^="selectMode"] + div.btn-group > button').prop("disabled", selectState);
+}
+
 function deleteObject(){
 	if(deleteArray.length == 0){
 		alert("削除する対象のオブジェクトが選択されていません");
@@ -1040,8 +1145,12 @@ function fileUpLoad(){
 	.done(function(msg) {
 		alert(msg);
 		backGroundFileName = "backGround.png";
+		/*
 		$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+backGroundFileName.toString()+"?"+$.now()+")");
 		$(canvasElement).css("background-repeat","repeat, no-repeat");
+		*/
+		$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+backGroundFileName.toString()+"?"+$.now()+")");
+		$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
 	});
 }
 
@@ -1134,8 +1243,8 @@ function resizeMap(){
 	canvasWidth = mapWidth;
 	canvasHeight = mapHeight;
 	// マップサイズの変更を反映
-	$( '#demoCanvas' ).get( 0 ).width = canvasWidth;
-	$( '#demoCanvas' ).get( 0 ).height = canvasHeight;
+	$('#posterCanvas'+(selectedDay-1)).get( 0 ).width = canvasWidth;
+	$('#posterCanvas'+(selectedDay-1)).get( 0 ).height = canvasHeight;
 	$('input[name="objectWidth"]').attr("max",canvasWidth/gridSize);
 	$('input[name="objectHeight"]').attr("max",canvasHeight/gridSize);
 	stage.update();
@@ -1201,8 +1310,6 @@ function rgbToHex(color) {
  ********************************************************/
 $(function(){
 	$('li[draggable="true"]').on('dragstart', onDragStart);
-	$('#demoCanvas').on('dragover', onDragOver);
-	$('#demoCanvas').on('drop', onDrop);
 	
 	// Presentationタブがクリックされたとき、移動・サイズ変更はできないようにする（生成モードから削除モードへ切り替えることと同様）
 	$('#tab #presentationTab').click(function(){
@@ -1400,3 +1507,106 @@ $(function(){
 		}
 	});
 });
+
+ /********************************************************
+ *				ポスターキャンバスタブに関する処理							*
+ ********************************************************/
+$(function(){
+	// ポスターキャンバスタブをクリックしたときの処理
+	$('#canvasArea .nav li > a').click(function(){
+		// 選択される前の日数を一時的に記憶しておく
+		previousDay = selectedDay;
+		// 選択されたタブの日数を最新のものに更新する
+		selectedDay = $(this).attr('data-days');
+		// 選択中の日数のタブをクリックしたときは処理をおこなわない
+		if(previousDay != selectedDay){
+			// 選択された日数をセッションに記録する(ajax)
+			$.ajax({
+				type: "POST",
+				cache : false,
+				url: "posters/saveSelectedDay",
+				data: { "day": selectedDay },
+				success: function(msg){}
+			});
+			
+			// 現在までのstageの状態をstage配列に格納する
+			stageArray[previousDay-1] = stage;
+			
+			// 選択中のcanvas要素を切り替える
+			canvasElement = canvasElementArray[selectedDay-1];
+			// 選択中のstageを切り替える
+			stage = stageArray[selectedDay-1];
+		}
+		
+		// 選択したタブのDisuseが有効である場合
+		if(disuses[selectedDay-1]){
+			// メニューを利用不可状態に
+			changeDisabledState(true, true);
+		}else{
+			// メニューを利用可能状態に
+			changeDisabledState(false, false);
+		}
+	});
+});
+
+// Disuseチェックボックスの値が変更したときの処理
+function onChangeDisuse(obj, day){
+	var checkState = $(obj).prop("checked");
+	// チェックを入れたときの処理
+	if(checkState){
+		// canvas上にオブジェクトが１つでもあればアラートを表示
+		if(stage.children.length > 0){
+			alert("Please remove all poster.");
+			// チェックを外した状態に戻す
+			$(obj).prop({'checked': false});
+		}else{
+			// canvas上にオブジェクトが何もない場合、ータベースに選択中のイベントIDと日数を格納
+			var insert_data = { 'event_id': selectedEventID, 'date': selectedDay };
+			$.ajax({
+				type: "POST",
+				cache : false,
+				url: "disuses/add",
+				data: { 'data': insert_data },
+				success: function(msg){}
+			});
+			// キャンバスへの生成や削除の操作を不可能にする ここではDisuseというモードがあるという設定
+			formerMode = selectMode;
+			selectMode = "disuse";
+			changeDisabledState(true, true);
+			// canvasの背景色を変更する
+			changeBackgroundColorCanvas($(obj).parent('p').next('canvas'), true);
+			// disuse配列の更新
+			disuses[day-1] = true;
+		}
+	
+	// チェックを外したときの処理	
+	}else{
+		// データベースに選択中のイベントIDと日数があれば削除
+		var delete_data = { 'event_id': selectedEventID, 'date': selectedDay };
+		$.ajax({
+			type: "POST",
+			cache : false,
+			url: "disuses/delete",
+			data: { 'data': delete_data },
+			success: function(msg){}
+		});
+		// モードの状態を元に戻す
+		selectMode = formerMode;
+		changeDisabledState(false, false);
+		// canvasの背景色をもとに戻す
+		changeBackgroundColorCanvas($(obj).parent('p').next('canvas'), false);
+		// disuse配列の更新
+		disuses[day-1] = false;
+	}
+}
+
+// Disuseにチェックがはいっている状態のときにキャンバスの背景色を変更する処理
+function changeBackgroundColorCanvas(canvas, disuseState){
+	if(disuseState){
+		// チェックがはいっている状態のとき
+		$(canvas).addClass('disuse');
+	}else{
+		// チェックがはいっていない状態のとき
+		$(canvas).removeClass('disuse');
+	}
+}

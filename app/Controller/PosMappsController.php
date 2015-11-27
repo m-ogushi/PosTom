@@ -2,7 +2,7 @@
 class PosMappsController extends AppController {
 
     public $helpers = array('Html', 'Form', 'Text');
-    public $uses =array('Poster');
+    public $uses =array('Poster','Event');
     public function index(){
 //        $this->set('posters', $this->Poster->find('all'));
         $this->autoLayout=false;
@@ -16,6 +16,20 @@ class PosMappsController extends AppController {
     }
     public function qr($id)
     {
+
+        $this->Event->id = $_SESSION['event_id'];
+        $event= $this->Event->read();
+        if($event['Event']['set_floormap']==true)
+        {
+            $this->set('floormap',true);
+        }
+        else
+        {
+            $this->set('floormap',false);
+        }
+
+
+
         $result=$this->Poster->find('all');
         $this->set('posters', $result);
         $this->set("id",$id);
@@ -36,6 +50,17 @@ class PosMappsController extends AppController {
     }
     public function deletestorage()
     {
+        $this->Event->id = $_SESSION['event_id'];
+        $event= $this->Event->read();
+        if($event['Event']['set_floormap']==true)
+        {
+            $this->set('floormap',true);
+        }
+        else
+        {
+            $this->set('floormap',false);
+        }
+
         $result=$this->Poster->find('all');
         $this->set('posters', $result);
     }

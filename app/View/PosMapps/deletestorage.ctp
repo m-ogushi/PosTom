@@ -1,18 +1,21 @@
 	<?php
     //$JsonFile='{"toppage_img":"'.$this->Html->webroot.'img/thumb/toppage_pbla.png","posmapp_bg":["'.$this->Html->webroot.'img/bg/backGround.png"],"STATIC_WIDTH":"720","STATIC_HEIGHT":"960",';
-       $url="";
-      if (file_exists("floormap/".$_SESSION["event_id"]."." ."jpg"))
-      {
-       $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.jpg",';
-        }
-       else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."png"))
-       {
-      $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.png",';
-       }
-       else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."gif"))
-       {
-        $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.gif",';
-       }
+   $url="";
+   if($floormap==true)
+   {
+	  if (file_exists("floormap/".$_SESSION["event_id"]."." ."jpg"))
+	  {
+	   $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.jpg",';
+		}
+	   else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."png"))
+	   {
+	  $url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.png",';
+	   }
+	   else  if (file_exists("floormap/".$_SESSION["event_id"]."."  ."gif"))
+	   {
+		$url='"venuemap":"'.str_replace('/','\/', $this->Html->webroot).'floormap\/'.$_SESSION["event_id"] .'.gif",';
+	   }
+	}
 
 
 
@@ -38,6 +41,16 @@
     		$preAuthorsName = $relatedPre[0]['Presentation']['authors_name'];
     		$preAuthorsBelongs = $relatedPre[0]['Presentation']['authors_belongs'];
     	}
+    	else
+    	{
+    		$preNumber = "No Presen";
+    		$preTitle = "No data";
+    		$preAbstract = "No data";
+    		$preKeywords ="No data";
+    		$preAuthorsName = "No data";
+    		$preAuthorsBelongs ="No data";
+    	}
+
 
     	$JsonPosition.='{';
     	$JsonPosition.='"id":'.'"'.$pointer.'",';
@@ -76,7 +89,8 @@
     	$JsonKeyword .= '"keyword":"' .$preKeywords. '"';
     	$JsonKeyword .= '}';
 
-    	if($pointer<count($posters)){
+
+		if($pointer<count($posters)){
     		$pointer=$pointer+1;
     		$JsonPosition.=',';
     		$JsonAuthor.=',';
@@ -97,6 +111,18 @@
     	$htmlAdd .= '</tr>';
 
     endforeach;
+
+		if(substr($JsonPosition,-1)==",")
+		{
+			$JsonPosition=substr($JsonPosition,0,strlen($JsonPosition)-1);
+			$JsonAuthor=substr($JsonAuthor,0,strlen($JsonAuthor)-1);
+			$JsonPresent=substr($JsonPresent,0,strlen($JsonPresent)-1);
+			$JsonPoster=substr($JsonPoster,0,strlen($JsonPoster)-1);
+
+			$JsonKeyword=substr($JsonKeyword,0,strlen($JsonKeyword)-1);
+			echo $JsonKeyword;
+		}
+
 
     $JsonPosition.='],';
     $JsonAuthor.='],';

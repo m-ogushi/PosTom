@@ -44,6 +44,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			case 'Posters':
 				echo $this->Html->css('page_poster');
 				break;
+			case 'Presentations':
+				echo $this->Html->css('page_presentation');
+				break;
 		}
 
 		echo $this->fetch('meta');
@@ -71,6 +74,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		var webroot = "<?php echo $this->webroot; ?>";
 		// ログイン中のユーザIDを取得(ログイン中でない場合は空)
 		var loginUserID = "<?php echo isset($_SESSION['login_user_id'])? $_SESSION['login_user_id'] : ''; ?>";
+		// 選択中のイベントIDを取得
+		var selectedEventID = "<?php echo isset($_SESSION['event_id'])? $_SESSION['event_id'] : ''; ?>";
         </script>
 <?php
 		echo $this->Html->script('common');
@@ -84,6 +89,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				break;
 			case 'Presentations':
 				echo $this->Html->script('page_presentation');
+				break;
+			case 'Floormaps':
+				echo $this->Html->script('page_floormap');
 				break;
 		}
 	?>
