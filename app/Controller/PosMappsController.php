@@ -1,6 +1,5 @@
 <?php
 class PosMappsController extends AppController {
-
     public $helpers = array('Html', 'Form', 'Text');
     public $uses =array('Poster','Event');
     public function index(){
