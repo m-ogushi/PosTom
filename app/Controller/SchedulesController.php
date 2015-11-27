@@ -23,13 +23,5 @@ class SchedulesController extends AppController {
         	echo "error";
         }
     }
-    public function _calcStyle(){
-    	$str = "<!-- #B{ width: 60px;} -->";
-    	return $str;
-    }
-    public function test(){
-    	debug($str);
-    	echo "11jiofjowejfioewjofijwoifjoiwejfoiewjoifjiowejflkvneoirjviorwjfiorwje";
-    }
 }
 ?>
