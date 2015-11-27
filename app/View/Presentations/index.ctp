@@ -1,6 +1,6 @@
 <h2>CSV Import</h2>
 <p>CSV Format is Number, Title, Abstract, Keyword, Author, AuthorAffiliation</p>
-<p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/format_presentation.csv">Download CSV Sample</a></p>
+<p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/presentation_format.csv">Download CSV Sample</a></p>
 <p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
 <?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'accept'=>'text/csv', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?>
@@ -16,22 +16,14 @@
         </tr>
     </thead>
     <tbody>
-    	<?php if(count($presentations)== 0){
-			echo '<tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
-			echo '<tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
-			echo '<tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
+    	<?php if(count($presentations) == 0){
+    		for($i=0; $i<10; $i++){
+				echo '<tr>';
+				echo "<td height='20'>&nbsp;</td>";
+				echo "<td>&nbsp;</td>";
+				echo "<td>&nbsp;</td>";
+				echo '</tr>';
+			}
     	}
     	?>
         <?php foreach ($presentations as $presentation) :

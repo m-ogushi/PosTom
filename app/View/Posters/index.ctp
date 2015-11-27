@@ -222,8 +222,8 @@ for($i=0; $i<count($disuseArray); $i++){
 <!-- tab contents Presentation -->
 <div id="tcPresentation" class="tab-pane">
 <?php
-// 別のモデル（Presentation）から必要なアクションを呼び出す
-$presentations = $this->requestAction('/presentations/getall');
+// 選択中のイベントに含まれるすべてのプレゼンテーションを取得する
+$presentations = $this->requestAction('/presentations/getByEventID/'.$_SESSION['event_id']);
 
 // cakephpで用意されているPaginationを利用すると、ページ遷移が発生してしまうため、独自のページャーで実装する
 // 1ページあたりのプレゼンテーション表示数
