@@ -15,7 +15,7 @@
 echo $this->Html->css('page_schedule');
 ?>
 <h2>CSV Import</h2>
-<p>CSV Format is Room, Order, Category, StartTime, EndTime, ChairpersonName, ChairpersonAffiliation, CommentatorsName, CommentatorsAffiliation</p>
+<p>CSV Format is Room, Order, Date, Category, StartTime, EndTime, ChairpersonName, ChairpersonAffiliation, CommentatorsName, CommentatorsAffiliation</p>
 <p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/session_format.csv">Download CSV Sample</a></p>
 <p><?php echo $this->Html->tag('button', 'Add Session From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Schedule',array('action'=>'import','type'=>'file', 'name'=>'scheduleImport')); ?>
