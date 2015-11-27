@@ -17,12 +17,12 @@
 <form action="floormaps/setmap" method="post" id="changeStateFrom" enctype="multipart/form-data">
 <?php
 	$url="";
-	if (file_exists("floormap/".$_SESSION["event_id"]."." ."jpg")){
-		$url="floormap/".$_SESSION["event_id"] ."." ."jpg";
-	}else if (file_exists("floormap/".$_SESSION["event_id"]."."  ."png")){
-		$url="floormap/".$_SESSION["event_id"] ."." ."png";
-	}else if (file_exists("floormap/".$_SESSION["event_id"]."."  ."gif")){
-		$url="floormap/".$_SESSION["event_id"] ."." ."gif";
+	if (file_exists("floormap/".$_SESSION["event_str"]."." ."jpg")){
+		$url="floormap/".$_SESSION["event_str"] ."." ."jpg";
+	}else if (file_exists("floormap/".$_SESSION["event_str"]."."  ."png")){
+		$url="floormap/".$_SESSION["event_str"] ."." ."png";
+	}else if (file_exists("floormap/".$_SESSION["event_str"]."."  ."gif")){
+		$url="floormap/".$_SESSION["event_str"] ."." ."gif";
 	}
 	
 	if($url==""){
