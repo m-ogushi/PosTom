@@ -13,11 +13,12 @@ class Presentation extends AppModel {
 						'room' => $row[0],
 						'session_order' => $row[1],
 						'presentation_order' => $row[2],
-						'title' => $row[3],
-						'abstract' => $row[4],
-						'keyword' =>  $row[5],
-						'authors_name' => $row[6],
-						'authors_affiliation' => $row[7],
+						'date' => $row[3],
+						'title' => $row[4],
+						'abstract' => $row[5],
+						'keyword' =>  $row[6],
+						'authors_name' => $row[7],
+						'authors_affiliation' => $row[8],
 						'event_id' => $_SESSION['event_id']
                     );
                     if($row[0] != "room") {
