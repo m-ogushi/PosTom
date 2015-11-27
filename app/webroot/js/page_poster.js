@@ -31,7 +31,7 @@ var gridX, gridY;
 // 現在のモード(create, delete, presentation, disuse)
 var selectMode = "create";
 // 前回のモード
-var formerMode = "";
+var formerMode = "create";
 // 削除対象を記憶する配列
 var deleteArray = [];
 // サイズ変更を受け付ける領域のサイズ（１辺の長さ）
@@ -120,12 +120,6 @@ $(function() {
 		document.getElementById("posterCanvas"+(i+1)).addEventListener("click",cancelFrame);
 	}
 	
-	// 初期状態は、canvas要素, stageともにイベント初日とする
-	canvasElement = document.getElementById("posterCanvas1");
-	stage = new createjs.Stage(canvasElement);
-	stage.enableMouseOver();
-	stage.enableDOMEvents(true);
-    document.getElementById("posterCanvas1").addEventListener("click",cancelFrame);
 	// イベントの初日にdisuseが設定されていたらメニューの利用可能状態を利用できない状態にする
 	if(disuses[0]){
 		// 読み込みのタイミングによってはモード選択のセレクトボックスの生成のほうが遅れるため、モード選択のセレクトボックスが生成されるまで繰り返す
@@ -197,6 +191,10 @@ $(function() {
 		stageArray[j] = stage;
 	} // end for
 	loading = false;
+	
+	// 初期状態は、canvas要素, stageともにイベント初日とする
+	canvasElement = canvasElementArray[0];
+	stage = stageArray[0];
 	
 });
 
@@ -1542,9 +1540,13 @@ $(function(){
 		if(disuses[selectedDay-1]){
 			// メニューを利用不可状態に
 			changeDisabledState(true, true);
+			formerMode = selectMode;
+			selectMode = "disuse";
 		}else{
 			// メニューを利用可能状態に
 			changeDisabledState(false, false);
+			formerMode = selectMode;
+			selectMode = "create";
 		}
 	});
 });
