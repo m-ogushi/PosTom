@@ -109,7 +109,7 @@ $JsonFile.=$JsonPosition.$JsonAuthor.$JsonPresent.$JsonPoster.$JsonKeyword.'}';
 //echo $JsonFile;
 
 // JSON‚Ö•ÏŠ·‚µ‚Ä‘‚«ž‚Ý
-$filename ='../webroot/json/data.json';
+$filename ='../webroot/json/'.$_SESSION['event_str'].'.json';
 
 $handle = fopen($filename, 'w');
 fwrite($handle,$JsonFile);
@@ -118,10 +118,10 @@ fclose($handle);
 
 ?>
 <script type="text/javascript">
-			 window.onload=function()
-             {
+	 window.onload=function()
+	 {
         localStorage.clear();
-        }
+     }
 </script>
 <center>
 <h1>
@@ -133,7 +133,7 @@ You can select one method to view on PosMapp:
 <div style="float:left;margin-left: auto; margin-right: auto;"><h3>QR Code</h3>
 </br>
 <?php
-$urlToEncode= 'http://'.$_SERVER['HTTP_HOST'].$this->Html->url(array('controller' => 'PosMapps', 'action' => 'phoneclear'));
+$urlToEncode= 'http://'.$_SERVER['HTTP_HOST'].$this->Html->url(array('controller' => 'PosMapps', 'action' => 'phoneclear',$_SESSION['event_str']));
 generateQRfromGoogle($urlToEncode);
 function generateQRfromGoogle($chl,$widhtHeight ='150',$EC_level='L',$margin='0')
 {
