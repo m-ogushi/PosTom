@@ -16,22 +16,14 @@
         </tr>
     </thead>
     <tbody>
-    	<?php if(count($presentations)== 0){
-			echo '<tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
-			echo '<tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
-			echo '<tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
+    	<?php if(count($presentations) == 0){
+    		for($i=0; $i<10; $i++){
+				echo '<tr>';
+				echo "<td height='20'>&nbsp;</td>";
+				echo "<td>&nbsp;</td>";
+				echo "<td>&nbsp;</td>";
+				echo '</tr>';
+			}
     	}
     	?>
         <?php foreach ($presentations as $presentation) :
