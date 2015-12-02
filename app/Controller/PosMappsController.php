@@ -26,12 +26,11 @@ class PosMappsController extends AppController {
         {
             $this->set('floormap',false);
         }
-
-
-
-        $result=$this->Poster->find('all');
-        $this->set('posters', $result);
-        $this->set("id",$id);
+        $this->set('posters',
+            $this->Poster->find('all', array(
+                'conditions' => array('event_id' => $_SESSION['event_id'])
+            ))
+        );
     }
     public function  sendmail()
     {
@@ -64,6 +63,7 @@ class PosMappsController extends AppController {
                 'conditions' => array('event_id' => $_SESSION['event_id'])
             ))
         );
+
     }
     public function phoneclear()
     {
