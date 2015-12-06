@@ -31,5 +31,20 @@ class Schedule extends AppModel {
                 $this->rollback();
             }
     }
+    public function add_session($data){
+    	return $this->save($data);
+	}
+    public function update_session($data){
+		return $this->save($data);
+    }
+    public function delete_session($data){
+    	return $this->delete($data['Schedule']['id']);
+    }
+    public function add_room(){
+
+    }
+    public function update_room(){
+
+    }
 }
 ?>
