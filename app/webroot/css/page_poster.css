@@ -114,6 +114,9 @@ ul.dropdown-menu li {
 .nav-tabs > li {
 	text-align: center;
 }
+.nav-tabs > li > a {
+	padding: 10px;
+}
 /* jquery-ui hack */
 #dialogDeleteConfirm {
 	height: auto !important;
