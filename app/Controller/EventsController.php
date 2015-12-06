@@ -7,14 +7,29 @@ class EventsController extends AppController {
 
 	public function index() {
 		// ログイン中ユーザID取得
-		$user_id = $_SESSION['Auth']['User']['id'];
+		if(isset($_SESSION['Auth']['User']['id'])){
+			$user_id = $_SESSION['Auth']['User']['id'];
+		}else{
+			$user_id = 0;	
+		}
 		// ユーザIDと関連するイベントをセット
 		$event_id_group = array();
-		$editors = $this->Editor->find('all', array('conditions'=>array('account_id'=>$user_id)));
+		$editors = $this->Editor->find('all', array(
+			'conditions'=>array(
+				'account_id'=>$user_id
+			)
+		));
 		foreach ($editors as $editor) :
 			array_push($event_id_group, $editor['Editor']['event_id']);
 		endforeach;
-		$this->set('events', $this->Event->find('all', array('conditions'=>array('id'=>$event_id_group))));
+		$this->set('events', $this->Event->find('all', array(
+			'conditions'=>array(
+				'id'=>$event_id_group
+			),
+			'order'=>array(
+				'event_begin_date'=>'DESC'
+			)
+		)));
 		$this->set('title_for_layout', 'イベント一覧');
 	}
 
@@ -26,6 +41,7 @@ class EventsController extends AppController {
 		// セッションに選択中のイベントIDとユニーク文字列を記録する
 		$_SESSION['event_id'] = $id;
 		$_SESSION['event_str'] = self::getUniqueStrByID($id);
+		$_SESSION['event_name'] = self::getEventNameByID($id);
 
 		$result=$this->Poster->find('all');
 		$this->set('posters', $result);
@@ -90,6 +106,15 @@ class EventsController extends AppController {
 		));
 		// IDによる検索のため結果は1件のみ
 		return $results[0]['Event']['unique_str'];
+	}
+	
+	/* イベントIDからイベントの名前を取得する関数 */
+	public function getEventNameByID($id){
+		$results = $this->Event->find('all', array(
+			'conditions' => array('id' => $id)
+		));
+		// IDによる検索のため結果は1件のみ
+		return $results[0]['Event']['event_name'];
 	}
 
 	/* ユニーク文字列からイベントIDを取得する関数 */
