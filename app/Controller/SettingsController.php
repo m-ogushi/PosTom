@@ -4,11 +4,11 @@ ini_set('auto_detect_line_endings', true);
 class SettingsController extends AppController {
     public $helpers = array('Html', 'Form', 'Text');
 	public $uses =array('Event','Poster');
-	
+	public $components = array('Session');
 	public function index(){
 		$this->set('events', $this->Event->find('all'));
 	}
-	
+
 	public function eventedit() {
 		$this->set('datas', $this->Event->find('first', array(
 		'conditions' => array('id' =>$this->params["pass"][0])

@@ -24,7 +24,7 @@
 	}else if (file_exists("floormap/".$_SESSION["event_id"]."."  ."gif")){
 		$url="floormap/".$_SESSION["event_id"] ."." ."gif";
 	}
-	
+
 	if($url==""){
 		echo "<Label>Please set your floor map first.</Label>";
 	}else{
@@ -39,7 +39,7 @@
 </div>
 <div>
 <form action="floormaps/upload" method="post" id="floormapImport" enctype="multipart/form-data">
-<p>Please click the select button to upload your floor map:</p>
+<p>Please click the following button to upload your floor map:</p>
 <p><input value="Upload floor map image"  type="button"  class="btn btn-custom" onClick="GetFile()"></p>
 <p><input type="file" name="file" id="file" class="disno" onChange="PostFrom()"></p>
 <p><input type="submit" value="Submit" class="disno"></p>
