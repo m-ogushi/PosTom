@@ -12,30 +12,21 @@
 	// popover
 	$(document).ready(function(){
 		$('[data-toggle="popover"]').popover({container: 'body'});
+		// cakeのtimeフォームは要素が変だから変更
+		for (var i = 13; i < 25; i++) {
+			$("#startHour").append($("<option>").val(i).text(i));
+			$("#endHour").append($("<option>").val(i).text(i));
+		};
+		$('#startMeridian').remove();
+		$('#endMeridian').remove();
 	});
-	// 時間変換 TODO 正午跨いだら不備あるかも
-	function change_to_ampm(time){
-		var maridian = "pm";
-		var split = time.split(':');
-		var	hour = split[0];
-		var	min = split[1];
-		if(Number(split[0]) < 12){
-			maridian = "am";
-		}else{
-			hour = Number(hour) - 12;
-			if(hour < 10){
-				hour = '0' + hour;
-			}
-			maridian = "pm";
-		}
-		var array = {'hour':hour, 'min':min, 'maridian':maridian};
-		return array;
-	}
+
 	// session追加、編集用モーダル
 	$(function(){
     // 「.modal-open」をクリック
     $('.session-modal-open').click(function(){
-
+    	// overflow: hidden
+    	$('html, body').addClass('lock');
     	// 押されたボタンを認識してaddかeditか分岐、h2とformのvalue変更
 		name = this.name;
     	if(name == "add-new-session"){
@@ -67,8 +58,10 @@
 				return elem.Schedule.id == session_id;
 			});
 			session = session[0].Schedule;
-			var start = change_to_ampm(session.start_time);
-			var end = change_to_ampm(session.end_time);
+			// console.log(session.end_time);
+			var start = session.start_time.split(":");
+			var end = session.end_time.split(":");
+			console.log(start);
 			$('#room').val(session.room);
 			$('#order').val(session.order);
 			$('#category').val(session.category);
@@ -77,12 +70,10 @@
 			$('#com-name').val(session.commentator_name);
 			$('#com-affili').val(session.commentator_affiliation);
 			$('#date').val(session.date);
-			$('#startHour').val(start.hour);
-			$('#startMinute').val(start.min);
-			$('#startMeridian').val(start.maridian);
-			$('#endHour').val(end.hour);
-			$('#endMinute').val(end.min);
-			$('#endMeridian').val(end.maridian);
+			$('#startHour').val(start[0]);
+			$('#startMinute').val(start[1]);
+			$('#endHour').val(end[0]);
+			$('#endMinute').val(end[1]);
 			// controllerでの判別用隠しデータflag_orAdd
 			$('#root_flag').val("update-session");
 			$('#id').val(session.id);
@@ -102,6 +93,8 @@
 
         // 「.modal-overlay」あるいは「.modal-close」をクリック
         $('.modal-overlay, .modal-close').off().click(function(){
+			// 固定解除
+			$('html, body').removeClass('lock');
             // モーダルコンテンツとオーバーレイをフェードアウト
             $(modal).fadeOut('slow');
             $('.modal-overlay').fadeOut('slow',function(){
@@ -295,8 +288,16 @@ echo $this->Html->css('page_schedule');
 	echo '</div>'; // tab-pane end
 	// session追加ボタン設置
 	echo '<div class="add-session-group">';
+	$top = 420 + ($end - $first) * 90;
+	$left = 240;
 	for($countRoom = 0; $countRoom < count($roomGroup); $countRoom++){
 		echo '<button type="button" id="add-in-' . $roomGroup[$countRoom] . '" name="add-new-session" class="btn btn-default session-modal-open" data-target="session-edit">＋</button>';
+		$left += 115;
+		echo '<style type="text/css">';
+
+		echo '<!-- #add-in-' . $roomGroup[$countRoom] . '{ position: absolute; top: '. $top .'px; left: '. $left .'px; } -->';
+
+		echo '</style>';
 	}
 	echo '</div>';
 	?>
@@ -315,7 +316,7 @@ echo $this->Html->css('page_schedule');
 	echo $this->Form->input('room', array('id'=>'room', 'class'=>'form-control', 'required' => false));
 	echo $this->Form->input('order', array('id'=>'order','class'=>'form-control', 'required' => false));
 	echo $this->Form->input('category', array('id'=>'category','class'=>'form-control','label'=>'Session Name', 'required' => false));
-	echo '<fieldset>';
+	echo '<fieldset class="chair">';
 	echo '<legend>ChairPerson</legend>';
 	echo $this->Form->input('chairperson_name', array('id'=>'chair-name','class'=>'form-control', 'required' => false, 'label' => 'Name'));
 	echo $this->Form->input('chairperson_affiliation', array('id'=>'chair-affili','class'=>'form-control', 'required' => false, 'label' => 'Affiliation'));
@@ -331,14 +332,10 @@ echo $this->Html->css('page_schedule');
 	echo $this->Form->input('root_flag', array('id'=>'root_flag', 'type'=>'hidden', 'required' => false));
 	echo $this->Form->input('id', array('id'=>'id', 'type'=>'hidden', 'required' => false));
 	echo '<div class="box-group">';
-	echo '<button type="button" class="btn btn-default modal-close">cancel</button>';
-	echo $this->Form->submit('Delete', array('class'=>'btn btn-danger inline', 'onclick'=>'return confirm_del_session();'));
-	echo $this->Form->submit('Save', array('class'=>'btn btn-primary inline'));
+	echo $this->Form->submit('Save', array('id'=>'session_save_btn', 'class'=>'btn btn-primary inline'));
+	echo '<button id="session_cancel_btn" type="button" class="btn btn-default modal-close">cancel</button>';
+	echo $this->Form->submit('Delete', array('id'=>'session_delete_btn', 'class'=>'btn btn-danger inline', 'onclick'=>'return confirm_del_session();'));
 	echo '</div>';
-// deleteボタン
-	// echo $this->Form->create('Schedule', array('action'=>'save_rooting'));
-	// echo $this->Form->input('id', array('id'=>'delete_id', 'type'=>'hidden'));
-	// echo $this->Form->submit('')
 ?>
 
 </div>

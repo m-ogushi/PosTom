@@ -9,6 +9,7 @@ div.time-group p {
 }
 .container{
 	position: relative;
+	float: left;
 }
 /*セッション会場*/
 .room{
@@ -27,13 +28,15 @@ div.time-group p {
 .session-group>.btn{
 	width: 100px;
 	padding: 6px 2px;
-}
-/*セッション追加ボタン*/
-.add-session-group>.btn:first-child{
-	margin-left: 100px;
-}
-.add-session-group>.btn:not(:first-child){
-	margin-left: 77px;
+	/*文字折り返し*/
+	white-space: pre;           /* CSS 2.0 */
+	white-space: pre-wrap;      /* CSS 2.1 */
+	white-space: pre-line;      /* CSS 3.0 */
+	white-space: -pre-wrap;     /* Opera 4-6 */
+	white-space: -o-pre-wrap;   /* Opera 7 */
+	white-space: -moz-pre-wrap; /* Mozilla */
+	word-wrap: break-word;	 /* IE 5+ */
+	overflow: scroll;
 }
 /*modal window関連*/
 .modal-content {
@@ -46,7 +49,7 @@ div.time-group p {
     padding:10px 20px;
     border:2px solid #aaa;
     background:#fff;
-    overflow: auto;
+    overflow: scroll;
     max-height: 100%;
 }
 
@@ -79,16 +82,39 @@ div.time-group p {
 	overflow: hidden;
 }
 .box-group {
-	display: -webkit-box;
-	display: -moz-box;
+	display: flex;
+	display: -webkit-flexbox;
+	display: -moz-flexbox;
+	display: -ms-flexbox;
+	display: -o-flexbox;
+	display: flexbox;
 	margin-top: 10px;
 	float: right;
+	flex-direction: row-reverse;
+	space-between: 4px;
 }
-btn.box-group {
-	margin-right: 10px;
+
+#session_cancel_btn {
+	margin-right: 8px;
+	margin-left: 8px;
 }
+
 /*modal内の要素*/
 .commentator {
 	margin-top: 16px;
 	margin-bottom: 16px;
+}
+.modal-content>h2 {
+	margin-top: 17px;
+	font-size: 25px;
+}
+.chair,.commentator {
+	border: 1px;
+	border-style: solid;
+	padding: 10px;
+}
+legend {
+	font-size: 15px;
+	padding-left: 10px;
+	border-bottom: 0;
 }
