@@ -15,6 +15,10 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo $this->Html->webroot;?>css/taparea.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $this->Html->webroot;?>css/sessiontable.css" />
 
+	<script>
+		var webroot="<?php echo $this->Html->webroot;?>";
+		alert(webroot +"!")
+	</script>
 
 	<script type="text/javascript" charset="utf-8" src="<?php echo $this->Html->webroot;?>js/lib/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $this->Html->webroot;?>js/lib/jquery-ui-1.11.2.custom.min.js"></script>
@@ -180,7 +184,7 @@
 				<div id="basicinfo"></div>
 				<!-- ブックマークボタン -->
 				<!-- アイコンの切り替えはpostermap.jsで行う -->
-				<img id="bookmarkbutton"></img>
+				<img id="bookmarkbutton" src="<?php echo $this->Html->webroot;?>img/unbookmark.png.png"></img>
 				<!-- 詳細情報ボタン -->
 				<img id="detailinfobutton" src="<?php echo $this->Html->webroot;?>img/detail.png"></img>
 			</div>

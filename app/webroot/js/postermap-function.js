@@ -369,9 +369,9 @@ function changeBasicInfoPanel(flag) {
 	// }
 
 	if (bookmarkArr.indexOf(presenid) !== -1) {
-		bookmarkIcon.src = "img/bookmark.png";
+		bookmarkIcon.src = webroot+"img/bookmark.png";
 	} else {
-		bookmarkIcon.src = "img/unbookmark.png";
+		bookmarkIcon.src =webroot+ "img/unbookmark.png";
 	}
 }
 
@@ -515,8 +515,8 @@ function touchBookmarkFun(presenid, bookmarkIcon){
 		// 存在しているIDを削除する
 		bookmarkArr.splice(location, 1);
 		if (bookmarkIcon !== null) {
-			bookmarkIcon.src = "img/unbookmark.png";
-			$("#listbookmark" + presenid).attr("src","img/unbookmark.png");
+			bookmarkIcon.src =webroot+ "img/unbookmark.png";
+			$("#listbookmark" + presenid).attr("src",webroot+"img/unbookmark.png");
 		}
 		starstatus = "none";
 		saveLog("unbookmark", {presenid:presenid, page:window.location.hash});
@@ -525,8 +525,9 @@ function touchBookmarkFun(presenid, bookmarkIcon){
 		bookmarkArr.push(presenid);
 		bookmarkArr.sort();
 		if (bookmarkIcon !== null) {
-			bookmarkIcon.src = "img/bookmark.png";
-			$("#listbookmark" + presenid).attr("src","img/bookmark.png");
+			bookmarkIcon.src =webroot+ "img/bookmark.png";
+			$("#listbookmark" + presenid).attr("src",webroot+"img/bookmark.png");
+
 		}
 		starstatus = "block";
 		saveLog("bookmark", {presenid:presenid, page:window.location.hash});
