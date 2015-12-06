@@ -66,19 +66,19 @@ $.fn.showPresenList = function() {
 							str += "<tr id='presen" + p.presenid + "'><td><div> 	" + p.presenid;
 							// ポスター発表があるときのみマップへ遷移するボタンを表示
 							if (posterid !== -1) {
-								str += "<img class='listToMapBtn' id='listToMap" +posterid+ "' src='img/logo_posmapp.png' style='zoom: 8%;'></img>";
+								str += "<img class='listToMapBtn' id='listToMap" +posterid+ "' src='"+webroot+"img/logo_posmapp.png' style='zoom: 8%;'></img>";
 							}
 							//ブックマークされたかどうか判断する
 							var foundBookmarkIndex = $.inArray(p.presenid, bookmarkArr);
 
 							if (foundBookmarkIndex >= 0) {
-								str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='img/bookmark.png' style='zoom: 22%;'></img><br>";
+								str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='"+webroot+"img/bookmark.png' style='zoom: 22%;'></img><br>";
 							} else {
-								str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='img/unbookmark.png' style='zoom: 22%;'></img><br>";
+								str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='"+webroot+"img/unbookmark.png' style='zoom: 22%;'></img><br>";
 							}
 							str += "<span class='listTitle'><strong>" + p.title + "</strong></span><br>";
 							str += "<div class='authors-on-list'><span class='listAuthors'>" + authors + "</span></div></td>";
-							str += "<td><div><td><img class='listToDetailBtn' id='listToDetail"+p.presenid+"' src='img/detailinfo.png' style='zoom: 3%;'> </img></div>";
+							str += "<td><div><td><img class='listToDetailBtn' id='listToDetail"+p.presenid+"' src='"+webroot+" src=webroot+'img/detailinfo.png' style='zoom: 3%;'> </img></div>";
 						}
 					});
 				}
@@ -92,24 +92,24 @@ $.fn.showPresenList = function() {
 				presens["presenid"].push(p.presenid);
 				presens["title"].push(p.title);
 				presens["author"].push(getAuthors(p.presenid));
+					if(p.presenid.indexOf("No Presen")!=0) {
 				str += "<tr id='presen" + p.presenid + "'><td><div> 	" + p.presenid;
 				// ポスター発表があるときのみマップへ遷移するボタンを表示
 				if (posterid !== -1) {
-					str += "<img class='listToMapBtn' id='listToMap" +posterid+ "' src='img/logo_posmapp.png' style='zoom: 8%;'></img>";
+					str += "<img class='listToMapBtn' id='listToMap" +posterid+ "' src='"+webroot+"img/logo_posmapp.png' style='zoom: 8%;'></img>";
 				}
 				//ブックマークされたかどうか判断する
 				var foundBookmarkIndex = $.inArray(p.presenid, bookmarkArr);
-
 				if (foundBookmarkIndex >= 0) {
-					str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='img/bookmark.png' style='zoom: 22%;'></img><br>";
+					str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='"+webroot+"img/bookmark.png' style='zoom: 22%;'></img><br>";
 				} else {
-					str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='img/unbookmark.png' style='zoom: 22%;'></img><br>";
+					str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='"+webroot+"img/unbookmark.png' style='zoom: 22%;'></img><br>";
 				}
 				str += "<span class='listTitle'><strong>" + p.title + "</strong></span><br>";
 				str += "<div class='authors-on-list'><span class='listAuthors'>" + authors + "</span></div></td>";
-				str += "<td><div><td><img class='listToDetailBtn' id='listToDetail"+p.presenid+"' src='img/detailinfo.png' style='zoom: 3%;'> </img></div>";
+				str += "<td><div><td><img class='listToDetailBtn' id='listToDetail"+p.presenid+"' src='"+webroot+"img/detailinfo.png' style='zoom: 3%;'> </img></div>";
+					}
 			});
-
 		}
 
 		str += '</table>'
@@ -237,8 +237,8 @@ $.fn.listchangebookmark = function() {
 			// 存在しているIDを削除する
 			bookmarkArr.splice(location, 1);
 			if (bookmarkIcon !== null) {
-				bookmarkIcon.src = "img/unbookmark.png";
-				$("#listbookmark" + presenid).attr("src","img/unbookmark.png");
+				bookmarkIcon.src = webroot+"img/unbookmark.png";
+				$("#listbookmark" + presenid).attr("src",webroot+"img/unbookmark.png");
 			}
 			saveLog("unbookmark", {presenid:presenid, page:window.location.hash});
 		} else {
@@ -246,8 +246,8 @@ $.fn.listchangebookmark = function() {
 			bookmarkArr.push(presenid);
 			bookmarkArr.sort();
 			if (bookmarkIcon !== null) {
-				bookmarkIcon.src = "img/bookmark.png";
-				$("#listbookmark" + presenid).attr("src","img/bookmark.png");
+				bookmarkIcon.src = webroot+"img/bookmark.png";
+				$("#listbookmark" + presenid).attr("src",webroot+"img/bookmark.png");
 			}
 			saveLog("bookmark", {presenid:presenid, page:window.location.hash});
 		}
