@@ -29,9 +29,9 @@
 		echo "<Label>Please set your floor map first.</Label>";
 	}else{
 		if($event['Event']['set_floormap']==true ){
-			echo "<label> <input type='checkbox' name='useFloormap' onchange='changeState()' />&nbsp;If you want to disuse the floormap, please check this box. </label>";
+			echo "<label> <input type='checkbox' name='useFloormap' onchange='changeState()' />check this box on to hide the floor map in PosmApp.</label>";
 		}else if($event['Event']['set_floormap']==false){
-			echo "<label> <input type='checkbox' name='useFloormap' checked=true onchange='changeState()' />if you want to hide the picture,please check this box. </label>";
+			echo "<label> <input type='checkbox' name='useFloormap' checked=true onchange='changeState()' />check this box on to hide the floor map in PosmApp.</label>";
 		}
 	}
 ?>
@@ -45,10 +45,14 @@
 <p><input type="submit" value="Submit" class="disno"></p>
 </form>
 <?php
-	if($url!=""){
-		echo "<p>This picture is set now:</p>";
-		echo '<p><img src="'.$this->html->webroot.$url.'" height="960px" width="720px"></p>';
-	}
+if($url!=""){
+?>
+	<p>This picture is set now:</p>
+	<div id="posmappImage">
+	<p id="floormapImage"><img src="<?php echo $this->html->webroot.$url; ?>" width="320" height="349"></p>
+	</div>
+<?php
+}
 ?>
 </div>
 </div>

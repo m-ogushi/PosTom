@@ -79,6 +79,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		var loginUserID = "<?php echo isset($_SESSION['login_user_id'])? $_SESSION['login_user_id'] : ''; ?>";
 		// 選択中のイベントIDを取得
 		var selectedEventID = "<?php echo isset($_SESSION['event_id'])? $_SESSION['event_id'] : ''; ?>";
+		// 選択中のイベント識別文字列を取得
+		var selectedEventStr = "<?php echo isset($_SESSION['event_str'])? $_SESSION['event_str'] : ''; ?>";
         </script>
 <?php
 		echo $this->Html->script('common');
@@ -95,6 +97,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				break;
 			case 'Floormaps':
 				echo $this->Html->script('page_floormap');
+				break;
+			case 'Settings':
+				echo $this->Html->script('page_setting');
 				break;
 		}
 	?>
@@ -128,7 +133,7 @@ echo $this->Html->image('i_logo.png', array(
 <li id="gNavSch"><a href="<?php echo $this->Html->url(array('controller' => 'schedules', 'action' => 'index')); ?>"><i class="fa fa-calendar fa-2x"></i><span>Schedule</span></a></li>
 <li id="gNavPre"><a href="<?php echo $this->Html->url(array('controller' => 'presentations', 'action' => 'index')); ?>"><i class="fa fa-television fa-2x"></i><span>Presentation</span></a></li>
 <li id="gNavFlo"><a href="<?php echo $this->Html->url(array('controller' => 'floormaps', 'action' => 'index')); ?>"><img src="<?php echo $this->webroot; ?>/img/ico_floormap.png" alt="Floor Map"><span>Floor Map</span></a></li>
-<li id="gNavSet"><a href="<?php echo $this->Html->url(array('controller' => 'settings', 'action' => 'eventedit', $_SESSION['event_id'])); ?>"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
+<li id="gNavSet"><a href="<?php echo $this->Html->url(array('controller' => 'settings', 'action' => 'eventedit', isset($_SESSION['event_id'])?$_SESSION['event_id']:'')); ?>"><i class="fa fa-cog fa-2x"></i><span>Setting</span></a></li>
 </ul>
 </div>
 <!-- //contents.dashboard -->
@@ -157,8 +162,12 @@ echo $this->Html->image('i_logo.png', array(
 	</ul>
 </div>
 <!-- //header -->
-
-
+<?php
+// もしユーザトップページ以外だったら、選択中のイベントの名前を表示する
+if((!($this->name == "Events") || !($this->action == "index")) && !empty($_SESSION['event_name'])){
+	echo "<h2>".$_SESSION['event_name']."</h2>";
+}
+?>
 <?php echo $this->Flash->render(); ?>
 <?php echo $this->fetch('content'); ?>
 

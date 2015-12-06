@@ -126,7 +126,7 @@ $(function() {
 		timerCheckExistSelectBox = setInterval(function(){
 			if($('[name^="selectMode"] + div.btn-group > button').length){
 				// セレクトボックスが生成されたとき
-				changeDisabledState(true, true);
+				changeDisabledState(true, true, false);
 				// canvasの背景色を変更する
 				$('#posterCanvas1').addClass('disuse');
 				// タイマーを停止させる
@@ -850,6 +850,7 @@ function selectDelete(eventObject){
 		});
 	}
 /* JSON 書き込み処理 */
+/*
 function saveJson(){
 	var objectArray = [];
     var child;              //stage.children[i]格納
@@ -895,11 +896,9 @@ function saveJson(){
 	// 既に会場図が設置してあれば、画像情報を配列の先頭に格納
 	var searchImageFileName = "backGround.png";
 	// TODO: データベースに格納するだけなので、この情報はいりません。
-	/*
-	if($(canvasElement).css("background-image").indexOf(searchImageFileName) != -1){
-		objectArray.unshift({'filename':searchImageFileName});
-	}
-	*/
+	//if($(canvasElement).css("background-image").indexOf(searchImageFileName) != -1){
+	//	objectArray.unshift({'filename':searchImageFileName});
+	//}
 
 	$.ajax({
 		type: "POST",
@@ -960,18 +959,20 @@ function saveJson(){
 	demoArray['author'] = demoAuthorArray;
 	demoArray['presen'] = demoPresenArray;
 	demoArray['poster'] = demoPosterArray;
-	/*$.ajax({
-		type: "POST",
-		url: "php/save_demo.php",
-		data: { "data": demoArray },
-		dataType: "json",
-		success: function(msg){
-			alert(msg);
-		}
-	});*/
+//	$.ajax({
+//		type: "POST",
+//		url: "php/save_demo.php",
+//		data: { "data": demoArray },
+//		dataType: "json",
+//		success: function(msg){
+//			alert(msg);
+//		}
+//	});
 }
+*/
 
 /* JSON 読み込み処理 */
+/*
 function loadJson(){
 	alert(webroot);
 	var objectList;
@@ -982,10 +983,8 @@ function loadJson(){
 			var file = json[0];
 			json.splice(0, 1);
 			backGroundFileName=file.filename.toString();
-			/*
-			$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
-			$(canvasElement).css("background-repeat","repeat, no-repeat");
-			*/
+//			$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
+//			$(canvasElement).css("background-repeat","repeat, no-repeat");
 			$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
 			$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
 
@@ -1026,6 +1025,7 @@ function loadJson(){
 		alert("JSONファイルがありません");
 	});
 }
+*/
 
 /********************************************************
  *						モードを切り替え処理							*
@@ -1034,7 +1034,7 @@ function changeMode(){
 	selectMode = $('[name^="selectMode"]').val();
 	if(selectMode == "delete"){
 		cancelFrame();
-		changeDisabledState(true, false);
+		changeDisabledState(true, false, false);
 	}else if(selectMode == "create"){
 		// 削除対象に付与したチェック画像を削除する
 		var array = stage.children;
@@ -1047,17 +1047,18 @@ function changeMode(){
 			}
 		}
 		deleteArray = [];
-		changeDisabledState(false, false);
+		changeDisabledState(false, false, true);
 	}
  }
  
 // メニューの使用可能状態を変更させる関数
 /* 
- * changeState: 生成フォーム, 編集フォーム, 各種ボタンの状態 
+ * changeState: 生成フォーム, 編集フォーム, 各種ボタンの状態
  * selectState: 生成・削除を選択するセレクトボックスの状態
+ * deleteState: 削除ボタンの状態
  * 
  */
-function changeDisabledState(chageState, selectState){
+function changeDisabledState(chageState, selectState, deleteState){
 	// 生成フォーム
 	$('[name^="objectWidth"]').prop("disabled", chageState);
 	$('[name^="objectHeight"]').prop("disabled", chageState);
@@ -1069,7 +1070,7 @@ function changeDisabledState(chageState, selectState){
 	// 会場設置ボタン
 	$('[name^="selectFile"]').prop("disabled", chageState);
 	// 削除ボタン
-	$('[name^="deleteButton"]').prop("disabled", !chageState);
+	$('[name^="deleteButton"]').prop("disabled", deleteState);
 	// 編集フォーム
 	$('[name="title"]').prop("disabled", chageState);
 	$('[name="presenter"]').prop("disabled", chageState);
@@ -1131,23 +1132,28 @@ function selectFile(){
 }
 
 /* ajaxによるファイルのアップロード処理 */
-function fileUpLoad(){
+function fileUpLoad(event_str){
 	var fd = new FormData($('#upLoadForm').get(0));
 	$.ajax({
 		url: "php/fileUploader.php",
 		type: "POST",
 		data: fd,
 		processData: false,
-		contentType: false
+		contentType: false,
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert( "ERROR" );
+			alert( textStatus );
+			alert( errorThrown );
+		}
 	})
 	.done(function(msg) {
 		alert(msg);
-		backGroundFileName = "backGround.png";
+		backGroundFileName = selectedEventStr+".png";
 		/*
 		$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+backGroundFileName.toString()+"?"+$.now()+")");
 		$(canvasElement).css("background-repeat","repeat, no-repeat");
 		*/
-		$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+backGroundFileName.toString()+"?"+$.now()+")");
+		$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
 		$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
 	});
 }
@@ -1539,12 +1545,12 @@ $(function(){
 		// 選択したタブのDisuseが有効である場合
 		if(disuses[selectedDay-1]){
 			// メニューを利用不可状態に
-			changeDisabledState(true, true);
+			changeDisabledState(true, true, true);
 			formerMode = selectMode;
 			selectMode = "disuse";
 		}else{
 			// メニューを利用可能状態に
-			changeDisabledState(false, false);
+			changeDisabledState(false, false, true);
 			formerMode = selectMode;
 			selectMode = "create";
 		}
@@ -1558,7 +1564,7 @@ function onChangeDisuse(obj, day){
 	if(checkState){
 		// canvas上にオブジェクトが１つでもあればアラートを表示
 		if(stage.children.length > 0){
-			alert("Please remove all poster.");
+			alert("Remove all posters to disuse the layout.");
 			// チェックを外した状態に戻す
 			$(obj).prop({'checked': false});
 		}else{
@@ -1574,7 +1580,7 @@ function onChangeDisuse(obj, day){
 			// キャンバスへの生成や削除の操作を不可能にする ここではDisuseというモードがあるという設定
 			formerMode = selectMode;
 			selectMode = "disuse";
-			changeDisabledState(true, true);
+			changeDisabledState(true, true, true);
 			// canvasの背景色を変更する
 			changeBackgroundColorCanvas($(obj).parent('p').next('canvas'), true);
 			// disuse配列の更新
@@ -1594,7 +1600,7 @@ function onChangeDisuse(obj, day){
 		});
 		// モードの状態を元に戻す
 		selectMode = formerMode;
-		changeDisabledState(false, false);
+		changeDisabledState(false, false, true);
 		// canvasの背景色をもとに戻す
 		changeBackgroundColorCanvas($(obj).parent('p').next('canvas'), false);
 		// disuse配列の更新
