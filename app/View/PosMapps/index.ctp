@@ -17,7 +17,6 @@
 
 	<script>
 		var webroot="<?php echo $this->Html->webroot;?>";
-		alert(webroot +"!")
 	</script>
 
 	<script type="text/javascript" charset="utf-8" src="<?php echo $this->Html->webroot;?>js/lib/jquery-2.1.1.min.js"></script>
