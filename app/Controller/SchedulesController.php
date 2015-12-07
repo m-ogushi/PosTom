@@ -23,5 +23,28 @@ class SchedulesController extends AppController {
         	echo "error";
         }
     }
+	public function save_rooting(){
+		$this->autoRender = false;
+		// セッションからイベントid格納
+		$this->request->data['Schedule']['event_id'] = $_SESSION['event_id'];
+		if($this->request->is('post')){
+			if($this->request->data['Schedule']['root_flag'] == "add-session"){
+				if($this->Schedule->add_session($this->request->data)){
+					$this->redirect(array('action'=>'index'));
+				}
+			}
+			if($this->data['Schedule']['root_flag'] == "update-session"){
+				if($this->Schedule->update_session($this->request->data)){
+					$this->redirect(array('action'=>'index'));
+				}
+			}
+			if($this->data['Schedule']['root_flag'] == "delete-session"){
+				if($this->Schedule->delete_session($this->request->data)){
+					$this->redirect(array('action'=>'index'));
+				}
+			}
+		}
+	}
+
 }
 ?>
