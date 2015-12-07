@@ -132,7 +132,6 @@
 			err_box.empty();
 			// 時間は正しいか
 			if(!session_time_check()){
-				console.log("thijfiowejowjfowjfoijfio");
 				err_elm = $('<p>').text("Unjust session time.");
 				err_box.append(err_elm);
 				slideDown(err_box);
@@ -140,7 +139,6 @@
 			}
 			// 要素が空でないか
 			if($('#room').val() == "" || $('#category').val() == ""){
-				console.log("karaaaaaaaaaaaaa");
 				err_elm = $('<p>').text("Unjust blank.");
 				err_box.append(err_elm);
 				slideDown(err_box);
@@ -148,7 +146,6 @@
 			}
 			// 存在する日にちかチェック
 			var d = Number($('#date').val());
-			console.log(day_diff);
 			if($('#date').val() == "" || d > day_diff || d <= 0){
 				err_elm = $('<p>').text("The date is not exist.");
 				err_box.append(err_elm);
