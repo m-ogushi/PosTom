@@ -23,19 +23,19 @@
 
 	// session追加、編集用モーダル
 	$(function(){
-    // 「.modal-open」をクリック
-    $('.session-modal-open').click(function(){
-    	// overflow: hidden
-    	$('html, body').addClass('lock');
-    	// 押されたボタンを認識してaddかeditか分岐、h2とformのvalue変更
+	// 「.modal-open」をクリック
+	$('.session-modal-open').click(function(){
+		// overflow: hidden
+		$('html, body').addClass('lock');
+		// 押されたボタンを認識してaddかeditか分岐、h2とformのvalue変更
 		name = this.name;
-    	if(name == "add-new-session"){
-    		// modal window内のdeleteボタンを非表示にする
-    		$('#delete-session').hide();
-    		$("#session-add-edit").text("Add New Session");
-    		var room = (this.id).slice(7);
-    		$('#room').val(room);
-    		$('#order').val("");
+		if(name == "add-new-session"){
+			// modal window内のdeleteボタンを非表示にする
+			$('#delete-session').hide();
+		$("#session-add-edit").text("Add New Session");
+			var room = (this.id).slice(7);
+			$('#room').val(room);
+			$('#order').val("");
 			$('#category').val("");
 			$('#chair-name').val("");
 			$('#chair-affili').val("");
@@ -49,9 +49,9 @@
 			// controllerでの判別用隠しデータflag_orAdd
 			$('#root_flag').val("add-session");
 			$('#id').val("");
-    	}else{
-    		// deleteボタン表示
-    		$('#delete-session').show();
+		}else{
+			// deleteボタン表示
+			$('#delete-session').show();
 			$("#session-add-edit").text("Edit Session");
 			session_id = name.slice(8);
 			var session = schedules.filter(function (elem, i){
@@ -78,51 +78,51 @@
 			$('#root_flag').val("update-session");
 			$('#id').val(session.id);
 
-    	}
-        // オーバーレイ用の要素を追加
-        $('body').append('<div class="modal-overlay"></div>');
-        // オーバーレイをフェードイン
-        $('.modal-overlay').fadeIn('slow');
+		}
+		// オーバーレイ用の要素を追加
+		$('body').append('<div class="modal-overlay"></div>');
+		// オーバーレイをフェードイン
+		$('.modal-overlay').fadeIn('slow');
 
-        // モーダルコンテンツのIDを取得
-        var modal = '#' + $(this).attr('data-target');
-        // モーダルコンテンツの表示位置を設定
-        modalResize();
-         // モーダルコンテンツフェードイン
-        $(modal).fadeIn('slow');
+		// モーダルコンテンツのIDを取得
+		var modal = '#' + $(this).attr('data-target');
+		// モーダルコンテンツの表示位置を設定
+		modalResize();
+		 // モーダルコンテンツフェードイン
+		$(modal).fadeIn('slow');
 
-        // 「.modal-overlay」あるいは「.modal-close」をクリック
-        $('.modal-overlay, .modal-close').off().click(function(){
+		// 「.modal-overlay」あるいは「.modal-close」をクリック
+		$('.modal-overlay, .modal-close').off().click(function(){
 			// 固定解除
 			$('html, body').removeClass('lock');
-            // モーダルコンテンツとオーバーレイをフェードアウト
-            $(modal).fadeOut('slow');
-            $('.modal-overlay').fadeOut('slow',function(){
-                // オーバーレイを削除
-                $('.modal-overlay').remove();
-            });
-        });
+			// モーダルコンテンツとオーバーレイをフェードアウト
+			$(modal).fadeOut('slow');
+			$('.modal-overlay').fadeOut('slow',function(){
+				// オーバーレイを削除
+				$('.modal-overlay').remove();
+			});
+		});
 
-        // リサイズしたら表示位置を再取得
-        $(window).on('resize', function(){
-            modalResize();
-        });
+		// リサイズしたら表示位置を再取得
+		$(window).on('resize', function(){
+			modalResize();
+		});
 
-        // モーダルコンテンツの表示位置を設定する関数
-        function modalResize(){
-            // ウィンドウの横幅、高さを取得
-            var w = $(window).width();
-            var h = $(window).height();
+		// モーダルコンテンツの表示位置を設定する関数
+		function modalResize(){
+			// ウィンドウの横幅、高さを取得
+			var w = $(window).width();
+			var h = $(window).height();
 
-            // モーダルコンテンツの表示位置を取得
-            var x = (w - $(modal).outerWidth(true)) / 2;
-            var y = (h - $(modal).outerHeight(true)) / 2;
+			// モーダルコンテンツの表示位置を取得
+			var x = (w - $(modal).outerWidth(true)) / 2;
+			var y = (h - $(modal).outerHeight(true)) / 2;
 
-            // モーダルコンテンツの表示位置を設定
-            $(modal).css({'left': x + 'px','top': y + 'px'});
-        }
+			// モーダルコンテンツの表示位置を設定
+			$(modal).css({'left': x + 'px','top': y + 'px'});
+		}
 
-    });
+	});
 });
 	function confirm_del_session(){
 		if(window.confirm('Do you really delete this session ?')){

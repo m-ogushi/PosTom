@@ -25,7 +25,7 @@ $.fn.denyCollectLog = function() {
 };
 
 // ユーザのカテゴリ分け
-// 1.学生（受講者), 2.学生（見学者), 3.教員, 4.社会人・その他 
+// 1.学生（受講者), 2.学生（見学者), 3.教員, 4.社会人・その他
 $.fn.selectUserCategory = function() {
 	$(this).on("click", function(e) {
 		var id = e.target.id;
@@ -37,7 +37,7 @@ $.fn.selectUserCategory = function() {
 		}else{
 			window.location.href = "#topPage";
 		}
-		
+
 	});
 }
 
@@ -47,7 +47,7 @@ function initUserData() {
 	if (localStorage.getItem("uid") === null) {
 		var uid = createUID();
 		localStorage.setItem("uid", uid);
-	} 
+	}
 
 	// ログ収集許諾フラグだけを折られた時でもUIDをリセットするのは仕様
 	if (localStorage.getItem("accept_collect_log") === null) {
@@ -161,7 +161,7 @@ function deleteLog() {
 	});
 }
 
-// 
+//
 function resetDelta() {
 	var date = new Date();
 	localStorage.setItem("log_last_sent", date.getTime().toString());

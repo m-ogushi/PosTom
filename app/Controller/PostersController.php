@@ -1,7 +1,7 @@
 <?php
 
 class PostersController extends AppController {
-    public $helpers = array('Html', 'Form', 'Text');
+	public $helpers = array('Html', 'Form', 'Text');
 
 	public function index(){
 		// 選択中のイベントをevent_idにもつポスターのみ抽出
@@ -21,14 +21,14 @@ class PostersController extends AppController {
 			$this->Poster->saveAll($savedata);
 		}
 	}
-	
+
 	public function singlesavesql(){
 		$uses = array('Poster');
 		if ($this->request->is('ajax')) {
 			$this->Poster->save($this->request->data);
 		}
 	}
-	
+
 	public function deletesql(){
 		$uses = array('Poster');
 		if ($this->request->is('ajax')) {
@@ -36,7 +36,7 @@ class PostersController extends AppController {
 			$this->Poster->delete($id);
 		}
 	}
-	
+
 	// ポスター配置画面でポスターキャンバスタブが切り替わった際に呼び出されるセッション記録用処理
 	public function saveSelectedDay(){
 		if ($this->request->is('ajax')) {
@@ -46,14 +46,14 @@ class PostersController extends AppController {
 			return true;
 		}
 	}
-	
+
 	// 任意のプレゼンテーションを関連付けしているポスターを取得する関数
 	public function getRelatedPoster($presentation_id){
 		return $this->Poster->find('all', array(
 			'conditions' => array('presentation_id' => $presentation_id)
 		));
 	}
-	
+
 	// ポスターの関連付けプレゼンテーションID属性を初期化する
 	public function initRelatedPoster($id){
 		$data = array('id' => $id, 'presentation_id' => 0, 'color' => '#999999');

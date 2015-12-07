@@ -13,7 +13,7 @@
 	<script type="text/javascript">
 			localStorage.clear();
 			 window.onload=function()
-             {
+			 {
 				 window.location.href="<?php echo $this->Html->url(array('controller' => 'Events', 'action' => 'view')) ?>/<?php echo $id;?>";
 			}
 	</script>

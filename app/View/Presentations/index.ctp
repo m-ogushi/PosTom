@@ -8,33 +8,33 @@
 
 <h2>Presentation List</h2>
 <table class="table table-striped table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>No.</th>
-            <th>Title</th>
+	<thead>
+		<tr>
+			<th>No.</th>
+			<th>Title</th>
 			<th>Author</th>
-        </tr>
-    </thead>
-    <tbody>
-    	<?php if(count($presentations) == 0){
-    		for($i=0; $i<10; $i++){
+		</tr>
+	</thead>
+	<tbody>
+		<?php if(count($presentations) == 0){
+			for($i=0; $i<10; $i++){
 				echo '<tr>';
 				echo "<td height='20'>&nbsp;</td>";
 				echo "<td>&nbsp;</td>";
 				echo "<td>&nbsp;</td>";
 				echo '</tr>';
 			}
-    	}
-    	?>
-        <?php foreach ($presentations as $presentation) :
+		}
+		?>
+		<?php foreach ($presentations as $presentation) :
 			echo '<tr>';
 			echo '<td>'.$presentation['Presentation']['room'].$presentation['Presentation']['session_order'].'-'.$presentation['Presentation']['presentation_order'].'</td>';
 			echo '<td>'.$presentation['Presentation']['title'].'</td>';
 			echo '<td>'.$presentation['Presentation']['authors_name'].'</td>';
 			echo '</tr>';
 		endforeach;
-        ?>
-    </tbody>
+		?>
+	</tbody>
 </table>
 
 <!-- 別の表示方法なので一応コメントアウト -->
