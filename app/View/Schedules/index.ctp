@@ -288,7 +288,7 @@ echo $this->Html->css('page_schedule');
 	echo '</div>'; // tab-pane end
 	// session追加ボタン設置
 	echo '<div class="add-session-group">';
-	$top = 420 + ($end - $first) * 90;
+	$top = 450 + ($end - $first) * 90;
 	$left = 240;
 	for($countRoom = 0; $countRoom < count($roomGroup); $countRoom++){
 		echo '<button type="button" id="add-in-' . $roomGroup[$countRoom] . '" name="add-new-session" class="btn btn-default session-modal-open" data-target="session-edit">＋</button>';
