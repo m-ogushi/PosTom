@@ -4,11 +4,11 @@
 	}
 	function PostFrom()
 	{
-	    $('#floormapImport').submit();
+		$('#floormapImport').submit();
 	}
 	function changeState()
 	{
-        $('#changeStateFrom').submit();
+		$('#changeStateFrom').submit();
 	}
 </script>
 <h2>Floor Map</h2>

@@ -20,7 +20,7 @@ class UsersController extends AppController {
 				$email->from(array('tkb.tsss@gmail.com' => 'PosTom'));
 				$email->to($this->data['User']['email']);
 				$email->subject('Please finish registration');
-                $mailText = "You are still a state of the temporary registration in PosTom.\n Please click the following URL and complete this registration.\n".$url;
+				$mailText = "You are still a state of the temporary registration in PosTom.\n Please click the following URL and complete this registration.\n".$url;
 				$email->send($mailText); // メール本文に本登録用リンクを記す
 				$this->Session->setFlash('Email was sent. Please finish registration');
 				$this->redirect(array('action' => 'interim'));
