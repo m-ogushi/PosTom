@@ -1,11 +1,11 @@
 @charset "utf-8";
 /*-------------------------------------------------
- 
+
   base.css
- 
+
  --------------------------------------------------*/
- 
- 
+
+
 /* common
 ****************************************************/
 html {
@@ -132,6 +132,7 @@ input[type=file].disno {
 	background-color: #39b998;
 	font-family: 'Oswald', sans-serif;
 	font-size: 18px;
+	z-index: 3;
 }
 #contents #dashboard h1#logo {
 	width: 200px;
