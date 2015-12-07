@@ -1,6 +1,7 @@
 <script type="text/javascript">
 	var schedules = <?php echo json_encode($schedules, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>;
 	var name, session_id;
+	var day_diff = <?php echo $day_diff; ?>;
 	$(function(){
 	// ダッシュボードのPresentationを選択状態にする
 		$('#dashboard #gNav #gNavSch').addClass('current');
@@ -58,10 +59,8 @@
 				return elem.Schedule.id == session_id;
 			});
 			session = session[0].Schedule;
-			// console.log(session.end_time);
 			var start = session.start_time.split(":");
 			var end = session.end_time.split(":");
-			console.log(start);
 			$('#room').val(session.room);
 			$('#order').val(session.order);
 			$('#category').val(session.category);
@@ -93,6 +92,8 @@
 
 		// 「.modal-overlay」あるいは「.modal-close」をクリック
 		$('.modal-overlay, .modal-close').off().click(function(){
+			// エラーボックス非表示
+			$('.error-messages').addClass('disno');
 			// 固定解除
 			$('html, body').removeClass('lock');
 			// モーダルコンテンツとオーバーレイをフェードアウト
@@ -121,9 +122,58 @@
 			// モーダルコンテンツの表示位置を設定
 			$(modal).css({'left': x + 'px','top': y + 'px'});
 		}
-
 	});
 });
+	// フォームのサブミット時にバリデーションチェック
+	$(function(){
+		$('#ScheduleSaveRootingForm').submit(function(){
+			// エラーメッセージを空に
+			err_box = $('.error-messages');
+			err_box.empty();
+			// 時間は正しいか
+			if(!session_time_check()){
+				console.log("thijfiowejowjfowjfoijfio");
+				err_elm = $('<p>').text("Unjust session time.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+			// 要素が空でないか
+			if($('#room').val() == "" || $('#category').val() == ""){
+				console.log("karaaaaaaaaaaaaa");
+				err_elm = $('<p>').text("Unjust blank.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+			// 存在する日にちかチェック
+			var d = Number($('#date').val());
+			console.log(day_diff);
+			if($('#date').val() == "" || d > day_diff || d <= 0){
+				err_elm = $('<p>').text("The date is not exist.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+		});
+	});
+	function session_time_check(){
+		var start_hour = Number($('#startHour').val());
+		var start_min = Number($('#startMinute').val());
+		var end_hour = Number($('#endHour').val());
+		var end_min = Number($('#endMinute').val());
+
+		// 開始時間と終了時間があり得る時間ならtrue
+		if((end_hour * 60 + end_min)-(start_hour * 60 + start_min) >= 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	function slideDown(slideEle){
+		slideEle.slideDown(300).removeClass('disno');
+	}
+	// session deleteボタンのconfirm
 	function confirm_del_session(){
 		if(window.confirm('Do you really delete this session ?')){
 			$('#root_flag').val("delete-session");
@@ -311,6 +361,7 @@ echo $this->Html->css('page_schedule');
 <!-- modal content -->
 <div id="session-edit" class="modal-content">
 	<h2 id="session-add-edit"></h2>
+	<div class="error-messages disno"></div>
 <?php
 	echo $this->Form->create('Schedule', array('action'=>'save_rooting'));
 	echo $this->Form->input('room', array('id'=>'room', 'class'=>'form-control', 'required' => false));
