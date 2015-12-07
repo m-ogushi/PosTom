@@ -13,7 +13,7 @@ var disuses = new Array(eventDays);
 for(var i=0; i<eventDays; i++){
 	disuses[i] = false;
 }
-	
+
 //データベースの情報をローカルに格納
 <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
 	poster[<?php echo $i ?>] = new Array();
@@ -55,7 +55,7 @@ for($i=0; $i<count($disuseArray); $i++){
 	$disuses[$disuseArray[$i]['Disuse']['date']-1] = true;
 ?>
 	disuses[<?php echo $disuseArray[$i]['Disuse']['date']-1; ?>] = true;
-<?php	
+<?php
 } // end for
 ?>
 </script>
@@ -67,7 +67,7 @@ for($i=0; $i<count($disuseArray); $i++){
 <div id="tab">
 <ul class="nav nav-tabs">
 <?php
-	
+
 	// イベントの開催日数分のタブを生成する
 	for($i=1; $i<=$days; $i++){
 ?>

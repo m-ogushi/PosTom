@@ -115,16 +115,16 @@
 
 <!-- ポスターマップ画面 -->
 <div data-role="page" id="posterMapPage">
- 	<div id="menuPanel" data-display="overlay" data-role="panel" data-position="right">
+	<div id="menuPanel" data-display="overlay" data-role="panel" data-position="right">
 		<!-- <div id="changelabel" data-position="fixed" style="border: 2px;">
- 			<a data-role="button" href="#changeLabelDialog"
- 					data-inline="true" data-rel="dialog"
- 					data-transition="pop">Change Label</a>
- 		</div> -->
- 		<div style="text-align: center;">
+			<a data-role="button" href="#changeLabelDialog"
+					data-inline="true" data-rel="dialog"
+					data-transition="pop">Change Label</a>
+		</div> -->
+		<div style="text-align: center;">
 			Change the poster's label display.
- 		</div>
- 		<a class="changelabel" id="label-presenid"
+		</div>
+		<a class="changelabel" id="label-presenid"
 			href="#posterMapPage" data-role="button">Orator NO.</a>
 		<a class="changelabel" id="label-title"
 			href="#posterMapPage" data-role="button">Title</a>
@@ -137,7 +137,7 @@
 		<div class="ui-grid-b">
 			<div class="ui-block-a" style="width: 70%;">
 				<input type="search" id="search-bar-title"
-	    		placeholder="検索" data-inline="true" style="width:75%;" onchange="searchChanged(this)"/>
+				placeholder="検索" data-inline="true" style="width:75%;" onchange="searchChanged(this)"/>
 			</div>
 			<div class="ui-block-b" style="width: 25%;">
 				<div id="searchResult"></div>
@@ -289,7 +289,7 @@
 		<h1 style="text-align:center"　>Floor Map</h1>
 	</div>
 	<div align="center">
-			        <br/><br/><br/>
+					<br/><br/><br/>
 					<img id="floormap" width="720px" height="920px" src="<?php echo $this->Html->webroot;?>img/venue1.png"></img>
 	</div>
 	<!-- タブバー -->
@@ -329,137 +329,137 @@
 <!-- DEIM2014のセッションテーブルの内容 -->
 <div data-role="page" id="informationPage">
   <div data-role="header" data-position="fixed">
-    <h1 id="sessionHyou" style="text-align:center">プログラム</h1>
+	<h1 id="sessionHyou" style="text-align:center">プログラム</h1>
   </div>
   <div data-role="content">
-    <!--&lt;!&ndash;date切替ボタン&ndash;&gt; -->
-    <!--<p id="changeDateButton" data-role="controlgroup" data-type="horizontal" align="center">-->
-        <!--<a id="changeDate01" class="sessiontable1" href="#sessiontable1" data-role="button">3月2日</a>-->
-        <!--<a id="changeDate02" class="sessiontable2" href="#sessiontable2" data-role="button">3月3日</a>-->
-        <!--<a id="changeDate03" class="sessiontable3" href="#sessiontable3" data-role="button">3月4日</a>-->
-      <!--</p>-->
-    <!--<h3 align="center" id="sessionDate"></h3>-->
-      <!--&lt;!&ndash; セッションテーブル本体 &ndash;&gt;-->
-      <!--<div id="sessiontables">-->
-      <!--<div id="sessiontable1" class="sessiontable">-->
-        <!--<table class="session_table">-->
-          <!--<tr><th>時間</th><th>会場</th><th>内容</th></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">13:00<br />-<br />14:30</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA1" class="jumpToPresen">A1：QA・ECサイト</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB1" class="jumpToPresen">B1：情報伝搬・クラウドソーシング</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC1" class="jumpToPresen">C1：食・レシピ情報</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD1" class="jumpToPresen">D1：トピック分類</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE1" class="jumpToPresen">E1：クラウド・IoT</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF1" class="jumpToPresen">F1：音楽情報処理</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG1" class="jumpToPresen">G1：プライバシー(1)</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"　bgcolor="red">休憩</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">14:45<br />-<br />16:15</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA2" class="jumpToPresen">A2：テキストマイニング</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB2" class="jumpToPresen">B2：情報推薦(1)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC2" class="jumpToPresen">C2：ネットワーク・センシング</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD2" class="jumpToPresen">D2：データ分析</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE2" class="jumpToPresen">E2：マイニング・可視化</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF2" class="jumpToPresen">F2：動画像データ分析</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG2" class="jumpToPresen">G2：プライバシー(2-->
-          	<!--)</a></td></tr>-->
+	<!--&lt;!&ndash;date切替ボタン&ndash;&gt; -->
+	<!--<p id="changeDateButton" data-role="controlgroup" data-type="horizontal" align="center">-->
+		<!--<a id="changeDate01" class="sessiontable1" href="#sessiontable1" data-role="button">3月2日</a>-->
+		<!--<a id="changeDate02" class="sessiontable2" href="#sessiontable2" data-role="button">3月3日</a>-->
+		<!--<a id="changeDate03" class="sessiontable3" href="#sessiontable3" data-role="button">3月4日</a>-->
+	  <!--</p>-->
+	<!--<h3 align="center" id="sessionDate"></h3>-->
+	  <!--&lt;!&ndash; セッションテーブル本体 &ndash;&gt;-->
+	  <!--<div id="sessiontables">-->
+	  <!--<div id="sessiontable1" class="sessiontable">-->
+		<!--<table class="session_table">-->
+		  <!--<tr><th>時間</th><th>会場</th><th>内容</th></tr>-->
+		  <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">13:00<br />-<br />14:30</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA1" class="jumpToPresen">A1：QA・ECサイト</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB1" class="jumpToPresen">B1：情報伝搬・クラウドソーシング</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC1" class="jumpToPresen">C1：食・レシピ情報</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD1" class="jumpToPresen">D1：トピック分類</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE1" class="jumpToPresen">E1：クラウド・IoT</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF1" class="jumpToPresen">F1：音楽情報処理</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG1" class="jumpToPresen">G1：プライバシー(1)</a></td></tr>-->
+		  <!--<tr><td class="rest" colspan="3"　bgcolor="red">休憩</td></tr>-->
+		  <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">14:45<br />-<br />16:15</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA2" class="jumpToPresen">A2：テキストマイニング</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB2" class="jumpToPresen">B2：情報推薦(1)</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC2" class="jumpToPresen">C2：ネットワーク・センシング</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD2" class="jumpToPresen">D2：データ分析</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE2" class="jumpToPresen">E2：マイニング・可視化</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF2" class="jumpToPresen">F2：動画像データ分析</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG2" class="jumpToPresen">G2：プライバシー(2-->
+			<!--)</a></td></tr>-->
 
-          <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">16:30<br />-<br />18:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA3" class="jumpToPresen">A3:情報検索</a><p class="phdsession">（Ph.Dセッション）</p></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB3" class="jumpToPresen">B3:情報推薦(2)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC3" class="jumpToPresen">C3:省電力</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD3" class="jumpToPresen">D3:ユーザーレビュー</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE3" class="jumpToPresen">E3:半構造データ・オープンデータ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF3" class="jumpToPresen">F3:学術情報</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG3" class="jumpToPresen">G3:GPU・ストレージ</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
-          <!--<tr style="height:30px"><th class="showtime">19:00<br />-<br />21:00</th><td class="banquetRoom"><a class="jumpToVenue">懇親会会場</a></td><td>インタラクティブ<br />セッション(1)</td></tr>-->
-          <!--<tr>-->
-          	<!--<th  class="showtime" >21:00<br />-<br />23:30</th>-->
-            <!--<td colspan="2"　>ヤングリサーチャーディスカッション</td>-->
-          <!--</tr>-->
-        <!--</table>-->
-      <!--</div>-->
-      <!--&lt;!&ndash;二日目&ndash;&gt; -->
-      <!--<div id="sessiontable2" class="sessiontable">-->
-        <!--<table class="session_table">-->
-          <!--<tr><th>時間</th><th>会場</th><th>内容</th></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" >8:45<br />-<br />10:15</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA4" class="jumpToPresen">A4:Web情報システム<p class="phdsession">（Ph.Dセッション）</p></a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB4" class="jumpToPresen">B4:情報抽出</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC4" class="jumpToPresen">C4:マイクロブログ(1)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD4" class="jumpToPresen">D4:情報信頼性</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE4" class="jumpToPresen">E4:データ処理基盤</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF4" class="jumpToPresen">F4:HCI</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG4" class="jumpToPresen">G4:データマイニング・マイクロブログ</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"　bgcolor="red">休憩</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7">10:30<br />-<br />12:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA5" class="jumpToPresen">A5:データマイニング(1)<p class="phdsession">（Ph.Dセッション）</p></a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB5" class="jumpToPresen">B5:情報検索応用</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC5" class="jumpToPresen">C5:クエリ高度化</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD5" class="jumpToPresen">D5:ドキュメントと機械学習</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE5" class="jumpToPresen">E5:グラフと分散処理</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF5" class="jumpToPresen">F5:感情と感性</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG5" class="jumpToPresen">G5:医療情報</a></td></tr>-->
-          <!--<tr><td class="rest">12:00<br />-<br />13:00</td><td class="rest" colspan="2"　>昼食（＋DBS運営委員会/DE専門委員会）</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7" >13:00<br />-<br />14:30</th><td><a class="jumpToVenue">A</a></td><td><a>A6:データマイニング(2)(Ph.Dセッション)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB6" class="jumpToPresen">B6:分散処理・管理</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC6" class="jumpToPresen">C6:クラウドソーシング・SNS</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD6" class="jumpToPresen">D6:OLAP</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE6" class="jumpToPresen">E6:グラフマイニング</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF6" class="jumpToPresen">F6:位置情報</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG6" class="jumpToPresen">G6:科学・医療データマイニング</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
-          <!--<tr><th class="showtime">14:45<br />-<br />16:35</th><td><a class="jumpToVenue">A・B</a></td><td>招待講演</td></tr>-->
-          <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
-          <!--<tr><th class="showtime">16:45<br />-<br />18:15</th>-->
-          <!--<td><a class="jumpToVenue">A・B</a></td><td>DBSJアワー<br />・功労賞記念講演</td></tr>-->
-          <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
-          <!--<tr>-->
-            <!--<th  class="showtime"  >19:00<br />-<br />21:00</th>-->
-            <!--<td class="banquetRoom"><a class="jumpToVenue">懇親会会場</a></td>-->
-            <!--<td>インタラクティブ<br />セッション（２）</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-            <!--<th  class="showtime">21:00<br />-<br />22:00</th>-->
-            <!--<td><a class="jumpToVenue">懇親会会場</a></td>-->
-            <!--<td>BoFセッション</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          	<!--<th  class="showtime" >22:00<br />-<br />23:30</th>-->
-            <!--<td colspan="2"　>ヤングリサーチャーディスカッション</td>-->
-          <!--</tr>-->
-        <!--</table>-->
-      <!--</div>-->
-      <!--&lt;!&ndash;三日目&ndash;&gt; -->
-      <!--<div id="sessiontable3" class="sessiontable">-->
-        <!--<table class="session_table">-->
-          <!--<tr><th>時間</th><th>会場</th><th>内容</th></tr>-->
-          <!--<tr><th  class="showtime" rowspan="6" >8:45<br />-<br />10:15</th><td><a class="jumpToVenue">A・B</a></td><td><a id="presenlinkB7" class="jumpToPresen">特別セッション</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlistC7" class="jumpToPresen">C7:災害情報</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlistD7" class="jumpToPresen">D7:先進的応用</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlistE7" class="jumpToPresen">E7:プラットフォーム技術</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlistF7" class="jumpToPresen">F7:地理・観光</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG7" class="jumpToPresen">G7:観光情報</a></td></tr>-->
-          <!--<tr><td class="rest" colspan="3"　bgcolor="red">休憩</td></tr>-->
-          <!--<tr><th  class="showtime" rowspan="7">10:30<br />-<br />12:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlistA8" class="jumpToPresen">A8:マイクロブログ(2)</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlistB8" class="jumpToPresen">B8:音楽・動画推薦</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlistC8" class="jumpToPresen">C8:イベント抽出と地理情報</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlistD8" class="jumpToPresen">D8:SNSユーザ情報</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlistE8" class="jumpToPresen">E8:情報抽出・検索</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlistF8" class="jumpToPresen">F8:時系列データ</a></td></tr>-->
-          <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG8" class="jumpToPresen">G8:自然言語処理</a></td></tr>-->
-       <!-- -->
-          <!--<tr>-->
-          	<!--<th id="closingH" class="showtime" >12:00<br />-<br />12:15</th>-->
-          	<!--<td class="closingD" ><a class="jumpToVenue">A・B</a></td>-->
-          	<!--<td class="closingD" >クロージング<br />表彰式</td>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          	<!--<th  class="showtime" >12:15<br />-<br />13:15</th>-->
-          	<!--<td  colspan="2"　>昼食（＋コメンテータ委員会）</td>-->
-          <!--</tr>-->
+		  <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
+		  <!--<tr><th  class="showtime" rowspan="7" bgcolor="blue">16:30<br />-<br />18:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA3" class="jumpToPresen">A3:情報検索</a><p class="phdsession">（Ph.Dセッション）</p></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB3" class="jumpToPresen">B3:情報推薦(2)</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC3" class="jumpToPresen">C3:省電力</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD3" class="jumpToPresen">D3:ユーザーレビュー</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE3" class="jumpToPresen">E3:半構造データ・オープンデータ</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF3" class="jumpToPresen">F3:学術情報</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG3" class="jumpToPresen">G3:GPU・ストレージ</a></td></tr>-->
+		  <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
+		  <!--<tr style="height:30px"><th class="showtime">19:00<br />-<br />21:00</th><td class="banquetRoom"><a class="jumpToVenue">懇親会会場</a></td><td>インタラクティブ<br />セッション(1)</td></tr>-->
+		  <!--<tr>-->
+			<!--<th  class="showtime" >21:00<br />-<br />23:30</th>-->
+			<!--<td colspan="2"　>ヤングリサーチャーディスカッション</td>-->
+		  <!--</tr>-->
+		<!--</table>-->
+	  <!--</div>-->
+	  <!--&lt;!&ndash;二日目&ndash;&gt; -->
+	  <!--<div id="sessiontable2" class="sessiontable">-->
+		<!--<table class="session_table">-->
+		  <!--<tr><th>時間</th><th>会場</th><th>内容</th></tr>-->
+		  <!--<tr><th  class="showtime" rowspan="7" >8:45<br />-<br />10:15</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA4" class="jumpToPresen">A4:Web情報システム<p class="phdsession">（Ph.Dセッション）</p></a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB4" class="jumpToPresen">B4:情報抽出</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC4" class="jumpToPresen">C4:マイクロブログ(1)</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD4" class="jumpToPresen">D4:情報信頼性</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE4" class="jumpToPresen">E4:データ処理基盤</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF4" class="jumpToPresen">F4:HCI</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG4" class="jumpToPresen">G4:データマイニング・マイクロブログ</a></td></tr>-->
+		  <!--<tr><td class="rest" colspan="3"　bgcolor="red">休憩</td></tr>-->
+		  <!--<tr><th  class="showtime" rowspan="7">10:30<br />-<br />12:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlinkA5" class="jumpToPresen">A5:データマイニング(1)<p class="phdsession">（Ph.Dセッション）</p></a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB5" class="jumpToPresen">B5:情報検索応用</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC5" class="jumpToPresen">C5:クエリ高度化</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD5" class="jumpToPresen">D5:ドキュメントと機械学習</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE5" class="jumpToPresen">E5:グラフと分散処理</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF5" class="jumpToPresen">F5:感情と感性</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG5" class="jumpToPresen">G5:医療情報</a></td></tr>-->
+		  <!--<tr><td class="rest">12:00<br />-<br />13:00</td><td class="rest" colspan="2"　>昼食（＋DBS運営委員会/DE専門委員会）</td></tr>-->
+		  <!--<tr><th  class="showtime" rowspan="7" >13:00<br />-<br />14:30</th><td><a class="jumpToVenue">A</a></td><td><a>A6:データマイニング(2)(Ph.Dセッション)</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlinkB6" class="jumpToPresen">B6:分散処理・管理</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlinkC6" class="jumpToPresen">C6:クラウドソーシング・SNS</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlinkD6" class="jumpToPresen">D6:OLAP</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlinkE6" class="jumpToPresen">E6:グラフマイニング</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlinkF6" class="jumpToPresen">F6:位置情報</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG6" class="jumpToPresen">G6:科学・医療データマイニング</a></td></tr>-->
+		  <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
+		  <!--<tr><th class="showtime">14:45<br />-<br />16:35</th><td><a class="jumpToVenue">A・B</a></td><td>招待講演</td></tr>-->
+		  <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
+		  <!--<tr><th class="showtime">16:45<br />-<br />18:15</th>-->
+		  <!--<td><a class="jumpToVenue">A・B</a></td><td>DBSJアワー<br />・功労賞記念講演</td></tr>-->
+		  <!--<tr><td class="rest" colspan="3"　>休憩</td></tr>-->
+		  <!--<tr>-->
+			<!--<th  class="showtime"  >19:00<br />-<br />21:00</th>-->
+			<!--<td class="banquetRoom"><a class="jumpToVenue">懇親会会場</a></td>-->
+			<!--<td>インタラクティブ<br />セッション（２）</td>-->
+		  <!--</tr>-->
+		  <!--<tr>-->
+			<!--<th  class="showtime">21:00<br />-<br />22:00</th>-->
+			<!--<td><a class="jumpToVenue">懇親会会場</a></td>-->
+			<!--<td>BoFセッション</td>-->
+		  <!--</tr>-->
+		  <!--<tr>-->
+			<!--<th  class="showtime" >22:00<br />-<br />23:30</th>-->
+			<!--<td colspan="2"　>ヤングリサーチャーディスカッション</td>-->
+		  <!--</tr>-->
+		<!--</table>-->
+	  <!--</div>-->
+	  <!--&lt;!&ndash;三日目&ndash;&gt; -->
+	  <!--<div id="sessiontable3" class="sessiontable">-->
+		<!--<table class="session_table">-->
+		  <!--<tr><th>時間</th><th>会場</th><th>内容</th></tr>-->
+		  <!--<tr><th  class="showtime" rowspan="6" >8:45<br />-<br />10:15</th><td><a class="jumpToVenue">A・B</a></td><td><a id="presenlinkB7" class="jumpToPresen">特別セッション</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlistC7" class="jumpToPresen">C7:災害情報</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlistD7" class="jumpToPresen">D7:先進的応用</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlistE7" class="jumpToPresen">E7:プラットフォーム技術</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlistF7" class="jumpToPresen">F7:地理・観光</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG7" class="jumpToPresen">G7:観光情報</a></td></tr>-->
+		  <!--<tr><td class="rest" colspan="3"　bgcolor="red">休憩</td></tr>-->
+		  <!--<tr><th  class="showtime" rowspan="7">10:30<br />-<br />12:00</th><td><a class="jumpToVenue">A</a></td><td><a id="presenlistA8" class="jumpToPresen">A8:マイクロブログ(2)</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">B</a></td><td><a id="presenlistB8" class="jumpToPresen">B8:音楽・動画推薦</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">C</a></td><td><a id="presenlistC8" class="jumpToPresen">C8:イベント抽出と地理情報</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">D</a></td><td><a id="presenlistD8" class="jumpToPresen">D8:SNSユーザ情報</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">E</a></td><td><a id="presenlistE8" class="jumpToPresen">E8:情報抽出・検索</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">F</a></td><td><a id="presenlistF8" class="jumpToPresen">F8:時系列データ</a></td></tr>-->
+		  <!--<tr><td><a class="jumpToVenue">G</a></td><td><a id="presenlinkG8" class="jumpToPresen">G8:自然言語処理</a></td></tr>-->
+	   <!-- -->
+		  <!--<tr>-->
+			<!--<th id="closingH" class="showtime" >12:00<br />-<br />12:15</th>-->
+			<!--<td class="closingD" ><a class="jumpToVenue">A・B</a></td>-->
+			<!--<td class="closingD" >クロージング<br />表彰式</td>-->
+		  <!--</tr>-->
+		  <!--<tr>-->
+			<!--<th  class="showtime" >12:15<br />-<br />13:15</th>-->
+			<!--<td  colspan="2"　>昼食（＋コメンテータ委員会）</td>-->
+		  <!--</tr>-->
 
-        <!--</table>-->
-      <!--</div>-->
-      <!--</div>-->
+		<!--</table>-->
+	  <!--</div>-->
+	  <!--</div>-->
   </div>
-  	<!-- タブバー -->
+	<!-- タブバー -->
 	<!-- <div class="tabbar"></div> -->
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">
