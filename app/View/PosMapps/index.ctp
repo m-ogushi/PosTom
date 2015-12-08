@@ -299,7 +299,7 @@
 	</div>
 	<div align="center">
 			        <br/><br/><br/>
-					<img style="width:100%"; src="<?php echo $this->Html->webroot;?>img/room.svgz"></img>
+					<img id="floormap"  style="width:100%"; src="<?php echo $this->Html->webroot;?>img/room.svgz"></img>
 
 	</div>
 	<!-- タブバー -->

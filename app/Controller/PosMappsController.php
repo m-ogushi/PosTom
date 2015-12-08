@@ -96,7 +96,6 @@ class PosMappsController extends AppController {
         $JsonKeyword = '"keyword":[';
         $JsonSession='"session":[';
         $JsonDay='
-        "venuemap":0,
         "timetable":[
         ';
 
