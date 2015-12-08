@@ -32,7 +32,7 @@
 		name = this.name;
 		if(name == "add-new-session"){
 			// modal window内のdeleteボタンを非表示にする
-			$('#delete-session').hide();
+			$('#session_delete_btn').hide();
 		$("#session-add-edit").text("Add New Session");
 			var room = (this.id).slice(7);
 			$('#room').val(room);
@@ -52,7 +52,7 @@
 			$('#id').val("");
 		}else{
 			// deleteボタン表示
-			$('#delete-session').show();
+			$('#session_delete_btn').show();
 			$("#session-add-edit").text("Edit Session");
 			session_id = name.slice(8);
 			var session = schedules.filter(function (elem, i){
@@ -380,9 +380,9 @@ echo $this->Html->css('page_schedule');
 	echo $this->Form->input('root_flag', array('id'=>'root_flag', 'type'=>'hidden', 'required' => false));
 	echo $this->Form->input('id', array('id'=>'id', 'type'=>'hidden', 'required' => false));
 	echo '<div class="box-group">';
-	echo $this->Form->submit('Save', array('id'=>'session_save_btn', 'class'=>'btn btn-primary inline'));
+	echo $this->Form->submit('Save', array('id'=>'session_save_btn', 'class'=>'btn btn-primary'));
 	echo '<button id="session_cancel_btn" type="button" class="btn btn-default modal-close">cancel</button>';
-	echo $this->Form->submit('Delete', array('id'=>'session_delete_btn', 'class'=>'btn btn-danger inline', 'onclick'=>'return confirm_del_session();'));
+	echo $this->Form->submit('Delete', array('id'=>'session_delete_btn', 'class'=>'btn btn-danger', 'onclick'=>'return confirm_del_session();'));
 	echo '</div>';
 ?>
 
