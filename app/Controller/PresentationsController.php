@@ -14,7 +14,7 @@ class PresentationsController extends AppController {
 	public function getall(){
 		return $this->Presentation->find('all');
 	}
-	
+
 	// 特定イベントのプレゼンテーションをすべて取得する
 	public function getByEventID($event_id){
 		return $this->Presentation->find('all', array(

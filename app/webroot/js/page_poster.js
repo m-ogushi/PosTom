@@ -103,7 +103,7 @@ var stage;
 $(function() {
 	$('[name^="objectWidth"]').attr("max",canvasWidth/gridSize);
 	$('[name^="objectHeight"]').attr("max",canvasHeight/gridSize);
-	
+
 	// 複数日対応 canvas要素配列, stage配列の格納
 	for(var i=0; i<eventDays; i++){
 		// それぞれのcanvasサイズを指定する
@@ -112,14 +112,14 @@ $(function() {
 		// プレゼンテーションからの関連づけのマウスイベントを受け付ける
 		$('#posterCanvas'+(i+1)).on('dragover', onDragOver);
 		$('#posterCanvas'+(i+1)).on('drop', onDrop);
-		
+
 		canvasElementArray[i] = document.getElementById("posterCanvas"+(i+1));
 		stageArray[i] = new createjs.Stage(canvasElementArray[i]);
 		stageArray[i].enableMouseOver();
 		stageArray[i].enableDOMEvents(true);
 		document.getElementById("posterCanvas"+(i+1)).addEventListener("click",cancelFrame);
 	}
-	
+
 	// イベントの初日にdisuseが設定されていたらメニューの利用可能状態を利用できない状態にする
 	if(disuses[0]){
 		// 読み込みのタイミングによってはモード選択のセレクトボックスの生成のほうが遅れるため、モード選択のセレクトボックスが生成されるまで繰り返す
@@ -136,7 +136,7 @@ $(function() {
 			}
 		}, 100);
 	}
-	
+
 	// データベースから取得したポスターを各日数におけるcanvasに描写する処理
 	// イベントの日数分繰り返す
 	for(j=0; j<eventDays; j++){
@@ -160,14 +160,16 @@ $(function() {
 				// instance.__abstract = objectList[i].abstract;
 				stage.addChild(instance);
 				instance.addEventListener("mousedown", startDrag);
-				
+
 				// ポスターに関連済みプレゼンテーションがあれば、テキストオブジェクトを生成する
 				if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
 					// ポスターの色を関連済みの色に変更する
 					instance.graphics._fill.style = relatedColor;
 					instance.color = relatedColor;
+					// 関連済みプレゼンテーションのIDを変数に格納
+					var presentationIDStr = presentations[i].room + presentations[i].session_order + "-" + presentations[i].presentation_order;
 					// テキストオブジェクトを生成する
-					var text = new createjs.Text(presentations[i].number, '20px Meiryo', '#fff');
+					var text = new createjs.Text(presentationIDStr, '20px Meiryo', '#fff');
 					var textWidth = text.getMeasuredWidth();
 					var textHeight = text.getMeasuredHeight();
 					// テキストをオブジェクトの中央に配置
@@ -177,9 +179,9 @@ $(function() {
 					text.__type = 'text';
 					// テキストオブジェクトに親要素であるポスターオブジェクトのIDを付与（ポスターが移動した際に、テキストもついていくようにするため）
 					text.__parent = instance.id;
-					
+
 					stage.addChild(text);
-					
+
 					// 選択中のプレゼンテーションの要素を関連付けされた状態にする
 					$('.presentationlist li#'+instance.__relation).addClass('related').attr('data-relation', instance.id);
 				} // end if
@@ -191,11 +193,11 @@ $(function() {
 		stageArray[j] = stage;
 	} // end for
 	loading = false;
-	
+
 	// 初期状態は、canvas要素, stageともにイベント初日とする
 	canvasElement = canvasElementArray[0];
 	stage = stageArray[0];
-	
+
 });
 
 /********************************************************
@@ -439,7 +441,7 @@ function stopDrag(eventObject) {
 			if(instance.array != null){
 				updateFrame(instance.x,instance.y,instance.width,instance.height);
 			}
-			
+
 			// 関連済みポスターの場合、テキストオブジェクトも元の位置に戻す
 			if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
 				// テキストオブジェクトを特定
@@ -741,7 +743,7 @@ function resizeDrag(eventObject) {
 			}
 		}
 	}
-	
+
 	stage.update();
 	onResizing = true;
 }
@@ -1050,13 +1052,13 @@ function changeMode(){
 		changeDisabledState(false, false, true);
 	}
  }
- 
+
 // メニューの使用可能状態を変更させる関数
-/* 
+/*
  * changeState: 生成フォーム, 編集フォーム, 各種ボタンの状態
  * selectState: 生成・削除を選択するセレクトボックスの状態
  * deleteState: 削除ボタンの状態
- * 
+ *
  */
 function changeDisabledState(chageState, selectState, deleteState){
 	// 生成フォーム
@@ -1122,7 +1124,6 @@ function deleteObject(){
 	}
 }
 
-
 /********************************************************
  *							会場図設置処理									*
  ********************************************************/
@@ -1148,15 +1149,38 @@ function fileUpLoad(event_str){
 	})
 	.done(function(msg) {
 		alert(msg);
+		// データベースにポスター背景がセットされていることを格納する
+		savePosterBg();
 		backGroundFileName = selectedEventStr+".png";
-		/*
-		$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+backGroundFileName.toString()+"?"+$.now()+")");
-		$(canvasElement).css("background-repeat","repeat, no-repeat");
-		*/
-		$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
-		$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
+		// アップロードした画像を背景として挿入する
+		// TODO: 現状はイベントすべての日をつうじて同じポスター会場であることを想定している
+		for(var i=0; i<canvasElementArray.length; i++){
+			$(canvasElementArray[i]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
+			$(canvasElementArray[i]).css("background-repeat","repeat, no-repeat");
+			/* 選択している日に対応する場合は以下のコメントアウトを外して適宜編集してください
+			$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
+			$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
+			*/
+		}
 	});
 }
+
+// イベントにポスター背景図がセットされていることをデータベースに格納する
+function savePosterBg(){
+	$.ajax({
+		url: "events/setPosterBackground",
+		type: "POST",
+		data: { 'selectedEventID' : selectedEventID },
+		dataType: "text",
+		success : function(response){
+			//alert(response);
+		},
+		error: function(){
+			alert('Error');
+		}
+	});
+}
+
 
 /********************************************************
  *				編集フォームのパラメータ格納	              		*
@@ -1314,7 +1338,7 @@ function rgbToHex(color) {
  ********************************************************/
 $(function(){
 	$('li[draggable="true"]').on('dragstart', onDragStart);
-	
+
 	// Presentationタブがクリックされたとき、移動・サイズ変更はできないようにする（生成モードから削除モードへ切り替えることと同様）
 	$('#tab #presentationTab').click(function(){
 		cancelFrame();
@@ -1375,13 +1399,13 @@ function onDrop(e){
 						}
 					}
 				}
-				
+
 				// すでにそのポスターがプレゼンテーションと関連済みであった場合
 				if(target.__relation != undefined && target.__relation != '' && target.__relation != '0'){
 					// もともと関連済みであったプレゼンテーションを元の状態に戻す
 					$('.presentationlist li#'+target.__relation).removeClass('related').attr('data-relation', null);
 				}
-				
+
 				target.graphics._fill.style = relatedColor;
 				target.color = relatedColor;
 				// ポスターオブジェクトに関連付けされたプレゼンテーションIDを付与
@@ -1532,16 +1556,16 @@ $(function(){
 				data: { "day": selectedDay },
 				success: function(msg){}
 			});
-			
+
 			// 現在までのstageの状態をstage配列に格納する
 			stageArray[previousDay-1] = stage;
-			
+
 			// 選択中のcanvas要素を切り替える
 			canvasElement = canvasElementArray[selectedDay-1];
 			// 選択中のstageを切り替える
 			stage = stageArray[selectedDay-1];
 		}
-		
+
 		// 選択したタブのDisuseが有効である場合
 		if(disuses[selectedDay-1]){
 			// メニューを利用不可状態に
@@ -1586,8 +1610,8 @@ function onChangeDisuse(obj, day){
 			// disuse配列の更新
 			disuses[day-1] = true;
 		}
-	
-	// チェックを外したときの処理	
+
+	// チェックを外したときの処理
 	}else{
 		// データベースに選択中のイベントIDと日数があれば削除
 		var delete_data = { 'event_id': selectedEventID, 'date': selectedDay };
