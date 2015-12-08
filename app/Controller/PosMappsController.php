@@ -19,7 +19,7 @@ class PosMappsController extends AppController {
             $this->Poster->find('all', array(
                 'conditions' => array('event_id' => $_SESSION['event_id'])
             ));
-
+        //--------------------------------------------------------------------------------------------------floor map----------------------------------------------------------------------
         $url="";
         if($floormap==true)
         {
@@ -36,7 +36,7 @@ class PosMappsController extends AppController {
                 $url='"venuemap":"'.str_replace('/','\/', $this->webroot).'floormap\/'.$_SESSION["event_str"] .'.gif",';
             }
         }
-
+        //--------------------------------------------------------------------------------------------------top image----------------------------------------------------------------------
         $topImg='img\/thumb\/toppage_pbla.png';
         if (file_exists("img/thumb/".$_SESSION["event_str"]."." ."jpeg"))
         {
@@ -54,7 +54,7 @@ class PosMappsController extends AppController {
         {
             $topImg='img\/thumb\/'.$_SESSION["event_str"] .'.gif';
         }
-
+        //--------------------------------------------------------------------------------------------------posmapp BG--------------------------------------------------------
         $posmapp_bg='img\/thumb\/toppage_pbla.png';
         if (file_exists("img/bg/".$_SESSION["event_str"]."." ."jpeg"))
         {
@@ -72,14 +72,35 @@ class PosMappsController extends AppController {
         {
             $posmapp_bg='img\/bg\/'.$_SESSION["event_str"] .'.gif';
         }
-        $JsonFile='{"toppage_img":"'. str_replace('/','\/',$this->webroot).$topImg.'","posmapp_bg":["'.str_replace('/','\/',$this->webroot).$posmapp_bg.'"],'.$url.'"STATIC_WIDTH":"720","STATIC_HEIGHT":"960",';
+
+        //--------------------------------------------------------------------------------------------------Basic Info------------------------------------------------------------------------------------
+        $JsonFile='{
+        "basic_info" : {
+            "event_name_full" : "' . $event['Event']['event_name'] . '",
+            "event_name_short" : "' . $event['Event']['event_name_short'] . '",
+            "start_date" : "' . $event['Event']['event_begin_date'] . '",
+            "end_date" : "' .$event['Event']['event_end_date'] . '",
+            "venue" : "'. $event['Event']['event_location'] .'",
+            "webpage" : "' . $event['Event']['event_webpage'] . '"
+        },
+        "toppage_img":"'. str_replace('/','\/',$this->webroot).$topImg.'",
+        "posmapp_bg":["'.str_replace('/','\/',$this->webroot).$posmapp_bg.'"],'.$url.'
+
+        "STATIC_WIDTH":"720",
+        "STATIC_HEIGHT":"960",';
         //echo str_replace('/','\/',$this->webroot);
         $JsonPosition='"position":[';
         $JsonAuthor='"author":[';
         $JsonPresent='"presen":[';
         $JsonPoster='"poster":[';
         $JsonKeyword = '"keyword":[';
+        $JsonSession='"session":[';
+        $JsonDay='
+        "venuemap":0,
+        "timetable":[
+        ';
 
+        //----------------------------------------------------------------------------------------------------------------position,poster------------------------------------------------------------------------------------
         $pointerPoster=1;
         $pointerPresen=1;
         foreach($posters as $poster):
@@ -112,7 +133,7 @@ class PosMappsController extends AppController {
                 $JsonAuthor.='{';
                 $JsonAuthor.='"presenid":"No Presen'.$pointerPresen.'",';
                 $JsonAuthor.='"name":"No data",';
-                $JsonAuthor.='"belongs":"No data",';
+                $JsonAuthor.='"affiliation":"No data",';
                 $JsonAuthor.='"first":"1"';
                 $JsonAuthor.='}';
 
@@ -156,6 +177,8 @@ class PosMappsController extends AppController {
             }
 
         endforeach;
+
+        //--------------------------------------------------------------------------------------------------present,author,keyword----------------------------------------------------------------------
         $pointer=1;
         $relatedPre = $this->requestAction('/presentations/getByEventID/'.$_SESSION['event_id']);
         foreach($relatedPre as $presentation):
@@ -167,13 +190,37 @@ class PosMappsController extends AppController {
             $JsonPresent.='}';
 
             // TODO: Authorをさらにコンマで分割してJSONに記述する必要がある
-            $JsonAuthor.='{';
-            $JsonAuthor.='"presenid":"'.$presentation['Presentation']['room'].$presentation['Presentation']['session_order'].'-'.$presentation['Presentation']['presentation_order'].'",';
-            $JsonAuthor.='"name":"' .$presentation['Presentation']['authors_name']. '",';
-            $JsonAuthor.='"belongs":"' .$presentation['Presentation']['authors_affiliation']. '",';
-            $JsonAuthor.='"first":"1"';
-            $JsonAuthor.='}';
 
+            $arr = explode(",",$presentation['Presentation']['authors_name']);
+            $brr=explode(",",$presentation['Presentation']['authors_affiliation']);
+            if(count($arr)==0)
+            {
+                $JsonAuthor .= '{';
+                $JsonAuthor .= '"presenid":"' . $presentation['Presentation']['room'] . $presentation['Presentation']['session_order'] . '-' . $presentation['Presentation']['presentation_order'] . '",';
+                $JsonAuthor .= '"name":"' .$presentation['Presentation']['authors_name'] . '",';
+                $JsonAuthor .= '"affiliation":"' . $presentation['Presentation']['authors_affiliation'] . '",';
+                $JsonAuthor .= '"first":"1"';
+                $JsonAuthor .= '}';
+            }
+            else{
+                for($i=0;$i<count($arr);$i++) {
+                    $JsonAuthor .= '{';
+                    $JsonAuthor .= '"presenid":"' . $presentation['Presentation']['room'] . $presentation['Presentation']['session_order'] . '-' . $presentation['Presentation']['presentation_order'] . '",';
+                    $JsonAuthor .= '"name":"' . $arr[$i] . '",';
+                    $JsonAuthor .= '"affiliation":"' . $brr[$i] . '",';
+                    if($i==0) {
+                        $JsonAuthor .= '"first":"1"';
+                    }else{
+                        $JsonAuthor.= '"first":"0"';
+                    }
+
+                    if($i==count($arr)-1) {
+                        $JsonAuthor .= '}';
+                    }
+                    else{$JsonAuthor .= '},';}
+
+                }
+            }
             // TODO: Keywordをさらにコンマで分割してJSONに記述する必要がある
             $JsonKeyword .= '{';
             $JsonKeyword .= '"presenid":"'.$presentation['Presentation']['room'].$presentation['Presentation']['session_order'].'-'.$presentation['Presentation']['presentation_order'].'",';
@@ -187,44 +234,169 @@ class PosMappsController extends AppController {
                 $JsonKeyword .= ',';
             }
         endforeach;
-//        $pointer=1;
-//        foreach($schedules as $schedule):
-//
-//
-//            $JsonSession .= '{';
-//            $JsonSession .= '"sessionid":"' .$schedule['Schedule']['room'].$schedule['Schedule']['order']. '",';
-//            $JsonSession .= '"title":"' .$schedule['Schedule']['category']. '"';
-//            $JsonSession .= '"chairpersonname":"' .$schedule['Schedule']['chairperson_name']. '"';
-//            $JsonSession .= '"chairpersonaffiliation":"' .$schedule['Schedule']['chairperson_affiliation']. '"';
-//            $JsonSession .= '"date":"' .$schedule['Schedule']['date']. '"';
-//            $JsonSession .= '"start_time":"' .$schedule['Schedule']['start_time']. '"';
-//            $JsonSession .= '"end_time":"'.$schedule['Schedule']['end_time']. '"';
-//            $JsonSession .= '}';
-//
-//            if($pointer<count($posters)){
-//                $pointer=$pointer+1;
-//                $JsonSession .= ',';
-//            }
-//        endforeach;
-        if(substr($JsonPosition,-1)==",")
+
+        //--------------------------------------------------------------------------------------------------session--------------------------------------------------------
+        $pointer=1;
+        $where=array(
+            'conditions' => array('event_id' => $_SESSION['event_id']), //検索条件の配列
+            "order" => array("room" => "ASC","order" => "ASC")
+        );
+        $schedules = $this->Schedule->find('all',$where);
+
+
+        foreach($schedules as $schedule):
+            if($schedule['Schedule']['room']!="break"&&$schedule['Schedule']['order']!=0) {
+
+                $JsonSession .= '{';
+                $JsonSession .= '"sessionid":"' . $schedule['Schedule']['room'] . $schedule['Schedule']['order'] . '",';
+                $JsonSession .= '"title":"' . $schedule['Schedule']['category'] . '",';
+                $JsonSession .= '"chairpersonname":"' . $schedule['Schedule']['chairperson_name'] . '",';
+                $JsonSession .= '"chairpersonaffiliation":"' . $schedule['Schedule']['chairperson_affiliation'] . '"';
+                $JsonSession .= '}';
+
+                if ($pointer < count($schedules)) {
+                    $pointer = $pointer + 1;
+                    $JsonSession .= ',';
+                }
+            }
+        endforeach;
+
+
+        //---------------------------------------------------------------------------------------------------timetable--------------------------------------------------------------------------------------------------
+
+        $where=array(
+            'conditions' => array('event_id' => $_SESSION['event_id']), //検索条件の配列
+            'group' => array('date')
+        );
+
+        $schedules = $this->Schedule->find('all',$where);
+
+        for($i=$schedules[0]['Schedule']['date']-1;$i<$schedules[count($schedules)-1]['Schedule']['date'];$i++)
         {
-            $JsonPosition=substr($JsonPosition,0,strlen($JsonPosition)-1);
-            $JsonAuthor=substr($JsonAuthor,0,strlen($JsonAuthor)-1);
-            $JsonPresent=substr($JsonPresent,0,strlen($JsonPresent)-1);
-            $JsonPoster=substr($JsonPoster,0,strlen($JsonPoster)-1);
-            $JsonKeyword=substr($JsonKeyword,0,strlen($JsonKeyword)-1);
+            $this->Event->id = $_SESSION['event_id'];
+            $event= $this->Event->read();
+            $date=$event['Event']['event_begin_date'];
+            $monthday=explode("-",$date);
+            $monthdayStr=$monthday[1]."/".(string)(((int)$monthday[2])+1);
+
+
+            $JsonDay .= '{';
+            $JsonDay .= '"day_id":"' . $schedules[$i]['Schedule']['date'] . '",';
+            $JsonDay .= '"day":"' . $monthdayStr . '",';
+            $JsonDay .= '"schedule":[';
+
+            //------------------------------------------------------------------------------------------------schedule--------------------------------------------------------------------------------------------------
+            $where=array(
+                'conditions' => array('event_id' => $_SESSION['event_id'],'date'=>(string)$schedules[$i]['Schedule']['date']), //検索条件の配列
+                "order" => array("start_time"=>"ASC")
+            );
+            $sessions = $this->Schedule->find('all',$where);
+
+            $this->set("message",count($sessions));
+
+            for($j=0;$j<count($sessions);$j++)
+            {
+                $JsonDay .= '{';
+                $JsonDay .= '"start_time":"' . $sessions[$j]['Schedule']['start_time'] . '",';
+                $JsonDay .= '"end_time":"' . $sessions[$j]['Schedule']['end_time'] . '",';
+                if( $sessions[$j]['Schedule']['room']=="break") {
+                    $JsonDay .= '"slot_type":"break",';
+                }
+                else{
+                    $JsonDay .= '"slot_type":"session",';
+                }
+                $JsonDay .= '"time_display":"all",';
+                $JsonDay .= '"sessions": [';
+
+                //-------------------------------------------------------------------------------------------------sessions--------------------------------------------------------------------------------------------------
+                $whilePointStart=$j;
+                $whilePointEnd=$j;
+                while(true)
+                {
+
+                    if( $sessions[$whilePointEnd]['Schedule']['end_time']== $sessions[$whilePointEnd+1]['Schedule']['end_time']&& $sessions[$whilePointEnd]['Schedule']['start_time']== $sessions[$whilePointEnd+1]['Schedule']['start_time'])
+                    {
+                        $j++;
+                        $whilePointEnd++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                for($p=$whilePointStart;$p<=$whilePointEnd;$p++)
+                {
+                    $JsonDay .= '{';
+                    if($sessions[$p]['Schedule']['room']=="break") {
+                        $JsonDay .= '"room":"",';
+                    }
+                    else{
+                        $JsonDay .= '"room":"' . $sessions[$p]['Schedule']['room'] . '",';
+                    }
+                    if($sessions[$p]['Schedule']['order']==0) {
+                        $JsonDay .= '"sessionid": "",';
+                    }
+                    else{
+                        $JsonDay .= '"sessionid":"' . $sessions[$p]['Schedule']['room'].  $sessions[$p]['Schedule']['order']. '",';
+                    }
+                    if($p==$whilePointEnd)
+                    {
+                        $JsonDay .= '"session_name":"' . $sessions[$p]['Schedule']['category'] . '"}';
+                    }
+                    else{
+                        $JsonDay .= '"session_name":"' . $sessions[$p]['Schedule']['category'] . '"},';
+                    }
+                }
+                $JsonDay .= ']';
+                if($j==count($sessions)-1) {
+                    $JsonDay .= '}';
+                }else{
+                    $JsonDay .= '},';
+                }
+            }
+            if($i===$schedules[count($schedules)-1]['Schedule']['date']) {
+                $JsonDay .= ']}';
+            }else{
+                $JsonDay .= ']},';
+            }
+        }
+
+        //---------------------------------------------------------------------------------------------------------delete last "," ------------------------------------------------------------------------------------------------------------------------------
+        if(substr($JsonPosition,-1)==",") {
+            $JsonPosition = substr($JsonPosition, 0, strlen($JsonPosition) - 1);
+            $JsonPoster = substr($JsonPoster, 0, strlen($JsonPoster) - 1);
+        }
+        if(substr($JsonAuthor,-1)==",") {
+            $JsonAuthor = substr($JsonAuthor, 0, strlen($JsonAuthor) - 1);
+        }
+        if(substr($JsonPresent,-1)==",") {
+            $JsonPresent = substr($JsonPresent, 0, strlen($JsonPresent) - 1);
+        }
+        if(substr($JsonKeyword,-1)==",") {
+            $JsonKeyword = substr($JsonKeyword, 0, strlen($JsonKeyword) - 1);
+        }
+        if(substr($JsonSession,-1)==",") {
+            $JsonSession = substr($JsonSession, 0, strlen($JsonSession) - 1);
+        }
+        if(substr($JsonDay,-1)==",") {
+            $JsonDay = substr($JsonDay, 0, strlen($JsonDay) - 1);
         }
 
 
+        //------------------------------------------------------------------------------------------------------- plus "]"------------------------------------------------------------------------------------------------------------------------------
         $JsonPosition.='],';
         $JsonAuthor.='],';
         $JsonPresent.='],';
         $JsonPoster.='],';
-        $JsonKeyword .= ']';
-
-        $JsonFile.=$JsonPosition.$JsonAuthor.$JsonPresent.$JsonPoster.$JsonKeyword.'}';
+        $JsonKeyword .= '],';
+        $JsonSession .= '],';
+        $JsonDay .= ']';
+        //---------------------------------------------------------------------------------------------------------make all together------------------------------------------------------------------------------------------------------------------------------
+        $JsonFile.=$JsonPosition.$JsonAuthor.$JsonPresent.$JsonPoster.$JsonKeyword.$JsonSession.$JsonDay.'}';
         //echo $JsonFile;
 
+
+        //-----------------------------------------------------------------------------------------------------------Save Json------------------------------------------------------------------------------------------------------------------------------
         // JSONへ変換して書き込み
         $filename ='../webroot/json/'.$_SESSION['event_str'].'.json';
 
@@ -232,7 +404,7 @@ class PosMappsController extends AppController {
         fwrite($handle,$JsonFile);
         fclose($handle);
         //echo 'save successed!';
-
+        $this->set("message",$JsonFile);
     }
     public function qr($id)
     {
@@ -254,6 +426,7 @@ class PosMappsController extends AppController {
     }
     public function deletestorage()
     {
+
         $this->makejson();
     }
     public function phoneclear()
