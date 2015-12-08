@@ -143,6 +143,30 @@ class EventsController extends AppController {
     	return $diff;
 	}
 	
+	/* イベントのポスター背景図がセットされたときの処理 */
+	public function setPosterBackground() {
+		$this->autoRender = FALSE;
+		$id = $this->data['selectedEventID'];
+		if ($this->request->is('ajax')) {
+			// 更新する内容を設定
+			$data = array('Event' => array('id' => $id, 'set_posterbg' => 1));
+			// 更新する項目（フィールド指定）
+			$fields = array('set_posterbg');
+			// 更新
+			$this->Event->save($data, false, $fields);
+		}
+		//$this->Event->save($data);
+	}
+	
+	/* イベントのポスター背景図がセットされているかどうか */
+	public function isSetPosterBackground($id) {
+		$results = $this->Event->find('all', array(
+			'conditions' => array('id' => $id)
+		));
+		// ユニークな文字列による検索のため結果は1件のみ
+		return $results[0]['Event']['set_posterbg'];
+	}
+	
 	public function edit($id = null){
 		$this->Event->id = $id;
 		if($this->request->is('get')){

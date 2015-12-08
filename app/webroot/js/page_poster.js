@@ -166,8 +166,10 @@ $(function() {
 					// ポスターの色を関連済みの色に変更する
 					instance.graphics._fill.style = relatedColor;
 					instance.color = relatedColor;
+					// 関連済みプレゼンテーションのIDを変数に格納
+					var presentationIDStr = presentations[i].room + presentations[i].session_order + "-" + presentations[i].presentation_order;
 					// テキストオブジェクトを生成する
-					var text = new createjs.Text(presentations[i].number, '20px Meiryo', '#fff');
+					var text = new createjs.Text(presentationIDStr, '20px Meiryo', '#fff');
 					var textWidth = text.getMeasuredWidth();
 					var textHeight = text.getMeasuredHeight();
 					// テキストをオブジェクトの中央に配置
@@ -1122,7 +1124,6 @@ function deleteObject(){
 	}
 }
 
-
 /********************************************************
  *							会場図設置処理									*
  ********************************************************/
@@ -1148,15 +1149,38 @@ function fileUpLoad(event_str){
 	})
 	.done(function(msg) {
 		alert(msg);
+		// データベースにポスター背景がセットされていることを格納する
+		savePosterBg();
 		backGroundFileName = selectedEventStr+".png";
-		/*
-		$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+backGroundFileName.toString()+"?"+$.now()+")");
-		$(canvasElement).css("background-repeat","repeat, no-repeat");
-		*/
-		$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
-		$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
+		// アップロードした画像を背景として挿入する
+		// TODO: 現状はイベントすべての日をつうじて同じポスター会場であることを想定している
+		for(var i=0; i<canvasElementArray.length; i++){
+			$(canvasElementArray[i]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
+			$(canvasElementArray[i]).css("background-repeat","repeat, no-repeat");
+			/* 選択している日に対応する場合は以下のコメントアウトを外して適宜編集してください
+			$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
+			$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
+			*/
+		}
 	});
 }
+
+// イベントにポスター背景図がセットされていることをデータベースに格納する
+function savePosterBg(){
+	$.ajax({
+		url: "events/setPosterBackground",
+		type: "POST",
+		data: { 'selectedEventID' : selectedEventID },
+		dataType: "text",
+		success : function(response){
+			//alert(response);
+		},
+		error: function(){
+			alert('Error');
+		}
+	});
+}
+
 
 /********************************************************
  *				編集フォームのパラメータ格納	              		*
