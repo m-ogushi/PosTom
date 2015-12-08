@@ -14,12 +14,27 @@
 	width: 100%;
 }
 
+#eventBasicInfo{
+  position: absolute;
+  margin-left: 5%;
+  margin-top: 5%;
+}
+#topPageEventName{
+  font-size: 30px;
+  font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
+
+#topPageEventDescription{
+  position: relative;
+  font-size: 10px;
+}
+
 #topPageContent {
 	position: absolute;
 	margin-left: 15%;
 	margin-right: 15%;
 	width: 70%;
-	top: 42%; /* enPiTロゴ分だけオフセット */
+	top: 45%; /* enPiTロゴ分だけオフセット */
 }
 
 #selectLocale {

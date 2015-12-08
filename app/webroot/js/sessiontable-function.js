@@ -30,9 +30,11 @@ $.fn.changeDate = function(dateId) {
 	$(this).on('click', function(e) {
 		$("#sessionDate").html(date);
 		//全部消す
-		document.getElementById('sessiontable1').style.display ='none';
-		document.getElementById('sessiontable2').style.display ='none';
-		document.getElementById('sessiontable3').style.display ='none';
+		var dno = 1;
+		for (var d in timetable){
+			document.getElementById("sessiontable"+dno).style.display = 'none';
+			dno++;
+		}
 		//指定箇所のみ表示
 		document.getElementById(dateId).style.display = 'block';
 	});
