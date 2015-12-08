@@ -1,4 +1,3 @@
-
 <h2>Event List</h2>
 <ul id="eventlist">
 <?php foreach($events as $event) : ?>
