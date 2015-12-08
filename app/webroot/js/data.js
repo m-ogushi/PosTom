@@ -1,10 +1,12 @@
 // 共通のデータを格納するグローバル変数
 var poster 			= [],
+    basic_info      = null,
 	author 			= null,
 	keyword 		= null,
 	presen 			= null,
 	presents 		= null,
 	session 		= null,
+	session_map     = {},
 	timetable		= null,
 	commentator 	= [],
 //	position_map 	= null,
@@ -21,13 +23,22 @@ var poster 			= [],
 	INIT_SCALE 		= null,
 	SCALE_BY 		= null;
 
+
 // json ファイルの置き場所（URL, 仮）
-//var posMAppDataURL = "http://posmapp.tk/api/data.php";
-//var posMAppDataURL = "http://localhost:63342/PosMApp_forked/PosMApp/www/api/data_nosession.json";
+//var posMAppDataURL = "http://localhost:63342/PosMApp2/PosMApp/www/api/webdb2015.json";
+//var posMAppDataVersionURL = "http://localhost:63342/PosMApp2/PosMApp/www/api/webdb2015_version.json";
+
+//var posMAppDataURL = "../../json/webdb2015.json";
+var posMAppDataVersionURL = "../../json/webdb2015_version.json";
+
 var url= window.location.href;
 var event_str = url.substring(url.lastIndexOf('/')+1, url.length);
 var posMAppDataURL = "../../json/"+event_str+".json";
 
+
+function ViewModel(){
+	this.forum = forum;
+}
 
 function initData() {
 
@@ -46,7 +57,14 @@ function initData() {
 		posmapp_bg		= JSON.parse(localStorage.getItem("posmapp_bg"));
 		STATIC_WIDTH 	= parseInt(localStorage.getItem("STATIC_WIDTH"));
 		STATIC_HEIGHT 	= parseInt(localStorage.getItem("STATIC_HEIGHT"));
-		poster_days 	= Math.ceil(poster.length/position.length);
+//		poster_days 	= Math.ceil(poster.length/position.length);
+		poster_days		= posmapp_bg.length;
+		timetable 		= JSON.parse(localStorage.getItem("timetable"));
+		venuemap		= JSON.parse(localStorage.getItem("venuemap"));
+	    basic_info      = JSON.parse(localStorage.getItem("basic_info"));
+
+		makeSessionMap();
+
 	}
 
 	// BlockFinderにかけた画像の幅
@@ -55,6 +73,14 @@ function initData() {
 
 	setMapSize();
 
+	ko.applyBindings(new ViewModel());
+
+}
+
+function makeSessionMap(){
+	for(var s in session){
+		session_map[session[s].sessionid] = session[s];
+	}
 }
 
 // ポスターマップの大きさに関するデータを計算して格納
