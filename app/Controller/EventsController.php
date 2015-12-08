@@ -10,7 +10,7 @@ class EventsController extends AppController {
 		if(isset($_SESSION['Auth']['User']['id'])){
 			$user_id = $_SESSION['Auth']['User']['id'];
 		}else{
-			$user_id = 0;
+			$this->redirect(array('controller'=>'Users', 'action'=>'login'));
 		}
 		// ユーザIDと関連するイベントをセット
 		$event_id_group = array();
