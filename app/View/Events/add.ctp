@@ -1,5 +1,14 @@
 <script type="text/javascript">
  $(function(){
+	$(document).ready(function(){
+		// cakeのtimeフォームは要素が変だから変更
+		for (var i = 13; i < 25; i++) {
+			$("#EventEventBeginTimeHour").append($("<option>").val(i).text(i));
+			$("#EventEventEndTimeHour").append($("<option>").val(i).text(i));
+		};
+		$('#EventEventBeginTimeMeridian').remove();
+		$('#EventEventEndTimeMeridian').remove();
+	});
 	$('#EventAddForm').submit(function(){
 		var startdate = new Date($('#EventEventBeginDateYear').val() + "/" + $('#EventEventBeginDateMonth').val() + "/" + $('#EventEventBeginDateDay').val());
 		var enddate = new Date($('#EventEventEndDateYear').val() + "/" + $('#EventEventEndDateMonth').val() + "/" + $('#EventEventEndDateDay').val());

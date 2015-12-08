@@ -1,5 +1,5 @@
 <?php
 class Editor extends Model{
-    var $name = 'Editor';
+	var $name = 'Editor';
 }
 ?>

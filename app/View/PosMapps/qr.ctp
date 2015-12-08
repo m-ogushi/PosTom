@@ -1,8 +1,8 @@
 <script type="text/javascript">
 	 window.onload=function()
 	 {
-        localStorage.clear();
-     }
+		localStorage.clear();
+	 }
 </script>
 <center>
 <h1>
