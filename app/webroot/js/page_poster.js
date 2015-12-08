@@ -103,7 +103,7 @@ var stage;
 $(function() {
 	$('[name^="objectWidth"]').attr("max",canvasWidth/gridSize);
 	$('[name^="objectHeight"]').attr("max",canvasHeight/gridSize);
-	
+
 	// 複数日対応 canvas要素配列, stage配列の格納
 	for(var i=0; i<eventDays; i++){
 		// それぞれのcanvasサイズを指定する
@@ -112,14 +112,14 @@ $(function() {
 		// プレゼンテーションからの関連づけのマウスイベントを受け付ける
 		$('#posterCanvas'+(i+1)).on('dragover', onDragOver);
 		$('#posterCanvas'+(i+1)).on('drop', onDrop);
-		
+
 		canvasElementArray[i] = document.getElementById("posterCanvas"+(i+1));
 		stageArray[i] = new createjs.Stage(canvasElementArray[i]);
 		stageArray[i].enableMouseOver();
 		stageArray[i].enableDOMEvents(true);
 		document.getElementById("posterCanvas"+(i+1)).addEventListener("click",cancelFrame);
 	}
-	
+
 	// イベントの初日にdisuseが設定されていたらメニューの利用可能状態を利用できない状態にする
 	if(disuses[0]){
 		// 読み込みのタイミングによってはモード選択のセレクトボックスの生成のほうが遅れるため、モード選択のセレクトボックスが生成されるまで繰り返す
@@ -136,7 +136,7 @@ $(function() {
 			}
 		}, 100);
 	}
-	
+
 	// データベースから取得したポスターを各日数におけるcanvasに描写する処理
 	// イベントの日数分繰り返す
 	for(j=0; j<eventDays; j++){
@@ -160,7 +160,7 @@ $(function() {
 				// instance.__abstract = objectList[i].abstract;
 				stage.addChild(instance);
 				instance.addEventListener("mousedown", startDrag);
-				
+
 				// ポスターに関連済みプレゼンテーションがあれば、テキストオブジェクトを生成する
 				if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
 					// ポスターの色を関連済みの色に変更する
@@ -179,9 +179,9 @@ $(function() {
 					text.__type = 'text';
 					// テキストオブジェクトに親要素であるポスターオブジェクトのIDを付与（ポスターが移動した際に、テキストもついていくようにするため）
 					text.__parent = instance.id;
-					
+
 					stage.addChild(text);
-					
+
 					// 選択中のプレゼンテーションの要素を関連付けされた状態にする
 					$('.presentationlist li#'+instance.__relation).addClass('related').attr('data-relation', instance.id);
 				} // end if
@@ -193,11 +193,11 @@ $(function() {
 		stageArray[j] = stage;
 	} // end for
 	loading = false;
-	
+
 	// 初期状態は、canvas要素, stageともにイベント初日とする
 	canvasElement = canvasElementArray[0];
 	stage = stageArray[0];
-	
+
 });
 
 /********************************************************
@@ -441,7 +441,7 @@ function stopDrag(eventObject) {
 			if(instance.array != null){
 				updateFrame(instance.x,instance.y,instance.width,instance.height);
 			}
-			
+
 			// 関連済みポスターの場合、テキストオブジェクトも元の位置に戻す
 			if(instance.__relation != undefined && instance.__relation != '' && instance.__relation != '0'){
 				// テキストオブジェクトを特定
@@ -743,7 +743,7 @@ function resizeDrag(eventObject) {
 			}
 		}
 	}
-	
+
 	stage.update();
 	onResizing = true;
 }
@@ -1052,13 +1052,13 @@ function changeMode(){
 		changeDisabledState(false, false, true);
 	}
  }
- 
+
 // メニューの使用可能状態を変更させる関数
-/* 
+/*
  * changeState: 生成フォーム, 編集フォーム, 各種ボタンの状態
  * selectState: 生成・削除を選択するセレクトボックスの状態
  * deleteState: 削除ボタンの状態
- * 
+ *
  */
 function changeDisabledState(chageState, selectState, deleteState){
 	// 生成フォーム
@@ -1338,7 +1338,7 @@ function rgbToHex(color) {
  ********************************************************/
 $(function(){
 	$('li[draggable="true"]').on('dragstart', onDragStart);
-	
+
 	// Presentationタブがクリックされたとき、移動・サイズ変更はできないようにする（生成モードから削除モードへ切り替えることと同様）
 	$('#tab #presentationTab').click(function(){
 		cancelFrame();
@@ -1399,13 +1399,13 @@ function onDrop(e){
 						}
 					}
 				}
-				
+
 				// すでにそのポスターがプレゼンテーションと関連済みであった場合
 				if(target.__relation != undefined && target.__relation != '' && target.__relation != '0'){
 					// もともと関連済みであったプレゼンテーションを元の状態に戻す
 					$('.presentationlist li#'+target.__relation).removeClass('related').attr('data-relation', null);
 				}
-				
+
 				target.graphics._fill.style = relatedColor;
 				target.color = relatedColor;
 				// ポスターオブジェクトに関連付けされたプレゼンテーションIDを付与
@@ -1556,16 +1556,16 @@ $(function(){
 				data: { "day": selectedDay },
 				success: function(msg){}
 			});
-			
+
 			// 現在までのstageの状態をstage配列に格納する
 			stageArray[previousDay-1] = stage;
-			
+
 			// 選択中のcanvas要素を切り替える
 			canvasElement = canvasElementArray[selectedDay-1];
 			// 選択中のstageを切り替える
 			stage = stageArray[selectedDay-1];
 		}
-		
+
 		// 選択したタブのDisuseが有効である場合
 		if(disuses[selectedDay-1]){
 			// メニューを利用不可状態に
@@ -1610,8 +1610,8 @@ function onChangeDisuse(obj, day){
 			// disuse配列の更新
 			disuses[day-1] = true;
 		}
-	
-	// チェックを外したときの処理	
+
+	// チェックを外したときの処理
 	}else{
 		// データベースに選択中のイベントIDと日数があれば削除
 		var delete_data = { 'event_id': selectedEventID, 'date': selectedDay };

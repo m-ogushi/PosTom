@@ -10,7 +10,7 @@ class EventsController extends AppController {
 		if(isset($_SESSION['Auth']['User']['id'])){
 			$user_id = $_SESSION['Auth']['User']['id'];
 		}else{
-			$user_id = 0;	
+			$this->redirect(array('controller'=>'Users', 'action'=>'login'));
 		}
 		// ユーザIDと関連するイベントをセット
 		$event_id_group = array();
@@ -107,7 +107,7 @@ class EventsController extends AppController {
 		// IDによる検索のため結果は1件のみ
 		return $results[0]['Event']['unique_str'];
 	}
-	
+
 	/* イベントIDからイベントの名前を取得する関数 */
 	public function getEventNameByID($id){
 		$results = $this->Event->find('all', array(
@@ -125,7 +125,7 @@ class EventsController extends AppController {
 		// ユニークな文字列による検索のため結果は1件のみ
 		return $results[0]['Event']['id'];
 	}
-	
+
 	/* イベントの開催日数を取得する関数 */
 	public function getEventDays($id) {
 		$diff = 0;
@@ -135,12 +135,12 @@ class EventsController extends AppController {
 		// ユニークな文字列による検索のため結果は1件のみ
 		$begin = $results[0]['Event']['event_begin_date'];
 		$end = $results[0]['Event']['event_end_date'];
-		
-        $timeStamp1 = strtotime($begin);
-        $timeStamp2 = strtotime($end);
-        $timeDiff = abs($timeStamp2 - $timeStamp1);
-        $diff = ($timeDiff / (60 * 60 * 24)) + 1;
-    	return $diff;
+
+		$timeStamp1 = strtotime($begin);
+		$timeStamp2 = strtotime($end);
+		$timeDiff = abs($timeStamp2 - $timeStamp1);
+		$diff = ($timeDiff / (60 * 60 * 24)) + 1;
+		return $diff;
 	}
 	
 	/* イベントのポスター背景図がセットされたときの処理 */
