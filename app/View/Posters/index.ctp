@@ -2,6 +2,9 @@
 // イベントの開催日数を取得
 var eventDays = "<?php echo $this->requestAction('/events/getEventDays/'.$_SESSION['event_id']); ?>";
 
+// 背景図がセットされているかどうか
+var isSetBackground = "<?php echo $this->requestAction('/events/isSetPosterBackground/'.$_SESSION['event_id']); ?>";
+
 // データベースから取得したポスターデータを格納するためのポスター配列変数
 var poster = new Array();
 // データベースから取得したポスターデータを元に関連するプレゼンテーションデータを格納するためのプレゼンテーション配列変数
@@ -86,7 +89,17 @@ for($i=0; $i<count($disuseArray); $i++){
 ?>
 <div id="tcCanvas<?php echo $i; ?>" class="tab-pane <?php echo $i==1?'active':''; ?>">
 <p><input type="checkbox" name="checkDisuse<?php  echo $i; ?>" onChange="onChangeDisuse(this, <?php echo $i; ?>)" <?php echo $disuses[$i-1]==true?'checked':''; ?>>&nbsp;Disuse</p>
-<canvas id="posterCanvas<?php echo $i; ?>" class="posterCanvas <?php echo $disuses[$i-1]?'disuse':''; ?>" dropzone="copy"></canvas>
+<canvas id="posterCanvas<?php echo $i; ?>" class="posterCanvas <?php echo $disuses[$i-1]?'disuse':''; ?>" dropzone="copy" style="
+<?php
+	// ポスター背景図がセットされていればstyle属性に書き込む
+	if($this->requestAction('/events/isSetPosterBackground/'.$_SESSION['event_id'])){
+		echo "background-image: ";	
+		echo "url(".$this->webroot."img/dot.png), url(".$this->webroot."img/bg/".$_SESSION['event_str'].".png); ";
+		echo "background-repeat: ";
+		echo "repeat, no-repeat;";
+	}
+?>
+"></canvas>
 </div>
 <?php
 	} // end for
