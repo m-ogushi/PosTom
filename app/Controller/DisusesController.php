@@ -3,7 +3,7 @@ class DisusesController extends AppController {
 
 	public $helpers = array('Html', 'Form', 'Text');
 	public $uses = array('Disuse');
-	
+
 	// Disuseチェックボックスにチェックがはいった時、データベースに保存する
 	public function add(){
 		if ($this->request->is('ajax')) {
@@ -16,7 +16,7 @@ class DisusesController extends AppController {
 			//}
 		}
 	}
-	
+
 	// Disuseチェックボックスからチェックが外れた時、データベースから削除する
 	public function delete(){
 		if ($this->request->is('ajax')) {
@@ -31,19 +31,19 @@ class DisusesController extends AppController {
 			//}
 		}
 	}
-	
+
 	// すでに登録されているかどうかチェックする関数（すでに登録済みの場合はtrue）
 	public function checkRegisted($event_id, $date){
 		$result = $this->Disuse->find('all', array(
 			'conditions' => array('event_id' => $event_id, 'date' => $date)
 		));
 		if(count($result['Disuse']) > 0){
-			return true;	
+			return true;
 		}else{
 			return false;
 		}
 	}
-	
+
 	// イベントIDからレコードを取得する
 	public function getByEventID($event_id){
 		return $this->Disuse->find('all', array(

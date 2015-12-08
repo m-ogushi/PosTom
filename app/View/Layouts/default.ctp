@@ -78,7 +78,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		// ログイン中のユーザIDを取得(ログイン中でない場合は空)
 		var loginUserID = "<?php echo isset($_SESSION['login_user_id'])? $_SESSION['login_user_id'] : ''; ?>";
 		// 選択中のイベントIDを取得
-		var selectedEventID = "<?php echo isset($_SESSION['event_id'])? $_SESSION['event_id'] : ''; ?>";
+		var selectedEventID = <?php echo isset($_SESSION['event_id'])? $_SESSION['event_id'] : ''; ?>;
 		// 選択中のイベント識別文字列を取得
 		var selectedEventStr = "<?php echo isset($_SESSION['event_str'])? $_SESSION['event_str'] : ''; ?>";
         </script>
@@ -163,8 +163,16 @@ echo $this->Html->image('i_logo.png', array(
 </div>
 <!-- //header -->
 <?php
-// もしユーザトップページ以外だったら、選択中のイベントの名前を表示する
-if((!($this->name == "Events") || !($this->action == "index")) && !empty($_SESSION['event_name'])){
+// 選択中のイベント名を表示する
+// アカウント登録・ログインページなら表示させない
+if(!($this->name == "Users") 
+	// イベントトップページなら表示させない
+	&& (!($this->name == "Events") || !($this->action == "index"))
+	// イベント作成ページなら表示させない
+	&& (!($this->name == "Events") || !($this->action == "add"))
+	// セッションにイベント名が格納されていなければ表示させない
+	&& !empty($_SESSION['event_name'])
+){
 	echo "<h2>".$_SESSION['event_name']."</h2>";
 }
 ?>

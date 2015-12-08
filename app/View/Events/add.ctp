@@ -1,6 +1,6 @@
 <script type="text/javascript">
  $(function(){
- 	$(document).ready(function(){
+	$(document).ready(function(){
 		// cakeのtimeフォームは要素が変だから変更
 		for (var i = 13; i < 25; i++) {
 			$("#EventEventBeginTimeHour").append($("<option>").val(i).text(i));

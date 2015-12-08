@@ -1,8 +1,8 @@
 <?php
 class PosMappsController extends AppController {
-    public $helpers = array('Html', 'Form', 'Text');
-    public $uses =array('Poster','Event','Schedule');
-    public function index(){
+	public $helpers = array('Html', 'Form', 'Text');
+	public $uses =array('Poster','Event','Schedule');
+	public function index(){
 //        $this->set('posters', $this->Poster->find('all'));
         $this->autoLayout=false;
     }
@@ -114,20 +114,22 @@ class PosMappsController extends AppController {
             $JsonPosition.='}';
 
 
-            if($poster['Poster']['presentation_id'] == 0){
-                $JsonPoster.='{';
-                $JsonPoster.='"presenid":"No Presen'.$pointerPresen.'",';
-                $JsonPoster.='"posterid":"'  .$poster['Poster']['id'].  '",';
-                $JsonPoster.='"star":"1",';
-                $JsonPoster.='"date":"'.$poster['Poster']['date'].'"';
-                $JsonPoster.='}';
 
-                $JsonPresent.='{';
-                $JsonPresent.='"presenid":"No Presen'.$pointerPresen.'",';
-                $JsonPresent.='"title":"No data",';
-                $JsonPresent.='"abstract":"No data",';
-                $JsonPresent.='"bookmark":"0"';
-                $JsonPresent.='}';
+			if($poster['Poster']['presentation_id'] == 0){
+				$JsonPoster.='{';
+				$JsonPoster.='"presenid":"No Presen'.$pointerPresen.'",';
+				$JsonPoster.='"posterid":"'  .$poster['Poster']['id'].  '",';
+				$JsonPoster.='"star":"1",';
+				$JsonPoster.='"date":"'.$poster['Poster']['date'].'"';
+				$JsonPoster.='}';
+
+				$JsonPresent.='{';
+				$JsonPresent.='"presenid":"No Presen'.$pointerPresen.'",';
+				$JsonPresent.='"title":"No data",';
+				$JsonPresent.='"abstract":"No data",';
+				$JsonPresent.='"bookmark":"0"';
+				$JsonPresent.='}';
+
 
                 // TODO: Authorをさらにコンマで分割してJSONに記述する必要がある
                 $JsonAuthor.='{';
@@ -137,44 +139,45 @@ class PosMappsController extends AppController {
                 $JsonAuthor.='"first":"1"';
                 $JsonAuthor.='}';
 
-                // TODO: Keywordをさらにコンマで分割してJSONに記述する必要がある
-                $JsonKeyword .= '{';
-                $JsonKeyword .= '"presenid":"No Presen'.$pointerPresen.'",';
-                $JsonKeyword .= '"keyword":"No data"';
-                $JsonKeyword .= '}';
 
-                $pointerPresen++;
+				// TODO: Keyword?ｿｽ?ｿｽ?ｿｽ?ｿｽ?ｿｽ?ｿｽﾉコ?ｿｽ?ｿｽ?ｿｽ}?ｿｽﾅ包ｿｽ?ｿｽ?ｿｽ?ｿｽ?ｿｽ?ｿｽ?ｿｽJSON?ｿｽﾉ記?ｿｽq?ｿｽ?ｿｽ?ｿｽ?ｿｽK?ｿｽv?ｿｽ?ｿｽ?ｿｽ?ｿｽ?ｿｽ?ｿｽ
+				$JsonKeyword .= '{';
+				$JsonKeyword .= '"presenid":"No Presen'.$pointerPresen.'",';
+				$JsonKeyword .= '"keyword":"No data"';
+				$JsonKeyword .= '}';
 
-                $relatedPre = $this->requestAction('/presentations/getByEventID/'.$_SESSION['event_id']);
-                if($pointerPoster<count($posters)) {
-                        $JsonPresent .=',';
-                        $JsonAuthor .=',';
-                        $JsonKeyword .=',';
-                }
-                else if($relatedPre!=null) {
-                        $JsonPresent .=',';
-                        $JsonAuthor .=',';
-                        $JsonKeyword .=',';
-                }
+				$pointerPresen++;
 
-            } else{
-                $thispresen = $this->requestAction('/presentations/getByID/'.$poster['Poster']['presentation_id']);
+				$relatedPre = $this->requestAction('/presentations/getByEventID/'.$_SESSION['event_id']);
+				if($pointerPoster<count($posters)) {
+						$JsonPresent .=',';
+						$JsonAuthor .=',';
+						$JsonKeyword .=',';
+				}
+				else if($relatedPre!=null) {
+						$JsonPresent .=',';
+						$JsonAuthor .=',';
+						$JsonKeyword .=',';
+				}
 
-                $JsonPoster.='{';
-                $JsonPoster.='"presenid":"'.$thispresen[0]['Presentation']['room'].$thispresen[0]['Presentation']['session_order'].'-'.$thispresen[0]['Presentation']['presentation_order'].'",';
-                $JsonPoster.='"posterid":"'  .$poster['Poster']['id'].  '",';
-                $JsonPoster.='"star":"1",';
-                $JsonPoster.='"date":"'.$poster['Poster']['date'].'"';
-                $JsonPoster.='}';
-            }
+			} else{
+				$thispresen = $this->requestAction('/presentations/getByID/'.$poster['Poster']['presentation_id']);
+
+				$JsonPoster.='{';
+				$JsonPoster.='"presenid":"'.$thispresen[0]['Presentation']['room'].$thispresen[0]['Presentation']['session_order'].'-'.$thispresen[0]['Presentation']['presentation_order'].'",';
+				$JsonPoster.='"posterid":"'  .$poster['Poster']['id'].  '",';
+				$JsonPoster.='"star":"1",';
+				$JsonPoster.='"date":"'.$poster['Poster']['date'].'"';
+				$JsonPoster.='}';
+			}
 
 
 
-            if($pointerPoster<count($posters)){
-                $pointerPoster++;
-                $JsonPoster.=',';
-                $JsonPosition.=',';
-            }
+			if($pointerPoster<count($posters)){
+				$pointerPoster++;
+				$JsonPoster.=',';
+				$JsonPosition.=',';
+			}
 
         endforeach;
 
@@ -433,5 +436,6 @@ class PosMappsController extends AppController {
     {
         $this->autoLayout=false;
     }
+
 }
 ?>

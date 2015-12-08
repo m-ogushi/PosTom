@@ -124,16 +124,16 @@
 
 <!-- ポスターマップ画面 -->
 <div data-role="page" id="posterMapPage">
- 	<div id="menuPanel" data-display="overlay" data-role="panel" data-position="right">
+	<div id="menuPanel" data-display="overlay" data-role="panel" data-position="right">
 		<!-- <div id="changelabel" data-position="fixed" style="border: 2px;">
- 			<a data-role="button" href="#changeLabelDialog"
- 					data-inline="true" data-rel="dialog"
- 					data-transition="pop">Change Label</a>
- 		</div> -->
- 		<div style="text-align: center;">
+			<a data-role="button" href="#changeLabelDialog"
+					data-inline="true" data-rel="dialog"
+					data-transition="pop">Change Label</a>
+		</div> -->
+		<div style="text-align: center;">
 			Change the poster's label display.
- 		</div>
- 		<a class="changelabel" id="label-presenid"
+		</div>
+		<a class="changelabel" id="label-presenid"
 			href="#posterMapPage" data-role="button">Orator NO.</a>
 		<a class="changelabel" id="label-title"
 			href="#posterMapPage" data-role="button">Title</a>
@@ -146,7 +146,7 @@
 		<div class="ui-grid-b">
 			<div class="ui-block-a" style="width: 70%;">
 				<input type="search" id="search-bar-title"
-	    		placeholder="検索" data-inline="true" style="width:75%;" onchange="searchChanged(this)"/>
+				placeholder="検索" data-inline="true" style="width:75%;" onchange="searchChanged(this)"/>
 			</div>
 			<div class="ui-block-b" style="width: 25%;">
 				<div id="searchResult"></div>
@@ -300,6 +300,7 @@
 	<div align="center">
 			        <br/><br/><br/>
 					<img style="width:100%"; src="<?php echo $this->Html->webroot;?>img/room.svgz"></img>
+
 	</div>
 	<!-- タブバー -->
 	<!-- <div class="tabbar"></div> -->
@@ -338,11 +339,12 @@
 <!-- DEIM2014のセッションテーブルの内容 -->
 <div data-role="page" id="informationPage">
   <div data-role="header" data-position="fixed">
-    <h1 id="sessionHyou" style="text-align:center">プログラム</h1>
+	<h1 id="sessionHyou" style="text-align:center">プログラム</h1>
   </div>
   <div data-role="content" id="timeTable">
+
   </div>
-  	<!-- タブバー -->
+	<!-- タブバー -->
 	<!-- <div class="tabbar"></div> -->
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="nav-tabicon" style="position:fixed; bottom:0px">
 		<div data-role="navbar" height="100%" class="nav-tabicon" data-grid="d">

@@ -1,6 +1,7 @@
 <script type="text/javascript">
 	var schedules = <?php echo json_encode($schedules, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>;
 	var name, session_id;
+	var day_diff = <?php echo $day_diff; ?>;
 	$(function(){
 	// ダッシュボードのPresentationを選択状態にする
 		$('#dashboard #gNav #gNavSch').addClass('current');
@@ -23,19 +24,19 @@
 
 	// session追加、編集用モーダル
 	$(function(){
-    // 「.modal-open」をクリック
-    $('.session-modal-open').click(function(){
-    	// overflow: hidden
-    	$('html, body').addClass('lock');
-    	// 押されたボタンを認識してaddかeditか分岐、h2とformのvalue変更
+	// 「.modal-open」をクリック
+	$('.session-modal-open').click(function(){
+		// overflow: hidden
+		$('html, body').addClass('lock');
+		// 押されたボタンを認識してaddかeditか分岐、h2とformのvalue変更
 		name = this.name;
-    	if(name == "add-new-session"){
-    		// modal window内のdeleteボタンを非表示にする
-    		$('#delete-session').hide();
-    		$("#session-add-edit").text("Add New Session");
-    		var room = (this.id).slice(7);
-    		$('#room').val(room);
-    		$('#order').val("");
+		if(name == "add-new-session"){
+			// modal window内のdeleteボタンを非表示にする
+			$('#session_delete_btn').hide();
+		$("#session-add-edit").text("Add New Session");
+			var room = (this.id).slice(7);
+			$('#room').val(room);
+			$('#order').val("");
 			$('#category').val("");
 			$('#chair-name').val("");
 			$('#chair-affili').val("");
@@ -49,19 +50,17 @@
 			// controllerでの判別用隠しデータflag_orAdd
 			$('#root_flag').val("add-session");
 			$('#id').val("");
-    	}else{
-    		// deleteボタン表示
-    		$('#delete-session').show();
+		}else{
+			// deleteボタン表示
+			$('#session_delete_btn').show();
 			$("#session-add-edit").text("Edit Session");
 			session_id = name.slice(8);
 			var session = schedules.filter(function (elem, i){
 				return elem.Schedule.id == session_id;
 			});
 			session = session[0].Schedule;
-			// console.log(session.end_time);
 			var start = session.start_time.split(":");
 			var end = session.end_time.split(":");
-			console.log(start);
 			$('#room').val(session.room);
 			$('#order').val(session.order);
 			$('#category').val(session.category);
@@ -78,52 +77,100 @@
 			$('#root_flag').val("update-session");
 			$('#id').val(session.id);
 
-    	}
-        // オーバーレイ用の要素を追加
-        $('body').append('<div class="modal-overlay"></div>');
-        // オーバーレイをフェードイン
-        $('.modal-overlay').fadeIn('slow');
+		}
+		// オーバーレイ用の要素を追加
+		$('body').append('<div class="modal-overlay"></div>');
+		// オーバーレイをフェードイン
+		$('.modal-overlay').fadeIn('slow');
 
-        // モーダルコンテンツのIDを取得
-        var modal = '#' + $(this).attr('data-target');
-        // モーダルコンテンツの表示位置を設定
-        modalResize();
-         // モーダルコンテンツフェードイン
-        $(modal).fadeIn('slow');
+		// モーダルコンテンツのIDを取得
+		var modal = '#' + $(this).attr('data-target');
+		// モーダルコンテンツの表示位置を設定
+		modalResize();
+		 // モーダルコンテンツフェードイン
+		$(modal).fadeIn('slow');
 
-        // 「.modal-overlay」あるいは「.modal-close」をクリック
-        $('.modal-overlay, .modal-close').off().click(function(){
+		// 「.modal-overlay」あるいは「.modal-close」をクリック
+		$('.modal-overlay, .modal-close').off().click(function(){
+			// エラーボックス非表示
+			$('.error-messages').addClass('disno');
 			// 固定解除
 			$('html, body').removeClass('lock');
-            // モーダルコンテンツとオーバーレイをフェードアウト
-            $(modal).fadeOut('slow');
-            $('.modal-overlay').fadeOut('slow',function(){
-                // オーバーレイを削除
-                $('.modal-overlay').remove();
-            });
-        });
+			// モーダルコンテンツとオーバーレイをフェードアウト
+			$(modal).fadeOut('slow');
+			$('.modal-overlay').fadeOut('slow',function(){
+				// オーバーレイを削除
+				$('.modal-overlay').remove();
+			});
+		});
 
-        // リサイズしたら表示位置を再取得
-        $(window).on('resize', function(){
-            modalResize();
-        });
+		// リサイズしたら表示位置を再取得
+		$(window).on('resize', function(){
+			modalResize();
+		});
 
-        // モーダルコンテンツの表示位置を設定する関数
-        function modalResize(){
-            // ウィンドウの横幅、高さを取得
-            var w = $(window).width();
-            var h = $(window).height();
+		// モーダルコンテンツの表示位置を設定する関数
+		function modalResize(){
+			// ウィンドウの横幅、高さを取得
+			var w = $(window).width();
+			var h = $(window).height();
 
-            // モーダルコンテンツの表示位置を取得
-            var x = (w - $(modal).outerWidth(true)) / 2;
-            var y = (h - $(modal).outerHeight(true)) / 2;
+			// モーダルコンテンツの表示位置を取得
+			var x = (w - $(modal).outerWidth(true)) / 2;
+			var y = (h - $(modal).outerHeight(true)) / 2;
 
-            // モーダルコンテンツの表示位置を設定
-            $(modal).css({'left': x + 'px','top': y + 'px'});
-        }
-
-    });
+			// モーダルコンテンツの表示位置を設定
+			$(modal).css({'left': x + 'px','top': y + 'px'});
+		}
+	});
 });
+	// フォームのサブミット時にバリデーションチェック
+	$(function(){
+		$('#ScheduleSaveRootingForm').submit(function(){
+			// エラーメッセージを空に
+			err_box = $('.error-messages');
+			err_box.empty();
+			// 時間は正しいか
+			if(!session_time_check()){
+				err_elm = $('<p>').text("Unjust session time.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+			// 要素が空でないか
+			if($('#room').val() == "" || $('#category').val() == ""){
+				err_elm = $('<p>').text("Unjust blank.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+			// 存在する日にちかチェック
+			var d = Number($('#date').val());
+			if($('#date').val() == "" || d > day_diff || d <= 0){
+				err_elm = $('<p>').text("The date is not exist.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+		});
+	});
+	function session_time_check(){
+		var start_hour = Number($('#startHour').val());
+		var start_min = Number($('#startMinute').val());
+		var end_hour = Number($('#endHour').val());
+		var end_min = Number($('#endMinute').val());
+
+		// 開始時間と終了時間があり得る時間ならtrue
+		if((end_hour * 60 + end_min)-(start_hour * 60 + start_min) >= 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	function slideDown(slideEle){
+		slideEle.slideDown(300).removeClass('disno');
+	}
+	// session deleteボタンのconfirm
 	function confirm_del_session(){
 		if(window.confirm('Do you really delete this session ?')){
 			$('#root_flag').val("delete-session");
@@ -288,7 +335,9 @@ echo $this->Html->css('page_schedule');
 	echo '</div>'; // tab-pane end
 	// session追加ボタン設置
 	echo '<div class="add-session-group">';
-	$top = 540 + ($end - $first) * 90;
+
+	$top = 450 + ($end - $first) * 90;
+
 	$left = 240;
 	for($countRoom = 0; $countRoom < count($roomGroup); $countRoom++){
 		echo '<button type="button" id="add-in-' . $roomGroup[$countRoom] . '" name="add-new-session" class="btn btn-default session-modal-open" data-target="session-edit">＋</button>';
@@ -311,6 +360,7 @@ echo $this->Html->css('page_schedule');
 <!-- modal content -->
 <div id="session-edit" class="modal-content">
 	<h2 id="session-add-edit"></h2>
+	<div class="error-messages disno"></div>
 <?php
 	echo $this->Form->create('Schedule', array('action'=>'save_rooting'));
 	echo $this->Form->input('room', array('id'=>'room', 'class'=>'form-control', 'required' => false));
@@ -332,9 +382,9 @@ echo $this->Html->css('page_schedule');
 	echo $this->Form->input('root_flag', array('id'=>'root_flag', 'type'=>'hidden', 'required' => false));
 	echo $this->Form->input('id', array('id'=>'id', 'type'=>'hidden', 'required' => false));
 	echo '<div class="box-group">';
-	echo $this->Form->submit('Save', array('id'=>'session_save_btn', 'class'=>'btn btn-primary inline'));
+	echo $this->Form->submit('Save', array('id'=>'session_save_btn', 'class'=>'btn btn-primary'));
 	echo '<button id="session_cancel_btn" type="button" class="btn btn-default modal-close">cancel</button>';
-	echo $this->Form->submit('Delete', array('id'=>'session_delete_btn', 'class'=>'btn btn-danger inline', 'onclick'=>'return confirm_del_session();'));
+	echo $this->Form->submit('Delete', array('id'=>'session_delete_btn', 'class'=>'btn btn-danger', 'onclick'=>'return confirm_del_session();'));
 	echo '</div>';
 ?>
 

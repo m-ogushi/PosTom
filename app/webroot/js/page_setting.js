@@ -1,19 +1,19 @@
 /*-------------------------------------------------
- 
+
   Event javascript
- 
+
  --------------------------------------------------*/
- 
+
  /********************************************************
  *		グローバルナビゲーション カレント処理					*
  ********************************************************/
 $(function(){
 	switch(action){
 		case 'index':
-			$('#dashboard #gNav #gNavSet').addClass('current');	
+			$('#dashboard #gNav #gNavSet').addClass('current');
 			break;
 		case 'eventedit':
-			$('#dashboard #gNav #gNavSet').addClass('current');	
+			$('#dashboard #gNav #gNavSet').addClass('current');
 			break;
 	}
 });
