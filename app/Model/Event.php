@@ -26,6 +26,10 @@ class Event extends AppModel {
 		return $Editor->save($relation);
 	}
 	public $validate = array(
+		'event_name_short' => array(
+			'rule' => 'notBlank',
+			'message' => 'Please input 100 characters or less.'
+		),
 		'event_name' => array(
 			'rule' => 'notBlank',
 			'message' => 'Please input 100 characters or less.'
