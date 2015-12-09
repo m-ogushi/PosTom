@@ -122,6 +122,9 @@ function setPosterIcons() {
 			pos = starpos[poster[i-1].star];
 
 			var presenid = poster[i-1].presenid;
+			var reg=/[\u4E00-\u9FA5]/g;
+			var presenid=presenid.replace(reg,'');
+
 			var day = poster[i-1].date;
 			var day_divclass = "day"+day;
 			var icondata = position.filter(function(item,index){
@@ -427,7 +430,6 @@ function selectPoster(posterid) {
 			}else{
 				sessionStorage.setItem("abstract", "(No Abstract)");
 			}
-
 			sessionStorage.setItem("authorname", getAuthorname(p.presenid));
 
 			sessionStorage.setItem("authoraffiliation", getAuthoraffiliation(p.presenid));
@@ -739,8 +741,11 @@ function changePosterMapDate(date) {
 // 代表者名（所属）の形式に変更
 function getAuthorname(presenid) {
 	return author.filter(function(a) {
-		return a.presenid === presenid && a.first === 1;
+
+		var result= a.presenid == presenid && a.first == 1;
+		return result;
 	}).map(function(a) {
+
 	    var author = a.name;
 	    if(a.affiliation!=undefined){
 	      author += " ("+a.affiliation+")";
@@ -779,8 +784,11 @@ function getKeywords(presenid) {
 		return "";
 	}
 	return keyword.filter(function(k) {
-		return k.presenid === presenid;
+		var result= (k.presenid == presenid);
+
+		return result;
 	}).map(function(k) {
+		alert(k.keyword);
 		return k.keyword;
 	}).join(", ");
 }
