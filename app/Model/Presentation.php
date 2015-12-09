@@ -55,5 +55,43 @@ class Presentation extends AppModel {
 			$this->requestAction('/posters/initRelatedPoster/'.$poster['Poster']['id']);
 		}
 	}
+    public $validate = array(
+		'Room' => array(
+			'rule' => 'notBlank',
+			'message' => 'Required field'
+		),
+		'Session_order' =>  array(
+			'Session_order_rule-1' =>  array(
+				'rule' => 'notBlank',
+				'message' => 'Required field'
+		),
+			'Session_order_rule-2' =>  array(
+				'rule'    => 'naturalNumber',
+				'message' => 'Please supply the number of wheels.'
+		)
+	),
+		'Presentation_order' =>  array(
+			'Presentation_order_rule-1' =>  array(
+				'rule' => 'notBlank',
+				'message' => 'Required field'
+		),
+			'Presentation_order_rule-2' =>  array(
+				'rule'    => 'naturalNumber',
+				'message' => 'Please supply the number of wheels.'
+		)
+	),
+		'Title' =>  array(
+			'rule' => 'notBlank',
+			'message' => 'Required field'
+		),
+		'Author' =>  array(
+			'rule' => 'notBlank',
+			'message' => 'Required field'
+		),
+		'Session' => array(
+			'rule' => 'notBlank',
+			'message' => 'Required field'
+    ),
+	);
 }
 ?>
