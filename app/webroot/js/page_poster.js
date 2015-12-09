@@ -148,16 +148,14 @@ $(function() {
 			if(poster[i].date == (j+1)){
 				//ポスター情報を反映
 				var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
-				instance.NextId= poster[i].NextId;
+				instance.NextId = poster[i].NextId;
 				if(poster[i].NextId >= NextId){
 					NextId = poster[i].NextId+1;
 				}
 				instance.cursor = "pointer";
 				instance.__deleteSelected = false;
 				instance.__relation = poster[i].presentation_id;
-				// instance.__title = objectList[i].title;
-				// instance.__presenter = objectList[i].presenter;
-				// instance.__abstract = objectList[i].abstract;
+				instance.__id = poster[i].id;
 				stage.addChild(instance);
 				instance.addEventListener("mousedown", startDrag);
 
@@ -278,6 +276,7 @@ function createObject(x, y, w, h, color) {
     object.__title = "";
     object.__presenter = "";
     object.__abstract = "";
+	object.__id = '';
 	object.NextId=NextId;
 	NextId++;
 	object.graphics.beginFill(color);
@@ -822,23 +821,29 @@ function selectDelete(eventObject){
  ********************************************************/
  //データベースにポスター情報を保存
  function singlesaveJson(object){
- 		id = object.NextId;
+ 		id = object.__id;
+		//id = object.NextId;
         x = object.x;
         y = object.y;
         w = parseInt(object.graphics.command.w);
         h = parseInt(object.graphics.command.h);
         color = rgbToHex(object.color);
 		relation = object.__relation;
-		title = object.__title;
-		presenter = object.__presenter;
-        abstract = object.__abstract;
-        poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'title': title, 'presenter': presenter, 'abstract': abstract, 'presentation_id': relation, 'date': selectedDay, 'event_id': selectedEventID};
+		//title = object.__title;
+		//presenter = object.__presenter;
+        //abstract = object.__abstract;
+        poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'presentation_id': relation, 'date': selectedDay, 'event_id': selectedEventID};
 		$.ajax({
 			type: "POST",
 			cache : false,
 			url: "posters/singlesavesql",
 			data: { "data": poster },
-			success: function(msg){}
+			success: function(response){
+				// 直前に更新されたプライマリーキー(id)をオブジェクトにセットする
+				if(response != ""){
+					object.__id = response;
+				}
+			}
 		});
 	}
 	//データベースから、ポスター情報を削除

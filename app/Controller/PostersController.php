@@ -23,9 +23,13 @@ class PostersController extends AppController {
 	}
 
 	public function singlesavesql(){
+		$this->autoRender = FALSE;
 		$uses = array('Poster');
 		if ($this->request->is('ajax')) {
 			$this->Poster->save($this->request->data);
+			// 直前にsaveしたレコードのidを取得する
+			$last_id = $this->Poster->getLastInsertID();
+			return $last_id;
 		}
 	}
 
