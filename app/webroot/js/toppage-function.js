@@ -59,3 +59,32 @@ function changeActiveTab(pagename) {
 	$(".informationPageButton").removeClass("ui-btn-active ui-state-persist");
 	$("." + pagename.substring(1) + "Button").addClass("ui-btn-active ui-state-persist");
 }
+
+$.fn.showBasicInfo = function(){
+    $(this).append($("<div/>")
+           .attr("id","topPageEventName")
+           .text(basic_info.event_name_short));
+    var desc = $("<div>").attr("id","topPageEventDescription")
+                .append($("<span/>").text(basic_info.event_name_full))
+                .append($("<br/>"));
+    if(basic_info.start_date!=basic_info.end_date){
+        desc.append($("<span/>").text(basic_info.start_date + " - " +basic_info.end_date));
+    }
+    else{
+        desc.append($("<span/>").text(basic_info.start_date));
+    }
+    $(this).append(desc);
+
+    $("#event-webpage").append($("<a/>").attr("href",basic_info.event_webpage).text(basic_info.event_name_short));
+}
+
+function setTopPageProperties(){
+    var browser_width = window.parent.screen.width;
+    if(browser_width <= 640){
+        $("#topPageEventName").css("font-size","20px");
+        $("#topPageEventDescription").css("font-size","10px");
+    }else{
+        $("#topPageEventName").css("font-size","40px");
+        $("#topPageEventDescription").css("font-size","20px");
+    }
+}

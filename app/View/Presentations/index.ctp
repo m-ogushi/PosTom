@@ -16,28 +16,16 @@
         </tr>
     </thead>
     <tbody>
-    	<?php if(count($presentations)== 0){
-			echo '<tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
-			echo '<tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
-			echo '<tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
-			echo "<td height='20'>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo '</tr>';
-    	}
-    	?>
+    	<?php if(count($presentations) == 0){
+			for($i=0; $i<10; $i++){
+				echo '<tr>';
+				echo "<td height='20'>&nbsp;</td>";
+				echo "<td>&nbsp;</td>";
+				echo "<td>&nbsp;</td>";
+				echo '</tr>';
+			}
+		}
+		?>
         <?php 
 			$roop = 0;
 			foreach ($presentations as $presentation) :
@@ -68,11 +56,9 @@
 <!-- 別の表示方法なので一応コメントアウト -->
 <!--
 <ul id="presentationlist">
-
 <?php foreach($presentations as $presentation) : ?>
 <li>
 <a href="<?php echo '/postom/presentations/view/'.$presentation['Presentation']['id']; ?>">
-
 <span class="tit"><?php echo h($presentation['Presentation']['id']); ?> : <?php echo h($presentation['Presentation']['title']); ?></span>
 <span>Abstract :
 <?php
@@ -125,7 +111,6 @@ echo $this->Form->input('Session_order', array('class'=>'form-control required',
 echo "(Part of No. Please input a numerical value.)";
 echo $this->Form->input('Presentation_order', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
 echo "(Part of No. Please input a numerical value.)";
-
 echo $this->Form->input('Title', array('class'=>'form-control','default' => $datas["Event"]["event_location"],'required' => false));
 echo $this->Form->input('Author', array('class'=>'form-control','default' => $datas["Event"]["event_begin_date"],'required' => false));
 echo $this->form->input('Session', array(
@@ -140,7 +125,6 @@ echo $this->Form->submit('Make', array('name'=>'Make','id'=>'session_make_btn', 
 echo $this->Form->submit('Save', array('name'=>'Save','id'=>'session_save_btn', 'class'=>'btn btn-primary'));
 echo '<button id="session_cancel_btn" type="button" class="btn btn-default modal-close">cancel</button>';
 echo $this->Form->submit('Delete', array('id'=>'session_delete_btn', 'class'=>'btn btn-danger', 'onclick'=>'return confirm_del_session();'));
-
 ?>
 </div>
 <!-- //dialogSelectConfirm -->

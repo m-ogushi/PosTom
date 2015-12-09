@@ -1,0 +1,26 @@
+@charset "utf-8";
+/*-------------------------------------------------
+
+  page_floormap.css
+
+ --------------------------------------------------*/
+
+#pageFloormap div {
+	margin-bottom: 10px;
+}
+#pageFloormap p {
+	margin-bottom: 10px;
+}
+#pageFloormap #posmappImage {
+	background-image: url(../img/fr_posmapp_floor.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 428px; /* fr_posmapp_floor.png 855px/2 */
+	height: 849px; /* fr_posmapp_floor.png 1698/2 */
+	position: relative;
+}
+#pageFloormap #floormapImage {
+	position: absolute;
+	left: 54px;
+	top: 248px;
+}

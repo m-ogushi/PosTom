@@ -1,0 +1,1925 @@
+{
+  "basic_info" : {
+    "event_name_full" : "第8回 Webとデータベースに関するフォーラム",
+    "event_name_short" : "WebDB Forum 2015",
+    "start_date" : "2015/11/24",
+    "end_date" : "2015/11/25",
+    "venue" : "芝浦工業大学・豊洲キャンパス",
+    "webpage" : "http://db-event.jpn.org/webdbf2015/"
+  },
+  "toppage_img" : "/totenko/PosTomAutumn/img/toppage.gif",
+  "posmapp_bg" : [ "/totenko/PosTomAutumn/img/poster_floor.gif", "/totenko/PosTomAutumn/img/exhibit.gif" ],
+  "STATIC_WIDTH" : 720,
+  "STATIC_HEIGHT" : 960,
+  "position" : [
+    {
+      "id" : 1,
+      "x" : 30,
+      "y" : 150,
+      "width" : 42,
+      "height" : 70,
+      "direction" : "longways"
+    }, {
+      "id" : 2,
+      "x" : 30,
+      "y" : 235,
+      "width" : 42,
+      "height" : 70,
+      "direction" : "longways"
+    }, {
+      "id" : 3,
+      "x" : 220,
+      "y" : 200,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },{
+      "id" : 4,
+      "x" : 300,
+      "y" : 200,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 5,
+      "x" : 410,
+      "y" : 200,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 6,
+      "x" : 490,
+      "y" : 200,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },
+    {
+    "id" : 7,
+    "x" : 30,
+    "y" : 400,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  }, {
+    "id" : 8,
+    "x" : 110,
+    "y" : 400,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  }, {
+    "id" : 9,
+    "x" : 220,
+    "y" : 400,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  },{
+    "id" : 10,
+    "x" : 300,
+    "y" : 400,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  }, {
+    "id" : 11,
+    "x" : 410,
+    "y" : 400,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  }, {
+    "id" : 12,
+    "x" : 490,
+    "y" : 400,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  },{
+    "id" : 13,
+    "x" : 30,
+    "y" : 450,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  }, {
+    "id" :14,
+    "x" : 110,
+    "y" : 450,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  }, {
+    "id" : 15,
+    "x" : 220,
+    "y" : 450,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  },{
+    "id" : 16,
+    "x" : 300,
+    "y" : 450,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  }, {
+    "id" : 17,
+    "x" : 410,
+    "y" : 450,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  }, {
+    "id" : 18,
+    "x" : 490,
+    "y" : 450,
+    "width" : 70,
+    "height" : 42,
+    "direction" : "sideways"
+  },
+    {
+      "id" : 19,
+      "x" : 30,
+      "y" : 600,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 20,
+      "x" : 110,
+      "y" : 600,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 21,
+      "x" : 220,
+      "y" : 600,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },{
+      "id" : 22,
+      "x" : 300,
+      "y" : 600,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 23,
+      "x" : 410,
+      "y" : 600,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },{
+      "id" : 24,
+      "x" : 30,
+      "y" : 650,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 25,
+      "x" : 110,
+      "y" : 650,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 26,
+      "x" : 220,
+      "y" : 650,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },{
+      "id" : 27,
+      "x" : 300,
+      "y" : 650,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 28,
+      "x" : 410,
+      "y" : 650,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 29,
+      "x" : 490,
+      "y" : 650,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },
+    {
+      "id" : 30,
+      "x" : 30,
+      "y" : 800,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 31,
+      "x" : 110,
+      "y" : 800,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 32,
+      "x" : 220,
+      "y" : 800,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },{
+      "id" : 33,
+      "x" : 300,
+      "y" : 800,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 34,
+      "x" : 410,
+      "y" : 800,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },{
+      "id" : 35,
+      "x" : 30,
+      "y" : 850,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 36,
+      "x" : 110,
+      "y" : 850,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 37,
+      "x" : 220,
+      "y" : 850,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },{
+      "id" : 38,
+      "x" : 300,
+      "y" : 850,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 39,
+      "x" : 410,
+      "y" : 850,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    }, {
+      "id" : 40,
+      "x" : 490,
+      "y" : 850,
+      "width" : 70,
+      "height" : 42,
+      "direction" : "sideways"
+    },{
+      "id" : 41,
+      "x" : 300,
+      "y" : 220,
+      "width" : 80,
+      "height" : 48,
+      "direction" : "sideways"
+    }, {
+      "id" : 42,
+      "x" : 390,
+      "y" : 220,
+      "width" : 80,
+      "height" : 48,
+      "direction" : "sideways"
+    }, {
+      "id" : 43,
+      "x" : 480,
+      "y" : 220,
+      "width" : 80,
+      "height" : 48,
+      "direction" : "sideways"
+    }
+  ],
+  "author" : [ {
+    "presenid" : "A1-01",
+    "name" : "佐藤 哲司",
+    "affiliation" : "筑波大",
+    "first" : 1
+  },
+    {
+      "presenid" : "A1-01",
+      "name" : "原島 純",
+      "affiliation" : "クックパッド",
+      "first" : 0
+    },
+    {
+      "presenid" : "A1-01",
+      "name" : "櫻井 一貴",
+      "affiliation" : "リクルートテクノロジーズ",
+      "first" : 0
+    },
+    {
+      "presenid" : "A1-01",
+      "name" : "清田 陽司",
+      "affiliation" : "ネクスト",
+      "first" : 0
+    },
+    {
+      "presenid" : "A1-01",
+      "name" : "大山 敬三",
+      "affiliation": "NII",
+      "first" : 1
+    },
+    {
+      "presenid" : "A3-01",
+      "name" : "田中 克己",
+      "affiliation": "京都大",
+      "first" : 1
+    },
+    {
+      "presenid" : "A8-01",
+      "name" : "岡崎 直観",
+      "affiliation": "東北大",
+      "first" : 1
+    },
+    {
+      "presenid" : "A8-01",
+      "name" : "海野 裕也",
+      "affiliation": "Preferred Infrastructure",
+      "first" : 0
+    },
+    {
+      "presenid" : "A2-01",
+      "name" : "西村 章宏",
+      "affiliation" : "大阪大",
+      "first" : 1
+    },
+    {
+      "presenid" : "A2-01",
+      "name" : "土方 嘉徳",
+      "affiliation" : "大阪大",
+      "first" : 0
+    },
+    {
+      "presenid" : "A2-02",
+      "name" : "山本 湧輝",
+      "affiliation" : "甲南大",
+      "first" : 1
+    },
+    {
+      "presenid" : "A2-02",
+      "name" : "熊本 忠彦",
+      "affiliation" : "千葉工大",
+      "first" : 0
+    },{
+      "presenid" : "A2-02",
+      "name" : "灘本 明代",
+      "affiliation" : "甲南大",
+      "first" : 0
+    },
+    {
+      "presenid" : "A2-03",
+      "name" : "山中 隆広",
+      "affiliation" : "兵庫県大",
+      "first" : 1
+    },
+    {
+      "presenid" : "A2-03",
+      "name" : "湯本 高行",
+      "affiliation" : "兵庫県大",
+      "first" : 0
+    },
+    {
+      "presenid" : "A2-03",
+      "name" : "新居 学",
+      "affiliation" : "兵庫県大",
+      "first" : 0
+    },{
+      "presenid" : "A2-03",
+      "name" : "上浦 尚武",
+      "affiliation" : "兵庫県大",
+      "first" : 0
+    },
+    {
+      "presenid" : "B2-01",
+      "name" : "Minh Thinh Do",
+      "affiliation": "Kumamoto University",
+      "first" : 1
+    },
+    {
+      "presenid" : "B2-01",
+      "name" : "Yasuko Matsubara",
+      "affiliation": "Kumamoto University",
+      "first" : 0
+    },
+    {
+      "presenid" : "B2-01",
+      "name" : "Yasushi Sakurai",
+      "affiliation": "Kumamoto University",
+      "first" : 0
+    },
+    {
+      "presenid" : "B2-02",
+      "name" : "天方 大地",
+      "affiliation": "大阪大学",
+      "first" : 1
+    },
+    {
+      "presenid" : "B2-02",
+      "name" : "原 隆浩",
+      "affiliation": "大阪大学",
+      "first" : 0
+    },
+    {
+      "presenid" : "B2-03",
+      "name" : "林 秀樹",
+      "affiliation": "日立製作所",
+      "first" : 1
+    },
+    {
+      "presenid" : "B2-03",
+      "name" : "淺原 彰規",
+      "affiliation": "日立製作所",
+      "first" : 0
+    },
+    {
+      "presenid" : "B2-03",
+      "name" : "菅谷 奈津子",
+      "affiliation": "日立製作所",
+      "first" : 0
+    },
+    {
+      "presenid": "B2-03",
+      "name": "小川 祐一",
+      "affiliation": "日立製作所",
+      "first": 10
+    },
+    {
+      "presenid" : "B2-03",
+      "name" : "冨田 仁志",
+      "affiliation": "日立製作所",
+      "first" : 0
+    },
+    {
+      "presenid" : "A4-01",
+      "name" : "前田 恭佑",
+      "affiliation": "大阪大学",
+      "first" : 1
+    },
+    {
+      "presenid" : "A4-01",
+      "name" : "土方 嘉徳",
+      "affiliation": "大阪大学",
+      "first" : 0
+    },
+    {
+      "presenid" : "A4-01",
+      "name" : "中村 聡史",
+      "affiliation": "明治大学/JST CREST",
+      "first" : 0
+    },
+    {
+      "presenid" : "A4-02",
+      "name" : "金岡 慧",
+      "affiliation": "慶応大",
+      "first" : 1
+    },
+    {
+      "presenid" : "A4-02",
+      "name" : "遠山 元道",
+      "affiliation": "慶応大",
+      "first" : 0
+    },
+    {
+      "presenid" : "A4-03",
+      "name" : "久保田 彰",
+      "affiliation": "大阪大学",
+      "first" : 1
+    },
+    {
+      "presenid" : "A4-03",
+      "name" : "酒田 信親",
+      "affiliation": "大阪大学",
+      "first" : 0
+    },
+    {
+      "presenid" : "B4-01",
+      "name" : "伏見 卓恭",
+      "affiliation": "筑波大",
+      "first" : 1
+    },
+    {
+      "presenid" : "B4-01",
+      "name" : "佐藤 哲司",
+      "affiliation": "筑波大",
+      "first" : 0
+    },
+    {
+      "presenid" : "B4-01",
+      "name" : "斉藤 和巳",
+      "affiliation": "静岡県大",
+      "first" : 0
+    },
+    {
+      "presenid" : "B4-01",
+      "name" : "風間 一洋",
+      "affiliation": "和歌山大",
+      "first" : 0
+    },
+    {
+      "presenid" : "B4-02",
+      "name" : "橋田 拓志",
+      "affiliation": "富士通研",
+      "first" : 1
+    },
+    {
+      "presenid" : "B4-02",
+      "name" : "田原 司睦",
+      "affiliation": "富士通研",
+      "first" : 0
+    },
+    {
+      "presenid" : "B4-02",
+      "name" : "中村 実",
+      "affiliation": "富士通研",
+      "first" : 0
+    },
+    {
+      "presenid" : "B4-02",
+      "name" : "宇治橋 善史",
+      "affiliation": "富士通研",
+      "first" : 0
+    },
+    {
+      "presenid" : "B4-02",
+      "name" : "河場 基行",
+      "affiliation": "富士通研",
+      "first" : 0
+    },
+    {
+      "presenid" : "B4-02",
+      "name" : "原田 リリアン",
+      "affiliation": "富士通研",
+      "first" : 0
+    },
+    {
+      "presenid" : "B4-03",
+      "name" : "増永 良文",
+      "affiliation": "お茶大",
+      "first" : 1
+    },
+    {
+      "presenid" : "A5-01",
+      "name" : "大東 祐太",
+      "affiliation": "筑波大",
+      "first" : 1
+    },
+    {
+      "presenid" : "A5-01",
+      "name" : "延原 肇",
+      "affiliation": "筑波大",
+      "first" : 0
+    },
+    {
+      "presenid" : "A5-01",
+      "name" : "横石 圭介",
+      "affiliation": "サイバード",
+      "first" : 0
+    },
+    {
+      "presenid" : "A5-02",
+      "name" : "足立 健太郎",
+      "affiliation": "大阪大学",
+      "first" : 1
+    },
+    {
+      "presenid" : "A5-02",
+      "name" : "土方 嘉徳",
+      "affiliation": "大阪大学",
+      "first" : 0
+    },
+    {
+      "presenid" : "A5-02",
+      "name" : "Joseph A Konstan",
+      "affiliation": "Univ. of Minesota",
+      "first" : 0
+    },
+    {
+      "presenid" : "A5-03",
+      "name" : "田中 佑典",
+      "affiliation": "NTT",
+      "first" : 1
+    },
+    {
+      "presenid" : "A5-03",
+      "name" : "倉島 健",
+      "affiliation": "NTT",
+      "first" : 0
+    },
+    {
+      "presenid" : "A5-03",
+      "name" : "藤原 靖宏",
+      "affiliation": "NTT",
+      "first" : 0
+    },
+    {
+      "presenid" : "A5-03",
+      "name" : "岩田 具治",
+      "affiliation": "NTT",
+      "first" : 0
+    },
+    {
+      "presenid" : "A5-03",
+      "name" : "澤田 宏",
+      "affiliation": "NTT",
+      "first" : 0
+    },
+    {
+      "presenid" : "B5-01",
+      "name" : "横山 正浩",
+      "affiliation": "大阪大",
+      "first" : 1
+    },
+    {
+      "presenid" : "B5-01",
+      "name" : "原 隆浩",
+      "affiliation": "大阪大",
+      "first" : 0
+    },
+    {
+      "presenid" : "B5-01",
+      "name" : "西尾 章治郎",
+      "affiliation": "大阪大",
+      "first" : 0
+    },
+    {
+      "presenid" : "B5-02",
+      "name" : "竹内 伸一",
+      "affiliation":  "NICT",
+      "first" : 1
+    },
+    {
+      "presenid" : "B5-02",
+      "name" : "杉浦 孔明",
+      "affiliation": "NICT",
+      "first" : 0
+    },
+    {
+      "presenid" : "B5-02",
+      "name" : "赤星 祐平",
+      "affiliation": "NICT",
+      "first" : 0
+    },
+    {
+      "presenid" : "B5-02",
+      "name" : "是津 耕司",
+      "affiliation": "NICT",
+      "first" : 0
+    },
+    {
+      "presenid" : "B5-03",
+      "name" : "引地 志織",
+      "affiliation": "慶応大",
+      "first" : 1
+    },
+    {
+      "presenid" : "B5-03",
+      "name" : "佐々木 史織",
+      "affiliation": "慶応大",
+      "first" : 0
+    },
+    {
+      "presenid" : "B5-03",
+      "name" : "清木 康",
+      "affiliation": "慶応大",
+      "first" : 0
+    },  {
+      "presenid":"A6-01",
+      "name":"根山 亮",
+      "affiliation":"トヨタIT開発",
+      "first":1
+    },
+    {
+      "presenid":"A6-01",
+      "name":"福島 真太朗",
+      "affiliation":"トヨタIT開発",
+      "first":0
+    },
+    {
+      "presenid":"A6-01",
+      "name":"宮崎 勝彦",
+      "affiliation":"トヨタ",
+      "first":0
+    },
+    {
+      "presenid":"A6-01",
+      "name":"那和 一成",
+      "affiliation":"トヨタIT開発",
+      "first":0
+    },
+    {
+      "presenid":"A6-02",
+      "name":"佃 洸摂",
+      "affiliation":"産総研",
+      "first":1
+    },
+    {
+      "presenid":"A6-02",
+      "name":"濱崎 雅弘",
+      "affiliation":"産総研",
+      "first":0
+    },
+    {
+      "presenid":"A6-02",
+      "name":"後藤 真孝",
+      "affiliation":"産総研",
+      "first":0
+    },
+    {
+      "presenid":"A6-03",
+      "name":"田村 真一",
+      "affiliation":"NAIST",
+      "first":1
+    },
+    {
+      "presenid":"A6-03",
+      "name":"澤田 宏",
+      "affiliation":"NTT",
+      "first":0
+    },
+    {
+      "presenid":"A6-03",
+      "name":"山田 武士",
+      "affiliation":"NTT",
+      "first":0
+    },
+    {
+      "presenid":"B6-01",
+      "name":"中村 達哉",
+      "affiliation":"大阪大",
+      "first":1
+    },
+    {
+      "presenid":"B6-01",
+      "name":"白川 真澄",
+      "affiliation":"大阪大",
+      "first":0
+    },
+    {
+      "presenid":"B6-01",
+      "name":"原 隆浩",
+      "affiliation":"大阪大",
+      "first":0
+    },
+    {
+      "presenid":"B6-01",
+      "name":"西尾 章治郎",
+      "affiliation":"大阪大",
+      "first":0
+    },
+    {
+      "presenid":"B6-02",
+      "name":"青山 賢",
+      "affiliation":"静岡大",
+      "first":1
+    },
+    {
+      "presenid":"B6-02",
+      "name":"廣田 雅春",
+      "affiliation":"大分高専",
+      "first":0
+    },
+    {
+      "presenid":"B6-02",
+      "name":"石川 博",
+      "affiliation":"首都大",
+      "first":0
+    },
+    {
+      "presenid":"B6-02",
+      "name":"横山 昌平",
+      "affiliation":"静岡大",
+      "first":0
+    },
+    {
+      "presenid":"B6-03",
+      "name":"的野 晃整",
+      "affiliation":"産総研",
+      "first":1
+    },
+    {
+      "presenid":"B6-03",
+      "name":"小川 宏高",
+      "affiliation":"産総研",
+      "first":0
+    },
+    {
+      "presenid":"A7-01",
+      "name":"本田 崇人",
+      "affiliation":"熊本大",
+      "first":1
+    },
+    {
+      "presenid":"A7-01",
+      "name":"松原靖子",
+      "affiliation":"熊本大",
+      "first":0
+    },
+    {
+      "presenid":"A7-01",
+      "name":"根山 亮",
+      "affiliation":"トヨタIT開発",
+      "first":0
+    },
+    {
+      "presenid":"A7-01",
+      "name":"櫻井 保志",
+      "affiliation":"熊本大",
+      "first":0
+    },
+    {
+      "presenid":"A7-02",
+      "name":"川本 貴史",
+      "affiliation":"東京大",
+      "first":1
+    },
+    {
+      "presenid":"A7-02",
+      "name":"豊田 正史",
+      "affiliation":"東京大",
+      "first":0
+    },
+    {
+      "presenid":"A7-02",
+      "name":"吉永 直樹",
+      "affiliation":"東京大/NII",
+      "first":0
+    },
+    {
+      "presenid":"A7-03",
+      "name":"野沢 健人",
+      "affiliation":"筑波大",
+      "first":1
+    },
+    {
+      "presenid":"A7-03",
+      "name":"若林 啓",
+      "affiliation":"筑波大",
+      "first":0
+    },
+    {
+      "presenid":"C2-01",
+      "name" : "高野 雅典",
+      "affiliation" : "サイバーエージェント",
+      "first" : 1
+    },
+    {
+      "presenid":"C2-02",
+      "name" : "厚見 悠",
+      "affiliation" : "サイジニア",
+      "first" : 1
+    },
+    {
+      "presenid":"C4-01",
+      "name" : "伊奈 林太郎",
+      "affiliation" : "はてな",
+      "first" : 1
+    },
+    {
+      "presenid" : "C4-02",
+      "name" : "宇野 秀平",
+      "affiliation" : "ヤフー",
+      "first" : 1
+    },
+    {
+      "presenid" : "C5-01",
+      "name" : "関根 賢一",
+      "affiliation" : "日本IBM",
+      "first" : 1
+    },
+    {
+      "presenid" : "C5-02",
+      "name" : "廣瀬 繁雄",
+      "affiliation" : "東芝",
+      "first" : 1
+    },
+    {
+      "presenid" : "C5-03",
+      "name" : "小林 直哉",
+      "affiliation" : "ヤフー",
+      "first" : 1
+    },
+    {
+      "presenid" : "C6-01",
+      "name" : "平手 勇宇",
+      "affiliation" : "楽天",
+      "first" :1
+    },
+    {
+      "presenid" : "C6-02",
+      "name" : "白井 祐典",
+      "affiliation" : "リクルートテクノロジーズ",
+      "first" : 1
+    },
+    {
+      "presenid" : "C6-03",
+      "name" : "清田 陽司",
+      "affiliation" : "ネクスト",
+      "first" :1
+    },
+    {"presenid":"DBS-01","name": "吉次 優", "affiliation": "岡山大","first":1},
+    {"presenid":"DBS-01","name": "太田 学", "affiliation": "岡山大","first":0},
+    {"presenid":"DBS-01","name": "高須 淳宏", "affiliation": "NII","first":0},
+    {"presenid":"DBS-02","name": "平井 久貴", "affiliation": "岡山大","first":1},
+    {"presenid":"DBS-02","name": "新妻 弘崇", "affiliation": "岡山大","first":0},
+    {"presenid":"DBS-02","name": "太田 学", "affiliation": "岡山大","first":0},
+    {"presenid":"DBS-02","name": "高須 淳宏", "affiliation": "NII","first":0},
+    {"presenid":"DBS-03","name": "橋戸 拓也", "affiliation": "岡山大","first":1},
+    {"presenid":"DBS-03","name": "新妻 弘崇", "affiliation": "岡山大","first":0},
+    {"presenid":"DBS-03","name": "太田 学", "affiliation": "岡山大","first":0},
+    {"presenid":"DBS-04","name": "松岡 大樹", "affiliation": "岡山大","first":1},
+    {"presenid":"DBS-04","name": "太田 学", "affiliation": "岡山大","first":0},
+    {"presenid":"DBS-04","name": "高須 淳宏", "affiliation": "NII","first":0},
+    {"presenid":"DBS-04","name": "安達 淳", "affiliation": "NII","first":0},
+    {"presenid":"DBS-05","name": "松尾 哉太", "affiliation": "岡山大","first":1},
+    {"presenid":"DBS-05","name": "新妻 弘崇", "affiliation": "岡山大","first":0},
+    {"presenid":"DBS-05","name": "太田 学", "affiliation": "岡山大","first":0},
+    {"presenid":"DBS-06","name": "齋藤 和広", "affiliation": "KDDI研","first":1},
+    {"presenid":"DBS-06","name": "米田 信之", "affiliation": "KDDI研","first":0},
+    {"presenid":"DBS-06","name": "渡辺 泰之", "affiliation": "KDDI研","first":0},
+    {"presenid":"DBS-06","name": "村松 茂樹", "affiliation": "KDDI研","first":0},
+    {"presenid":"DBS-06","name": "小林 亜令", "affiliation": "KDDI研","first":0},
+    {"presenid":"DBS-07","name": "欅 惇志", "affiliation": "東工大","first":1},
+    {"presenid":"DBS-07","name": "宮崎 純", "affiliation": "東工大","first":0},
+    {"presenid":"DBS-08","name": "岸本 拓也", "affiliation": "インサイトテクノロジー","first":1},
+    {"presenid":"DBS-08","name": "坂本 一憲", "affiliation": "NII","first":0},
+    {"presenid":"DBS-09","name": "岡村 康行", "affiliation": "兵庫県大","first":1},
+    {"presenid":"DBS-09","name": "湯本 高行", "affiliation": "兵庫県大","first":0},
+    {"presenid":"DBS-09","name": "新居 学",   "affiliation": "兵庫県大","first":0},
+    {"presenid":"DBS-09","name": "上浦 尚武", "affiliation": "兵庫県大","first":0},
+    {"presenid":"DBS-10","name": "大原 啓詳", "affiliation": "甲南大","first":1},
+    {"presenid":"DBS-10","name": "鈴木 優",   "affiliation": "NAIST","first":0},
+    {"presenid":"DBS-10","name": "灘本 明代", "affiliation": "甲南大","first":0},
+    {"presenid":"DBS-11","name": "前田 若菜",   "affiliation": "NAIST","first":1},
+    {"presenid":"DBS-11","name": "鈴木 優",     "affiliation": "NAIST","first":0},
+    {"presenid":"DBS-11","name": "吉野 幸一郎", "affiliation": "NAIST","first":0},
+    {"presenid":"DBS-11","name": "グラムニュービッグ", "affiliation": "NAIST","first":0},
+    {"presenid":"DBS-11","name": "中村 哲", "affiliation": "NAIST","first":0},
+    {"presenid":"DBS-12","name": "加藤 大志", "affiliation": "NEC","first":1},
+    {"presenid":"DBS-12","name": "三木 清一", "affiliation": "NEC","first":0},
+    {"presenid":"DBS-13","name": "中野 裕介", "affiliation": "兵庫県大","first":1},
+    {"presenid":"DBS-13","name": "湯本 高行", "affiliation": "兵庫県大","first":0},
+    {"presenid":"DBS-13","name": "新居 学",   "affiliation": "兵庫県大","first":0},
+    {"presenid":"DBS-13","name": "上浦 尚武", "affiliation": "兵庫県大","first":0},
+    {"presenid":"COC-01","name":"（協賛企業ポスター）","first":1},
+    {"presenid":"COC-02","name":"（協賛企業ポスター）","first":1},
+    {"presenid":"COC-03","name":"（協賛企業ポスター）","first":1},
+    {"presenid":"COC-04","name":"（協賛企業ポスター）","first":1},
+    {"presenid":"COC-05","name":"（協賛企業ポスター）","first":1},
+    {"presenid":"COC-06","name":"（協賛企業ポスター）","first":1},
+    {"presenid":"COC-07","name":"（協賛企業ポスター）","first":1},
+    {"presenid":"COG-01","name":"（協賛団体ポスター）","first":1},
+    {"presenid":"COG-02","name":"（協賛団体ポスター）","first":1},
+    {"presenid":"COG-03","name":"（協賛団体ポスター）","first":1},
+    {"presenid":"COG-04","name":"（協賛団体ポスター）","first":1},
+    {"presenid":"EXH-01","name":"（常設展示）","first":1},
+    {"presenid":"EXH-02","name":"（常設展示）","first":1},
+    {"presenid":"EXH-03","name":"（常設展示）","first":1}
+  ],
+  "presen" : [
+    {
+    "presenid" : "A1-01",
+    "title" : "産学間のデータセット共有の意義、課題と将来の展望",
+    "abstract" : "Webおよびデータベースの研究コミュニティでは、産業界、とくに多数のエンドユーザーに向けたビジネスを行っている企業が保有する膨大なデータへの潜在的ニーズが非常に高まっています。ニーズの高まりに応えて、国立情報学研究所（NII）の情報学研究データリポジトリ（IDR）を通じて各企業が研究用途にデータセットを提供しています。2007年より開始されたこの取り組みを通じて、多くの研究成果が発表されてきました。NIIでも、IDRなどの基盤研究開発を通じて産学間の共同研究を促進するために「データセット共同利用研究開発センター（DSC）」が2015年4月に新たに設立されました。また、提供されるデータセットの種類も、自然言語データから、動画のメタデータや画像データなどへと広がりつつあります。本セッションでは、これまでのデータセット共同利用の取り組みが研究コミュニティに与えてきた影響や、現時点で直面している課題を俯瞰するとともに、今後の展望について議論を深めます。",
+    "bookmark" : 0
+  }  ,
+    {
+      "presenid" : "A2-01",
+      "title" : "潜在トピックを利用した協調フィルタリングにおけるトピック情報源の違いに関する分析",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "A2-02",
+      "title" : "話題と感情の可視化に基づくフォロイー推薦",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "A2-03",
+      "title" : "ページとクエリの連想確率に基づく希少なWebページの検索",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "B2-01",
+      "title" : "Non-linear Time-series Analysis of Social Influence",
+      "bookmark" : 0
+    }
+  ,
+    {
+      "presenid" : "B2-02",
+      "title" : "空間データストリーム環境におけるMaxRSモニタリング",
+      "bookmark" : 0
+    } ,
+    {
+      "presenid" : "B2-03",
+      "title" : "災害時の被害推定のための時空間類似シナリオ検索手法",
+      "bookmark" : 0
+    }  ,
+    {
+      "presenid" : "A3-01",
+      "title" : "情報検索とビッグデータ分析",
+      "abstract" : "ウェブやソーシャルメディアの普及に伴い、ウェブ情報検索やウェブデータマイニングは依然として重要な研究テーマである。ウェブ情報検索については、検索意図発見と多様な検索意図に対応する検索手法の開発が重要な研究課題であり、また、ウェブデータマイニングはビッグデータ分析という観点から 新たなデータ分析手法の開発が重要である。本講演では、講演者らが開発してきた、多様な検索意図に対応する検索手法、多様性に着目したデータ 分析手法を紹介する。",
+      "bookmark" : 0
+    } ,
+    {
+      "presenid" : "A4-01",
+      "title" : "ストーリー文書内のネタバレの記述に関する調査とレビュー文書でのネタバレ検出の試み",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "A4-02",
+      "title" : "Webデータ抽出システムDuckyにおけるブラウザGUIと抽出ルール生成機構の構築",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "A4-03",
+      "title" : "写真ライフログにおける検索クエリを用いた想起補助の基礎的検討",
+      "bookmark" : 0
+    }
+  ,
+
+    {
+      "presenid":"B4-01",
+      "title":"距離減衰重みを導入したノード群へのアノテーション付与法",
+      "bookmark":0
+    },
+    {
+      "presenid":"B4-02",
+      "title":"PostgreSQLベースのOLXPシステム実現のための同時実行制御手法",
+      "bookmark":0
+    },
+    {
+      "presenid":"B4-03",
+      "title":"更新意図の外形的推測に基づくリレーショナルデータベースビューの更新可能性",
+      "bookmark":0
+    },
+    {
+      "presenid":"A5-01",
+      "title":"位置ソーシャルサービス上の画像-テキスト間写像を利用したスポット情報拡張と推薦被覆率向上",
+      "bookmark":0
+    },
+    {
+      "presenid":"A5-02",
+      "title":"PinterestにおけるPin推薦のための推薦アルゴリズムの比較",
+      "bookmark":0
+    },
+    {
+      "presenid":"A5-03",
+      "title":"社会的影響と広告の影響とを考慮した購買行動モデルに基づく購買要因の推定",
+      "bookmark":0
+    },
+    {
+      "presenid":"B5-01",
+      "title":"モバイルセンサデータベースにおける効率的なTop-k検索結果の多様化について",
+      "bookmark":0
+    },
+    {
+      "presenid":"B5-02",
+      "title":"Constrained Greedy Reranking Based on Spatial Diversity for Scientific Data Retrieval",
+      "bookmark":0
+    },
+    {
+      "presenid":"B5-03",
+      "title":"文脈解釈機能および意味的分析機構による腸内細菌叢-ヒト属性関連性の統合的抽出方式",
+      "bookmark":0
+    },
+    {
+      "presenid":"A6-01",
+      "title":"一般道実走行における自車センサ情報を用いた車線変更の検出",
+      "bookmark":0
+    },
+    {
+      "presenid":"A6-02",
+      "title":"SmartVideoRanking：視聴者の時刻同期コメントに基づく動画ランキングシステム",
+      "bookmark":0
+    },
+    {
+      "presenid":"A6-03",
+      "title":"複数の非類似度を自由に重みづけできる単一のグラフ索引を用いた最近傍探索手法",
+      "bookmark":0
+    },
+    {
+      "presenid":"B6-01",
+      "title":"Wikipediaのページビュー数を用いたTwitter上の話題語に対するエンティティリンキング",
+      "bookmark":0
+    },
+    {
+      "presenid":"B6-02",
+      "title":"ジオタグ付き写真を用いた様々な観光地の平均的な滞在時間の推定",
+      "bookmark":0
+    },
+    {
+      "presenid":"B6-03",
+      "title":"統計情報制限下における RDF 問合せ最適化のための結合選択率の間接的見積り手法",
+      "bookmark":0
+    },
+    {
+      "presenid":"A7-01",
+      "title":"車両走行センサデータからの自動パターン検出",
+      "bookmark":0
+    },
+    {
+      "presenid":"A7-02",
+      "title":"マイクロブログにおける社会的影響力を持つ情報カスケードの早期検知に向けて",
+      "bookmark":0
+    },
+    {
+      "presenid":"A7-03",
+      "title":"トピックモデルに基づく大規模ネットワークの重複コミュニティ発見",
+      "bookmark":0
+    },
+    {
+      "presenid" : "A8-01",
+      "title" : "Deep Learningと自然言語処理",
+      "abstract" : "本セッションでは、「Deep Learningと自然言語処理」と題し、昨今話題のDeep Learningについて、第一線で活躍中の研究者お二人にご講演をいただく。まず、 東北大学岡崎准教授からは、表現学習という切り口から、単語の分散表現の学習 や，単語の意味から句や文の意味を計算するモデルに関する最新の研究動向を紹 介していただく。次にChainerのコントリビュータでも有名なPFI海野氏より、 Chainerの仕組みと自然言語処理での応用について解説をいただく。",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C2-01",
+      "title" : "新参者は如何にして新たなグループになじむのか？: ソーシャルゲームにおける分析事例",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C2-02",
+      "title" : "ビジネス型人工知能を目指して　--　ビッグデータを操る複雑系と事象分析予測技術、それを支える分散基盤",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C4-01",
+      "title" : "はてなブックマークにおけるアクセス制御: 半環構造に基づくモデル化",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C4-02",
+      "title" : "広告配信のための高速疎ベクトル検索エンジンの開発",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C5-01",
+      "title" : "クラウドネイティブなアナリティクス基盤 「IBM Bluemix」",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C5-02",
+      "title" : "PostgreSQLのストレージレイヤの拡張",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C5-03",
+      "title" : "データサイエンスを支える基盤とそのテクノロジー",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C6-01",
+      "title" : "Word2Vecを用いた商品レコメンデーションの評価",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C6-02",
+      "title" : "ディープラーニングを応用した『画像解析』システム",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "C6-03",
+      "title" : "不動産物件データセットを用いた研究開発事例と、大学との共同研究の取り組みの紹介",
+      "bookmark" : 0
+    },
+    {
+      "presenid" : "DBS-01",
+      "title" : "手掛かり語による学術論文の引用意図分類の一手法",
+      "bookmark":0
+    },
+    {
+      "presenid": "DBS-02",
+      "title": "学術論文からの実験情報抽出とその可視化",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-03",
+      "title": "Paragraph Vectorへの追加情報の効率的な埋め込み",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-04",
+      "title": "CRFによる参考文献書誌情報抽出のための有効な素性の検討と拡充",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-05",
+      "title": "レビュー文書における重要文選択の一手法",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-06",
+      "title": "データ仮想化システムにおける効率的なクエリプッシュダウンの実装と評価",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-07",
+      "title": "品詞データベースを用いた高精度なクエリ語の品詞判別に関する一考察",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-08",
+      "title": "自己結合SQLクエリ検出ツールによるチューニングの提案",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-09",
+      "title": "ソーシャルタグを用いたツイートの印象の推定",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-10",
+      "title": "閲覧期間を考慮したトピックグラフに基づくTwitterの見落とし情報",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-11",
+      "title": "ソーシャルメディアにおける非構造化テキストデータのk-匿名化によるプライバシー保護",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-12",
+      "title": "分析者による試行錯誤を促進するデータ分析手法の提案と試作",
+      "bookmark":0
+    },
+    {
+      "presenid":"DBS-13",
+      "title": "機械学習による商品レビューの属性-意見ペアの抽出",
+      "bookmark":0
+    },
+    {
+      "presenid":"COC-01",
+      "title":"ヤフー株式会社",
+      "bookmark":0
+    },
+    {
+      "presenid":"COC-02",
+      "title":"株式会社UBIC",
+      "bookmark":0
+    },
+    {
+      "presenid":"COC-03",
+      "title":"楽天株式会社",
+      "bookmark":0
+    },
+    {
+      "presenid":"COC-04",
+      "title":"株式会社ネクスト",
+      "bookmark":0
+    },
+    {
+      "presenid":"COC-05",
+      "title":"（株）日立製作所",
+      "bookmark":0
+    },{
+      "presenid":"COC-06",
+      "title":"サイジニア株式会社",
+      "bookmark":0
+    },{
+      "presenid":"COC-07",
+      "title":"株式会社サイバーエージェント",
+      "bookmark":0
+    },
+    {
+      "presenid":"COG-01",
+      "title":"Firebird日本ユーザ会",
+      "bookmark":0
+    },
+    {
+      "presenid":"COG-02",
+      "title":"日本MySQLユーザ会",
+      "bookmark":0
+    },
+    {
+      "presenid":"COG-03",
+      "title":"日本PostgreSQLユーザ会",
+      "bookmark":0
+    },
+    {
+      "presenid":"COG-04",
+      "title":" ACM SIGMOD日本支部",
+      "bookmark":0
+    },
+    {
+      "presenid":"EXH-01",
+      "title":"株式会社リクルートテクノロジーズ",
+      "bookmark":0
+    },{
+      "presenid":"EXH-02",
+      "title":"株式会社UBIC",
+      "bookmark":0
+    },{
+      "presenid":"EXH-03",
+      "title":"ヤフー株式会社",
+      "bookmark":0
+    }
+  ],
+  "poster" : [
+    {
+      "presenid" : "COC-01",
+      "posterid" : 1,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "COC-02",
+      "posterid" : 2,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "COC-03",
+      "posterid" : 3,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "COC-04",
+      "posterid" : 4,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "COC-05",
+      "posterid" : 5,
+      "star" : 1,
+      "date" : 1
+    },{
+      "presenid" : "COG-01",
+      "posterid" : 6,
+      "star" : 1,
+      "date" : 1
+    },{
+      "presenid" : "COC-06",
+      "posterid" : 7,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "COC-07",
+      "posterid" : 8,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-01",
+      "posterid" : 9,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-02",
+      "posterid" : 10,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-03",
+      "posterid" : 11,
+      "star" : 1,
+      "date" : 1
+    },{
+      "presenid" : "COG-04",
+      "posterid" : 12,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "COG-02",
+      "posterid" : 13,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "COG-03",
+      "posterid" : 14,
+      "star" : 1,
+      "date" : 1
+    },{
+      "presenid" : "DBS-04",
+      "posterid" : 15,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-05",
+      "posterid" : 16,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-06",
+      "posterid" : 17,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-07",
+      "posterid" : 18,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-08",
+      "posterid" : 19,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-09",
+      "posterid" : 20,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-10",
+      "posterid" : 21,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-11",
+      "posterid" : 22,
+      "star" : 1,
+      "date" : 1
+    },
+    {
+    "presenid" : "B5-03",
+    "posterid" : 23,
+    "star" : 1,
+    "date" : 1
+  }, {
+      "presenid" : "DBS-12",
+      "posterid" : 24,
+      "star" : 1,
+      "date" : 1
+    }, {
+      "presenid" : "DBS-13",
+      "posterid" : 25,
+      "star" : 1,
+      "date" : 1
+    }, {
+    "presenid" : "A4-01",
+    "posterid" : 26,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A2-01",
+    "posterid" : 27,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A5-02",
+    "posterid" : 28,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A5-03",
+    "posterid" : 29,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "B5-01",
+    "posterid" : 30,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A6-02",
+    "posterid" : 31,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A2-03",
+    "posterid" : 32,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A7-03",
+    "posterid" : 33,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A2-02",
+    "posterid" : 34,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A4-02",
+    "posterid" : 35,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "B6-02",
+    "posterid" : 36,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A5-01",
+    "posterid" : 37,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "B2-01",
+    "posterid" : 38,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A6-01",
+    "posterid" : 39,
+    "star" : 1,
+    "date" : 1
+  }, {
+    "presenid" : "A7-01",
+    "posterid" : 40,
+    "star" : 1,
+    "date" : 1
+  }, {
+      "presenid" : "EXH-01",
+      "posterid" : 41,
+      "star" : 1,
+      "date" : 2
+    }, {
+      "presenid" : "EXH-02",
+      "posterid" : 42,
+      "star" : 1,
+      "date" : 2
+    }, {
+      "presenid" : "EXH-03",
+      "posterid" : 43,
+      "star" : 1,
+      "date" : 2
+    }
+  ],
+  "session" : [
+    {
+    "sessionid" : "A1",
+    "title" : "特別セッション1：産学官のデータセット",
+    "chairpersonname" : "松下 光範",
+    "chairpersonaffiliation" : "関西大学"
+    },
+    {
+      "sessionid" : "A2",
+      "title" : "情報推薦I",
+      "chairpersonname" : "江口 浩二",
+      "chairpersonaffiliation" : "神戸大学"
+    },{
+      "sessionid" : "B2",
+      "title" : "時系列データマイニング",
+      "chairpersonname" : "川島 英之",
+      "chairpersonaffiliation" : "筑波大学"
+    },{
+      "sessionid" : "A3",
+      "title" : "特別セッション2: 情報検索とビックデータ分析",
+      "chairpersonname" : "寺田努",
+      "chairpersonaffiliation" : "神戸大学"
+    },{
+      "sessionid" : "A4",
+      "title" : "Webインタラクション",
+      "chairpersonname" : "豊田 正史",
+      "chairpersonaffiliation" : "東京大学"
+    },{
+      "sessionid" : "B4",
+      "title" : "データベース技術",
+      "chairpersonname" : "宮崎 純",
+      "chairpersonaffiliation" : "東京工業大学"
+    },{
+      "sessionid" : "A5",
+      "title" : "情報推薦II",
+      "chairpersonname" : "奥 健太",
+      "chairpersonaffiliation" : "立命館大学"
+    },{
+      "sessionid" : "B5",
+      "title" : "時空間・バイオデータ",
+      "chairpersonname" : "櫻井 保志",
+      "chairpersonaffiliation" : "熊本大学"
+    },{
+      "sessionid" : "A6",
+      "title" : "マルチメディア",
+      "chairpersonname" : "灘本 明代",
+      "chairpersonaffiliation" : "甲南大学"
+    },{
+      "sessionid" : "B6",
+      "title" : "セマンティクス",
+      "chairpersonname" : "大向 一輝",
+      "chairpersonaffiliation" : "NII"
+    },{
+      "sessionid" : "A7",
+      "title" : "論文賞セッション",
+      "chairpersonname" : "原 隆浩",
+      "chairpersonaffiliation" : "大阪大学"
+    },{
+      "sessionid" : "A8",
+      "title" : "特別セッション3: Deep Learningと自然言語処理",
+      "chairpersonname" : "中山 浩太郎",
+      "chairpersonaffiliation" : "東京大学"
+    },
+    {
+
+      "sessionid": "C2",
+      "title": "技術報告：情報サービスのサイエンス",
+      "chairpersonname": "清田 陽司",
+      "chairpersonaffiliation": "ネクスト"
+    },{
+      "sessionid": "C4",
+      "title": "技術報告：大規模サービスを支えるアルゴリズム",
+      "chairpersonname": "的野 晃整",
+      "chairpersonaffiliation": "産総研"
+    },{
+      "sessionid": "C5",
+      "title": "技術報告：システム基盤技術",
+      "chairpersonname": "善明 晃由",
+      "chairpersonaffiliation": "サイバーエージェント"
+    },
+    {
+      "sessionid" : "C6",
+      "title" : "技術報告：Web情報サービスの新展開",
+      "chairpersonname" : "河合 由起子",
+      "chairpersonaffiliation" : "京産大"
+    },
+    {
+      "sessionid" : "EXH",
+      "title" : "常設展示"
+    }
+  ],
+  "venuemap":1,
+  "timetable" : [
+    {
+      "day_id": "1",
+      "day": "11/24",
+      "schedule": [
+        {
+          "start_time": "9:50",
+          "end_time": "10:00",
+          "slot_type" : "session",
+          "time_display" : "start_only",
+          "sessions": [
+            {
+              "room": "A",
+              "sessionid": "",
+              "session_name": "オープニング"
+            }
+          ]
+        },
+        {
+          "start_time": "10:00",
+          "end_time": "11:30",
+          "slot_type" : "session",
+          "time_display" : "all",
+          "sessions": [
+            {
+              "room": "A",
+              "sessionid": "A1",
+              "session_name": ""
+            }
+          ]
+        },
+        {
+          "start_time": "11:30",
+          "end_time": "12:40",
+          "slot_type" : "break",
+          "time_display" : "no",
+          "sessions": [
+            {
+              "room": "",
+              "sessionid": "",
+              "session_name": "昼休み"
+            },
+            {
+              "room": "大会議室",
+              "sessionid": "",
+              "session_name": "リクルートテクノロジーズ社主催昼食会"
+            }
+          ]
+        },
+        {
+          "start_time": "12:40",
+          "end_time": "14:10",
+          "slot_type" : "session",
+          "time_display" : "all",
+          "sessions": [
+            {
+              "room": "A",
+              "sessionid": "A2",
+              "session_name": ""
+            },
+            {
+              "room": "B",
+              "sessionid": "B2",
+              "session_name": ""
+            },
+            {
+              "room": "C",
+              "sessionid": "C2",
+              "session_name": ""
+            }
+          ]
+        },
+        {
+          "start_time": "14:10",
+          "end_time": "14:30",
+          "slot_type" : "break",
+          "time_display" : "no",
+          "sessions": [
+            {
+              "room": "",
+              "sessionid": "",
+              "session_name": "休み時間"
+            }
+          ]
+        },
+        {
+          "start_time": "14:30",
+          "end_time": "16:00",
+          "slot_type" : "session",
+          "time_display" : "all",
+          "sessions": [
+            {
+              "room": "A",
+              "sessionid": "A3",
+              "session_name": ""
+            }
+          ]
+        },
+        {
+          "start_time": "16:00",
+          "end_time": "16:20",
+          "slot_type" : "break",
+          "time_display" : "no",
+          "sessions": [
+            {
+              "room": "",
+              "sessionid": "",
+              "session_name": "休み時間"
+            }
+          ]
+        },
+        {
+          "start_time": "16:20",
+          "end_time": "17:50",
+          "slot_type" : "session",
+          "time_display" : "all",
+          "sessions": [
+            {
+              "room": "A",
+              "sessionid": "A4",
+              "session_name": ""
+            },
+            {
+              "room": "B",
+              "sessionid": "B4",
+              "session_name": ""
+            },
+            {
+              "room": "C",
+              "sessionid": "C4",
+              "session_name": ""
+            }
+          ]
+        },
+        {
+          "start_time": "17:40",
+          "end_time": "18:10",
+          "slot_type" : "break",
+          "time_display" : "no",
+          "sessions": [
+            {
+              "room": "",
+              "sessionid": "",
+              "session_name": "休み時間"
+            }
+          ]
+        },
+        {
+          "start_time": "18:10",
+          "end_time": "20:00",
+          "slot_type" : "session",
+          "time_display" : "all",
+          "sessions": [
+            {
+              "room": "食堂",
+              "sessionid": "",
+              "session_name": "ポスターレセプションCS領域賞・WebDB論文賞"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day_id" : "2",
+      "day": "11/25",
+      "schedule": [
+        {
+          "start_time" : "10:00",
+          "end_time" : "11:30",
+          "slot_type" : "session",
+          "time_display" : "all",
+          "sessions" : [
+            {
+              "room" : "A",
+              "sessionid" : "A5",
+              "session_name" : ""
+            },
+            {
+              "room" : "B",
+              "sessionid" : "B5",
+              "session_name" : ""
+            },
+            {
+              "room" : "C",
+              "sessionid" : "C5",
+              "session_name" : ""
+            }
+          ]
+        },
+        {
+          "start_time" : "11:30",
+          "end_time" : "12:30",
+          "slot_type" : "break",
+          "time_display" : "no",
+          "sessions" : [
+            {
+              "room" : "",
+              "sessionid" : "",
+              "session_name" : "昼休み"
+            },
+            {
+              "room" : "委員会",
+              "sessionid" : "",
+              "session_name" : "DBS研＋DE研委員会"
+            }
+          ]
+        },
+        {
+          "start_time" : "12:30",
+          "end_time" : "14:00",
+          "slot_type" : "session",
+          "time_display" : "all",
+          "sessions" : [
+            {
+              "room" : "A",
+              "sessionid" : "A6",
+              "session_name" : ""
+            },
+            {
+              "room" : "B",
+              "sessionid" : "B6",
+              "session_name" : ""
+            }
+          ]
+        },
+        {
+          "start_time" : "14:00",
+          "end_time" : "14:20",
+          "slot_type" : "session",
+          "time_display" : "all",
+          "sessions" : [
+            {
+              "room" : "",
+              "sessionid" : "",
+              "session_name" : "休み時間"
+            }
+          ]
+        },
+        {
+          "start_time" : "14:20",
+          "end_time" : "15:50",
+          "slot_type" : "break",
+          "time_display" : "no",
+          "sessions" : [
+            {
+              "room" : "A",
+              "sessionid" : "A7",
+              "session_name" : ""
+            }
+          ]
+        },
+        {
+          "start_time" : "15:50",
+          "end_time" : "18:20",
+          "slot_type" : "session",
+          "time_display" : "all",
+          "sessions" : [
+            {
+              "room" : "A",
+              "sessionid" : "",
+              "session_name" : "WebDB表彰/クロージング"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

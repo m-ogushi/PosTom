@@ -1,9 +1,9 @@
 /*-------------------------------------------------
- 
+
   Presentation javascript
- 
+
  --------------------------------------------------*/
- 
+
  /********************************************************
  *		グローバルナビゲーション カレント処理					*
  ********************************************************/
@@ -18,8 +18,7 @@ function selectFile(){
 }
 $(function(){
 function deleteObject(){
-		/* 確認ダイアログの表示 */
-		console.log("わくわくさん");
+
 		$( "#dialogDeleteConfirm" ).dialog({
 			resizable: false,
 			//height:140,
@@ -47,8 +46,7 @@ function deleteObject(){
 				$( this ).dialog( "close" );
 			}
 			}
-		});
-}
+	}
 
 //$("[id^=Presen]").click(function(){
 $("[id^=Presentable]").on('click',function(){

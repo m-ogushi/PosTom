@@ -2,6 +2,9 @@
 // イベントの開催日数を取得
 var eventDays = "<?php echo $this->requestAction('/events/getEventDays/'.$_SESSION['event_id']); ?>";
 
+// 背景図がセットされているかどうか
+var isSetBackground = "<?php echo $this->requestAction('/events/isSetPosterBackground/'.$_SESSION['event_id']); ?>";
+
 // データベースから取得したポスターデータを格納するためのポスター配列変数
 var poster = new Array();
 // データベースから取得したポスターデータを元に関連するプレゼンテーションデータを格納するためのプレゼンテーション配列変数
@@ -13,10 +16,11 @@ var disuses = new Array(eventDays);
 for(var i=0; i<eventDays; i++){
 	disuses[i] = false;
 }
-	
+
 //データベースの情報をローカルに格納
 <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
 	poster[<?php echo $i ?>] = new Array();
+	poster[<?php echo $i ?>].id = <?php echo $data[$i]["Poster"]["id"]; ?>;
 	poster[<?php echo $i ?>].NextId = <?php echo $data[$i]["Poster"]["id"]; ?>;
 	poster[<?php echo $i ?>].width = <?php echo $data[$i]["Poster"]["width"]; ?>;
 	poster[<?php echo $i ?>].height = <?php echo $data[$i]["Poster"]["height"]; ?>;
@@ -55,7 +59,7 @@ for($i=0; $i<count($disuseArray); $i++){
 	$disuses[$disuseArray[$i]['Disuse']['date']-1] = true;
 ?>
 	disuses[<?php echo $disuseArray[$i]['Disuse']['date']-1; ?>] = true;
-<?php	
+<?php
 } // end for
 ?>
 </script>
@@ -67,11 +71,11 @@ for($i=0; $i<count($disuseArray); $i++){
 <div id="tab">
 <ul class="nav nav-tabs">
 <?php
-	
+
 	// イベントの開催日数分のタブを生成する
 	for($i=1; $i<=$days; $i++){
 ?>
-<li id="canvasTab<?php echo $i; ?>" class="<?php echo $i==1?'active':''; ?>"><a href="#tcCanvas<?php echo $i ?>" data-toggle="tab" data-days="<?php echo $i; ?>"><?php echo $i; ?></a></li>
+<li id="canvasTab<?php echo $i; ?>" class="<?php echo $i==1?'active':''; ?>"><a href="#tcCanvas<?php echo $i ?>" data-toggle="tab" data-days="<?php echo $i; ?>"><?php echo "Day ".$i; ?></a></li>
 <?php
 	} // end for
 ?>
@@ -86,7 +90,17 @@ for($i=0; $i<count($disuseArray); $i++){
 ?>
 <div id="tcCanvas<?php echo $i; ?>" class="tab-pane <?php echo $i==1?'active':''; ?>">
 <p><input type="checkbox" name="checkDisuse<?php  echo $i; ?>" onChange="onChangeDisuse(this, <?php echo $i; ?>)" <?php echo $disuses[$i-1]==true?'checked':''; ?>>&nbsp;Disuse</p>
-<canvas id="posterCanvas<?php echo $i; ?>" class="posterCanvas <?php echo $disuses[$i-1]?'disuse':''; ?>" dropzone="copy"></canvas>
+<canvas id="posterCanvas<?php echo $i; ?>" class="posterCanvas <?php echo $disuses[$i-1]?'disuse':''; ?>" dropzone="copy" style="
+<?php
+	// ポスター背景図がセットされていればstyle属性に書き込む
+	if($this->requestAction('/events/isSetPosterBackground/'.$_SESSION['event_id'])){
+		echo "background-image: ";	
+		echo "url(".$this->webroot."img/dot.png), url(".$this->webroot."img/bg/".$_SESSION['event_str'].".png); ";
+		echo "background-repeat: ";
+		echo "repeat, no-repeat;";
+	}
+?>
+"></canvas>
 </div>
 <?php
 	} // end for
@@ -117,6 +131,18 @@ for($i=0; $i<count($disuseArray); $i++){
 <option value="delete">Delete Mode</option>
 </select>
 <!-- //selectForm -->
+<!-- uploadForm -->
+<div id="uploadFormDiv" class="form">
+<form id="upLoadForm" class="disno" value="set background">
+<input  type="file" id="backGroundImage" class="btn btn-default" accept="image/png" name="backGroundImage" onChange="fileUpLoad('<?php echo $_SESSION['event_str']; ?>')">
+<input type="text" name="EventStr" value="<?php echo $_SESSION['event_str']; ?>">
+</form>
+<p>
+<button id="selectFile" name="selectFile" class="btn btn-default" type="button" onClick="selectFile()">background picture</button>
+</p>
+<p><a href="<?php echo $this->Html->webroot;?>img/bg/<?php echo isset($_SESSION['event_str'])? $_SESSION['event_str'] : ''; ?>.png" target="_blank">background picture</a></p>
+</div>
+<!-- //uploadForm -->
 <!-- createForm -->
 <div id="createForm" class="form">
 <fieldset>
@@ -194,26 +220,21 @@ for($i=0; $i<count($disuseArray); $i++){
 </fieldset>
 </div>
 <!-- //mapForm-->
-<!-- uploadForm -->
-<div id="uploadFormDiv" class="form">
-<form id="upLoadForm" class="disno" value="set background">
-<input  type="file" id="backGroundImage" class="btn btn-default" accept="image/png" name="backGroundImage" onChange="fileUpLoad()">
-</form>
-<p>
-<button id="selectFile" name="selectFile" class="btn btn-default" type="button" onClick="selectFile()">background picture</button>
-</p>
-<p><a href="<?php echo $this->Html->webroot;?>img/backGround.png" target="_blank">background picture</a></p>
-</div>
-<!-- //uploadForm -->
 <!-- fileForm -->
 <div id="fileForm" class="form">
+<!-- saveボタンの削除
 <p>
 <input type="button" name="saveButton" class="btn btn-default" onClick="if(confirm('Do you want to save?'))saveJson()" value="save">
 </p>
+-->
+<!-- loadボタンの削除
 <p>
 <input type="button" name="loadButton" class="btn btn-default" onClick="loadJson()" value="Read">
 </p>
+-->
+<!-- JSONファイルへのリンクの削除
 <p><a href="json/data_nosession.json" target="_blank">JSON file</a></p>
+-->
 </div>
 <!-- //fileForm -->
 
@@ -222,8 +243,8 @@ for($i=0; $i<count($disuseArray); $i++){
 <!-- tab contents Presentation -->
 <div id="tcPresentation" class="tab-pane">
 <?php
-// 別のモデル（Presentation）から必要なアクションを呼び出す
-$presentations = $this->requestAction('/presentations/getall');
+// 選択中のイベントに含まれるすべてのプレゼンテーションを取得する
+$presentations = $this->requestAction('/presentations/getByEventID/'.$_SESSION['event_id']);
 
 // cakephpで用意されているPaginationを利用すると、ページ遷移が発生してしまうため、独自のページャーで実装する
 // 1ページあたりのプレゼンテーション表示数

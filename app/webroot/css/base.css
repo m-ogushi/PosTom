@@ -1,11 +1,11 @@
 @charset "utf-8";
 /*-------------------------------------------------
- 
+
   base.css
- 
+
  --------------------------------------------------*/
- 
- 
+
+
 /* common
 ****************************************************/
 html {
@@ -132,6 +132,7 @@ input[type=file].disno {
 	background-color: #39b998;
 	font-family: 'Oswald', sans-serif;
 	font-size: 18px;
+	z-index: 3;
 }
 #contents #dashboard h1#logo {
 	width: 200px;
@@ -238,9 +239,10 @@ input[type=file].disno {
 /* main event view */
 #contents #main #viewlist li {
 	float: left;
-	text-shadow: rgb(42, 135, 111) 1px 1px, rgb(42, 135, 111) 2px 2px, rgb(42, 135, 111) 3px 3px, rgb(42, 135, 111) 4px 4px, rgb(42, 135, 111) 5px 5px, rgb(42, 135, 111) 6px 6px, rgb(42, 135, 111) 7px 7px, rgb(42, 135, 111) 8px 8px, rgb(42, 135, 111) 9px 9px, rgb(42, 135, 111) 10px 10px, rgb(42, 135, 111) 11px 11px, rgb(42, 135, 111) 12px 12px, rgb(42, 138, 113) 13px 13px, rgb(43, 141, 116) 14px 14px, rgb(44, 144, 118) 15px 15px, rgb(45, 147, 121) 16px 16px, rgb(46, 150, 123) 17px 17px, rgb(47, 153, 126) 18px 18px, rgb(48, 156, 128) 19px 19px, rgb(49, 160, 131) 20px 20px, rgb(50, 163, 134) 21px 21px, rgb(51, 166, 136) 22px 22px, rgb(52, 169, 139) 23px 23px, rgb(53, 172, 141) 24px 24px, rgb(54, 175, 144) 25px 25px, rgb(55, 178, 146) 26px 26px, rgb(56, 181, 149) 27px 27px, rgb(57, 185, 152) 28px 28px;
 }
 #contents #main #viewlist li a {
+	float: left;
+	text-shadow: rgb(42, 135, 111) 1px 1px, rgb(42, 135, 111) 2px 2px, rgb(42, 135, 111) 3px 3px, rgb(42, 135, 111) 4px 4px, rgb(42, 135, 111) 5px 5px, rgb(42, 135, 111) 6px 6px, rgb(42, 135, 111) 7px 7px, rgb(42, 135, 111) 8px 8px, rgb(42, 135, 111) 9px 9px, rgb(42, 135, 111) 10px 10px, rgb(42, 135, 111) 11px 11px, rgb(42, 135, 111) 12px 12px, rgb(42, 138, 113) 13px 13px, rgb(43, 141, 116) 14px 14px, rgb(44, 144, 118) 15px 15px, rgb(45, 147, 121) 16px 16px, rgb(46, 150, 123) 17px 17px, rgb(47, 153, 126) 18px 18px, rgb(48, 156, 128) 19px 19px, rgb(49, 160, 131) 20px 20px, rgb(50, 163, 134) 21px 21px, rgb(51, 166, 136) 22px 22px, rgb(52, 169, 139) 23px 23px, rgb(53, 172, 141) 24px 24px, rgb(54, 175, 144) 25px 25px, rgb(55, 178, 146) 26px 26px, rgb(56, 181, 149) 27px 27px, rgb(57, 185, 152) 28px 28px;
 	display: table;
 	width: 160px;
 	height: 160px;
@@ -254,6 +256,10 @@ input[type=file].disno {
 	text-align: center;
 	vertical-align: middle;
 	font-size: 5em;
+}
+#contents #main #viewlist li p {
+	text-align: center;
+	font-size: 16px;
 }
 /* main.presentationlist */
 #contents #main #presentationlist li {
@@ -292,7 +298,7 @@ input[type=file].disno {
 	margin: 0 auto;
 }
 canvas.disuse {
-	background-color: rgba(100,100,100,0.4);
+	background-image: url(../img/bg_canvas_disuse.png), url(../img/dot.png);
 }
 
 

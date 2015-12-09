@@ -92,7 +92,7 @@ $.fn.bookmarklistToDetailPage = function() {
 $.fn.bookmarklistToMapPage = function() {
 	$(this).on("click", function(e) {
 		// ポスターのIDを取得する
-		var posterid = Number(e.target.id.substring(17));
+		var posterid = Number(e.target.id.substring(10));
 		listToMap(posterid);
 	});
 };

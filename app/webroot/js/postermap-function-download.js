@@ -19,6 +19,26 @@ function downloadPoster(pageName){
 	
 }
 
+function checkDataVersion(){
+		$.ajax({
+		   		url: posMAppDataVersionURL,
+				type: "POST",
+				dataType: "json",
+				async: false,
+				data: "",
+				timeout: 10000, // タイムアウトにするまでの時間は要検討
+				success: function(data) {
+					version		= data.version;
+					var cur_version = localStorage.getItem("version");
+					if(cur_version==null || version > cur_version){
+						localStorage.setItem("version",version);
+						localStorage.setItem("downloadSuccess",false);
+					}
+				}
+		});
+
+}
+
 function ajaxdownload(pageName){
 	var flag = localStorage.getItem("downloadSuccess");
 	if(flag === "false" || flag === null){
@@ -33,6 +53,7 @@ function ajaxdownload(pageName){
 					console.log("Download Success");
 
 					// データを格納
+					basic_info      = data.basic_info;
 					poster 			= data.poster;
 					author 			= data.author;
 					keyword 		= data.keyword;
@@ -49,6 +70,9 @@ function ajaxdownload(pageName){
 					STATIC_WIDTH 	= data.STATIC_WIDTH;
 					STATIC_HEIGHT 	= data.STATIC_HEIGHT;
 
+                    if(basic_info != null){
+                        localStorage.setItem("basic_info",JSON.stringify(data.basic_info));
+                    }
 					localStorage.setItem("poster",JSON.stringify(data.poster));
 					localStorage.setItem("author",JSON.stringify(data.author));
 					if(keyword != null){
@@ -123,6 +147,7 @@ function isValidLocalStorage() {
 	if (localStorage.getItem("position") === null) return false;
 	if (localStorage.getItem("STATIC_WIDTH") === null) return false;
 	if (localStorage.getItem("STATIC_HEIGHT") === null) return false;
+	if (localStorage.getItem("version") === null) return false;
 	return true;
 }
 

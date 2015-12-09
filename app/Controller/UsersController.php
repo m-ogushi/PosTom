@@ -5,6 +5,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow(array('signup', 'activate', 'login', 'interim'));
+		// $this->Auth->allow(array('controller' => 'posmapps', 'action' => 'index'));
 	}
 	// ユーザ登録 (フォームの入力をDBに保存して仮登録し、本登録のためのメールを送信)
 	public function signup() {
@@ -19,8 +20,8 @@ class UsersController extends AppController {
 				$email->from(array('tkb.tsss@gmail.com' => 'PosTom'));
 				$email->to($this->data['User']['email']);
 				$email->subject('Please finish registration');
-				$email->send($url); // メール本文に本登録用リンクを記す
-
+				$mailText = "You are still a state of the temporary registration in PosTom.\n Please click the following URL and complete this registration.\n".$url;
+				$email->send($mailText); // メール本文に本登録用リンクを記す
 				$this->Session->setFlash('Email was sent. Please finish registration');
 				$this->redirect(array('action' => 'interim'));
 			} else {
