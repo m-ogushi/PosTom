@@ -15,3 +15,11 @@
  margin-top:50px;
  margin-left:30px;
  }
+.submit{
+display: table;
+_display: inline;
+_zoom: 1;
+list-style-type: none;
+float:left;
+margin-right:10px;
+}
