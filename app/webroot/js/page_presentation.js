@@ -20,10 +20,7 @@ $(function(){
 
 //$("[id^=Presen]").click(function(){
 $("[id^=Presentable]").on('click',function(){
-//function selectObject(element){
-		/* 確認ダイアログの表示 */
 		
-		$(this).css("background-color", "#FC6");
 		$('#session_make_btn').css('display', 'none');
 		$('#session_save_btn').css('display', '');
 		$('#session_delete_btn').css('display', '');
