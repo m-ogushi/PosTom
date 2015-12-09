@@ -83,7 +83,7 @@ echo $this->Text->truncate(
 		'ellipsis' => '...', // テキストの終わりは「...」で終了
 	)
 );
-?></span>\
+?></span>
 </a>
 </li>
 <?php endforeach; ?>
