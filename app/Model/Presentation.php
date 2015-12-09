@@ -4,7 +4,7 @@ class Presentation extends AppModel {
 	public function loadCSV($filename){
 			$this->begin();
 			try{
-				// 荳?蠎ｦ縲√☆縺ｹ縺ｦ縺ｮ繝?繝ｼ繧ｿ繧貞炎髯､縺吶ｋ蜑阪↓蟇ｾ雎｡縺ｨ縺ｪ繧九?励Ξ繧ｼ繝ｳ繝?繝ｼ繧ｷ繝ｧ繝ｳ縺碁未騾｣莉倥￠縺輔ｌ縺ｦ縺?繧九?昴せ繧ｿ繝ｼ縺ｮ繝?繝ｼ繧ｿ繧貞?晄悄蛹悶☆繧?
+				// 一度、すべてのデータを削除する前に対象となるプレゼンテーションが関連付けされているポスターのデータを初期化する
 				self::checkRelatedPoster();
 				$handle = fopen($filename,"r");
 				while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
@@ -32,25 +32,25 @@ class Presentation extends AppModel {
 			}
 	}
 
-	// 髢｢騾｣貂医∩繝励Ξ繧ｼ繝ｳ繝?繝ｼ繧ｷ繝ｧ繝ｳ繧貞炎髯､縺励ｈ縺?縺ｨ縺吶ｋ縺ｨ縺阪?√◎繧後ｒ蜿ら?ｧ縺吶ｋ繝昴せ繧ｿ繝ｼ縺後≠繧句?ｴ蜷医?√?昴せ繧ｿ繝ｼ縺ｮ諠?蝣ｱ繧貞､画峩縺吶ｋ蜃ｦ逅?
+	// 関連済みプレゼンテーションを削除しようとするとき、それを参照するポスターがある場合、ポスターの情報を変更する処理
 	public function checkRelatedPoster(){
-		// 迴ｾ譎らせ縺ｧ縺ｯ縲∽ｸ?蠎ｦ縺吶∋縺ｦ縺ｮ繝励Ξ繧ｼ繝ｳ繝?繝ｼ繧ｷ繝ｧ繝ｳ縺ｮ繝?繝ｼ繧ｿ繧貞炎髯､縺吶ｋ縺溘ａ縲√☆縺ｹ縺ｦ縺ｮ繝?繝ｼ繧ｿ繧貞叙蠕励☆繧?
+		// 現時点では、一度すべてのプレゼンテーションのデータを削除するため、すべてのデータを取得する
 		$presentations = $this->requestAction('/presentations/getall');
-		// 蜑企勁蟇ｾ雎｡繝励Ξ繧ｼ繝ｳ繝?繝ｼ繧ｷ繝ｧ繝ｳ縺後?昴せ繧ｿ繝ｼ繝?繝ｼ繧ｿ縺ｧ髢｢騾｣莉倥￠縺輔ｌ縺ｦ縺?繧九°縺ｩ縺?縺九メ繧ｧ繝?繧ｯ
+		// 削除対象プレゼンテーションがポスターデータで関連付けされているかどうかチェック
 		foreach($presentations as $id => $presentation){
-			// 蜑企勁蟇ｾ雎｡繝励Ξ繧ｼ繝ｳ繝?繝ｼ繧ｷ繝ｧ繝ｳ縺ｮID繧貞､画焚縺ｫ譬ｼ邏?
+			// 削除対象プレゼンテーションのIDを変数に格納
 			$target_id = $presentation['Presentation']['id'];
-			// 蜑企勁蟇ｾ雎｡繝励Ξ繧ｼ繝ｳ繝?繝ｼ繧ｷ繝ｧ繝ｳ繧帝未騾｣莉倥￠ID縺ｨ縺励※縺?繧九?昴せ繧ｿ繝ｼ縺ｮ諠?蝣ｱ繧呈峩譁ｰ縺吶ｋ
+			// 削除対象プレゼンテーションを関連付けIDとしているポスターの情報を更新する
 			self::updateRelatedPoster($target_id);
 		}
 	}
 
-	// 蠑墓焚縺ｮID繧帝未騾｣莉倥￠ID縺ｨ縺励※菫晄戟縺励※縺?繧九?昴せ繧ｿ繝ｼ縺ｮ諠?蝣ｱ繧呈峩譁ｰ縺吶ｋ
+	// 引数のIDを関連付けIDとして保持しているポスターの情報を更新する
 	public function updateRelatedPoster($target_id){
-		// 蟇ｾ雎｡ID繧帝未騾｣莉倥￠ID縺ｨ縺励※菫晄戟縺励※縺?繧九?昴せ繧ｿ繝ｼ繧貞叙蠕?
+		// 対象IDを関連付けIDとして保持しているポスターを取得
 		$posters = $this->requestAction('/posters/getRelatedPoster/'.$target_id);
 		foreach($posters as $id => $poster){
-			// 髢｢騾｣莉倥￠ID縺ｮ鬆?逶ｮ繧貞?晄悄蛹厄ｼ?0?ｼ峨↓縺吶ｋ
+			// 関連付けIDの項目を初期化（0）にする
 			$this->requestAction('/posters/initRelatedPoster/'.$poster['Poster']['id']);
 		}
 	}
