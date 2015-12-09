@@ -2,6 +2,10 @@
 class PosMappsController extends AppController {
 	public $helpers = array('Html', 'Form', 'Text');
 	public $uses =array('Poster','Event','Schedule');
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow(array('index', 'deletestorage', 'makejson', 'phoneclear', 'qr', 'sendmail'));
+		}
 	public function index(){
 //        $this->set('posters', $this->Poster->find('all'));
         $this->autoLayout=false;
