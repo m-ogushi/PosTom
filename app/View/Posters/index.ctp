@@ -20,6 +20,7 @@ for(var i=0; i<eventDays; i++){
 //データベースの情報をローカルに格納
 <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
 	poster[<?php echo $i ?>] = new Array();
+	poster[<?php echo $i ?>].id = <?php echo $data[$i]["Poster"]["id"]; ?>;
 	poster[<?php echo $i ?>].NextId = <?php echo $data[$i]["Poster"]["id"]; ?>;
 	poster[<?php echo $i ?>].width = <?php echo $data[$i]["Poster"]["width"]; ?>;
 	poster[<?php echo $i ?>].height = <?php echo $data[$i]["Poster"]["height"]; ?>;
