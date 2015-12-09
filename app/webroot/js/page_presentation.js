@@ -17,36 +17,6 @@ function selectFile(){
 	$('#selectFile').trigger('click');
 }
 $(function(){
-function deleteObject(){
-
-		$( "#dialogDeleteConfirm" ).dialog({
-			resizable: false,
-			//height:140,
-			modal: true,
-			buttons: {
-			"Yes": function() {
-				// 削除対象のオブジェクトと付与したチェック画像を削除する
-				var childArray = stage.children;
-				for(i=deleteArray.length - 1; i>=0; i--){
-					for(j=childArray.length - 1; j>=0; j--){
-						if(childArray[j].id == deleteArray[i] || childArray[j].__relationID == deleteArray[i]){
-						if(childArray[j].id == deleteArray[i]){
-						//解除するポスター情報を、データベースから削除
-							deleteJson(childArray[j]);
-						}
-							stage.removeChildAt(j);
-							stage.update();
-						}
-					}
-					deleteArray.splice(i,1);
-				}
-				$( this ).dialog( "close" );
-			},
-			"No": function() {
-				$( this ).dialog( "close" );
-			}
-			}
-	}
 
 //$("[id^=Presen]").click(function(){
 $("[id^=Presentable]").on('click',function(){
