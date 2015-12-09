@@ -53,50 +53,10 @@
 <div id="plus">
 +
 </div>
-<!-- 別の表示方法なので一応コメントアウト -->
-<!--
-<ul id="presentationlist">
-<?php foreach($presentations as $presentation) : ?>
-<li>
-<a href="<?php echo '/postom/presentations/view/'.$presentation['Presentation']['id']; ?>">
-<span class="tit"><?php echo h($presentation['Presentation']['id']); ?> : <?php echo h($presentation['Presentation']['title']); ?></span>
-<span>Abstract :
-<?php
-echo $this->Text->truncate(
-	$presentation['Presentation']['abstract'],
-	50,
-	array(
-		'ellipsis' => '...', // テキストの終わりは「...」で終了
-	)
-);
-?></span>
-</a>
-</li>
-<?php endforeach; ?>
-</ul>
--->
 
 <!-- dialogDeleteConfirm -->
 <div id="dialogDeleteConfirm" class="disno" title="Confirm Delete">
 <h2>Add presentation</h2>
-<!-- <?php
-echo $this->Form->create('Presentation', array('action'=>''));
-echo $this->Form->input('No', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
-echo $this->Form->input('Title', array('class'=>'form-control','default' => $datas["Event"]["event_location"],'required' => false));
-echo $this->Form->input('Author', array('class'=>'form-control','default' => $datas["Event"]["event_begin_date"],'required' => false));
-echo $this->Form->input('event_end_time', array('class'=>'form-control','default' => $datas["Event"]["event_end_time"],'required' => false));
-echo $this->form->input('Session', array(
-  'class'=>'form-control',
-  'div'=>false,
-  'label' => array(
-            'text'=>'Session'
-        ),
-  'options'=>$options
-  )); 
-  	echo $this->Form->submit('Save', array('id'=>'session_save_btn', 'class'=>'btn btn-primary inline'));
-	echo '<button id="session_cancel_btn" type="button" class="btn btn-default modal-close">cancel</button>';
-	echo $this->Form->submit('Delete', array('id'=>'session_delete_btn', 'class'=>'btn btn-danger inline', 'onclick'=>'return confirm_del_session();'));
-?>-->
 </div>
 <!-- //dialogDeleteConfirm -->
 <!-- dialogSelectConfirm -->
