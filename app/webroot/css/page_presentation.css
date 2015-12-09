@@ -4,3 +4,19 @@
   page_presentation.css
  
  --------------------------------------------------*/
+ 
+ #plus{
+ position:relative;
+ width:100px;
+ height:100px;
+ font-size:100px;
+ line-height:100%;
+ text-align: center;
+ background: #EEE; 
+ border: 1px solid #DDD;
+ border-radius: 4px;
+ -moz-border-radius: 4px;
+ -webkit-border-radius: 4px;
+ margin-top:50px;
+ margin-left:30px;
+ }
