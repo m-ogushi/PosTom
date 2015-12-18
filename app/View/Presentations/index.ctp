@@ -5,6 +5,8 @@
 <?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
 <?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'accept'=>'text/csv', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?>
 <?php echo $this->Form->end(array('label'=>'Upload', 'div'=> array('class' => 'disno'))); ?>
+<!-- 全件削除 -->
+<p><a class="btn btn-default disno" href="<?php echo $this->Html->url(array("controller" => "presentations", "action" => "deletePresentationAll")); ?>">Delete All</a></p>
 
 <h2>Presentation List</h2>
 <table class="table table-striped table-bordered table-hover">

@@ -42,5 +42,32 @@ class PresentationsController extends AppController {
 			echo "error";
 		}
 	}
+	
+	// 裏コマンド：全件削除
+	public function deletePresentationAll(){
+		// 選択中のイベントのすべてのプレゼンテーションを取得
+		$presentations = self::getByEventID($_SESSION['event_id']);
+		// それぞれのプレゼンテーションを削除する前に、そのプレゼンテーションを関連づけているポスターがないかチェック
+		foreach($presentations as $id => $presentation){
+			// 削除対象プレゼンテーションのIDを変数に格納
+			$target_id = $presentation['Presentation']['id'];
+			// 削除対象プレゼンテーションを関連付けIDとしているポスターの情報を更新する
+			self::updateRelatedPoster($target_id);
+			// 削除対象プレゼンテーションを削除する
+			$this->Presentation->delete($target_id);
+		}
+		// プレゼンテーショントップページへ戻る
+		$this->redirect(array('action'=>'index'));
+	}
+	
+	// 引数のIDを関連付けIDとして保持しているポスターの情報を更新する
+	public function updateRelatedPoster($target_id){
+		// 対象IDを関連付けIDとして保持しているポスターを取得
+		$posters = $this->requestAction('/posters/getRelatedPoster/'.$target_id);
+		foreach($posters as $id => $poster){
+			// 関連付けIDの項目を初期化（0）にする
+			$this->requestAction('/posters/initRelatedPoster/'.$poster['Poster']['id']);
+		}
+	}
 }
 ?>

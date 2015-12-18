@@ -1,3 +1,13 @@
+<?php
+	$url="";
+	if (file_exists("img/thumb/".$_SESSION["event_str"]."." ."jpg")){
+		$url="img/thumb/".$_SESSION["event_str"] ."." ."jpg";
+	}else if (file_exists("img/thumb/".$_SESSION["event_str"]."."  ."png")){
+		$url="img/thumb/".$_SESSION["event_str"] ."." ."png";
+	}else if (file_exists("img/thumb/".$_SESSION["event_str"]."."  ."gif")){
+		$url="img/thumb/".$_SESSION["event_str"] ."." ."gif";
+	}
+?>
 <script type="text/javascript">
  $(function(){
 	$('#EventEventeditForm').submit(function(){
@@ -36,6 +46,7 @@
 </script>
 
 <h2>Edit event</h2>
+<div id="pageSetting">
 <p class="attention">* : Required</p>
 <div class="error-messages disno"></div>
 <?php
@@ -48,4 +59,13 @@ echo $this->Form->input('event_end_date', array('class'=>'form-control','default
 echo $this->Form->input('event_end_time', array('class'=>'form-control','default' => $datas["Event"]["event_end_time"],'required' => false));
 echo $this->Form->input('event_top_image', array('type'=>'file','required' => false));
 echo $this->Form->submit('Update', array('class'=>'btn btn-custom'));
+// 既にトップページ用画像がアップロードされている場合、トップページのイメージを表示
+if($url!=""){
 ?>
+	<div id="posmappImage">
+	<p id="floormapImage"><img src="<?php echo $this->html->webroot.$url; ?>" width="320" height="349"></p>
+	</div>
+<?php
+}
+?>
+</div>
