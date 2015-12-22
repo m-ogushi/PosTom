@@ -34,7 +34,7 @@ for(var i=0; i<eventDays; i++){
 	// もし関連済みプレゼンテーションがあれば、そのプレゼンテーション情報を取得する
 	<?php
 	if($data[$i]["Poster"]["presentation_id"] != '0' && $data[$i]["Poster"]["presentation_id"] != NULL){
-		// 別のモデル（Presentation）から必要なクションを呼び出す
+		// 別のモデル（Presentation）から必要なアクションを呼び出す
 		$relatedPresentation = $this->requestAction('/presentations/getByID/'.$data[$i]["Poster"]["presentation_id"]);
 	?>
 		// PHPから関連付けされたプレゼンテーション情報を取得する（IDをキーとして取得するため1件のみ）

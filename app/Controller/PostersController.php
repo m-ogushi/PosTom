@@ -5,7 +5,6 @@ class PostersController extends AppController {
 
 	public function index(){
 		// 選択中のイベントをevent_idにもつポスターのみ抽出
-		//$this->set('data',$this->Poster->find('all'));
 		$this->set('data',
 			$this->Poster->find('all', array(
 				'conditions' => array('event_id' => $_SESSION['event_id'])
