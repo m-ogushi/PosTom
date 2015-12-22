@@ -12,15 +12,25 @@
 	margin-bottom: 10px;
 }
 #pageSetting #posmappImage {
-	background-image: url(../img/fr_posmapp_floor.png);
+	background-image: url(../img/fr_posmapp_top.png);
 	background-repeat: no-repeat;
 	background-size: cover;
 	width: 428px; /* fr_posmapp_floor.png 855px/2 */
 	height: 849px; /* fr_posmapp_floor.png 1698/2 */
 	position: relative;
 }
-#pageSetting #floormapImage {
+#pageSetting #topImage {
 	position: absolute;
 	left: 54px;
-	top: 248px;
+	top: 200px;
+}
+#pageSetting #topImage img {
+	width: 320px;
+	height: auto;
+	max-height: 507px;
+}
+#pageSetting #menuImage {
+	position: absolute;
+	left: 54px;
+	top: 200px;
 }

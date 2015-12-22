@@ -63,7 +63,8 @@ echo $this->Form->submit('Update', array('class'=>'btn btn-custom'));
 if($url!=""){
 ?>
 	<div id="posmappImage">
-	<p id="floormapImage"><img src="<?php echo $this->html->webroot.$url; ?>" width="320" height="349"></p>
+	<p id="topImage"><img src="<?php echo $this->html->webroot.$url; ?>"></p>
+	<p id="menuImage"><img src="<?php echo $this->html->webroot; ?>img/fr_posmapp_top_menu.png" alt="PosMAppメニュー画像" width="320" height="460"></p>
 	</div>
 <?php
 }
