@@ -36,7 +36,7 @@ div.time-group p {
 	white-space: -o-pre-wrap;   /* Opera 7 */
 	white-space: -moz-pre-wrap; /* Mozilla */
 	word-wrap: break-word;	 /* IE 5+ */
-	overflow: scroll;
+	overflow: auto;
 }
 /*modal window関連*/
 .modal-content {
