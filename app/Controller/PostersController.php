@@ -63,5 +63,14 @@ class PostersController extends AppController {
 		$data = array('id' => $id, 'presentation_id' => 0, 'color' => '#999999');
 		$this->Poster->save($data);
 	}
+	
+	// 裏コマンド：全件削除
+	public function deletePosterAll(){
+		// 選択中のイベントのすべてのポスターを削除する
+		$this->Poster->deleteAll(array('event_id' => $_SESSION['event_id']), false);
+		
+		// プレゼンテーショントップページへ戻る
+		$this->redirect(array('action'=>'index'));
+	}
 }
 ?>

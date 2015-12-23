@@ -137,6 +137,8 @@ for($i=0; $i<count($disuseArray); $i++){
 <input  type="file" id="backGroundImage" class="btn btn-default" accept="image/png" name="backGroundImage" onChange="fileUpLoad('<?php echo $_SESSION['event_str']; ?>')">
 <input type="text" name="EventStr" value="<?php echo $_SESSION['event_str']; ?>">
 </form>
+<!-- 全件削除 -->
+<p><a class="btn btn-default disno" href="/kodera_postom/posters/deletePosterAll">Delete All</a></p>
 <p>
 <button id="selectFile" name="selectFile" class="btn btn-default" type="button" onClick="selectFile()">background picture</button>
 </p>

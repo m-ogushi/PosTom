@@ -1,0 +1,75 @@
+@charset "utf-8";
+/*-------------------------------------------------
+
+  page_home.css
+
+ --------------------------------------------------*/
+
+body, html, main {
+    height: 100%;
+	font-family: "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+h2 {
+	font-size: 66px;
+	font-family: 'Montserrat', sans-serif, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka;
+}
+
+h3 {
+	font-size: 30px;
+	font-family: 'Montserrat', sans-serif, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka;
+	margin-bottom: 40px;
+}
+h4 {
+	font-size: 16px;
+	line-height: 32px;
+}
+  
+.cd-fixed-bg {
+    min-height: 100%;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center center;
+	color: #fff;
+}
+/*
+.cd-scrolling-bg {
+    min-height: 100%;
+}
+*/
+
+/* cd-bg-1 */
+.cd-fixed-bg.cd-bg-1 {
+  background-image: url("../img/bg_toppage_01.jpg");
+}
+
+/* cd-bg-2 */
+.cd-fixed-bg.cd-bg-2 {
+  background-image:  url("../img/bg_toppage_02.jpg");
+}
+
+/* cd-bg-3 */
+.cd-fixed-bg.cd-bg-3 {
+  background-image: url("../img/bg_toppage_03.jpg");
+}
+
+/* cd-bg-4 */
+.cd-fixed-bg.cd-bg-4 {
+  background-image:  url("../img/bg_toppage_04.jpg");
+}
+
+
+.cd-container {
+	width: 1200px;
+	margin: 0 auto;
+	padding: 160px 10px 20px 10px;
+}
+
+@media screen and (max-width: 1200px){
+.cd-container {
+	width: 980px;
+	margin: 0 auto;
+	padding: 100px 10px 20px 10px;
+}
+}
