@@ -20,6 +20,7 @@ for(var i=0; i<eventDays; i++){
 //データベースの情報をローカルに格納
 <?php for ($i = 0; $i <= count($data)-1; $i++) { ?>
 	poster[<?php echo $i ?>] = new Array();
+	poster[<?php echo $i ?>].id = <?php echo $data[$i]["Poster"]["id"]; ?>;
 	poster[<?php echo $i ?>].NextId = <?php echo $data[$i]["Poster"]["id"]; ?>;
 	poster[<?php echo $i ?>].width = <?php echo $data[$i]["Poster"]["width"]; ?>;
 	poster[<?php echo $i ?>].height = <?php echo $data[$i]["Poster"]["height"]; ?>;
@@ -136,6 +137,8 @@ for($i=0; $i<count($disuseArray); $i++){
 <input  type="file" id="backGroundImage" class="btn btn-default" accept="image/png" name="backGroundImage" onChange="fileUpLoad('<?php echo $_SESSION['event_str']; ?>')">
 <input type="text" name="EventStr" value="<?php echo $_SESSION['event_str']; ?>">
 </form>
+<!-- 全件削除 -->
+<p><a class="btn btn-default disno" href="/kodera_postom/posters/deletePosterAll">Delete All</a></p>
 <p>
 <button id="selectFile" name="selectFile" class="btn btn-default" type="button" onClick="selectFile()">background picture</button>
 </p>

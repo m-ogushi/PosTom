@@ -22,9 +22,13 @@ class PostersController extends AppController {
 	}
 
 	public function singlesavesql(){
+		$this->autoRender = FALSE;
 		$uses = array('Poster');
 		if ($this->request->is('ajax')) {
 			$this->Poster->save($this->request->data);
+			// 直前にsaveしたレコードのidを取得する
+			$last_id = $this->Poster->getLastInsertID();
+			return $last_id;
 		}
 	}
 
@@ -57,6 +61,15 @@ class PostersController extends AppController {
 	public function initRelatedPoster($id){
 		$data = array('id' => $id, 'presentation_id' => 0, 'color' => '#999999');
 		$this->Poster->save($data);
+	}
+	
+	// 裏コマンド：全件削除
+	public function deletePosterAll(){
+		// 選択中のイベントのすべてのポスターを削除する
+		$this->Poster->deleteAll(array('event_id' => $_SESSION['event_id']), false);
+		
+		// プレゼンテーショントップページへ戻る
+		$this->redirect(array('action'=>'index'));
 	}
 }
 ?>

@@ -50,6 +50,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			case 'Floormaps':
 				echo $this->Html->css('page_floormap');
 				break;
+			case 'Settings':
+				echo $this->Html->css('page_setting');
+				break;
 		}
 
 		echo $this->fetch('meta');
@@ -78,7 +81,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		// ログイン中のユーザIDを取得(ログイン中でない場合は空)
 		var loginUserID = "<?php echo isset($_SESSION['login_user_id'])? $_SESSION['login_user_id'] : ''; ?>";
 		// 選択中のイベントIDを取得
-		var selectedEventID = <?php echo isset($_SESSION['event_id'])? $_SESSION['event_id'] : ''; ?>;
+		var selectedEventID = "<?php echo isset($_SESSION['event_id'])? $_SESSION['event_id'] : ''; ?>";
 		// 選択中のイベント識別文字列を取得
 		var selectedEventStr = "<?php echo isset($_SESSION['event_str'])? $_SESSION['event_str'] : ''; ?>";
         </script>
