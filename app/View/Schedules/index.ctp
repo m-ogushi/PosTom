@@ -21,7 +21,51 @@
 		};
 		$('#startMeridian').remove();
 		$('#endMeridian').remove();
+		// イベントリスナー登録
+		var dragElement = null, items = document.getElementsByClassName('room'), overItem = document.getElementsByClassName('drop-target');
+		Array.prototype.forEach.call(items, function (item) {
+			item.addEventListener('dragstart', dragStartHandler);
+		});
+		Array.prototype.forEach.call(overItem, function (item) {
+			item.addEventListener('dragover', dragOverHandler);
+			item.addEventListener('dragleave', dragLeaveHandler);
+			item.addEventListener('drop', dropHandler);
+		});
 	});
+
+	//room button drag and drop
+	function dragStartHandler(event) {
+		dragElement = event.target;
+		event.dataTransfer.setData('dragItem', dragElement.innerHTML);
+	}
+
+	function dragOverHandler(event) {
+		event.preventDefault();
+		$(event.target).removeClass('hidden');
+		$("#"+event.target.id).css('color', 'Blue');
+	}
+	function dragLeaveHandler(event) {
+		event.preventDefault();
+		$("#"+event.target.id).css('color', 'White');
+	}
+
+	function dropHandler(event) {
+		$("#"+event.target.id).css('color', 'White');
+		var dropElement = event.target;
+		var drop = dropElement.id;
+		var drag = dragElement.id;
+		var drag_id = drag.split("-");
+		var drop_id = drop.split("-");
+		var drag_num = Number(drag_id[1]);
+		var drop_num = Number(drop_id[1]);
+		if(drag_check(drag_num, drop_num)){
+			$('#from-order').val(drag_num);
+			$('#to-order').val(drop_num);
+			// var obj = document.getElementById("order-change-sub");
+			$('#room-order-change').submit();
+		}
+		event.stopPropagation();
+	}
 
 	// session追加、編集用モーダル
 	$(function(){
@@ -181,6 +225,30 @@
 			return true;
 		}
 		return false;
+	}
+	// roomのsave時バリデーション
+	$(function(){
+		$('#room_save_btn').click(function(){
+			// エラーメッセージを空に
+			err_box = $('.error-messages');
+			err_box.empty();
+			// 既に存在するroom名は弾く
+			var check = true, r_count=0;
+			for(r_count=0; r_count<rooms.length; r_count++){
+				if($('#r-name').val() == rooms[r_count]['Room']['name']){
+					err_elm = $('<p>').text("This room name already exist.");
+					err_box.append(err_elm);
+					slideDown(err_box);
+					return false;
+				}
+			}
+		});
+	});
+	// roomの入れ替え判定
+	function drag_check(dra, dro){
+		if(dra != dro && dra + 1 != dro){
+			return true;
+		}
 	}
 
 	// room編集、追加用modal
@@ -383,13 +451,26 @@ echo $this->Html->css('page_schedule');
 			echo '<p id="'. $time .'">'. $time .':00</p>';
 	}
 	echo '</div>';
+
 	// roomボタン設置 $roomGroupの要素の数だけ回す
 	echo '<div class="room-group">';
 	for($countRoom = 0; $countRoom < count($roomGroup); $countRoom++){
-		echo '<button type="button" id="' . $roomGroup[$countRoom] . '-'. $countRoom .'" class="btn btn-info room room-modal-open" data-target="room-edit">' . $roomGroup[$countRoom] . '</button>';
+		echo '<button draggable="true" type="button" id="' . $roomGroup[$countRoom] . '-'. $countRoom .'" class="btn btn-info room room-modal-open" data-target="room-edit">' . $roomGroup[$countRoom] . '</button>';
 	}
 	echo '<button type="button" id="add-new-room" class="btn btn-default room-modal-open" data-target="room-edit">+</button>';
 	echo '</div>';
+
+	// roomの並び替え用ターゲット
+	$drop_tar_left = 59;
+	for($countRoom = 0; $countRoom <= count($roomGroup); $countRoom++){
+		echo '<div id="tar-'. $countRoom .'" class="drop-target" droppable="true">|</div>';
+		// style部分
+		echo '<style type="text/css">';
+		echo '<!-- #tar-'. $countRoom .'{ position: absolute; left: '. $drop_tar_left .'px; } -->';
+		echo '</style>';
+		$drop_tar_left += 115;
+	}
+
 	// セッション設置
 	echo '<div class="session-group">';
 	for ($j = 0; $j < count($schedules); $j++){
@@ -533,6 +614,14 @@ echo $this->Html->css('page_schedule');
 	echo $this->Form->submit('Delete', array('id'=>'room_delete_btn', 'class'=>'btn btn-danger', 'onclick'=>'return confirm_del_room();'));
 	echo '</div>';
 	echo $this->Form->end();
+
 ?>
 </div>
 <div id="modal-overlay"></div>
+<?php
+	echo $this->Form->create('Room', array('id'=>'room-order-change' , 'action'=>'order_change', 'controller'=>'rooms'));
+	echo $this->Form->input('from', array('id'=>'from-order', 'type'=>'hidden', 'required' => false));
+	echo $this->Form->input('to', array('id'=>'to-order', 'type'=>'hidden', 'required' => false));
+	echo $this->Form->submit('Save', array('type'=>'hidden'));
+	echo $this->Form->end();
+?>
