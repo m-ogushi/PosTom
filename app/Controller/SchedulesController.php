@@ -49,17 +49,18 @@ class SchedulesController extends AppController {
 	public function del_session_ofRoom(){
 		$this->autoRender = false;
 		$options = array('event_id'=>$_SESSION['event_id'], 'room'=>$this->request->params['pass'][0]);
-		// debug($this->request->params['pass'][0]);
 		if($this->Schedule->deleteAll($options)){
 			$this->redirect(array('action'=>'index'));
 		}
 	}
 	public function rename_session(){
 		$this->autoRender = false;
-		// mb_convert_variables("UTF-8", "auto", $this->request);
-		debug($this->request);
-		// $options = array('event_id'=>$_SESSION['event_id']);
-		// $this->Schedule->updateAll("room"=>"2");
+		$newName = $this->request->params['named']['new'];
+		unset($this->request->params['named']['new']);
+		if($this->Schedule->hasAny($this->request->params['named'])){
+			$this->Schedule->updateAll(array('room'=>"'" .$newName. "'"), $this->request->params['named']);
+		}
+		$this->redirect(array('action'=>'index'));
 	}
 }
 ?>

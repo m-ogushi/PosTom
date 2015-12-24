@@ -24,6 +24,13 @@ div.time-group p {
 .room-group{
 	margin-left: 60px;
 }
+/*セッション会場の間の棒*/
+div.drop-target{
+	position: absolute;
+	top: 8px;
+	font-size: 38px;
+	color: #FFFFFF;
+}
 /*各セッション*/
 .session-group>.btn{
 	width: 100px;
