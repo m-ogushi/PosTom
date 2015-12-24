@@ -54,6 +54,7 @@ $.fn.touchPoster = function() {
 
 		pflag[posterid] = nextFlag;
 		showPosterIcons();
+
 	});
 };
 

@@ -2,6 +2,7 @@
 // TODO: 非同期化
 $(window).load(function() {
 	// 非同期で初期化処理
+
 	setTimeout(function(){
 		init();
 
@@ -20,6 +21,7 @@ $(window).load(function() {
 
 // 初期化順は全体に影響するので、追加変更する場合は注意
 function init() {
+
 	// トップページの大きさ調整
 	$("#topPageFrame")
 		.css("width", window.innerWidth)
@@ -32,7 +34,6 @@ function init() {
 
 	// データ格納変数に据え置きの初期データを格納する
 	initData();
-
 	//ダウンロード失敗ダイアログのボタン
 	$("#ReDownload").reDownload();
 	$("#CancelDownload").cancelDownload();

@@ -28,7 +28,9 @@ function checkDataVersion(){
 				data: "",
 				timeout: 10000, // タイムアウトにするまでの時間は要検討
 				success: function(data) {
+
 					version		= data.version;
+					//alert(version);
 					var cur_version = localStorage.getItem("version");
 					if(cur_version==null || version > cur_version){
 						localStorage.setItem("version",version);
@@ -42,6 +44,7 @@ function checkDataVersion(){
 function ajaxdownload(pageName){
 	var flag = localStorage.getItem("downloadSuccess");
 	if(flag === "false" || flag === null){
+		localStorage.clear();
 		$.ajax({
 		   		url: posMAppDataURL,
 				type: "POST",
@@ -115,7 +118,7 @@ function ajaxdownload(pageName){
 					localStorage.removeItem("downloadResult");
 					
 					// 再描画
-					init();
+					//init();
 					$("#posters").show();
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
