@@ -130,7 +130,6 @@ function ajaxdownload(pageName){
 					$("#posters").hide();
 				},
 				complete: function(data) {
-					// alert("complete");
 					console.log("Download Complete");
 					//initUserData();　//一時的にログ機能を止める
 					sessionStorage.removeItem("clickDiv");
