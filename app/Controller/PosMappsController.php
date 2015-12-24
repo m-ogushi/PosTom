@@ -298,8 +298,6 @@ class PosMappsController extends AppController {
             );
             $sessions = $this->Schedule->find('all',$where);
 
-            $this->set("message",count($sessions));
-
             for($j=0;$j<count($sessions);$j++)
             {
                 $JsonDay .= '{';
@@ -412,8 +410,21 @@ class PosMappsController extends AppController {
         $handle = fopen($filename, 'w');
         fwrite($handle,$JsonFile);
         fclose($handle);
-        //echo 'save successed!';
-//        $this->set("message",$JsonFile);
+        $version ="1.00";
+        $filenameVersion="json/".$_SESSION["event_str"]."_version.json";
+        if(file_exists($filenameVersion))
+        {
+            $version=file_get_contents($filenameVersion);
+            $arr = json_decode($version,true);
+            $version =$arr["version"]+0.01;
+        }
+        $versionContent='{
+  "version" : '.$version.'
+}';
+        $handleVersion= fopen($filenameVersion, 'w');
+        fwrite($handleVersion,$versionContent);
+        fclose($handleVersion);
+
     }
     public function qr($id)
     {
@@ -435,7 +446,7 @@ class PosMappsController extends AppController {
     }
     public function deletestorage()
     {
-
+        $this->autoLayout=false;
         $this->makejson();
     }
     public function phoneclear()

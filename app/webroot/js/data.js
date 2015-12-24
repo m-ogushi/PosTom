@@ -29,12 +29,12 @@ var poster 			= [],
 //var posMAppDataVersionURL = "http://localhost:63342/PosMApp2/PosMApp/www/api/webdb2015_version.json";
 
 //var posMAppDataURL = "../../json/webdb2015.json";
-var posMAppDataVersionURL = "../../json/webdb2015_version.json";
+
 
 var url= window.location.href;
 var event_str = url.substring(url.lastIndexOf('/')+1, url.length);
 var posMAppDataURL = "../../json/"+event_str+".json";
-
+var posMAppDataVersionURL = "../../json/"+event_str+"_version.json";
 
 function ViewModel(){
 	this.forum = forum;

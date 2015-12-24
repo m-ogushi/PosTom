@@ -199,7 +199,7 @@ function listToMap(posterid){
 
 	resetAllIcons();
 	var nextFlag = touchPoster(nowPosterId+1);
-	pflag[posterid] = nextFlag;
+	pflag[nowPosterId+1] = nextFlag;
 	showPosterIcons();
 
 	var word = sessionStorage.getItem("searchWord");
