@@ -16,3 +16,88 @@ $(function(){
 function selectFile(){
 	$('#selectFile').trigger('click');
 }
+$(function(){
+
+//$("[id^=Presen]").click(function(){
+$("[id^=Presentable]").on('click',function(){
+		clickid=$(this).attr("id").replace(/Presentable/g,"");
+		$("#presentitle").text("Edit Presentation");
+		$('#session_make_btn').css('display', 'none');
+		$('#session_save_btn').css('display', '');
+		$('#session_delete_btn').css('display', '');
+		
+		$(':hidden[id="PresentationSessionid"]').val($(this).attr("id").replace(/Presentable/g,""));
+		$(':text[id="PresentationRoom"]').val($(this).children(".Room").text());
+		$(':text[id="PresentationSessionOrder"]').val($(this).children(".Session_order").text());
+		$(':text[id="PresentationPresentationOrder"]').val($(this).children(".Presentation_order").text());
+		$(':text[id="PresentationTitle"]').val($(this).children(".Title").text());
+		$(':text[id="PresentationAuthor"]').val($(this).children(".Author").text());
+		$('#Session').val($(this).children(".Sessionvalue").text());
+		/*$( "#dialogSelectConfirm" ).dialog({
+			resizable: false,
+			modal: true,
+		});*/
+		$('body').append('<div class="modal-overlay"></div>');
+		// オーバーレイをフェードイン
+		$('.modal-overlay').fadeIn('slow');
+		var modal = "#dialogSelectConfirm";
+		modalResize();
+		$("#dialogSelectConfirm").fadeIn('slow');
+});
+$("#plus").on('click',function(){
+		$("#presentitle").text("Add New Presentation");
+
+		$('#session_make_btn').css('display', '');
+		$('#session_save_btn').css('display', 'none');
+		$('#session_delete_btn').css('display', 'none');
+		
+		$(':hidden[id="PresentationSessionid"]').val("");
+		$(':text[id="PresentationRoom"]').val("");
+		$(':text[id="PresentationSessionOrder"]').val("");
+		$(':text[id="PresentationPresentationOrder"]').val("");
+		$(':text[id="PresentationTitle"]').val("");
+		$(':text[id="PresentationAuthor"]').val("");
+		$('#Session').val("");
+		
+		/*$( "#dialogSelectConfirm" ).dialog({
+			resizable: false,
+			modal: true,
+		});*/
+		$('body').append('<div class="modal-overlay"></div>');
+		$('.modal-overlay').fadeIn('slow');
+		var modal = "#dialogSelectConfirm";
+		modalResize();
+		$("#dialogSelectConfirm").fadeIn('slow');
+});
+
+// リサイズしたら表示位置を再取得
+		$(window).on('resize', function(){
+			modalResize();
+		});
+
+		function modalResize(){
+			// ウィンドウの横幅、高さを取得
+			var w = $(window).width();
+			var h = $(window).height();
+
+			// モーダルコンテンツの表示位置を取得
+			var x = (w - $("#dialogSelectConfirm").outerWidth(true)) / 2;
+			var y = (h - $("#dialogSelectConfirm").outerHeight(true)) / 2;
+			
+			/*if(y<0){
+				y=0;
+			}*/
+
+			// モーダルコンテンツの表示位置を設定
+			$("#dialogSelectConfirm").css({'left': x + 'px','top': y + 'px'});
+		}
+
+		$('.modal-close').off().click(function(){
+			// モーダルコンテンツとオーバーレイをフェードアウト
+			$("#dialogSelectConfirm").fadeOut('slow');
+			$('.modal-overlay').fadeOut('slow',function(){
+				// オーバーレイを削除
+				$('.modal-overlay').remove();
+			});
+		});
+});
