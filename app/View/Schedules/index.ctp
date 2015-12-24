@@ -296,8 +296,19 @@
 echo $this->Html->css('page_schedule');
 ?>
 <h2>CSV Import</h2>
-<p>CSV Format is Room, Order, Date, Category, StartTime, EndTime, ChairpersonName, ChairpersonAffiliation, CommentatorsName, CommentatorsAffiliation</p>
+<h3>Upload the session schedule of the event by a CSV formatted file. </h3>
+<p>* For each session, you can write the following information:</p>
+<p>　　　Room, Order(*1),  Date,  Session name, Start time, End time, Chairperson's name, Chairperson's affiliation</p>
+<p>　　　(*1) In "Order" column,  fill the order of the session in the room.   </p>
+<p>　　　For example, the "Order" value of the first session in the room A is "1". </p>
+<p>* The first two attributes "Room" and "Order" should be filled. </p>
+<p>* You also can download the sample file from there:</p>
+
 <p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/session_format.csv">Download Format Sample</a></p>
+<p></p>
+<p></p>
+<br>
+<br>
 <p><?php echo $this->Html->tag('button', 'Add Session From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Schedule',array('action'=>'import','type'=>'file', 'name'=>'scheduleImport')); ?>
 <?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'accept'=>'text/csv', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'scheduleImport.submit()')); ?>
