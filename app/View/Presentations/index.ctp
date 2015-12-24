@@ -92,6 +92,7 @@ function confirmer(){
 			<th>No.</th>
 			<th>Title</th>
 			<th>Author</th>
+			<th>Session</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -137,7 +138,7 @@ function confirmer(){
 </div>
 <!-- //dialogDeleteConfirm -->
 <!-- dialogSelectConfirm -->
-<div id="dialogSelectConfirm" class="disno modal-content" title="Confirm Select">
+<div id="dialogSelectConfirm" class="modal-content" title="Confirm Select">
 <h2 id="presentitle">Edit presentation</h2>
 <?php
 echo $this->Form->create('Presentation', array('action'=>'edit'));
