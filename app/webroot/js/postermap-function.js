@@ -327,7 +327,7 @@ function touchPoster(posterid) {
 			changeBasicInfoPanel(false);
 			unselectPoster();
 			return "d";
-		} 
+		}
 	}
 }
 
@@ -704,6 +704,7 @@ function setChangePosterMapDate() {
 
 // マップの日付を切り替える
 function changePosterMapDate(date) {
+
 	if(posmapp_bg != null){
 		$("#mapImg").attr("src", posmapp_bg[date-1]);
 	}
@@ -788,7 +789,6 @@ function getKeywords(presenid) {
 
 		return result;
 	}).map(function(k) {
-		alert(k.keyword);
 		return k.keyword;
 	}).join(", ");
 }

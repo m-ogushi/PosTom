@@ -49,19 +49,19 @@ $.fn.showPresenList = function() {
 						str += "<tr id='presen" + p.presenid + "'><td><div> 	" + p.presenid;
 						// ポスター発表があるときのみマップへ遷移するボタンを表示
 						if (posterid !== -1) {
-							str += "<img class='listToMapBtn' id='listToMap" +posterid+ "' src='img/logo_posmapp.png' style='zoom: 8%;'></img>";
+							str += "<img class='listToMapBtn' id='listToMap" +posterid+ "' src='"+webroot+"img/logo_posmapp.png' style='zoom: 8%;'></img>";
 						}
 						//ブックマークされたかどうか判断する
 						var foundBookmarkIndex = $.inArray(p.presenid, bookmarkArr);
 
 						if (foundBookmarkIndex >= 0) {
-							str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='img/bookmark.png' style='zoom: 22%;'></img><br>";
+							str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='"+webroot+"img/bookmark.png' style='zoom: 22%;'></img><br>";
 						} else {
-							str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='img/unbookmark.png' style='zoom: 22%;'></img><br>";
+							str += "<img class='listbookmarkbutton' id='listbookmark"+p.presenid+"' src='"+webroot+"img/unbookmark.png' style='zoom: 22%;'></img><br>";
 						}
 						str += "<span class='listTitle'><strong>" + p.title + "</strong></span><br>";
 						str += "<div class='authors-on-list'><span class='listAuthors'>" + authors + "</span></div></td>";
-						str += "<td><div><td><img class='listToDetailBtn' id='listToDetail"+p.presenid+"' src='img/detailinfo.png' style='zoom: 3%;'> </img></div>";
+						str += "<td><div><td><img class='listToDetailBtn' id='listToDetail"+p.presenid+"' src='"+webroot+"img/detailinfo.png' style='zoom: 3%;'> </img></div>";
 					}
 				});
 			}
@@ -175,7 +175,7 @@ function listToDetail(presenid){
 
 //ポスターリストからマップ画面に遷移する
 function listToMap(posterid){
-	if (posterid < 1 || posterid > poster.length || posterid === null || posterid === undefined) {
+	if (posterid < 1 || posterid === null || posterid === undefined) {
 		throw new Exception();
 	}
 	//sessionStorageの中に存在している情報の削除
@@ -187,15 +187,18 @@ function listToMap(posterid){
 
 	// 指定したポスターが発表される日付へ移動
 	var posterlength = poster.length;
+	var nowPosterId=0;
 	for (var i = 0; i < posterlength; i++) {
-		if (poster[i].posterid === posterid) {
+		if (poster[i].posterid == posterid) {
+			//alert(poster[i].posterid +"this date:"+ posterid+"thisposterid:"+i);
 			changePosterMapDate(poster[i].date);
+			nowPosterId=i;
 			break;
 		}
 	}
 
 	resetAllIcons();
-	var nextFlag = touchPoster(posterid);
+	var nextFlag = touchPoster(nowPosterId+1);
 	pflag[posterid] = nextFlag;
 	showPosterIcons();
 
