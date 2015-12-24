@@ -67,8 +67,10 @@ class UsersController extends AppController {
 	// ログアウト
 	public function logout() {
 		$this->Session->setFlash('Sign Out');
-		// セッションに記憶していたログインユーザーのIDを破棄
+		// セッションに記憶していたユーザ情報・イベント情報をクリア
 		unset($_SESSION['login_user_id']);
+		unset($_SESSION['event_id']);
+		unset($_SESSION['event_str']);
 		return $this->redirect($this->Auth->logout());
 	}
 }
