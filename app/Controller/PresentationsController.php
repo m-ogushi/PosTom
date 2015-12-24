@@ -6,7 +6,7 @@ class PresentationsController extends AppController {
 	public $uses = array('Schedule','Presentation');
 
 	public function index(){
-			$event_id = $_SESSION['event_id'];
+		$event_id = $_SESSION['event_id'];
 		$this->set('presentations', $this->Presentation->find('all', array('conditions' => array('event_id' => $event_id))));
 		$key_arrays= $this->Schedule->find('all', array('conditions' => array('event_id' => $event_id),
 				'fields'=>array('id')

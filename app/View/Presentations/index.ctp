@@ -5,10 +5,6 @@ function validate(){
 	//console.log($("#PresentationRoom").val()+$("#PresentationSessionOrder").val()+"-"+$("#PresentationPresentationOrder").val());
 	var validation = true;
 	var editNum =$("#PresentationRoom").val()+$("#PresentationSessionOrder").val()+"-"+$("#PresentationPresentationOrder").val();
-	console.log($("#PresentationSessionOrder").val());
-	console.log(isFinite($("#PresentationSessionOrder").val()));
-	console.log($("#PresentationPresentationOrder").val());
-	console.log(isFinite($("#PresentationPresentationOrder").val()));
 	
 	if (!$("#PresentationRoom").val().match(/\S/g)　||!$("#PresentationSessionOrder").val().match(/\S/g)　|| !$("#PresentationPresentationOrder").val().match(/\S/g)){
 		window.confirm("Room and Session Order and Presentation Order are required fields");
@@ -45,14 +41,14 @@ function validate(){
 });
 	
 	if(validation){
-		if(window.confirm('送信してよろしいですか？')){ // 確認ダイアログを表示
+		if(window.confirm('Do you want to save?')){ // 確認ダイアログを表示
 
 			return true; // 「OK」時は送信を実行
 
 		}
 		else{ // 「キャンセル」時の処理
 
-		window.alert('キャンセルされました'); // 警告ダイアログを表示
+		window.alert('canceled'); // 警告ダイアログを表示
 		return false; // 送信を中止
 
 		}
@@ -62,7 +58,6 @@ function validate(){
 }
 
 function confirmer(){
-//console.log("あら!");
 		if(window.confirm('Are you really sure you want to delete')){ // 確認ダイアログを表示
 
 			return true; // 「OK」時は送信を実行

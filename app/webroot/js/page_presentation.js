@@ -43,7 +43,6 @@ $("[id^=Presentable]").on('click',function(){
 		var modal = "#dialogSelectConfirm";
 		modalResize();
 		$("#dialogSelectConfirm").fadeIn('slow');
-		console.log("いいじゃん");
 });
 $("#plus").on('click',function(){
 		$("#presentitle").text("Add New Presentation");
@@ -65,12 +64,10 @@ $("#plus").on('click',function(){
 			modal: true,
 		});*/
 		$('body').append('<div class="modal-overlay"></div>');
-		// オーバーレイをフェードイン
 		$('.modal-overlay').fadeIn('slow');
 		var modal = "#dialogSelectConfirm";
 		modalResize();
 		$("#dialogSelectConfirm").fadeIn('slow');
-		console.log("いいじゃん");
 });
 
 // リサイズしたら表示位置を再取得
