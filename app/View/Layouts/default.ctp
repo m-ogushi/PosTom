@@ -1,4 +1,12 @@
 <?php
+// ログインしていなければ、ログインページへ飛ばす
+/*
+if(!isset($_SESSION['login_user_id'])){
+	$redirect_url = $this->webroot;
+	header('Location: '.$redirect_url);
+}
+*/
+// TODO: ユーザに権限があるかチェック、無ければリレイダクト
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
