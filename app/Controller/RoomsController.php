@@ -7,7 +7,7 @@
 				$this->request->data['Room']['event_id'] = $_SESSION['event_id'];
 				if($this->request->data['Room']['root_flag'] == "add-room"){
 					if($this->Room->save($this->request->data)){
-						// $this->redirect(array('controller'=>'schedules', 'action'=>'index'));
+						$this->redirect(array('controller'=>'schedules', 'action'=>'index'));
 					}
 				}
 				if($this->request->data['Room']['root_flag'] == "update-room"){
@@ -46,12 +46,9 @@
 				for($i=$from+1; $i<=$to; $i++){
 					$option['order'] = $i;
 					$change = array('order'=>$i-1);
-					// var_dump($change);
-					// echo "!!!!!!";
 					$this->Room->updateAll($change, $option);
 				}
 				$last_move[0]['Room']['order'] = $to;
-				// var_dump($last_move);
 				$this->Room->save($last_move[0]['Room']);
 			//roomを左に動かした場合
 			}else{
