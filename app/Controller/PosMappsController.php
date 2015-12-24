@@ -24,7 +24,7 @@ class PosMappsController extends AppController {
                 'conditions' => array('event_id' => $_SESSION['event_id'])
             ));
         //--------------------------------------------------------------------------------------------------floor map----------------------------------------------------------------------
-        $url="";
+        $url='"venuemap":"",';
         if($floormap==true)
         {
             if (file_exists("floormap/".$_SESSION["event_str"]."." ."jpg"))

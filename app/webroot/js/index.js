@@ -143,13 +143,13 @@ function init() {
 	// トップページ
 	$("#goToMap").goToMapPage("click");
 	$("#goToList").goToListPage("click");
-	if(timetable != null){
+	if(timetable != null&&timetable!=""){
 		$("#goToInformation").goToInformationPage("click");
 	}
 	else{
 		$("#goToInformation").attr("src","../../img/topmenu/schedule_gray.png");
 	}
-	if(venuemap != null){
+	if(venuemap != null&&venuemap!=""){
 		$("#goToVenue").goToVenuePage("click");
 		$("#floormap").attr("src",venuemap);
 	}
