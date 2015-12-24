@@ -56,11 +56,11 @@ class Presentation extends AppModel {
 		}
 	}
     public $validate = array(
-		'Room' => array(
+		'room' => array(
 			'rule' => 'notBlank',
 			'message' => 'Required field'
 		),
-		'Session_order' =>  array(
+		'session_order' =>  array(
 			'Session_order_rule-1' =>  array(
 				'rule' => 'notBlank',
 				'message' => 'Required field'
@@ -70,7 +70,7 @@ class Presentation extends AppModel {
 				'message' => 'Please supply the number of wheels.'
 		)
 	),
-		'Presentation_order' =>  array(
+		'presentation_order' =>  array(
 			'Presentation_order_rule-1' =>  array(
 				'rule' => 'notBlank',
 				'message' => 'Required field'
@@ -80,15 +80,25 @@ class Presentation extends AppModel {
 				'message' => 'Please supply the number of wheels.'
 		)
 	),
-		'Title' =>  array(
+		'date' =>  array(
+			'date_rule-1' =>  array(
+				'rule' => 'notBlank',
+				'message' => 'Required field'
+		),
+			'date_rule-2' =>  array(
+				'rule'    => 'naturalNumber',
+				'message' => 'Please supply the number of wheels.'
+		)
+	),
+		'title' =>  array(
 			'rule' => 'notBlank',
 			'message' => 'Required field'
 		),
-		'Author' =>  array(
+		'authors_name' =>  array(
 			'rule' => 'notBlank',
 			'message' => 'Required field'
 		),
-		'Session' => array(
+		'authors_affiliation' => array(
 			'rule' => 'notBlank',
 			'message' => 'Required field'
     ),

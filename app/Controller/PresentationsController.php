@@ -59,6 +59,16 @@ class PresentationsController extends AppController {
 	public function edit(){
 		$event_id = $_SESSION['event_id'];
 	if($this->request->is('post')){
+		if(!isset($this->request->data["Presentation"]["Title"])){
+			$this->request->data["Presentation"]["Title"] = "";
+		}
+		if(!isset($this->request->data["Presentation"]["Author"])){
+			$this->request->data["Presentation"]["Author"] = "";
+		}
+		if(!isset($this->request->data["Session"])){
+			$this->request->data["Session"] = 0;
+		}
+		
 		if(isset($this->request->data['Save'])) {
 			$presentations = $this->Presentation->find('all', array('conditions' => array('event_id' => $event_id),
 			'fields'=>array('id')));
@@ -99,7 +109,16 @@ class PresentationsController extends AppController {
 			 
 			 $this->Presentation->save($data, false, $fields);
 			}
+		else if(isset($this->request->data['Delete'])) {
+			$presentations = $this->Presentation->find('all', array('conditions' => array('event_id' => $event_id),
+			'fields'=>array('id')));
+			$presenid = $this->request->data["Presentation"]["sessionid"];
+			$this->request->data["Presentation"]["id"] = $presentations[$presenid]["Presentation"]["id"];
+			unset($this->request->data["Presentation"]["sessionid"]);
+			$this->Presentation->delete($this->request->data["Presentation"]["id"]);
+			}
 		}
+		$this->redirect(['action'=>'index']);
 	}
 }
 ?>
