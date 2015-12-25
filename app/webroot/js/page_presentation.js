@@ -100,4 +100,13 @@ $("#plus").on('click',function(){
 				$('.modal-overlay').remove();
 			});
 		});
+
+		$('.modal-overlay').on('click',function(){
+			// モーダルコンテンツとオーバーレイをフェードアウト
+			$("#dialogSelectConfirm").fadeOut('slow');
+			$('.modal-overlay').fadeOut('slow',function(){
+				// オーバーレイを削除
+				$('.modal-overlay').remove();
+			});
+		});
 });
