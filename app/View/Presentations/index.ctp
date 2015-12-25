@@ -76,8 +76,19 @@ function confirmer(){
 
 
 <h2>CSV Import</h2>
-<p>CSV Format is Number, Title, Abstract, Keyword, Author, AuthorAffiliation</p>
+<h3>Upload the list of presentations by a CSV formatted file. </h3>
+<p>* For each presentation, you can write the following information:</p>
+<p>　　Room(*1), Session Order(*2), Presentation Order(*3), Date, Title, Abstract, Keywords, Authors' names(*4), Authors' affiliations(*4)</p>
+<p>　　　* (*1) Select a room from the room list in the time schedule.</p>
+<p>　　　* (*2) Select a session number from the session number list in the time schedule.</p>
+<p>　　　* (*3) The value means the order of the presentation in the session.</p>
+<p>　　　* (*4) The names and their affiliations are separated by comma (",").</p>
+<p>* The first five attributes should be filled.</p>
+<p>* You can download the sample file from there:</p>
+
 <p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/presentation_format.csv">Download Format Sample</a></p>
+<br>
+<br>
 <p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>
 <?php echo $this->Form->create('Presentation',array('action'=>'import','type'=>'file', 'name'=>'presentationImport')); ?>
 <?php echo $this->Form->input('CsvFile', array('label'=>'', 'type'=>'file', 'accept'=>'text/csv', 'class'=>'disno', 'id'=>'selectFile', 'onChange'=>'presentationImport.submit()')); ?>
