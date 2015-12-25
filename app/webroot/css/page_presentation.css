@@ -36,3 +36,7 @@ margin-right:10px;
     overflow: scroll;
     max-height: 100%;
 }
+
+#error-messages{
+color: red;
+}

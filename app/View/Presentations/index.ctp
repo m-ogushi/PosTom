@@ -7,7 +7,8 @@ function validate(){
 	var editNum =$("#PresentationRoom").val()+$("#PresentationSessionOrder").val()+"-"+$("#PresentationPresentationOrder").val();
 	
 	if (!$("#PresentationRoom").val().match(/\S/g)　||!$("#PresentationSessionOrder").val().match(/\S/g)　|| !$("#PresentationPresentationOrder").val().match(/\S/g)){
-		window.confirm("Room and Session Order and Presentation Order are required fields");
+		//window.confirm("Room and Session Order and Presentation Order are required fields");
+		$("#error-messages").text("Room and Session Order and Presentation Order are required fields");
 		validation = false;
 		return false;
 	}
@@ -15,14 +16,16 @@ function validate(){
 	
 		//Session OrderとPresentation Orderに数値が入っているかどうかチェックする
 	if(isFinite($("#PresentationSessionOrder").val()) == false || isFinite($("#PresentationPresentationOrder").val())== false){
-		window.confirm("Session Order and Presentation Order are must be numeric character");
+		//window.confirm("Session Order and Presentation Order are must be numeric character");
+		$("#error-messages").text("Session Order and Presentation Order are must be numeric character");
 		validation = false;
 		return false;
 	}
 	
 		//Session OrderとPresentation Orderが数値かどうかチェックする
 	if(isFinite($("#PresentationSessionOrder").val()) == false || isFinite($("#PresentationPresentationOrder").val())== false){
-		window.confirm("Session Order and Presentation Order are must be numeric character");
+		//window.confirm("Session Order and Presentation Order are must be numeric character");
+		$("#error-messages").text("Session Order and Presentation Order are must be numeric character");
 		validation = false;
 	}
 	
@@ -33,7 +36,8 @@ function validate(){
     var l;
     l = $(this).text();
 	if(l == editNum){
-		window.confirm("「No.」 Have values ​​that are already in use is input");
+		//window.confirm("「No.」 Have values ​​that are already in use is input");
+		$("#error-messages").text("「No.」 Have values ​​that are already in use is input");
 		validation = false;
 		return false;
 	}
@@ -41,17 +45,7 @@ function validate(){
 });
 	
 	if(validation){
-		if(window.confirm('Do you want to save?')){ // 確認ダイアログを表示
-
 			return true; // 「OK」時は送信を実行
-
-		}
-		else{ // 「キャンセル」時の処理
-
-		window.alert('canceled'); // 警告ダイアログを表示
-		return false; // 送信を中止
-
-		}
 	}else{
 		return false;
 	}
@@ -140,6 +134,7 @@ function confirmer(){
 <!-- dialogSelectConfirm -->
 <div id="dialogSelectConfirm" class="modal-content" title="Confirm Select">
 <h2 id="presentitle">Edit presentation</h2>
+<div id="error-messages"></div>
 <?php
 echo $this->Form->create('Presentation', array('action'=>'edit'));
 echo $this->Form->hidden('sessionid', array('class'=>'form-control required','required' => false));
@@ -159,7 +154,7 @@ echo $this->form->input('Session', array(
         ),
   'options'=>$options
   )); 
-echo $this->Form->submit('Make', array('name'=>'Make','id'=>'session_make_btn', 'class'=>'btn btn-primary', 'onclick'=>'return confirm_del_session();'));
+echo $this->Form->submit('Make', array('name'=>'Make','id'=>'session_make_btn', 'class'=>'btn btn-primary', 'onclick'=>'return validate();'));
 echo $this->Form->submit('Save', array('name'=>'Save','id'=>'session_save_btn', 'class'=>'btn btn-primary', 'onclick'=>'return validate();'));
 echo '<button id="session_cancel_btn" type="button" class="btn btn-default modal-close">cancel</button>';
 echo $this->Form->submit('Delete', array('name'=>'Delete','id'=>'session_delete_btn', 'class'=>'btn btn-danger', 'onclick'=>'return confirmer();'));

@@ -93,10 +93,23 @@ $("#plus").on('click',function(){
 		}
 
 		$('.modal-close').off().click(function(){
+		console.log("うん、いいよ!");
 			// モーダルコンテンツとオーバーレイをフェードアウト
 			$("#dialogSelectConfirm").fadeOut('slow');
 			$('.modal-overlay').fadeOut('slow',function(){
 				// オーバーレイを削除
+				console.log("うん、いいよ");
+				$('.modal-overlay').remove();
+			});
+		});
+
+		$('.modal-overlay').on('click',function(){
+		console.log("うん、いいよ!");
+			// モーダルコンテンツとオーバーレイをフェードアウト
+			$("#dialogSelectConfirm").fadeOut('slow');
+			$('.modal-overlay').fadeOut('slow',function(){
+				// オーバーレイを削除
+				console.log("うん、いいよ");
 				$('.modal-overlay').remove();
 			});
 		});
