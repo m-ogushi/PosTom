@@ -13,6 +13,17 @@
 	}
 	// popover
 	$(document).ready(function(){
+		// roomsを並び替える
+		var sorted_room = [];
+		// console.log(rooms.length);
+		for(var r_count=0; r_count<rooms.length; r_count++){
+			for(rooms_count=0; rooms_count<rooms.length; rooms_count++){
+				if(rooms[rooms_count]["Room"]["order"] == r_count+1+""){
+					sorted_room.push(rooms[rooms_count]);
+				}
+			}
+		}
+		rooms = sorted_room;
 		$('[data-toggle="popover"]').popover({container: 'body'});
 		// cakeのtimeフォームは要素が変だから変更
 		for (var i = 13; i < 25; i++) {
