@@ -566,7 +566,7 @@ echo $this->Html->css('page_schedule');
 	// session追加ボタン設置
 	echo '<div class="add-session-group">';
 
-	$top = 450 + ($end - $first) * 90;
+	$top = 675 + ($end - $first) * 90;
 
 	$left = 240;
 	for($countRoom = 0; $countRoom < count($roomGroup); $countRoom++){
