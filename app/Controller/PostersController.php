@@ -68,7 +68,7 @@ class PostersController extends AppController {
 		// 選択中のイベントのすべてのポスターを削除する
 		$this->Poster->deleteAll(array('event_id' => $_SESSION['event_id']), false);
 		
-		// プレゼンテーショントップページへ戻る
+		// ポスター配置画面へ戻る
 		$this->redirect(array('action'=>'index'));
 	}
 }

@@ -40,6 +40,12 @@ img {
 .disno {
 	display: none;
 }
+.error-message,
+.error-messages {
+	color: #e74c3c;
+	padding: 5px;
+	text-align: center;
+}
 .btn-custom {
 	color: #2a7d65;
 	background-color: #39b998;
@@ -165,11 +171,7 @@ img {
 }
 
 /* column 4 */
-#col4 {
-	
-}
 #col4 .signup-form {
-	width: 800px;
 	margin: 0 auto;
 }
 #col4 .signup-form label {
@@ -192,7 +194,7 @@ img {
 	margin-bottom: 10px;
 }
 #col4 .signup-form dt {
-	display: inline-block;;
+	display: inline-block;
 	width: 30%;
 	float: left;
 }
@@ -231,10 +233,15 @@ img {
 	vertical-align: middle;
 }
 
-/* responsive for small desk */
+/*
+ * 0 ---------- 768 ---------- 992 ---------- 1200 ----------
+ *       xs             sm             md              lg
+ */
+
+/* responsive for Medium devices */
 @media screen and (max-width: 1200px){
 .inner {
-	width: 760px;
+	width: 960px;
 	margin: 0 auto;
 }
 #col1 {
@@ -242,20 +249,38 @@ img {
 }
 }
 
+/* responsive for Small devices */
+@media screen and (max-width: 992px){
+.inner {
+	width: 720px;
+	margin: 0 auto;
+}
+}
 
-/* responsive for tablet */
+/* responsive for Extra small devices */
 @media screen and (max-width: 768px){
 .inner {
-	width: 480px;
-	margin: 0 auto;
-}
-}
-
-
-/* responsive for smart phone */
-@media screen and (max-width: 480px){
-.inner {
 	width: 460px;
+	max-width: 100%;
 	margin: 0 auto;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+h2 {
+	font-size: 48px;
+}
+h3 {
+	font-size: 22px;
+}
+/* column 4 */
+#col4 .signup-form dt {
+	display: block;
+	width: 100%;
+	float: none;
+}
+#col4 .signup-form dd {
+	display: block;
+	width: 100%;
+	float: none;	
 }
 }

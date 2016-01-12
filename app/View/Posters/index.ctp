@@ -9,6 +9,8 @@ var isSetBackground = "<?php echo $this->requestAction('/events/isSetPosterBackg
 var poster = new Array();
 // データベースから取得したポスターデータを元に関連するプレゼンテーションデータを格納するためのプレゼンテーション配列変数
 var presentations = new Array();
+// データベースから取得したエリアデータを格納するためのエリア配列変数
+var areas = new Array();
 
 // Disuseになっている日数を格納するための配列
 var disuses = new Array(eventDays);
@@ -41,6 +43,23 @@ for(var i=0; i<eventDays; i++){
 		presentations[<?php echo $i; ?>] = <?php echo json_encode($relatedPresentation[0]['Presentation']); ?>;
 <?php
 	} // end if
+} // end for
+
+// 選択中のイベントのエリアを全て取得する
+$areas = $this->requestAction('/areas/getByEventID/'.$_SESSION['event_id']);
+
+for($i=0; $i<count($areas); $i++){
+?>
+	areas[<?php echo $i ?>] = new Array();
+	areas[<?php echo $i ?>].id = <?php echo $areas[$i]["Area"]["id"]; ?>;
+	areas[<?php echo $i ?>].width = <?php echo $areas[$i]["Area"]["width"]; ?>;
+	areas[<?php echo $i ?>].height = <?php echo $areas[$i]["Area"]["height"]; ?>;
+	areas[<?php echo $i ?>].x = <?php echo $areas[$i]["Area"]["x"]; ?>;
+	areas[<?php echo $i ?>].y = <?php echo $areas[$i]["Area"]["y"]; ?>;
+	areas[<?php echo $i ?>].color = "<?php echo $areas[$i]["Area"]["color"]; ?>";
+	areas[<?php echo $i ?>].date = <?php echo $areas[$i]["Area"]["date"]; ?>;
+	areas[<?php echo $i ?>].event_id = <?php echo $areas[$i]["Area"]["event_id"]; ?>;
+<?php
 } // end for
 
 
@@ -90,6 +109,7 @@ for($i=0; $i<count($disuseArray); $i++){
 ?>
 <div id="tcCanvas<?php echo $i; ?>" class="tab-pane <?php echo $i==1?'active':''; ?>">
 <p><input type="checkbox" name="checkDisuse<?php  echo $i; ?>" onChange="onChangeDisuse(this, <?php echo $i; ?>)" <?php echo $disuses[$i-1]==true?'checked':''; ?>>&nbsp;Disuse</p>
+<!-- poster canvas -->
 <canvas id="posterCanvas<?php echo $i; ?>" class="posterCanvas <?php echo $disuses[$i-1]?'disuse':''; ?>" dropzone="copy" style="
 <?php
 	// ポスター背景図がセットされていればstyle属性に書き込む
@@ -101,6 +121,10 @@ for($i=0; $i<count($disuseArray); $i++){
 	}
 ?>
 "></canvas>
+<!-- // poster canvas -->
+<!-- area canvas -->
+<canvas id="areaCanvas<?php echo $i; ?>" class="areaCanvas <?php echo $disuses[$i-1]?'disuse':''; ?>"></canvas>
+<!-- // area canvas -->
 </div>
 <?php
 	} // end for
@@ -115,8 +139,9 @@ for($i=0; $i<count($disuseArray); $i++){
 <!-- tab -->
 <div id="tab">
 <ul class="nav nav-tabs">
-<li id="posterEditTab" class="active"><a href="#tcPoster" data-toggle="tab">Poster Edit</a></li>
-<li id="presentationTab"><a href="#tcPresentation" data-toggle="tab">Presentation</a></li>
+<li id="posterEditTab" class="active"><a href="#tcPoster" data-toggle="tab">Poster<br>Edit</a></li>
+<li id="presentationTab"><a href="#tcPresentation" data-toggle="tab">Presen<br>tation</a></li>
+<li id="areaTab"><a href="#tcArea" data-toggle="tab">Area</a></li>
 </ul>
 </div>
 <!-- //tab -->
@@ -149,10 +174,10 @@ for($i=0; $i<count($disuseArray); $i++){
 <div id="createForm" class="form">
 <fieldset>
 <legend>Create</legend>
-<p>width :<input  type="number" class="form-control" name="objectWidth" inputmode="numeric" size="10" value="10" min="1" onKeyup="checkTextIsNumeric(this)"></p>
-<p>height :<input type="number" class="form-control" name="objectHeight" inputmode="numeric" size="10" value="10" min="1" onKeyup="checkTextIsNumeric(this)"></p>
-<p>color:<br>
-<select name="objectCreateColor" class="selectpicker" onChange="changeSelectColor()">
+<p>width :<input  type="number" class="form-control" name="objectWidth" inputmode="numeric" size="10" value="6" min="1" onKeyup="checkTextIsNumeric(this)"></p>
+<p>height :<input type="number" class="form-control" name="objectHeight" inputmode="numeric" size="10" value="4" min="1" onKeyup="checkTextIsNumeric(this)"></p>
+<p class="disno">color:<br>
+<select name="objectCreateColor" class="selectpicker disno" onChange="changeSelectColor()">
 <option value='#999999' class='bg1' >&nbsp;</option>
 <option value='#000000' class='bg2' >&nbsp;</option>
 <option value='#ffffff' class='bg3' >&nbsp;</option>
@@ -182,6 +207,7 @@ for($i=0; $i<count($disuseArray); $i++){
 </div>
 <!-- //deleteForm -->
 <!-- editForm-->
+<!--
 <div id="editForm" class="form">
 <fieldset>
 <legend>Edit</legend>
@@ -210,6 +236,7 @@ for($i=0; $i<count($disuseArray); $i++){
 <p><input type="button" class="btn btn-default" name="inputForm"  onClick="setParam()" value="submit" disabled="disabled"></p>
 </fieldset>
 </div>
+-->
 <!-- //editForm-->
 <!-- mapForm-->
 <div id="mapForm" class="form">
@@ -223,8 +250,8 @@ for($i=0; $i<count($disuseArray); $i++){
 </div>
 <!-- //mapForm-->
 <!-- fileForm -->
+<!--
 <div id="fileForm" class="form">
-<!-- saveボタンの削除
 <p>
 <input type="button" name="saveButton" class="btn btn-default" onClick="if(confirm('Do you want to save?'))saveJson()" value="save">
 </p>
@@ -236,8 +263,8 @@ for($i=0; $i<count($disuseArray); $i++){
 -->
 <!-- JSONファイルへのリンクの削除
 <p><a href="json/data_nosession.json" target="_blank">JSON file</a></p>
--->
 </div>
+-->
 <!-- //fileForm -->
 
 </div>
@@ -317,7 +344,44 @@ echo $presentation['Presentation']['title'];
 ?>
 
 </div>
+</div>
 <!-- //tab contents Presentation -->
+<!-- //tab contents Area -->
+<div id="tcArea" class="tab-pane">
+<!-- createForm -->
+<div id="createForm" class="form">
+<fieldset>
+<legend>Create</legend>
+<p>width :<input  type="number" class="form-control" name="areaWidth" inputmode="numeric" size="10" value="" min="1" onKeyup="checkTextIsNumeric(this)" disabled="disabled"></p>
+<p>height :<input type="number" class="form-control" name="areaHeight" inputmode="numeric" size="10" value="" min="1" onKeyup="checkTextIsNumeric(this)" disabled="disabled"></p>
+<p>position x :<input type="number" class="form-control" name="areaPositionX" inputmode="numeric" size="10" value="" min="1" onKeyup="checkTextIsNumeric(this)" disabled="disabled"></p>
+<p>position y :<input type="number" class="form-control" name="areaPositionY" inputmode="numeric" size="10" value="" min="1" onKeyup="checkTextIsNumeric(this)" disabled="disabled"></p>
+<p>color:<br>
+<select name="areaColor" class="selectpicker" onChange="changeSelectColorAreaObject()">
+<option value='#ff2800' class='bg1' >&nbsp;</option>
+<option value='#faf500' class='bg2' >&nbsp;</option>
+<option value='#35a16b' class='bg3' >&nbsp;</option>
+<option value='#0041ff' class='bg4' >&nbsp;</option>
+<option value='#66ccff' class='bg5' >&nbsp;</option>
+<option value='#ff99a0' class='bg6' >&nbsp;</option>
+<option value='#ff9900' class='bg7' >&nbsp;</option>
+<option value='#9a0079' class='bg8' >&nbsp;</option>
+<option value='#663300' class='bg9' >&nbsp;</option>
+</select>
+</p>
+<p><input type="button" name="updateAreaButton" class="btn btn-default" onClick="updateAreaObject()" value="Update" disabled="disabled"></p>
+</fieldset>
+</div>
+<!-- //createForm -->
+<!-- deleteForm -->
+<div id="deleteForm" class="form">
+<p>
+<input type="button" name="deleteAreaButton" class="btn btn-default" onClick="deleteAreaObject()" value="Delete" disabled="disabled">
+</p>
+</div>
+<!-- //deleteForm -->
+</div>
+<!-- //tab contents Area -->
 </div>
 <!-- //tab contents -->
 
@@ -337,7 +401,9 @@ echo $presentation['Presentation']['title'];
 </div>
 <!-- //dialogDeleteConfirm -->
 <!-- dialogEditConfirm -->
+<!--
 <div id="dialogEditConfirm" class="disno" title="Edit check">
 <p>Are you make sure to do this?</p>
 </div>
+-->
 <!-- //dialogEditConfirm -->

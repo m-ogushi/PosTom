@@ -4,16 +4,16 @@
 
  --------------------------------------------------*/
 
- /********************************************************
- *		グローバルナビゲーション カレント処理					*
+/********************************************************
+ * グローバルナビゲーション カレント処理
  ********************************************************/
  $(function(){
 	// ダッシュボードのPosterを選択状態にする
 	$('#dashboard #gNav #gNavPos').addClass('current');
 });
 
- /********************************************************
- *							変数定義										*
+/********************************************************
+ * 変数定義
  ********************************************************/
 // キャンバスの横幅, 高さ
 var canvasWidth = 720;
@@ -44,22 +44,31 @@ var onResizing = false;
 var defaultColor = "#999999";
 // 関連済みを示すの色
 var relatedColor = "#063a5e";
+// 色の定義
+var whiteColor = "#ffffff";
+var blackColor = "#000000";
 // 会場図画像ファイル名
 var backGroundFileName = "";
-// キャンバを基準にクリックした位置
-var pointerX= 0;
-var pointerY=0;
+// キャンバスを基準にクリックした位置
+var pointerX = 0;
+var pointerY = 0;
 // オブジェクトを基準にクリックした位置
 var onPointX = 0;
-var onPointY =0;
-// ?
-var objectArray=[];
-// 選択されているオブジェクト
+var onPointY = 0;
+// ポスターオブジェクトでのセレクトスクエア配列？？
+var objectArray = [];
+// エリアオブジェクトでのセレクトスクエア配列
+var selectSquareArray = [];
+// 選択されているポスターオブジェクト
 var selectedObject;
-// 選択されているオブジェクトがあるかどうか
-var selectFlag=true;
-// 選択状態でFrameをドラッグしているとき、どのFrameをドラックしているか
-var nowwwhite;
+// 選択されているエリアオブジェクト
+var selectedAreaObject;
+// 選択されているポスターオブジェクトがあるかどうか
+var selectFlag = false;
+// 選択されているエリアオブジェクトがあるかどうか
+var selectFlagAreaObject = false;
+// ?
+var nowwhite;
 // 選択しているオブジェクトの右端の座標
 var nowright;
 // 選択してるオブジェクトの左下の座標
@@ -87,37 +96,79 @@ var loading = true;
 var selectedDay = 1;
 // 前状態のポスターキャンバスタブの日数
 var previousDay = 1;
-// 複数日対応 canvas要素配列
-var canvasElementArray = new Array();
-// 複数日対応 stage配列
-var stageArray = new Array();
+// 複数日対応 ポスターキャンバス要素配列
+var canvasPosterElementArray = new Array();
+// 複数日対応 エリアキャンバス要素配列
+var canvasAreaElementArray = new Array();
+// 複数日対応 ポスターステージ配列
+var stagePosterArray = new Array();
+// 複数日対応 エリアステージ配列
+var stageAreaArray = new Array();
 // 選択中のcanvas要素
 var canvasElement;
 // 選択中のstage
 var stage;
-
+// エリアオブジェクトを生成中であるか否か
+var createFlagAreaObject = false;
+// エリアオブジェクト生成用変数
+var areaObject;
+var areaObjectX = 0;
+var areaObjectY = 0;
+var areaObjectWidth = 0;
+var areaObjectHeight = 0;
+var areaObjectColor = '';
+// エリアオブジェクト生成初期変数
+var areaObjectInitWidth = 10;
+var areaObjectInitHeight = 10;
+// エリアオブジェクト生成の際の閾値（10*15ほどの距離がないとエリアオブジェクトとしない）
+var areaObjectThreshold = Math.abs(Math.sqrt(Math.pow(100,2)+Math.pow(150,2)));
+// エリアオブジェクトの色配列（page_poster.cssの#inputArea .bgの順序と同じにしてください）
+var areaObjectColorArray = ['#ff2800', '#faf500', '#35a16b', '#0041ff', '#66ccff', '#ff99a0', '#ff9900', '#9a0079', '#663300'];
+// エリアオブジェクトの色配列の登場回数
+var areaObjectColorCountArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+// エリアオブジェクト生成で選定したカラー番号変数
+var areaObjectColorNum = 0;
 
 /********************************************************
- *							読み込み時の処理							*
+ * 読み込み時の処理
  ********************************************************/
 $(function() {
 	$('[name^="objectWidth"]').attr("max",canvasWidth/gridSize);
 	$('[name^="objectHeight"]').attr("max",canvasHeight/gridSize);
+	$('[name^="areaWidth"]').attr("max",canvasWidth/gridSize);
+	$('[name^="areaHeight"]').attr("max",canvasHeight/gridSize);
 
-	// 複数日対応 canvas要素配列, stage配列の格納
+	// 複数日対応 ポスターキャンバス要素配列・エリアキャンバス要素配列・ステージ配列の格納
 	for(var i=0; i<eventDays; i++){
-		// それぞれのcanvasサイズを指定する
+		// ポスターキャンバス・エリアキャンバスサイズを指定
 		$('#posterCanvas'+(i+1)).get(0).width = canvasWidth;
 		$('#posterCanvas'+(i+1)).get(0).height = canvasHeight;
-		// プレゼンテーションからの関連づけのマウスイベントを受け付ける
+		$('#areaCanvas'+(i+1)).get(0).width = canvasWidth;
+		$('#areaCanvas'+(i+1)).get(0).height = canvasHeight;
+		// ポスターキャンバスにプレゼンテーションからの関連づけのマウスイベントを受け付ける
 		$('#posterCanvas'+(i+1)).on('dragover', onDragOver);
 		$('#posterCanvas'+(i+1)).on('drop', onDrop);
-
-		canvasElementArray[i] = document.getElementById("posterCanvas"+(i+1));
-		stageArray[i] = new createjs.Stage(canvasElementArray[i]);
-		stageArray[i].enableMouseOver();
-		stageArray[i].enableDOMEvents(true);
+		// ポスターキャンバス要素配列
+		canvasPosterElementArray[i] = document.getElementById("posterCanvas"+(i+1));
+		// エリアキャンバス要素配列
+		canvasAreaElementArray[i] = document.getElementById("areaCanvas"+(i+1));
+		// ポスターステージ配列
+		stagePosterArray[i] = new createjs.Stage(canvasPosterElementArray[i]);
+		stagePosterArray[i].enableMouseOver();
+		stagePosterArray[i].enableDOMEvents(true);
+		// エリアステージ配列
+		stageAreaArray[i] = new createjs.Stage(canvasAreaElementArray[i]);
+		stageAreaArray[i].enableMouseOver();
+		stageAreaArray[i].enableDOMEvents(true);
+		
+		// ポスターキャンバスをクリックした際には、選択中を解除する処理をデフォルトで埋め込む
 		document.getElementById("posterCanvas"+(i+1)).addEventListener("click",cancelFrame);
+		// エリアキャンバスをクリックした際には、選択中を解除する処理をデフォルトで埋め込む
+		document.getElementById("areaCanvas"+(i+1)).addEventListener("click", cancelFrameAreaObject);
+		// エリアキャンバスはキャンバス上でドラッグアンドドロップすることで生成もおこなうことができる
+		document.getElementById("areaCanvas"+(i+1)).addEventListener("mousedown", startDragCreateAreaObject);
+		document.getElementById("areaCanvas"+(i+1)).addEventListener("mousemove", draggingCreateAreaObject);
+		document.getElementById("areaCanvas"+(i+1)).addEventListener("mouseup", stopDragCreateAreaObject);
 	}
 
 	// イベントの初日にdisuseが設定されていたらメニューの利用可能状態を利用できない状態にする
@@ -136,12 +187,27 @@ $(function() {
 			}
 		}, 100);
 	}
+	
+	// 読み込みのタイミングによってはエリアオブジェクトの編集フォームの色セレクターの生成が遅れるため、色セレクターが生成されるまで繰り返して待つ
+	timerCheckExistColorSelector = setInterval(function(){
+		if($('[name^="areaColor"] + div.btn-group > button').length){
+			$('[name^="areaColor"]').val(defaultColor);
+			$('select[name="areaColor"] + .btn-group > .selectpicker > span:first-child').css("background-color", defaultColor);
+			$('[name^="areaColor"] + div.btn-group > button').prop('disabled', true);
+			// タイマーを停止させる
+			clearInterval(timerCheckExistColorSelector);
+		}else{
+			// セレクトボックスがまだなければ何もしない
+		}
+	}, 100);
 
-	// データベースから取得したポスターを各日数におけるcanvasに描写する処理
+	/********************************************************
+	 * データベースから取得したポスターを各日数におけるポスターキャンバスに描写する処理
+	 ********************************************************/
 	// イベントの日数分繰り返す
 	for(j=0; j<eventDays; j++){
 		// stageを次の日に差し替える
-		stage = stageArray[j];
+		stage = stagePosterArray[j];
 		// データベースから取得したポスター分繰り返す
 		for(i=0; i<poster.length; i++){
 			// ポスターのdateが(j+1)日と一致していれば、そのキャンバスに描写する
@@ -188,24 +254,54 @@ $(function() {
 		// stageの状態をcanvasに反映させる
 		stage.update();
 		// stageの状態を配列に格納
-		stageArray[j] = stage;
+		stagePosterArray[j] = stage;
 	} // end for
+	
+	
+	/********************************************************
+	 * データベースから取得したエリアを各日数におけるエリアキャンバスに描写する処理
+	 ********************************************************/
+	// イベントの日数分繰り返す
+	for(j=0; j<eventDays; j++){
+		// stageを次の日に差し替える
+		stage = stageAreaArray[j];
+		// データベースから取得したエリア分繰り返す
+		for(i=0; i<areas.length; i++){
+			// エリアのdateが(j+1)日と一致していれば、そのキャンバスに描写する
+			if(areas[i].date == (j+1)){
+				// エリア情報を反映
+				var instance = createAreaObject(parseInt(areas[i].x), parseInt(areas[i].y), parseInt(areas[i].width), parseInt(areas[i].height), areas[i].color);
+				instance.cursor = "pointer";
+				instance.__id = areas[i].id;
+				instance.addEventListener("mousedown", startDragAreaObject);
+				stage.addChild(instance);
+				stage.update();
+				
+
+			} // end if
+		} // end for
+		// stageの状態をcanvasに反映させる
+		stage.update();
+		// stageの状態を配列に格納
+		stageAreaArray[j] = stage;
+	} // end for
+	
 	loading = false;
 
 	// 初期状態は、canvas要素, stageともにイベント初日とする
-	canvasElement = canvasElementArray[0];
-	stage = stageArray[0];
+	canvasElement = canvasPosterElementArray[0];
+	stage = stagePosterArray[0];
 
 });
 
 /********************************************************
- *					ブラウザのリサイズ時の処理						*
+ * ブラウザのリサイズ時の処理
  ********************************************************/
 $(window).on('load resize', function(){
 });
 
 /********************************************************
- *					任意の要素が存在するかどうか確認する関数						*
+ * 任意の要素が存在するかどうか確認する関数
  ********************************************************/
 function isExistElement(ele){
 	if($(ele).get(0)){
@@ -216,11 +312,11 @@ function isExistElement(ele){
 }
 
 /********************************************************
- *	オブジェクトのリサイズ領域にマウスポインタがあるか検査	*
+ * オブジェクトのリサイズ領域にマウスポインタがあるか検査
  ********************************************************/
 function checkResize(x, y){
 	if(selectMode == "create" && !onResizing){
-		childArray = stageArray[selectedDay-1].children;
+		childArray = stagePosterArray[selectedDay-1].children;
 		resizeFlg = false;
 		for(i=0; i<childArray.length; i++){
 			objectX = childArray[i].x;
@@ -241,7 +337,7 @@ function checkResize(x, y){
 }
 
 /********************************************************
- *							オブジェクト処理							*
+ * オブジェクト処理
  ********************************************************/
 // オブジェクト配置処理
 function setObject(){
@@ -320,15 +416,15 @@ function createObject(x, y, w, h, color) {
 }
 
 /********************************************************
- *							マウスイベント処理							*
+ * マウスイベント処理
  ********************************************************/
 // ドラッグの開始処理
 function startDrag(eventObject) {
     selectFlag=false;
 	var instance = eventObject.target;
 	// キャンバスを基準にクリックした位置
-    pointerX= eventObject.stageX;
-    pointerY=eventObject.stageY;
+    pointerX = eventObject.stageX;
+    pointerY = eventObject.stageY;
 	// オブジェクトを基準にクリックした位置
 	onPointX = eventObject.stageX - instance.x;
 	onPointY = eventObject.stageY - instance.y;
@@ -460,11 +556,11 @@ function stopDrag(eventObject) {
 	singlesaveJson(instance);
 }
 /********************************************************
- *						オブジェクトの選択処理						*
+ * オブジェクトの選択処理
  ********************************************************/
 // オブジェクトを選択
 function click(eventObject){
-	selectFlag=false;
+	selectFlag = false;
 	// 既に選択されているオブジェクトをクリックした場合
 	if(eventObject.target==selectedObject){
 		return;
@@ -483,16 +579,22 @@ function click(eventObject){
 
 // ドロップ中の再描画
 function updateFrame(x,y,w,h) {
-	var white="#FFFFFF";
-	var black="#000000";
 	for (var i = 0, p = 0; i < 3; i++) {
 		for (var j = 0; j < 3; j++) {
 			if (!(i == 1 && j == 1)) {
-				objectArray[p].graphics.clear();
-				objectArray[p].graphics.beginFill(black);
-				objectArray[p].graphics.drawRect(x - 5 + j * w / 2, y - 5 + i * h / 2, 10, 10);
-				objectArray[p].graphics.beginFill(white);
-				objectArray[p].graphics.drawRect(x - 4 + j * w / 2, y - 4 + i * h / 2, 8, 8);
+				if(selectMode == 'create' || selectMode == 'delete'){
+					objectArray[p].graphics.clear();
+					objectArray[p].graphics.beginFill(blackColor);
+					objectArray[p].graphics.drawRect(x - 5 + j * w / 2, y - 5 + i * h / 2, 10, 10);
+					objectArray[p].graphics.beginFill(whiteColor);
+					objectArray[p].graphics.drawRect(x - 4 + j * w / 2, y - 4 + i * h / 2, 8, 8);
+				}else if(selectMode == 'area'){
+					selectSquareArray[p].graphics.clear();
+					selectSquareArray[p].graphics.beginFill(blackColor);
+					selectSquareArray[p].graphics.drawRect(x - 5 + j * w / 2, y - 5 + i * h / 2, 10, 10);
+					selectSquareArray[p].graphics.beginFill(whiteColor);
+					selectSquareArray[p].graphics.drawRect(x - 4 + j * w / 2, y - 4 + i * h / 2, 8, 8);
+				}
 				p++;
 			}
 		}
@@ -510,8 +612,6 @@ function select(){
 	$('select[name="objectEditColor"] + .btn-group > button + .dropdown-menu > ul > li ').removeClass("disabled");
 	$('[name="inputForm"]').prop("disabled", false);
 
-	var white="#FFFFFF";
-	var black="#000000";
 	var x = selectedObject.x;
 	var y = selectedObject.y;
 	var w = parseInt(selectedObject.graphics.command.w);
@@ -521,14 +621,14 @@ function select(){
 		for(var j=0;j<3;j++){
 			if (!(i == 1 && j == 1)) {
 				var sq = new createjs.Shape();
-				sq.graphics.beginFill(black);
+				sq.graphics.beginFill(blackColor);
 				sq.graphics.drawRect(x - 5 + j * w / 2, y - 5 + i * h / 2, 10, 10);
-				sq.graphics.beginFill(white);
+				sq.graphics.beginFill(whiteColor);
 				sq.graphics.drawRect(x - 4 + j * w / 2, y - 4 + i * h / 2, 8, 8);
 				// フレーム毎に番号を振る
 				sq.__number=i*3+j;
 				sq.addEventListener("stagemousemove",FrameMouseOver(sq));
-				sq.addEventListener("mousedown",FramDragStart);
+				sq.addEventListener("mousedown",FrameDragStart);
 				stage.addChild(sq);
 				objectArray.push(sq);
 				sq.__type="selectSquare";
@@ -544,7 +644,7 @@ function cancelFrame(eventObject){
         if (selectedObject != null) {  // canvasクリック2回連続以降は呼ばれないようにする
             var formColor = $('select[name="objectEditColor"] + .btn-group > .selectpicker > span:first-child').css('background-color');//　rgb
 			if (selectedObject.__title != $('[name^="title"]').val() || selectedObject.__presenter != $('[name^="presenter"]').val() || selectedObject.__abstract != $('[name^="abstract"]').val() || rgbToHex(formColor).toLowerCase() != rgbToHex(selectedObject.color).toLowerCase()) {
-                changeSelectObject(selectedObject, $('[name^="title"]').val(), $('[name^="presenter"]').val(), $('[name^="abstract"]').val(), formColor);  //　JSが先にselectedObjectとフォーム内容を消すので引数で渡しておく
+                //changeSelectObject(selectedObject, $('[name^="title"]').val(), $('[name^="presenter"]').val(), $('[name^="abstract"]').val(), formColor);  //　JSが先にselectedObjectとフォーム内容を消すので引数で渡しておく
             }
         }
         $('input[name="title"]').val("");
@@ -591,7 +691,7 @@ function FrameMouseOver(sq){
 }
 
 //ドラッグの開始処理
-function FramDragStart(eventObject){
+function FrameDragStart(eventObject){
 	selectFlag=false;
 	var instance = selectedObject;
 	// オブジェクト上のどの位置をクリックしたか
@@ -748,6 +848,7 @@ function resizeDrag(eventObject) {
 }
 
 //　選択オブジェクトが変わったときの編集内容確認ダイアログ処理
+/*
 function changeSelectObject(editObject, title, presenter, abstract, formColor){
     $( "#dialogEditConfirm" ).dialog({
         resizable: false,
@@ -770,9 +871,10 @@ function changeSelectObject(editObject, title, presenter, abstract, formColor){
         }
     });
 }
+*/
 
 /********************************************************
- *					オブジェクトのサイズ変更処理					*
+ * オブジェクトのサイズ変更処理
  ********************************************************/
 // ＜サイズ変更＞ドラッグの終了処理
 function stopResizeDrag(eventObject) {
@@ -800,7 +902,6 @@ function selectDelete(eventObject){
 	}else{
 		instance.__deleteSelected = false;
 		var array = stage.children;
-		/* もう少しスマートな方法さがしています */
 		for(i=0; i<array.length; i++){
 			if(array[i].__relationID == instance.id){
 				stage.removeChildAt(i);
@@ -817,35 +918,32 @@ function selectDelete(eventObject){
 }
 
 /********************************************************
- *								JSON処理									*
+ * JSON処理
  ********************************************************/
- //データベースにポスター情報を保存
- function singlesaveJson(object){
- 		id = object.__id;
-		//id = object.NextId;
-        x = object.x;
-        y = object.y;
-        w = parseInt(object.graphics.command.w);
-        h = parseInt(object.graphics.command.h);
-        color = rgbToHex(object.color);
-		relation = object.__relation;
-		//title = object.__title;
-		//presenter = object.__presenter;
-        //abstract = object.__abstract;
-        poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'presentation_id': relation, 'date': selectedDay, 'event_id': selectedEventID};
-		$.ajax({
-			type: "POST",
-			cache : false,
-			url: "posters/singlesavesql",
-			data: { "data": poster },
-			success: function(response){
-				// 直前に更新されたプライマリーキー(id)をオブジェクトにセットする
-				if(response != ""){
-					object.__id = response;
-				}
+//データベースにポスター情報を保存
+function singlesaveJson(object){
+	id = object.__id;
+	x = object.x;
+	y = object.y;
+	w = parseInt(object.graphics.command.w);
+	h = parseInt(object.graphics.command.h);
+	color = rgbToHex(object.color);
+	relation = object.__relation;
+	poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'presentation_id': relation, 'date': selectedDay, 'event_id': selectedEventID};
+	$.ajax({
+		type: "POST",
+		cache : false,
+		url: "posters/singlesavesql",
+		data: { "data": poster },
+		success: function(response){
+			// 直前に更新されたプライマリーキー(id)をオブジェクトにセットする
+			if(response != ""){
+				object.__id = response;
 			}
-		});
-	}
+		}
+	});
+}
+	
 	//データベースから、ポスター情報を削除
 	function deleteJson(object){
 		$.ajax({
@@ -992,8 +1090,8 @@ function loadJson(){
 			backGroundFileName=file.filename.toString();
 //			$(canvasElement).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
 //			$(canvasElement).css("background-repeat","repeat, no-repeat");
-			$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
-			$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
+			$(canvasPosterElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/"+file.filename.toString()+"?"+$.now()+")");
+			$(canvasPosterElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
 
 		}
 
@@ -1035,7 +1133,7 @@ function loadJson(){
 */
 
 /********************************************************
- *						モードを切り替え処理							*
+ * モードを切り替え処理
  ********************************************************/
 function changeMode(){
 	selectMode = $('[name^="selectMode"]').val();
@@ -1130,7 +1228,7 @@ function deleteObject(){
 }
 
 /********************************************************
- *							会場図設置処理									*
+ * 会場図設置処理
  ********************************************************/
 /* ボタンと連携してtype="file"のボタンが作動するようにする */
 function selectFile(){
@@ -1159,12 +1257,12 @@ function fileUpLoad(event_str){
 		backGroundFileName = selectedEventStr+".png";
 		// アップロードした画像を背景として挿入する
 		// TODO: 現状はイベントすべての日をつうじて同じポスター会場であることを想定している
-		for(var i=0; i<canvasElementArray.length; i++){
-			$(canvasElementArray[i]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
-			$(canvasElementArray[i]).css("background-repeat","repeat, no-repeat");
+		for(var i=0; i<canvasPosterElementArray.length; i++){
+			$(canvasPosterElementArray[i]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
+			$(canvasPosterElementArray[i]).css("background-repeat","repeat, no-repeat");
 			/* 選択している日に対応する場合は以下のコメントアウトを外して適宜編集してください
-			$(canvasElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
-			$(canvasElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
+			$(canvasPosterElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
+			$(canvasPosterElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
 			*/
 		}
 	});
@@ -1188,7 +1286,7 @@ function savePosterBg(){
 
 
 /********************************************************
- *				編集フォームのパラメータ格納	              		*
+ * 編集フォームのパラメータ格納
  ********************************************************/
 function setParam(){
 	var title = $('[name^="title"]').val();
@@ -1206,12 +1304,18 @@ function setParam(){
 }
 
 /********************************************************
- *		セレクトボックスで色が変更されたときの処理			*
+ * セレクトボックスで色が変更されたときの処理
  ********************************************************/
 // 生成フォームのカラーセレクトの色が変化したときの処理
 function changeSelectColor(){
 	var color = $('[name^="objectCreateColor"]').val();
 	$('select[name="objectCreateColor"] + .btn-group > .selectpicker > span:first-child').css("background-color", color);
+}
+
+// エリアオブジェクトの編集フォームのカラーセレクトの色が変化したときの処理
+function changeSelectColorAreaObject(){
+	var color = $('[name^="areaColor"]').val();
+	$('select[name="areaColor"] + .btn-group > .selectpicker > span:first-child').css("background-color", color);
 }
 
 // 編集フォームのカラーセレクトの色が変化したときの処理
@@ -1221,7 +1325,7 @@ function editSelectColor(){
 }
 
 /********************************************************
- *						マップのサイズ変更処理						*
+ * マップのサイズ変更処理
  ********************************************************/
 // widthの値入力後、フォーカスが外れたときの処理
 function onBlurMapWidth(){
@@ -1300,7 +1404,7 @@ function existMapOverObject(mapWidth, mapHeight){
 }
 
 /********************************************************
- *									汎用処理								*
+ * 汎用処理
  ********************************************************/
 // ステージチルドレンの中から特定のidをもつオブジェクトを取得する
 function getChildById(id){
@@ -1338,25 +1442,71 @@ function rgbToHex(color) {
     return digits[1] + '#' + rgb.toString(16);
 }
 
- /********************************************************
- *				プレゼン情報との関連付け							*
+/********************************************************
+ * サイドメニュータブ切り替え時の処理
  ********************************************************/
 $(function(){
+	// Presentationタブでのプレゼンテーションリストにドラッグ処理を追加
 	$('li[draggable="true"]').on('dragstart', onDragStart);
 
-	// Presentationタブがクリックされたとき、移動・サイズ変更はできないようにする（生成モードから削除モードへ切り替えることと同様）
+	// Presentationタブがクリックされたとき、ポスターの移動・サイズ変更はできないようにする
 	$('#tab #presentationTab').click(function(){
 		cancelFrame();
-		// 現在のモードを記憶しておく
-		formerMode = selectMode;
+		cancelFrameAreaObject();
+		// 直前のモードが生成または削除である場合（Poster Editタブからの遷移の場合）
+		if(selectMode == 'create' || selectMode == 'delete'){
+			// 現在のモードを記憶しておく
+			formerMode = selectMode;
+		}
 		selectMode = 'presentation';
+		// ポスターキャンバスを手前にする
+		exchangeCanvasLayerOrder($('.posterCanvas'), $('.areaCanvas'));
 	});
-	// PosterEditタブがクリックされたとき、移動・サイズ変更ができるようにする
+	// Areaタブがクリックされたとき、ポスターの移動・サイズ変更はできないようにする
+	$('#tab #areaTab').click(function(){
+		cancelFrame();
+		cancelFrameAreaObject();
+		// 直前のモードが生成または削除である場合（Poster Editタブからの遷移の場合）
+		if(selectMode == 'create' || selectMode == 'delete'){
+			// 現在のモードを記憶しておく
+			formerMode = selectMode;
+		}
+		// Poster EditタブまたはPresentationタブからの遷移の場合
+		if(selectMode == 'create' || selectMode == 'delete' || selectMode == 'presentation'){
+			// ステージの情報を保存する
+			stagePosterArray[selectedDay - 1] = stage;
+		}
+		// モードを変更
+		selectMode = 'area';
+		// エリアキャンバスを手前にする
+		exchangeCanvasLayerOrder($('.areaCanvas'), $('.posterCanvas'));
+		// ステージの切り替え
+		stage = stageAreaArray[selectedDay - 1];
+	});
+	// PosterEditタブがクリックされたとき、ポスターの移動・サイズ変更ができるようにする
 	$('#tab #posterEditTab').click(function(){
-		selectMode = formerMode;
+		// 直前のモードが生成または削除でない場合（PresentationタブまたはAreaタブからの遷移の場合）
+		if(selectMode !== 'create' && selectMode !== 'delete'){
+			// 切り替え時に保存した直前のモードに戻す
+			selectMode = formerMode;
+		}
+		// ポスターキャンバスを手前にする
+		exchangeCanvasLayerOrder($('.posterCanvas'), $('.areaCanvas'));
 	});
 });
 
+// ポスターキャンバスとエリアキャンバスの前後切り替え処理
+function exchangeCanvasLayerOrder(front_ele, back_ele){
+	// レイヤーを前に
+	$(front_ele).css('z-index', 2).css('opacity', 0.7);
+	// レイヤーを後ろに
+	$(back_ele).css('z-index', 1).css('opacity', 0.3);
+}
+
+
+/********************************************************
+ * プレゼン情報との関連付けに関する処理
+ ********************************************************/
 // ドラッグが開始したときの処理
 function onDragStart(e){
 	selectedPresentationID = this.id;
@@ -1371,15 +1521,27 @@ function onDragOver(e){
 
 // ドロップしたときの処理
 function onDrop(e){
+	// スクロール量を取得（ドロップした位置がウィンドウからの相対位置となってしまうため）
+	var scrollX = $(window).scrollLeft();
+	var scrollY = $(window).scrollTop();
+	//console.log('スクロール量: ('+scrollX+', '+scrollY+')');
+	// キャンバスパネル要素の位置を取得（キャンバスは絶対位置配置のため）
+	var tabPaneX = $('#canvasArea #tcCanvas'+selectedDay).offset().left;
+	var tabPaneY = $('#canvasArea #tcCanvas'+selectedDay).offset().top;
+	//console.log('タブパネルの位置: ('+tabPaneX+', '+tabPaneY+')');
 	// キャンバス上の位置を取得
-	var onCanvasX = e.originalEvent.clientX - e.target.offsetLeft;
-	var onCanvasY = e.originalEvent.clientY - e.target.offsetTop;
+	var onCanvasX = e.originalEvent.clientX - tabPaneX - e.target.offsetLeft + scrollX;
+	var onCanvasY = e.originalEvent.clientY - tabPaneY - e.target.offsetTop + scrollY;
+	//console.log('キャンバスの位置: ('+e.target.offsetLeft+', '+e.target.offsetTop+')');
+	//console.log('ドロップした位置: ('+e.originalEvent.clientX+', '+e.originalEvent.clientY+')');
+	//console.log('キャンバス上の位置: ('+onCanvasX+', '+onCanvasY+')');
 
 	// ステージ上に存在するオブジェクトを特定する
 	for(var i=0; i<stage.children.length; i++){
 		var target = stage.children[i];
 		// ポスターオブジェクトであるかどうか判定（選択中の四角, テキストオブジェクトは無視する）
 		if(target.__type != 'selectSquare' && target.__type != 'text'){
+			//console.log((i+1)+'番目のオブジェクト: ('+target.x+', '+target.y+')');
 			// オブジェクトの内側かどうか判定
 			if(target.x <= onCanvasX && onCanvasX <= target.x + target.width && target.y <= onCanvasY && onCanvasY <= target.y + target.height){
 				// すでにそのプレゼンテーションが別のポスターに関連済みであった場合
@@ -1451,8 +1613,8 @@ function relocateCenter(textObj, posterObj){
 	return textObj;
 }
 
- /********************************************************
- *					ページャーの切り替え処理							*
+/********************************************************
+ * ページャーの切り替え処理
  ********************************************************/
 $(function(){
 	// 現在のページ番号
@@ -1541,8 +1703,9 @@ $(function(){
 	});
 });
 
- /********************************************************
- *				ポスターキャンバスタブに関する処理							*
+
+/********************************************************
+ * ポスターキャンバスタブに関する処理
  ********************************************************/
 $(function(){
 	// ポスターキャンバスタブをクリックしたときの処理
@@ -1563,12 +1726,12 @@ $(function(){
 			});
 
 			// 現在までのstageの状態をstage配列に格納する
-			stageArray[previousDay-1] = stage;
+			stagePosterArray[previousDay-1] = stage;
 
 			// 選択中のcanvas要素を切り替える
-			canvasElement = canvasElementArray[selectedDay-1];
+			canvasElement = canvasPosterElementArray[selectedDay-1];
 			// 選択中のstageを切り替える
-			stage = stageArray[selectedDay-1];
+			stage = stagePosterArray[selectedDay-1];
 		}
 
 		// 選択したタブのDisuseが有効である場合
@@ -1586,7 +1749,10 @@ $(function(){
 	});
 });
 
-// Disuseチェックボックスの値が変更したときの処理
+
+/********************************************************
+ * Disuseチェックボックスに関する処理
+ ********************************************************/
 function onChangeDisuse(obj, day){
 	var checkState = $(obj).prop("checked");
 	// チェックを入れたときの処理
@@ -1645,5 +1811,814 @@ function changeBackgroundColorCanvas(canvas, disuseState){
 	}else{
 		// チェックがはいっていない状態のとき
 		$(canvas).removeClass('disuse');
+	}
+}
+
+
+/********************************************************
+ * エリアオブジェクトに関する処理
+ ********************************************************/
+// エリアオブジェクト配置処理（現状利用していない）
+function setAreaObject(){
+	var areaWidth = $('[name^="areaWidth"]').val() * gridSize;
+	var areaHeight = $('[name^="areaHeight"]').val() * gridSize;
+	var areaPositionX = $('[name^="areaPositionX"]').val() * gridSize;
+	var areaPositionY = $('[name^="areaPositionY"]').val() * gridSize;
+	var areaColor = $('[name^="areaColor"]').val();
+	if( areaWidth == '' || areaHeight == '' ){
+		alert("something not input");
+	}else if( areaWidth <= 0 || areaHeight <= 0 ){
+		alert("you must input bigger than 0");
+	}else if( areaWidth > canvasWidth || areaHeight > canvasHeight ){
+		alert("you must input smaller than width"+canvasWidth/gridSize+"grid, height"+canvasHeight/gridSize+"grid");
+	}else{
+		var object = createAreaObject(areaPositionX, areaPositionY, areaWidth , areaHeight , areaColor);
+		stage.addChild(object);
+		stage.update();
+		// object.addEventListener("mousedown", startDragAreaObject);
+        var tempevent=object;
+        tempevent.target=object;
+		// エリアオブジェクトをクリックしたときと同様の処理をとる
+        clickAreaObject(object);
+	}
+}
+
+// エリアオブジェクト生成処理
+function createAreaObject(x, y, w, h, color) {
+	var object = new createjs.Shape();
+	object.x = x;
+	object.y = y;
+	object.width = w;
+	object.height = h;
+	object.color = color;
+	object.__id = '';
+	object.graphics.beginFill(color);
+
+	object.graphics.drawRect(initX, initY, w, h);
+	
+	object.cursor = "pointer";
+	
+	// エリアオブジェクトをデータベースへ更新
+	//saveAreaObject(object);
+	return object;
+}
+
+// エリアオブジェクトを選択
+function clickAreaObject(eventObject){
+	selectFlagAreaObject = false;
+	// 既に選択されているエリアオブジェクトをクリックした場合
+	if(eventObject.target == selectedAreaObject){
+		return;
+	}
+	// 選択されているエリアオブジェクト以外をクリックした場合
+	if(selectedAreaObject != null){
+		selectFlagAreaObject = true;
+		cancelFrameAreaObject();
+		selectFlagAreaObject = false;
+	}
+	selectedAreaObject = eventObject.target;
+	selectAreaObject();
+	selectedAreaObject.array = selectSquareArray;
+	inputEditFormAreaObject();
+}
+
+// エリアオブジェクトの選択
+function selectAreaObject(){
+	// 編集フォームを利用可能に
+	$('[name="areaWidth"]').prop("disabled", false);
+	$('[name="areaHeight"]').prop("disabled", false);
+	$('[name="areaPositionX"]').prop("disabled", false);
+	$('[name="areaPositionY"]').prop("disabled", false);
+	$('[name="areaColor"]').prop("disabled", false).val(defaultColor);
+	$('select[name="areaColor"] + .btn-group > .selectpicker > span:first-child').css("background-color", defaultColor);
+	$('[name^="areaColor"] + div.btn-group > button').prop('disabled', false);
+	$('[name="updateAreaButton"]').prop("disabled", false);
+	$('[name="deleteAreaButton"]').prop("disabled", false);
+	
+	var x = selectedAreaObject.x;
+	var y = selectedAreaObject.y;
+	var w = parseInt(selectedAreaObject.graphics.command.w);
+	var h = parseInt(selectedAreaObject.graphics.command.h);
+
+	// 選択中のエリアオブジェクトの8方向に四角形を設置する
+	for(var i=0; i<3; i++){
+		for(var j=0; j<3; j++){
+			// 真ん中である場合は設置をしない
+			if (!(i == 1 && j == 1)) {	
+				var sq = new createjs.Shape();
+				sq.graphics.beginFill(blackColor);
+				sq.graphics.drawRect(x - 5 + j * w / 2, y - 5 + i * h / 2, 10, 10);
+				sq.graphics.beginFill(whiteColor);
+				sq.graphics.drawRect(x - 4 + j * w / 2, y - 4 + i * h / 2, 8, 8);
+				// フレーム毎に番号を振る
+				sq.__number = i * 3 + j;
+				sq.addEventListener("stagemousemove", FrameMouseOverAreaObject(sq));
+				sq.addEventListener("mousedown", FrameDragStartAreaObject);
+				stage.addChild(sq);
+				// セレクトスクエア配列に格納
+				selectSquareArray.push(sq);
+				sq.__type="selectSquare";
+			}
+		}
+	}
+	stage.update();
+}
+
+// データベースにエリアオブジェクトを保存
+function saveAreaObject(object){
+	id = object.__id;
+	x = object.x;
+	y = object.y;
+	w = parseInt(object.graphics.command.w);
+	h = parseInt(object.graphics.command.h);
+	color = rgbToHex(object.color);
+	
+	area = {'id': id, 'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'date': selectedDay, 'event_id': selectedEventID};
+	
+	$.ajax({
+		type: "POST",
+		cache : false,
+		url: "areas/update",
+		data: { "data": area },
+		success: function(response){
+			// 直前に更新されたプライマリーキー(id)をオブジェクトにセットする
+			if(response != ""){
+				object.__id = response;
+			}
+		}
+	});
+}
+
+// エリアオブジェクトの削除
+function deleteAreaObject(){
+	if(selectedAreaObject !== null){
+		// 選択中のオブジェクトを特定
+		for(var i=0; i<stage.children.length; i++){
+			if(stage.children[i].id == selectedAreaObject.id){
+				// エリアオブジェクトの色登場回数配列をカウントダウン
+				for(var j=0; j<areaObjectColorArray.length; j++){
+					if(selectedAreaObject.color == areaObjectColorArray[j]){
+						areaObjectColorCountArray[j]--;
+						break;
+					}
+				}
+				// データベースのエリアオブジェクト削除を反映
+				$.ajax({
+					type: "POST",
+					cache : false,
+					url: "areas/delete",
+					data: { "data": stage.children[i] },
+					success: function(response){
+						// データベースのエリアオブジェクト削除完了
+					}
+				});
+				// 削除を実行
+				stage.removeChildAt(i);
+				cancelFrameAreaObject();
+				stage.update();
+			}
+		}
+	}
+}
+
+// エリアオブジェクトを選択されている状態から外す
+function cancelFrameAreaObject(){
+	// console.log("cancelFrameAreaObject");
+	if(selectFlagAreaObject == true) {
+		// 編集フォームの値を空に
+        $('input[name="areaWidth"]').val("");
+		$('input[name="areaHeight"]').val("");
+		$('input[name="areaPositionX"]').val("");
+        $('input[name="areaPositionY"]').val("");
+		
+		if(selectSquareArray.length != 0) {
+			for (var i=0; i<8; i++) {
+				selectSquareArray[i].graphics.clear();
+				stage.removeChild(selectSquareArray[i]);
+			}
+			stage.update();
+			selectedAreaObject.array = null;
+			selectSquareArray = [];
+		}
+		selectedAreaObject = null;
+		// 編集フォームを利用不可に
+		$('[name="areaWidth"]').prop("disabled", true);
+		$('[name="areaHeight"]').prop("disabled", true);
+		$('[name="areaPositionX"]').prop("disabled", true);
+		$('[name="areaPositionY"]').prop("disabled", true);
+		$('[name="areaColor"]').prop("disabled", true);
+		$('[name^="areaColor"]').val(defaultColor);
+		$('select[name="areaColor"] + .btn-group > .selectpicker > span:first-child').css("background-color", defaultColor);
+		$('[name^="areaColor"] + div.btn-group > button').prop('disabled', true);
+		$('[name="updateAreaButton"]').prop("disabled", true);
+		$('[name="deleteAreaButton"]').prop("disabled", true);
+	}else{
+		selectFlagAreaObject = true;
+	}
+}
+
+
+/********************************************************
+ * エリアオブジェクトのマウスイベントに関する処理
+ ********************************************************/
+// エリアオブジェクト ドラッグの開始処理
+function startDragAreaObject(eventObject) {	
+	selectFlagAreaObject = false;
+	var instance = eventObject.target;
+	// キャンバスを基準にクリックした位置
+	pointerX = eventObject.stageX;
+	pointerY = eventObject.stageY;
+	
+	// オブジェクトを基準にクリックした位置
+	onPointX = eventObject.stageX - instance.x;
+	onPointY = eventObject.stageY - instance.y;
+
+	if(!resizeFlg){
+		// 移動
+		instance.addEventListener("pressmove", dragAreaObject);
+		instance.addEventListener("pressup", stopDragAreaObject);
+		previewscalex = instance.x;
+		previewscaley = instance.y;
+	}else if(resizeFlg){
+		// サイズ変更
+		instance.addEventListener("pressmove", resizeDragAreaObject);
+		instance.addEventListener("pressup", stopResizeDragAreaObject);
+	}
+}
+
+// エリアオブジェクト ＜移動＞ドラッグ中の処理
+function dragAreaObject(eventObject) {
+	var instance = eventObject.target;
+	var dragedID = instance.id;
+	var width = parseInt(instance.graphics.command.w);
+	var height = parseInt(instance.graphics.command.h);
+	var leftTop = { x: instance.x, y: instance.y };
+	var rightTop = { x: instance.x + width , y: instance.y };
+	var rightBottom = { x:instance.x + width , y: instance.y + height };
+	var leftBottom = { x: instance.x , y: instance.y + height };
+
+	// ポインタ位置が画面外だった時の分岐
+	if((onPointX <= eventObject.stageX)&&(eventObject.stageX <= canvasWidth - width + onPointX)
+	&&(onPointY <= eventObject.stageY)&&(eventObject.stageY <= canvasHeight -height + onPointY)){
+		// in canvas
+		instance.x = Math.round((eventObject.stageX - onPointX)/gridSize)*gridSize;
+		instance.y = Math.round((eventObject.stageY - onPointY)/gridSize)*gridSize;
+		if(instance.array!=null){
+			updateFrameAreaObject(instance.x,instance.y,width,height);
+		}
+	}else if((onPointX <= eventObject.stageX)&&(eventObject.stageX <= canvasWidth - width + onPointX)
+	&&(0 <= eventObject.stageY)&&(eventObject.stageY < onPointY)){
+		// over top
+		instance.x = Math.round((eventObject.stageX - onPointX)/gridSize)*gridSize;
+		if(instance.array!=null){
+			updateFrameAreaObject(instance.x,instance.y,width,height);
+		}
+	}else if((canvasWidth - width + onPointX < eventObject.stageX)&&(eventObject.stageX <= canvasWidth)
+	&&(onPointY <= eventObject.stageY)&&(eventObject.stageY <= canvasHeight -height + onPointY)){
+		// over right
+		instance.y = Math.round((eventObject.stageY - onPointY)/gridSize)*gridSize;
+		if(instance.array!=null){
+			updateFrameAreaObject(instance.x,instance.y,width,height);
+		}
+	}else if((onPointX <= eventObject.stageX)&&(eventObject.stageX <= canvasWidth - width + onPointX)
+	&&(canvasHeight - height + onPointY < eventObject.stageY)&&(eventObject.stageY <= canvasHeight)){
+		// over bottom
+		instance.x = Math.round((eventObject.stageX - onPointX)/gridSize)*gridSize;
+		if(instance.array!=null){
+			updateFrameAreaObject(instance.x,instance.y,width,height);
+		}
+	}else if((0 <= eventObject.stageX)&&(eventObject.stageX <= onPointX)
+	&&(onPointY <= eventObject.stageY)&&(eventObject.stageY <= canvasHeight -height + onPointY)){
+		// over left
+		instance.y = Math.round((eventObject.stageY - onPointY)/gridSize)*gridSize;
+		if(instance.array!=null){
+			updateFrameAreaObject(instance.x,instance.y,width,height);
+		}
+	}
+	stage.update();
+}
+
+// エリアオブジェクト ＜移動＞ドラッグの終了処理
+function stopDragAreaObject(eventObject) {
+	var instance = eventObject.target;
+	instance.removeEventListener("pressmove", dragAreaObject);
+	instance.removeEventListener("pressup", stopDragAreaObject);
+	// マウスダウンした位置からマウスアップした位置までの移動距離（３平方の定理）
+	var dragDistant = Math.sqrt(Math.pow(eventObject.stageX-pointerX,2) + Math.pow(eventObject.stageY-pointerY,2));
+	// 限りなくクリックに近いドラッグの場合
+	if(dragDistant < 3){
+		clickAreaObject(eventObject);
+	}
+	var i = stage.children.length - 1;
+	// x座標が異なる または y座標が異なる または セレクトスクエア である場合
+	while(instance.x != stage.children[i].x || instance.y != stage.children[i].y  || stage.children[i].__type =="selectSquare"){
+		// 何のための処理なのかわからない
+		i=i-1;
+	}
+	
+	for(var k=stage.children.length-1; k>=0; k--){
+		// iのオブジェクトまたはセレクトスクエアの場合は処理はおこなわない
+		if(k==i || stage.children[k].__type =="selectSquare"){
+            continue;
+		}
+		// 他のオブジェクトと重なった場合は移動する前に戻す
+		if(instance.x > stage.children[k].x - (instance.width)
+		&& instance.x < stage.children[k].x + (stage.children[k].width)
+		&& instance.y > stage.children[k].y - (instance.height)
+		&& instance.y < stage.children[k].y + (stage.children[k].height)){
+			instance.x = previewscalex;
+			instance.y = previewscaley;
+			// セレクトスクエアの更新
+			if(instance.array != null){
+				updateFrameAreaObject(instance.x, instance.y, instance.width, instance.height);
+			}
+			break;
+		}
+	}
+	stage.update();
+	// 移動終了後、保存
+	saveAreaObject(instance);
+	
+	// エリアオブジェクトを選択している場合
+	if(selectedAreaObject !== null){
+		// 選択中のエリアオブジェクト情報を編集フォームに反映
+		inputEditFormAreaObject();
+	}
+}
+
+// エリアオブジェクト ＜サイズ変更＞ドラック中の処理
+function resizeDragAreaObject(eventObject) {
+	var changeFrame = stage.children[nowwhite].__number;
+	var instance = eventObject.target;
+	var dragedID = instance.id;
+	// 0:左上		1:中央上		2:右上
+	// 3:左中央	4:-			5:右中央
+	// 6:左下		7:中央下		8:右下
+	// 図形の右部分
+	if(changeFrame == 2 || changeFrame == 5 || changeFrame==8){
+		instance.graphics.command.w = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
+		instance.width = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
+	}
+	// 図形の下部分
+	if(changeFrame == 6 || changeFrame == 7 || changeFrame==8){
+		instance.graphics.command.h =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
+		instance.height =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
+	}
+	// 図形の左部分
+	if(changeFrame == 0 || changeFrame==3 || changeFrame==6){
+		instance.x = Math.round((eventObject.stageX - onPointX)/gridSize)*gridSize;
+		instance.graphics.command.w = nowright-instance.x;
+		instance.width = nowright-instance.x;
+	}
+	// 図形の上部分
+	if(changeFrame == 0 || changeFrame==1 || changeFrame==2){
+		instance.y = Math.round((eventObject.stageY - onPointY)/gridSize)*gridSize;
+		instance.graphics.command.h = nowbottom-instance.y;
+		instance.height = nowbottom-instance.y;
+	}
+	//　x座標は右端より左
+	if(instance.x>=nowright){
+		instance.x=nowright-gridSize;
+	}
+	//　y座標は下端より上
+	if(instance.y>=nowbottom){
+		instance.y=nowbottom-gridSize;
+	}
+	// 横幅がグリッドサイズより小さいとき
+	if(instance.graphics.command.w < gridSize){
+		instance.graphics.command.w = gridSize;
+		instance.width = gridSize;
+	}
+	// 高さがグリッドサイズより小さいとき
+	if(instance.graphics.command.h < gridSize){
+		instance.graphics.command.h = gridSize;
+		instance.height = gridSize;
+	}
+    if(instance.array!=null){
+        updateFrameAreaObject(instance.x,instance.y,instance.graphics.command.w,instance.graphics.command.h);
+    }
+	// ドラッグ中のオブジェクトが関連付け済みである場合、関連付けされているプレゼンテーションテキストも移動させる
+	if(instance.__relation != "" && instance.__relation != undefined){
+		// 関連付けされているプゼンテーションテキストを特定する
+		for(var i=0; i<stage.children.length; i++){
+			var object = stage.children[i];
+			if(object.__parent == dragedID){
+				object = relocateCenter(object, instance);
+				break;
+			}
+		}
+	}
+
+	stage.update();
+	onResizing = true;
+}
+
+// エリアオブジェクト ＜サイズ変更＞ドラッグの終了処理
+function stopResizeDragAreaObject(eventObject) {
+	var instance = eventObject.target;
+	instance.removeEventListener("pressmove", resizeDragAreaObject);
+	instance.removeEventListener("pressup", stopResizeDragAreaObject);
+	onResizing = false;
+}
+
+
+/********************************************************
+ * エリアオブジェクトのセレクトスクエアに関する処理
+ ********************************************************/
+// エリアオブジェクト セレクトスクエア マウスオーバー処理
+function FrameMouseOverAreaObject(sq){
+	resizeFlg = false;
+	//　フレームによってマウスカーソルを変える
+	if(sq.__number== 0 || sq.__number==8){
+		sq.cursor = "se-resize";
+	}
+	if(sq.__number== 2 || sq.__number==6){
+		sq.cursor = "sw-resize";
+	}
+	if(sq.__number== 1 || sq.__number==7){
+		sq.cursor = "s-resize";
+	}
+	if(sq.__number== 3 || sq.__number==5){
+		sq.cursor = "e-resize";
+	}
+}
+
+// エリアオブジェクト セレクトスクエア ドラッグの開始処理
+function FrameDragStartAreaObject(eventObject){
+	selectFlag=false;
+	var instance = selectedAreaObject;
+	// オブジェクト上のどの位置をクリックしたか
+	pointerX= eventObject.stageX;
+	pointerY= eventObject.stageY;
+	onPointX = eventObject.stageX - instance.x;
+	onPointY = eventObject.stageY - instance.y;
+	
+	eventObject.target.addEventListener("pressmove", FrameDragAreaObject);
+	eventObject.target.addEventListener("pressup", FrameDragOverAreaObject);
+	
+	// ドラック開始時のオブジェクトの大きさ取得
+	previewbigx = instance.graphics.command.w;
+	previewbigy = instance.graphics.command.h;
+	// ドラック開始時のオブジェクトの座標取得
+	previewscalex = instance.x;
+	previewscaley = instance.y;
+	// ドラック開始時のオブジェクトの右端と下端の座標取得
+	nowright = instance.x+previewbigx;
+	nowbottom = instance.y+previewbigy;
+	var nowdistance = 1000;
+	// 最も近いフレームを、今回サイズ変更するフレームとみなす
+	for(var k=stage.children.length-1; k>=0; k--){
+		if(stage.children[k].__type =="selectSquare"){
+			if(nowdistance > Math.abs(Math.ceil((stage.children[k].graphics.command.x)/gridSize)*gridSize-Math.ceil((eventObject.stageX)/gridSize)*gridSize)+Math.abs(Math.ceil((stage.children[k].graphics.command.y)/gridSize)*gridSize-Math.ceil((eventObject.stageY)/gridSize)*gridSize)){
+				nowdistance =Math.abs(Math.ceil((stage.children[k].graphics.command.x)/gridSize)*gridSize-Math.ceil((eventObject.stageX)/gridSize)*gridSize)+Math.abs(Math.ceil((stage.children[k].graphics.command.y)/gridSize)*gridSize-Math.ceil((eventObject.stageY)/gridSize)*gridSize);
+				nowwhite = k;
+			}
+		}
+	}
+}
+
+// エリアオブジェクト セレクトスクエア ドラッグ中処理
+function FrameDragAreaObject(eventObject){
+	var eb = eventObject;
+	eb.target = selectedAreaObject;
+	resizeDrag(eb);
+	var instance = eventObject.target;
+}
+
+// エリアオブジェクト セレクトスクエア ドラッグ終了処理
+function FrameDragOverAreaObject(eventObject){
+	var instance = eventObject.target;
+	instance.removeEventListener("pressmove", resizeDragAreaObject);
+	instance.removeEventListener("pressup", stopResizeDragAreaObject);
+	var x = Math.ceil(eventObject.stageX/gridSize) * gridSize;
+	var y = Math.ceil(eventObject.stageY/gridSize) * gridSize;
+	var instance = eventObject.target;
+	instance.graphics.command.w = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
+	instance.graphics.command.h =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
+	instance.width = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
+	instance.height =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
+
+	var i = stage.children.length-1;
+	while(selectedAreaObject != stage.children[i]){
+		i=i-1;
+	}
+	for(var k=stage.children.length-1; k>=0; k--){
+		if(k==i || stage.children[k].__type == "selectSquare"){
+			continue;
+		}
+		//他のオブジェクトと重なった場合は、位置、大きさ共に元に戻す
+		if(stage.children[i].x > stage.children[k].x - (stage.children[i].width) 
+		&& stage.children[i].x < stage.children[k].x + (stage.children[k].width) 
+		&& stage.children[i].y > stage.children[k].y- (stage.children[i].height) 
+		&& stage.children[i].y < stage.children[k].y + (stage.children[k].height)){
+			stage.children[i].graphics.command.w = previewbigx;
+			stage.children[i].graphics.command.h = previewbigy;
+			stage.children[i].x = previewscalex;
+			stage.children[i].y = previewscaley;
+			previewscalex = instance.x;
+			previewscaley = instance.y;
+			updateFrameAreaObject(stage.children[i].x, stage.children[i].y, stage.children[i].graphics.command.w, stage.children[i].graphics.command.h);
+			stage.update();
+			break;
+		}
+	}
+	onResizing = false;
+	//サイズ変更終了後、保存
+	saveAreaObject(stage.children[i]);
+}
+
+
+/********************************************************
+ * ドラッグアンドドロップによるエリアオブジェクト生成に関する処理
+ ********************************************************/
+// エリアオブジェクト生成 ドラッグ開始
+function startDragCreateAreaObject(e){
+	
+	// スクロール量を取得（ドロップした位置がウィンドウからの相対位置となってしまうため）
+	var scrollX = $(window).scrollLeft();
+	var scrollY = $(window).scrollTop();
+	//console.log('スクロール量: ('+scrollX+', '+scrollY+')');
+	// キャンバスパネル要素の位置を取得（キャンバスは絶対位置配置のため）
+	var tabPaneX = $('#canvasArea #tcCanvas'+selectedDay).offset().left;
+	var tabPaneY = $('#canvasArea #tcCanvas'+selectedDay).offset().top;
+	//console.log('タブパネルの位置: ('+tabPaneX+', '+tabPaneY+')');
+	// キャンバス上の位置を取得
+	var onCanvasX = e.clientX - tabPaneX - e.target.offsetLeft + scrollX;
+	var onCanvasY = e.clientY - tabPaneY - e.target.offsetTop + scrollY;
+	//console.log('キャンバスの位置: ('+e.target.offsetLeft+', '+e.target.offsetTop+')');
+	//console.log('クリックした位置: ('+e.clientX+', '+e.clientY+')');
+	//console.log('キャンバス上の位置: ('+onCanvasX+', '+onCanvasY+')');
+	
+	// エリアオブジェクト生成開始位置
+	areaObjectX = Math.floor(onCanvasX / gridSize)*gridSize;
+	areaObjectY = Math.floor(onCanvasY / gridSize)*gridSize;
+	areaObjectWidth = areaObjectInitWidth;
+	areaObjectHeight = areaObjectInitHeight;
+	//console.log('エリアオブジェクト生成開始位置: ('+areaObjectX+', '+areaObjectY+')');
+	
+	// 他のエリアオブジェクトとの重なりチェック
+	var isOverlapped = false;
+	for(var i=0; i<stage.children.length; i++){
+		// セレクトスクエアは除く
+		if(stage.children[i].__type !== 'selectSquare'){
+			// 他のエリアオブジェクトと重なっている場合
+			if(areaObjectX >= stage.children[i].x
+			&& areaObjectX <= stage.children[i].x + stage.children[i].width
+			&& areaObjectY >= stage.children[i].y
+			&& areaObjectY <= stage.children[i].y + stage.children[i].height){
+				isOverlapped = true;
+			}
+		}
+	}
+	
+	// 移動またはサイズ変更をしようとしていなければ（ドラッグ開始位置が他のオブジェクトと重なっていない場合）
+	if(!isOverlapped){
+		// エリアオブジェクト生成フラグを真に
+		createFlagAreaObject = true;
+		
+		// 色の選定（まだ利用していない色があればその色を、一通り利用していれば回数の少ない色を）
+		var colorCountMin = 999;
+		for(var i=0; i<areaObjectColorArray.length; i++){
+			// 最小値より登場回数の少ない色がある場合
+			if(colorCountMin > areaObjectColorCountArray[i]){
+				// 最小値を更新
+				colorCountMin = areaObjectColorCountArray[i];
+				// カラー番号を格納
+				areaObjectColorNum = i;
+			}
+		}
+		
+		// エリアオブジェクトの生成
+		areaObjectColor = areaObjectColorArray[areaObjectColorNum];
+		areaObject = createAreaObject(areaObjectX, areaObjectY, areaObjectWidth , areaObjectHeight , areaObjectColor);
+		stage.addChild(areaObject);
+		stage.update();
+		areaObject.addEventListener("mousedown", startDragAreaObject);
+		var tempevent = areaObject;
+		tempevent.target = areaObject;
+		// 選択状態にする
+		clickAreaObject(areaObject);
+	}
+}
+
+// エリアオブジェクト生成 ドラッグ中の処理
+function draggingCreateAreaObject(e){
+	// ドラッグ中でなくても処理は実行されているため、エリアオブジェクト生成中の時のみ以下の処理をおこなう（＝ドラッグ中と判断する）
+	if(createFlagAreaObject){
+		// ドラッグ中のキャンバス上の座標を取得
+		
+		// スクロール量を取得（ドロップした位置がウィンドウからの相対位置となってしまうため）
+		var scrollX = $(window).scrollLeft();
+		var scrollY = $(window).scrollTop();
+		//console.log('スクロール量: ('+scrollX+', '+scrollY+')');
+		// キャンバスパネル要素の位置を取得（キャンバスは絶対位置配置のため）
+		var tabPaneX = $('#canvasArea #tcCanvas'+selectedDay).offset().left;
+		var tabPaneY = $('#canvasArea #tcCanvas'+selectedDay).offset().top;
+		//console.log('タブパネルの位置: ('+tabPaneX+', '+tabPaneY+')');
+		// キャンバス上の位置を取得
+		var onCanvasX = e.clientX - tabPaneX - e.target.offsetLeft + scrollX;
+		var onCanvasY = e.clientY - tabPaneY - e.target.offsetTop + scrollY;
+		//console.log('キャンバスの位置: ('+e.target.offsetLeft+', '+e.target.offsetTop+')');
+		//console.log('クリックした位置: ('+e.clientX+', '+e.clientY+')');
+		//console.log('キャンバス上の位置: ('+onCanvasX+', '+onCanvasY+')');
+		
+		// グリッドサイズに合わせる
+		var onCanvasXFitGrid = Math.floor(onCanvasX / gridSize)*gridSize;
+		var onCanvasYFitGrid = Math.floor(onCanvasY / gridSize)*gridSize;
+		
+		// エリアオブジェクト生成開始位置からの距離から横幅・高さを求める
+		areaObjectWidth = onCanvasXFitGrid - areaObjectX;
+		areaObjectHeight = onCanvasYFitGrid - areaObjectY;
+		
+		// 基本的に左上から右下にしかエリアオブジェクトは生成できない（横幅・高さをマイナスに設定できない）
+		if(areaObjectWidth < 0){
+			areaObjectWidth = gridSize;
+		}
+		if(areaObjectHeight < 0){
+			areaObjectHeight = gridSize;
+		}
+		
+		// オブジェクトの横幅・高さを更新
+		areaObject.graphics.command.w = areaObjectWidth;
+		areaObject.width = areaObjectWidth;
+		areaObject.graphics.command.h = areaObjectHeight;
+		areaObject.height = areaObjectHeight;
+		// セレクトスクエアの更新
+		updateFrame(areaObject.x, areaObject.y, areaObject.width, areaObject.height);
+		
+		stage.update();
+		
+	}
+}
+
+// エリアオブジェクト生成 ドラッグ終了処理
+function stopDragCreateAreaObject(e){
+	// エリアオブジェクト生成中の時のみ以下の処理をおこなう（＝ドロップと判断する）
+	if(createFlagAreaObject){
+		// エリアオブジェクト生成フラグを偽に
+		createFlagAreaObject = false;
+		
+		// 他のオブジェクトと重なっているかチェック
+		var isOverlapped = false;
+		// 生成中のオブジェクトの中心座標
+		var centerX = areaObject.x + (areaObject.width/2);
+		var centerY = areaObject.y + (areaObject.height/2);
+		// 当たり判定
+		for(var i=0; i<stage.children.length; i++){
+			// 生成中のオブジェクトやセレクトスクエアは除く
+			if(stage.children[i].id !== areaObject.id && stage.children[i].__type !== 'selectSquare'){
+				// 当たり判定
+				var isOverlappedHorizontal = false;
+				var isOverlappedVertical = false;
+				// 対象エリアオブジェクトの中心座標
+				var targetX = stage.children[i].x + (stage.children[i].width/2);
+				var targetY = stage.children[i].y + (stage.children[i].height/2);
+				
+				// 横について（2つのオブジェクトのX座標の距離より、2つのオブジェクトの横幅/2を足した距離の方が大きければ横方向で衝突している）
+				if(Math.abs(centerX - targetX) < (areaObject.width/2 + stage.children[i].width/2)){
+					isOverlappedHorizontal = true;
+				}
+				// 縦について（2つのオブジェクトのY座標の距離より、2つのオブジェクトの高さ/2を足した距離の方が大きければ縦方向で衝突している）
+				if(Math.abs(centerY - targetY) < (areaObject.height/2 + stage.children[i].height/2)){
+					isOverlappedVertical = true;
+				}
+				// 横方向についても縦方向についても衝突していれば当たり判定がつく
+				if(isOverlappedHorizontal && isOverlappedVertical){
+					isOverlapped = true;
+					break;
+				}
+			}
+		}
+		
+		// ドラッグ距離を求める（三平方の定理）
+		var dragDistance = Math.abs(Math.sqrt(Math.pow(areaObject.width,2) + Math.pow(areaObject.height,2)));
+		// 閾値より小さい場合や、他のエリアオブジェクトと重なっている場合はエリアオブジェクトとして認めず、削除する
+		if(dragDistance < areaObjectThreshold || isOverlapped){
+			// 削除
+			stage.removeChild(areaObject);
+			cancelFrameAreaObject();
+			stage.update();
+		}else{
+			// 正常にエリアオブジェクトが生成完了
+			// エリアオブジェクトの情報を編集フォームに反映
+			inputEditFormAreaObject();
+			// エリアオブジェクトの色登場回数配列のカウントアップ
+			areaObjectColorCountArray[areaObjectColorNum]++;
+			// データベースへ保存
+			saveAreaObject(areaObject);
+		}
+	}
+}
+
+// ドラッグ中のセレクトスクエアの再描画
+function updateFrameAreaObject(x,y,w,h) {
+	// 8方向のセレクトスクエアを更新する
+	for (var i=0, p=0; i<3; i++) {
+		for (var j=0; j<3; j++) {
+			// 真ん中である場合は処理を除く
+			if (!(i == 1 && j == 1)) {
+				selectSquareArray[p].graphics.clear();
+				selectSquareArray[p].graphics.beginFill(blackColor);
+				selectSquareArray[p].graphics.drawRect(x - 5 + j * w / 2, y - 5 + i * h / 2, 10, 10);
+				selectSquareArray[p].graphics.beginFill(whiteColor);
+				selectSquareArray[p].graphics.drawRect(x - 4 + j * w / 2, y - 4 + i * h / 2, 8, 8);
+				p++;
+			}
+		}
+	}
+}
+
+
+// 選択されたエリアオブジェクトが持つデータを編集フォームに反映する
+function inputEditFormAreaObject(){
+	$('input[name="areaWidth"]').val(parseInt(selectedAreaObject.width) / gridSize);
+	$('input[name="areaHeight"]').val(parseInt(selectedAreaObject.height) / gridSize);
+	$('input[name="areaPositionX"]').val(selectedAreaObject.x / gridSize);
+	$('input[name="areaPositionY"]').val(selectedAreaObject.y / gridSize);
+	$('select[name="areaColor"]').val(selectedAreaObject.color);
+	$('select[name="areaColor"] + .btn-group > .selectpicker > span:first-child').css("background-color", selectedAreaObject.color);
+}
+
+// 編集フォームからの更新処理
+function updateAreaObject(){
+	// フォーム内の各項目の値を取得
+	var valAreaWidth = $('input[name="areaWidth"]').val() * gridSize;
+	var valAreaHeight = $('input[name="areaHeight"]').val() * gridSize;
+	var valAreaPositionX = $('input[name="areaPositionX"]').val() * gridSize;
+	var valAreaPositionY = $('input[name="areaPositionY"]').val() * gridSize;
+	var valAreaColor = $('select[name="areaColor"]').val();
+	
+	// 変更前の色を記憶
+	var previousAreaColor = selectedAreaObject.color;
+	
+	// 更新しようとしているエリアオブジェクトの中心座標
+	var centerX = valAreaPositionX + (valAreaWidth/2);
+	var centerY = valAreaPositionY + (valAreaHeight/2);
+	
+	// その他のエリアオブジェクトと重なっていないかチェック
+	var isOverlapped = false;
+	var errMsg = 'This area object is overlapped.';
+	for(var i=0; i<stage.children.length; i++){
+		// セレクトスクエアまたは選択中のオブジェクトは除く
+		if(stage.children[i].__type !== "selectSquare" && stage.children[i].id !== selectedAreaObject.id){
+			// 対象エリアオブジェクトの中心座標
+			var targetX = stage.children[i].x + (stage.children[i].width/2);
+			var targetY = stage.children[i].y + (stage.children[i].height/2);
+			
+			// 当たり判定
+			// 横について（2つのオブジェクトのX座標の距離より、2つのオブジェクトの横幅/2を足した距離の方が大きければ横方向で衝突している）
+			var isOverlappedHorizontal = false;
+			if(Math.abs(centerX - targetX) < (valAreaWidth/2 + stage.children[i].width/2)){
+				isOverlappedHorizontal = true;
+			}
+			// 縦について（2つのオブジェクトのY座標の距離より、2つのオブジェクトの高さ/2を足した距離の方が大きければ縦方向で衝突している）
+			var isOverlappedVertical = false;
+			if(Math.abs(centerY - targetY) < (valAreaHeight/2 + stage.children[i].height/2)){
+				isOverlappedVertical = true;
+			}
+			// 横方向についても縦方向についても衝突していれば当たり判定がつく
+			if(isOverlappedHorizontal && isOverlappedVertical){
+				isOverlapped = true;
+			}
+		}
+	}
+	
+	// 当たり判定がついていなければ更新する
+	if(!isOverlapped){
+		// エリアオブジェクトの更新
+		selectedAreaObject.graphics.command.w = valAreaWidth;
+		selectedAreaObject.width = valAreaWidth;
+		selectedAreaObject.graphics.command.h = valAreaHeight;
+		selectedAreaObject.height = valAreaHeight;
+		selectedAreaObject.x = valAreaPositionX;
+		selectedAreaObject.y = valAreaPositionY;
+		selectedAreaObject.color = valAreaColor;
+		selectedAreaObject.graphics._fill.style = valAreaColor; // ここに格納しなければ色は反映されない
+		
+		// セレクトスクエアの更新
+		updateFrame(selectedAreaObject.x, selectedAreaObject.y, selectedAreaObject.width, selectedAreaObject.height);
+		
+		// ステージのアップデート
+		stage.update();
+		
+		// エリアオブジェクトの色登場回数の更新
+		// 変更前の色の登場回数をカウントダウン
+		for(var i=0; i<areaObjectColorArray.length; i++){
+			if(previousAreaColor == areaObjectColorArray[i]){
+				areaObjectColorCountArray[i]--;
+				break;
+			}
+		}
+		// 変更後の色の登場回数をカウントアップ
+		for(var i=0; i<areaObjectColorArray.length; i++){
+			if(valAreaColor == areaObjectColorArray[i]){
+				areaObjectColorCountArray[i]++;
+				break;
+			}
+		}
+		
+	}else{
+		// 衝突メッセージをアラートで表示
+		alert(errMsg);
 	}
 }
