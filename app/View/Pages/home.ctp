@@ -23,6 +23,100 @@ echo $this->Html->script('jquery-ui.min');
 echo $this->Html->script('jquery.animate-colors-min');
 echo $this->Html->script('page_home');
 ?>
+<script type="text/javascript">
+$(function(){
+	// ランディングページのアカウント登録ボタンを押されたときの処理
+	$('#UserSignupForm').submit(function(){
+		// フォームに入力されている値を変数に格納
+		userName = $('#UserUsername').val();
+		mailAddress = $('#UserEmail').val();
+		passwd = $('#UserPassword').val();
+		passwdConfirm = $('#UserPasswordConfirm').val();
+	
+		// エラーメッセージを空に
+		err_box = $('.error-messages');
+		err_box.empty();
+	
+		// submitを許可するか判断するための変数
+		submitPermit = true;
+		
+		// User Name が未入力の場合
+		if(userName == '' || userName == undefined){
+			err_elm = $('<p>').text("User Name is required.");
+			err_box.append(err_elm);
+			submitPermit = false;
+		}
+		// Mail Address が未入力の場合
+		if(mailAddress == '' || mailAddress == undefined){
+			err_elm = $('<p>').text("Mail Address is required.");
+			err_box.append(err_elm);
+			submitPermit = false;
+		}
+		// Password が未入力の場合
+		if(passwd == '' || passwd == undefined){
+			err_elm = $('<p>').text("Password is required.");
+			err_box.append(err_elm);
+			submitPermit = false;
+		}
+		// Password と 確認用Password の値が異なる場合
+		if(passwd !==  passwdConfirm){
+			err_elm = $('<p>').text("Password and Password(Confirm) is different.");
+			err_box.append(err_elm);
+			submitPermit = false;
+		}
+		// User Name がすでに登録されているかどうかチェック
+		/*
+		TODO: Ajaxからのレスポンスが遅くて先にsubmitされてしまう（現状はサインアップページに自動遷移する）
+		isAlreadyRegisted  = false;
+		$.ajax({
+			type: "POST",
+			cache : false,
+			url: "users/checkAlreadyRegisted",
+			data: { "name": userName },
+			success: function(response){
+				// すでに登録されている場合
+				if(response == "true"){
+					isAlreadyRegisted = true;
+				}
+			},
+			error: function(){
+				alert('Ajax Error');
+			}
+		}).done(function(response){
+			// Ajaxの処理がおわったときの処理
+			if(response == "true"){
+				isAlreadyRegisted = true;
+			}
+			// すでに入力したユーザ名が存在している場合
+			if(isAlreadyRegisted){
+				err_elm = $('<p>').text('User Name "'+ userName +'" is Already existed.');
+				err_box.append(err_elm);
+				submitPermit = false;
+			}
+			// submitを許可しない場合はページ遷移させない
+			if(!submitPermit){
+				slideDown(err_box)
+				return false;
+			}else{
+				// ajaxが終了してもなお、submitPermitがtrueだったらsubmitさせる
+				return true;
+			}
+		});
+		*/
+		
+		// submitを許可しない場合はページ遷移させない
+		if(!submitPermit){
+			slideDown(err_box)
+			return false;
+		}
+	})
+	
+	// エラーメッセージ表示用処理
+	function slideDown(slideEle){
+		slideEle.slideDown(300).removeClass('disno');
+	}
+ })
+</script>
 <meta charset="UTF-8">
 <title>PosTom - 展示会向けwebアプリ作成支援ツール</title>
 </head>
@@ -32,11 +126,16 @@ echo $this->Html->script('page_home');
 <div id="header">
 <div class="inner">
 <h1><a href="#"><img src="img/top/i_logo.png" alt="PosTom" width="120" height="70"></a></h1>
-<ul id="hnav">
+<!-- PC向けメニュー -->
+<ul id="hnav" class="hidden-xs">
 <li><a href="#col2">SERVICE</a></li>
 <li><a href="#col3">FEATURE</a></li>
 <li><a href="#col4">SIGN UP</a></li>
 <li><a href="users/login">SIGN IN</a></li>
+</ul>
+<!-- スマートフォン向けメニュー -->
+<ul id="smHnav" class="visible-xs">
+<!-- 開発中 -->
 </ul>
 </div>
 </div>
@@ -48,9 +147,8 @@ echo $this->Html->script('page_home');
 <h2>SMARTPHONE APPLICATION GENERATOR</h2>
 <h3>FOR CONFERENCES INCLUDING POSTER SESSIONS</h3>
 <h4>
-PosTomは展示会向けwebアプリ作成支援ツールです。<br>
-学会のポスターをはじめ、プレゼンテーション・スケジュールのコンテンツを<br>
-簡単に作成することができます。
+PosTom is Web service witch generates smartphone applications for conferences including poster session.<br>
+You can create contents easily.
 </h4>
 </div> 
 </div> 
@@ -59,8 +157,11 @@ PosTomは展示会向けwebアプリ作成支援ツールです。<br>
 <!-- column 2 -->
 <div id="col2" class="cd-scrolling-bg cd-color-1">
 <div class="inner cd-container">
-<p class="tit">PCから簡単スマートフォン向けアプリ生成</p>
-<p class="txt">学会向けスマートフォンアプリの生成が作りたいアナタへ。<br>学会ごとにスマートフォンアプリをつくるなんて面倒だと思っていませんか？<br>あなたに求めることは必要最低限の操作と、データをアップロードするだけ。<br>最短3分で簡単につくることができます。しかも無料。</p>
+<p class="tit">Create Application For Smartphone By PC</p>
+<p class="txt">You can create Web application for conference.<br>
+You may think it's a hassle.<br>
+What you need is only minimal operations and uploading data.<br>
+You can create Web application about 3 minutes and all free.</p>
 <p class="thumb"><img src="img/top/i_col1.png" alt="サービス画像" width="745" height="495"></p>
 </div> 
 </div>
@@ -69,8 +170,9 @@ PosTomは展示会向けwebアプリ作成支援ツールです。<br>
 <!-- column 3 -->
 <div id="col3" class="cd-fixed-bg cd-bg-2 no-min-height">
 <div class="inner cd-container">
-<p class="tit">簡単にポスター配置</p>
-<p class="txt">ポスターセッションのコンテンツは特に面倒なもの。<br>しかし、PosTomを利用すれば直感的に配置がおこなえます。</p>
+<p class="tit">Arrange Poster Position By Intuitive Handling</p>
+<p class="txt">The contents of poster session is a bother.<br>
+But, you can arrange for poster position by intuitive handling.</p>
 <p class="thumb"><img src="img/top/i_col2.png" alt="フィーチャー画像" width="940" height="484"></p>
 </div> 
 </div> 
@@ -79,9 +181,9 @@ PosTomは展示会向けwebアプリ作成支援ツールです。<br>
 <!-- column 4 -->
 <div id="col4" class="cd-scrolling-bg cd-color-2">
 <div class="inner cd-container">
-
-<p class="tit">まずはお試しください</p>
-<p class="txt">すべて無料。仮登録が完了するとメールが届きます。</p>
+<p class="tit">If You Haven't Already, Please Newly Register</p>
+<p class="txt">All contents are free. When you completed temporarily registered, you can receive emails.</p>
+<div class="error-messages disno"></div>
 <div class="signup-form">
 <form action="users/signup" id="UserSignupForm" method="post" accept-charset="utf-8">
 <div class="disno">
@@ -122,7 +224,7 @@ PosTomは展示会向けwebアプリ作成支援ツールです。<br>
 <!-- // footer -->
 
 <!-- page top -->
-<div class="pagetop disno">
+<div class="pagetop disno hidden-xs">
 <a href="#col1">
 PAGE TOP
 </a>

@@ -287,25 +287,3 @@ input[type=file].disno {
 #footer #copyright {
 	text-align: center;
 }
-
-/* canvas
-****************************************************/
-.posterCanvas {
-	background-image: url(../img/dot.png);
-	background-repeat: repeat;
-	border: 1px solid #e1e1e1;
-	display: block;
-	margin: 0 auto;
-}
-canvas.disuse {
-	background-image: url(../img/bg_canvas_disuse.png), url(../img/dot.png);
-}
-
-
-/* responsive
-****************************************************/
-@media screen and (max-width: 1200px) {
-.posterCanvas {
-	margin: 0;
-}
-}

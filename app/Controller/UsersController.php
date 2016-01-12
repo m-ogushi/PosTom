@@ -73,5 +73,20 @@ class UsersController extends AppController {
 		unset($_SESSION['event_str']);
 		return $this->redirect($this->Auth->logout());
 	}
+	
+	// すでにアカウントが登録されているかどうかをチェックするアクション
+	public function checkAlreadyRegisted(){
+		$this->autoRender = FALSE;
+		if($this->request->is('ajax')){
+			$results = $this->User->find('all', array(
+				'conditions' => array('username' => $this->data['name'])
+			));
+			if($results == NULL){
+				// 1件も登録されていない場合
+				return "false";
+			}
+			return "true";		
+		}
+	}
 }
 ?>
