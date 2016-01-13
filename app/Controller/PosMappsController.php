@@ -1,7 +1,7 @@
 <?php
 class PosMappsController extends AppController {
 	public $helpers = array('Html', 'Form', 'Text');
-	public $uses =array('Poster','Event','Schedule');
+	public $uses =array('Poster','Event','Schedule','Area');
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow(array('index', 'deletestorage', 'makejson', 'phoneclear', 'qr', 'sendmail'));
@@ -21,6 +21,10 @@ class PosMappsController extends AppController {
         }
         $posters=
             $this->Poster->find('all', array(
+                'conditions' => array('event_id' => $_SESSION['event_id'])
+            ));
+        $areas=
+            $this->Area->find('all', array(
                 'conditions' => array('event_id' => $_SESSION['event_id'])
             ));
         //--------------------------------------------------------------------------------------------------floor map----------------------------------------------------------------------
@@ -93,6 +97,7 @@ class PosMappsController extends AppController {
         "STATIC_WIDTH":"720",
         "STATIC_HEIGHT":"960",';
         //echo str_replace('/','\/',$this->webroot);
+        $JsonArea='"taparea" : [';
         $JsonPosition='"position":[';
         $JsonAuthor='"author":[';
         $JsonPresent='"presen":[';
@@ -103,6 +108,27 @@ class PosMappsController extends AppController {
         "timetable":[
         ';
 
+        $pointer=0;
+        foreach($areas as $area):
+            $JsonArea.='{';
+            $JsonArea.='"id":'.$area['Area']['id'].',';
+            $JsonArea.='"x":'. $area['Area']['x'].',';
+            $JsonArea.='"y":'. $area['Area']['y'].',';
+            $JsonArea.='"width":'.$area['Area']['width'].',';
+            $JsonArea.='"height":'.$area['Area']['height'].',';
+            $JsonArea.='"direction":"longways",';
+
+            $color=$area['Area']['color'];
+            $color_r=hexdec("$color[1]"."$color[2]") ;
+            $color_g=hexdec("$color[3]"."$color[4]");
+            $color_b=hexdec("$color[5]"."$color[6]");
+            $JsonArea.='"color":"rgb('.$color_r.','.$color_g.','.$color_b.')"';
+            $JsonArea.='}';
+            if($pointer< count($areas))
+            {
+                $JsonArea.=',';
+            }
+        endforeach;
         //----------------------------------------------------------------------------------------------------------------position,poster------------------------------------------------------------------------------------
         $pointerPoster=1;
         $pointerPresen=1;
@@ -198,7 +224,7 @@ class PosMappsController extends AppController {
             // TODO: Authorをさらにコンマで分割してJSONに記述する必要がある
 
             $arr = explode(",",$presentation['Presentation']['authors_name']);
-            $brr=explode(",",$presentation['Presentation']['authors_affiliation']);
+            $brr = explode(",",$presentation['Presentation']['authors_affiliation']);
             if(count($arr)==0)
             {
                 $JsonAuthor .= '{';
@@ -283,8 +309,8 @@ class PosMappsController extends AppController {
             $event= $this->Event->read();
             $date=$event['Event']['event_begin_date'];
             $monthday=explode("-",$date);
-            $monthdayStr=$monthday[1]."/".(string)(((int)$monthday[2])+1);
-
+            $monthdayStr=$monthday[1]."/".(string)(((int)$monthday[2])+i);
+            //TODO:時間確認
 
             $JsonDay .= '{';
             $JsonDay .= '"day_id":"' . $schedules[$i]['Schedule']['date'] . '",';
@@ -369,6 +395,10 @@ class PosMappsController extends AppController {
         }
 
         //---------------------------------------------------------------------------------------------------------delete last "," ------------------------------------------------------------------------------------------------------------------------------
+        if(substr($JsonArea,-1)==",")
+        {
+            $JsonArea=substr($JsonArea, 0, strlen($JsonArea) - 1);
+        }
         if(substr($JsonPosition,-1)==",") {
             $JsonPosition = substr($JsonPosition, 0, strlen($JsonPosition) - 1);
             $JsonPoster = substr($JsonPoster, 0, strlen($JsonPoster) - 1);
@@ -391,6 +421,7 @@ class PosMappsController extends AppController {
 
 
         //------------------------------------------------------------------------------------------------------- plus "]"------------------------------------------------------------------------------------------------------------------------------
+        $JsonArea.='],';
         $JsonPosition.='],';
         $JsonAuthor.='],';
         $JsonPresent.='],';
@@ -398,8 +429,9 @@ class PosMappsController extends AppController {
         $JsonKeyword .= '],';
         $JsonSession .= '],';
         $JsonDay .= ']';
+
         //---------------------------------------------------------------------------------------------------------make all together------------------------------------------------------------------------------------------------------------------------------
-        $JsonFile.=$JsonPosition.$JsonAuthor.$JsonPresent.$JsonPoster.$JsonKeyword.$JsonSession.$JsonDay.'}';
+        $JsonFile.=$JsonArea.$JsonPosition.$JsonAuthor.$JsonPresent.$JsonPoster.$JsonKeyword.$JsonSession.$JsonDay.'}';
         //echo $JsonFile;
 
 
