@@ -97,6 +97,7 @@ function confirmer(){
 			<th>No.</th>
 			<th>Title</th>
 			<th>Author</th>
+			<th>Affiliation</th>
 			<th>Session</th>
 		</tr>
 	</thead>
@@ -105,6 +106,7 @@ function confirmer(){
 			for($i=0; $i<10; $i++){
 				echo '<tr>';
 				echo "<td height='20'>&nbsp;</td>";
+				echo "<td>&nbsp;</td>";
 				echo "<td>&nbsp;</td>";
 				echo "<td>&nbsp;</td>";
 				echo '</tr>';
@@ -121,6 +123,7 @@ function confirmer(){
 			echo '<td class="Presentation_order" style="display: none;">'.$presentation['Presentation']['presentation_order'].'</td>';
 			echo '<td class="Title">'.$presentation['Presentation']['title'].'</td>';
 			echo '<td class="Author">'.$presentation['Presentation']['authors_name'].'</td>';
+			echo '<td class="Affiliation">'.$presentation['Presentation']['authors_affiliation'].'</td>';
 			echo '<td class="Session">';
 			if($presentation['Presentation']['session_id']!=0){
 			$session_text = $presentation['Presentation']['session_id'];
