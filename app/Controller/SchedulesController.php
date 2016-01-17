@@ -6,7 +6,6 @@ class SchedulesController extends AppController {
 	public $uses = array('Schedule','Event','Room');
 	public function index(){
 		$event_id = $_SESSION['event_id'];
-		debug($event_id);
 		$this->set('schedules', $this->Schedule->find('all', array('conditions' => array('event_id' => $event_id))));
 		$this->set('day_diff', $this->Event->dayDiff());
 		$this->set('rooms', $this->Room->find('all', array('conditions' => array('event_id' => $event_id))));
@@ -15,8 +14,8 @@ class SchedulesController extends AppController {
 		if($this->request->is('post')){
 
 			// event内のsession, roomを削除
-			// $this->Schedule->deleteAll(array('event_id'=>$_SESSION['event_id']));
-			// $this->Room->deleteAll(array('event_id'=>$_SESSION['event_id']));
+			$this->Schedule->deleteAll(array('event_id'=>$_SESSION['event_id']));
+			$this->Room->deleteAll(array('event_id'=>$_SESSION['event_id']));
 
 			$up_file = $this->data['Schedule']['CsvFile']['tmp_name'];
 			$fileName = 'ScheduleTest.csv';
