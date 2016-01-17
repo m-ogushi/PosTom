@@ -117,6 +117,7 @@ class PosMappsController extends AppController {
             $JsonArea.='"width":'.$area['Area']['width'].',';
             $JsonArea.='"height":'.$area['Area']['height'].',';
             $JsonArea.='"direction":"longways",';
+			$JsonArea.='"date":'.$area['Area']['date'].',';
 
             $color=$area['Area']['color'];
             $color_r=hexdec("$color[1]"."$color[2]") ;
