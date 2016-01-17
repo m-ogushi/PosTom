@@ -277,6 +277,13 @@ $(function() {
 				stage.addChild(instance);
 				stage.update();
 				
+				// エリアオブジェクト使用色配列のカウントアップ
+				for(var k=0; k<areaObjectColorArray.length; k++){
+					if(areaObjectColorArray[k] == instance.color){
+						areaObjectColorCountArray[k]++;
+					}
+				}
+				
 
 			} // end if
 		} // end for
@@ -1955,6 +1962,8 @@ function deleteAreaObject(){
 		// 選択中のオブジェクトを特定
 		for(var i=0; i<stage.children.length; i++){
 			if(stage.children[i].id == selectedAreaObject.id){
+				// 削除対象オブジェクト
+				var target = stage.children[i];
 				// エリアオブジェクトの色登場回数配列をカウントダウン
 				for(var j=0; j<areaObjectColorArray.length; j++){
 					if(selectedAreaObject.color == areaObjectColorArray[j]){
@@ -1962,20 +1971,21 @@ function deleteAreaObject(){
 						break;
 					}
 				}
+				// 削除を実行
+				stage.removeChildAt(i);
+				cancelFrameAreaObject();
+				stage.update();
+				
 				// データベースのエリアオブジェクト削除を反映
 				$.ajax({
 					type: "POST",
 					cache : false,
 					url: "areas/delete",
-					data: { "data": stage.children[i] },
+					data: { "data": target.__id },
 					success: function(response){
 						// データベースのエリアオブジェクト削除完了
 					}
 				});
-				// 削除を実行
-				stage.removeChildAt(i);
-				cancelFrameAreaObject();
-				stage.update();
 			}
 		}
 	}
