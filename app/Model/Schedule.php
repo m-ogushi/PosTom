@@ -10,7 +10,7 @@ class Schedule extends AppModel {
 				$roomOrder = 1;
 				$event_id = $_SESSION['event_id'];
 				while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
-				mb_convert_variables("UTF-8","SJIS", $row);
+					mb_convert_variables("UTF-8", "auto", $row);
 					$scheduleData = array(
 						'room' => $row[0],
 						'order' => $row[1],

@@ -594,7 +594,7 @@ echo $this->Html->css('page_schedule');
 <?php
 	echo $this->Form->create('Schedule', array('action'=>'save_rooting'));
 	echo $this->Form->input('room', array('id'=>'room', 'class'=>'form-control', 'options'=>$option, 'required' => false));
-	echo $this->Form->input('order', array('id'=>'order','class'=>'form-control', 'required' => false));
+	echo $this->Form->input('order', array('id'=>'order','class'=>'form-control', 'required' => false, 'min'=>'1'));
 	echo $this->Form->input('category', array('id'=>'category','class'=>'form-control','label'=>'Session Name', 'required' => false));
 	echo '<fieldset class="chair">';
 	echo '<legend>ChairPerson</legend>';
@@ -606,7 +606,7 @@ echo $this->Html->css('page_schedule');
 	echo $this->Form->input('commentator_name', array('id'=>'com-name','class'=>'form-control', 'required' => false, 'label' => 'Name'));
 	echo $this->Form->input('commentator_affiliation', array('id'=>'com-affili','class'=>'form-control', 'required' => false, 'label' => 'Affiliation'));
 	echo '</fieldset>';
-	echo $this->Form->input('date', array('id'=>'date','class'=>'form-control', 'required' => false));
+	echo $this->Form->input('date', array('id'=>'date','class'=>'form-control', 'required' => false, 'min'=>'1'));
 	echo $this->Form->input('start_time', array('id'=>'start','class'=>'form-control', 'required' => false));
 	echo $this->Form->input('end_time', array('id'=>'end','class'=>'form-control', 'required' => false));
 	echo $this->Form->input('root_flag', array('id'=>'root_flag', 'type'=>'hidden', 'required' => false));
