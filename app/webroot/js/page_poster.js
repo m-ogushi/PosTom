@@ -273,6 +273,7 @@ $(function() {
 				var instance = createAreaObject(parseInt(areas[i].x), parseInt(areas[i].y), parseInt(areas[i].width), parseInt(areas[i].height), areas[i].color);
 				instance.cursor = "pointer";
 				instance.__id = areas[i].id;
+				instance.name = areas[i].name;
 				instance.addEventListener("mousedown", startDragAreaObject);
 				stage.addChild(instance);
 				stage.update();
@@ -1832,6 +1833,7 @@ function setAreaObject(){
 	var areaPositionX = $('[name^="areaPositionX"]').val() * gridSize;
 	var areaPositionY = $('[name^="areaPositionY"]').val() * gridSize;
 	var areaColor = $('[name^="areaColor"]').val();
+	var areaName = $('[name^="areaName"]').val();
 	if( areaWidth == '' || areaHeight == '' ){
 		alert("something not input");
 	}else if( areaWidth <= 0 || areaHeight <= 0 ){
@@ -1840,6 +1842,7 @@ function setAreaObject(){
 		alert("you must input smaller than width"+canvasWidth/gridSize+"grid, height"+canvasHeight/gridSize+"grid");
 	}else{
 		var object = createAreaObject(areaPositionX, areaPositionY, areaWidth , areaHeight , areaColor);
+		object.name = areaName;
 		stage.addChild(object);
 		stage.update();
 		// object.addEventListener("mousedown", startDragAreaObject);
@@ -1899,6 +1902,7 @@ function selectAreaObject(){
 	$('[name="areaColor"]').prop("disabled", false).val(defaultColor);
 	$('select[name="areaColor"] + .btn-group > .selectpicker > span:first-child').css("background-color", defaultColor);
 	$('[name^="areaColor"] + div.btn-group > button').prop('disabled', false);
+	$('[name="areaName"]').prop("disabled", false);
 	$('[name="updateAreaButton"]').prop("disabled", false);
 	$('[name="deleteAreaButton"]').prop("disabled", false);
 	
@@ -1939,8 +1943,9 @@ function saveAreaObject(object){
 	w = parseInt(object.graphics.command.w);
 	h = parseInt(object.graphics.command.h);
 	color = rgbToHex(object.color);
+	name = object.name;
 	
-	area = {'id': id, 'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'date': selectedDay, 'event_id': selectedEventID};
+	area = {'id': id, 'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'date': selectedDay, 'event_id': selectedEventID, 'name': name};
 	
 	$.ajax({
 		type: "POST",
@@ -2000,6 +2005,7 @@ function cancelFrameAreaObject(){
 		$('input[name="areaHeight"]').val("");
 		$('input[name="areaPositionX"]').val("");
         $('input[name="areaPositionY"]').val("");
+		$('input[name="areaName"]').val("");
 		
 		if(selectSquareArray.length != 0) {
 			for (var i=0; i<8; i++) {
@@ -2020,6 +2026,7 @@ function cancelFrameAreaObject(){
 		$('[name^="areaColor"]').val(defaultColor);
 		$('select[name="areaColor"] + .btn-group > .selectpicker > span:first-child').css("background-color", defaultColor);
 		$('[name^="areaColor"] + div.btn-group > button').prop('disabled', true);
+		$('[name="areaName"]').prop("disabled", true);
 		$('[name="updateAreaButton"]').prop("disabled", true);
 		$('[name="deleteAreaButton"]').prop("disabled", true);
 	}else{
@@ -2118,41 +2125,44 @@ function stopDragAreaObject(eventObject) {
 	// 限りなくクリックに近いドラッグの場合
 	if(dragDistant < 3){
 		clickAreaObject(eventObject);
-	}
-	var i = stage.children.length - 1;
-	// x座標が異なる または y座標が異なる または セレクトスクエア である場合
-	while(instance.x != stage.children[i].x || instance.y != stage.children[i].y  || stage.children[i].__type =="selectSquare"){
-		// 何のための処理なのかわからない
-		i=i-1;
-	}
-	
-	for(var k=stage.children.length-1; k>=0; k--){
-		// iのオブジェクトまたはセレクトスクエアの場合は処理はおこなわない
-		if(k==i || stage.children[k].__type =="selectSquare"){
-            continue;
+	}else{
+		// ドラッグとみなされた場合
+		
+		var i = stage.children.length - 1;
+		// x座標が異なる または y座標が異なる または セレクトスクエア である場合
+		while(instance.x != stage.children[i].x || instance.y != stage.children[i].y  || stage.children[i].__type =="selectSquare"){
+			// 何のための処理なのかわからない
+			i=i-1;
 		}
-		// 他のオブジェクトと重なった場合は移動する前に戻す
-		if(instance.x > stage.children[k].x - (instance.width)
-		&& instance.x < stage.children[k].x + (stage.children[k].width)
-		&& instance.y > stage.children[k].y - (instance.height)
-		&& instance.y < stage.children[k].y + (stage.children[k].height)){
-			instance.x = previewscalex;
-			instance.y = previewscaley;
-			// セレクトスクエアの更新
-			if(instance.array != null){
-				updateFrameAreaObject(instance.x, instance.y, instance.width, instance.height);
+		
+		for(var k=stage.children.length-1; k>=0; k--){
+			// iのオブジェクトまたはセレクトスクエアの場合は処理はおこなわない
+			if(k==i || stage.children[k].__type =="selectSquare"){
+				continue;
 			}
-			break;
+			// 他のオブジェクトと重なった場合は移動する前に戻す
+			if(instance.x > stage.children[k].x - (instance.width)
+			&& instance.x < stage.children[k].x + (stage.children[k].width)
+			&& instance.y > stage.children[k].y - (instance.height)
+			&& instance.y < stage.children[k].y + (stage.children[k].height)){
+				instance.x = previewscalex;
+				instance.y = previewscaley;
+				// セレクトスクエアの更新
+				if(instance.array != null){
+					updateFrameAreaObject(instance.x, instance.y, instance.width, instance.height);
+				}
+				break;
+			}
 		}
-	}
-	stage.update();
-	// 移動終了後、保存
-	saveAreaObject(instance);
-	
-	// エリアオブジェクトを選択している場合
-	if(selectedAreaObject !== null){
-		// 選択中のエリアオブジェクト情報を編集フォームに反映
-		inputEditFormAreaObject();
+		stage.update();
+		// 移動終了後、保存
+		saveAreaObject(instance);
+		
+		// エリアオブジェクトを選択している場合
+		if(selectedAreaObject !== null){
+			// 選択中のエリアオブジェクト情報を編集フォームに反映
+			inputEditFormAreaObject();
+		}
 	}
 }
 
@@ -2547,6 +2557,7 @@ function inputEditFormAreaObject(){
 	$('input[name="areaPositionY"]').val(selectedAreaObject.y / gridSize);
 	$('select[name="areaColor"]').val(selectedAreaObject.color);
 	$('select[name="areaColor"] + .btn-group > .selectpicker > span:first-child').css("background-color", selectedAreaObject.color);
+	$('input[name="areaName"]').val(selectedAreaObject.name);
 }
 
 // 編集フォームからの更新処理
@@ -2557,6 +2568,7 @@ function updateAreaObject(){
 	var valAreaPositionX = $('input[name="areaPositionX"]').val() * gridSize;
 	var valAreaPositionY = $('input[name="areaPositionY"]').val() * gridSize;
 	var valAreaColor = $('select[name="areaColor"]').val();
+	var valAreaName = $('input[name="areaName"]').val();
 	
 	// 変更前の色を記憶
 	var previousAreaColor = selectedAreaObject.color;
@@ -2604,6 +2616,7 @@ function updateAreaObject(){
 		selectedAreaObject.y = valAreaPositionY;
 		selectedAreaObject.color = valAreaColor;
 		selectedAreaObject.graphics._fill.style = valAreaColor; // ここに格納しなければ色は反映されない
+		selectedAreaObject.name = valAreaName;
 		
 		// セレクトスクエアの更新
 		updateFrame(selectedAreaObject.x, selectedAreaObject.y, selectedAreaObject.width, selectedAreaObject.height);
@@ -2626,6 +2639,9 @@ function updateAreaObject(){
 				break;
 			}
 		}
+		
+		// データベースへ保存
+		saveAreaObject(selectedAreaObject);
 		
 	}else{
 		// 衝突メッセージをアラートで表示
