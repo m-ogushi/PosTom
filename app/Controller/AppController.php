@@ -35,7 +35,6 @@ class AppController extends Controller {
 public $components = array('Session', 'Auth');
 
 	public function beforeFilter() {
-
 	$this->Auth->allow(array('controller' => 'posMapps', 'action' => 'index'));
 	// 全ての固定ページを認証なしで見えるようにする
 	$this->Auth->allow(array('controller' => 'pages', 'action' => 'display'));

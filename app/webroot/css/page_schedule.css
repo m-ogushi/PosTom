@@ -125,3 +125,8 @@ legend {
 	padding-left: 10px;
 	border-bottom: 0;
 }
+/*required*/
+label[for=r-name]:after, label[for=room]:after, label[for=order]:after, label[for=category]:after, label[for=date]:after{
+	content: "*";
+	color: #e74c3c;
+}

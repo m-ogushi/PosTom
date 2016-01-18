@@ -15,7 +15,6 @@
 	$(document).ready(function(){
 		// roomsを並び替える
 		var sorted_room = [];
-		// console.log(rooms.length);
 		for(var r_count=0; r_count<rooms.length; r_count++){
 			for(rooms_count=0; rooms_count<rooms.length; rooms_count++){
 				if(rooms[rooms_count]["Room"]["order"] == r_count+1+""){
@@ -181,24 +180,43 @@
 		}
 	});
 });
-
-
-	// フォームのサブミット時にバリデーションチェック
+	// sessionのバリデーション
 	$(function(){
 		$('#ScheduleSaveRootingForm').submit(function(){
 			// エラーメッセージを空に
 			err_box = $('.error-messages');
 			err_box.empty();
-			// 時間は正しいか
+			// 要素が空でないか
+			if($('#room').val() == "" || $('#order').val() == "" || $('#category').val() == "" || $('#date').val() == ""){
+				err_elm = $('<p>').text("Unjust blank.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+			// 座長は一人か
+			if(!chairperson_check()){
+				err_elm = $('<p>').text("Chairperson is one.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+			// 時間の開始終了が逆転していないか
 			if(!session_time_check()){
 				err_elm = $('<p>').text("Unjust session time.");
 				err_box.append(err_elm);
 				slideDown(err_box);
 				return false;
 			}
-			// 要素が空でないか
-			if($('#room').val() == "" || $('#category').val() == ""){
-				err_elm = $('<p>').text("Unjust blank.");
+			// 他の時間とかぶっていないか
+			if(!othersession_cover_check()){
+				err_elm = $('<p>').text("This session covers with the time of the other session.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+			// 存在するroom, orderの組み合わせじゃないか
+			if(!session_order_check()){
+				err_elm = $('<p>').text("This order is already exist in this room.");
 				err_box.append(err_elm);
 				slideDown(err_box);
 				return false;
@@ -213,6 +231,87 @@
 			}
 		});
 	});
+	function chairperson_check(){
+		var person = $('#chair-name').val();
+		var affili = $('#chair-affili').val();
+		if(person.indexOf(',') == -1 && affili.indexOf(',') == -1){
+			return true;
+		}
+		return false;
+	}
+	function othersession_cover_check(){
+		// 変更しようとする時間を格納
+		check_start_hour = $('#startHour').val();
+		check_start_min = $('#startMinute').val();
+		check_end_hour = $('#endHour').val();
+		check_end_min = $('#endMinute').val();
+		var check_start = check_start_hour * 60 + check_start_min * 1;
+		var check_end = check_end_hour * 60 + check_end_min * 1;
+		for(var sch_count=0; sch_count<schedules.length; sch_count++){
+			var target_start = strToMin(schedules[sch_count]['Schedule']['start_time']);
+			var target_end = strToMin(schedules[sch_count]['Schedule']['end_time']);
+			// dateとroomが同一のものだけ比較
+			if($('#date').val() == schedules[sch_count]['Schedule']['date'] && $('#room').val() == schedules[sch_count]['Schedule']['room'] && $('#id').val() != schedules[sch_count]['Schedule']['id']){
+				// 開始時刻が重なる場合
+				if(target_start < check_start && check_start < target_end){
+					return false;
+				}
+				// 終了時刻が重なる場合
+				if(target_start < check_end && check_end < target_end){
+					return false;
+				}
+				// sessionを内包してしまう場合
+				if(check_start <= target_start && target_end <= check_end){
+					return false;
+				}
+			}
+			if($('#date').val() == schedules[sch_count]['Schedule']['date'] && $('#room').val() == 'ALL' && $('#id').val() != schedules[sch_count]['Schedule']['id']){
+				// 開始時刻が重なる場合
+				if(target_start < check_start && check_start < target_end){
+					return false;
+				}
+				// 終了時刻が重なる場合
+				if(target_start < check_end && check_end < target_end){
+					return false;
+				}
+				// sessionを内包してしまう場合
+				if(check_start <= target_start && target_end <= check_end){
+					return false;
+				}
+			}
+			if($('#date').val() == schedules[sch_count]['Schedule']['date'] && schedules[sch_count]['Schedule']['room'] == 'ALL' && $('#id').val() != schedules[sch_count]['Schedule']['id']){
+				// 開始時刻が重なる場合
+				if(target_start < check_start && check_start < target_end){
+					return false;
+				}
+				// 終了時刻が重なる場合
+				if(target_start < check_end && check_end < target_end){
+					return false;
+				}
+				// sessionを内包してしまう場合
+				if(check_start <= target_start && target_end <= check_end){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	// 文字列をもらって0時からの分数を計算して返す
+	function strToMin(timeStr){
+		timeStr = timeStr.split(":");
+		min = timeStr[0]*60 + timeStr[1]*1;
+		return min;
+	}
+	function session_order_check(){
+		for(var sch_count=0; sch_count<schedules.length; sch_count++){
+			if($('#room').val() == schedules[sch_count]['Schedule']['room'] && $('#order').val() == schedules[sch_count]['Schedule']['order'] && $('#id').val() != schedules[sch_count]['Schedule']['id']){
+				if($('#order').val() != 0){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 	function session_time_check(){
 		var start_hour = Number($('#startHour').val());
 		var start_min = Number($('#startMinute').val());
@@ -220,7 +319,7 @@
 		var end_min = Number($('#endMinute').val());
 
 		// 開始時間と終了時間があり得る時間ならtrue
-		if((end_hour * 60 + end_min)-(start_hour * 60 + start_min) >= 0){
+		if((end_hour * 60 + end_min)-(start_hour * 60 + start_min) > 0){
 			return true;
 		}else{
 			return false;
@@ -243,6 +342,20 @@
 			// エラーメッセージを空に
 			err_box = $('.error-messages');
 			err_box.empty();
+			// empty error
+			if($('#r-name').val() == ""){
+					err_elm = $('<p>').text("Room name is empty.");
+					err_box.append(err_elm);
+					slideDown(err_box);
+				return false;
+			}
+			// 予約語ALLを使わせない
+			if($('#r-name').val() == "ALL"){
+					err_elm = $('<p>').text("~ALL~ is reserved word.");
+					err_box.append(err_elm);
+					slideDown(err_box);
+				return false;
+			}
 			// 既に存在するroom名は弾く
 			var check = true, r_count=0;
 			for(r_count=0; r_count<rooms.length; r_count++){
@@ -361,7 +474,6 @@
 			return false;
 		}
 		// room edit save ボタンのconfirm
-		// TODO 関連するセッションのオールリネーム
 		function confirm_edit_room(){
 			if($('#r-root_flag').val() == "update-room"){
 				if(window.confirm('All session name of this room will be changed\nDo you really rename this room ?')){
@@ -455,6 +567,9 @@ echo $this->Html->css('page_schedule');
 			$escape++;
 		endforeach;
 	}
+	// roomの選択肢に昼休み等の例外ALLを追加
+	array_push($option, array('ALL'=>'ALL'));
+
 	$first = substr($first,0,2);
 	$first = (Int)$first;
 	// 最後のセッションがはみ出さないようにする
@@ -488,7 +603,7 @@ echo $this->Html->css('page_schedule');
 		echo '<div id="tar-'. $countRoom .'" class="drop-target" droppable="true">|</div>';
 		// style部分
 		echo '<style type="text/css">';
-		echo '<!-- #tar-'. $countRoom .'{ position: absolute; left: '. $drop_tar_left .'px; } -->';
+		echo '<!-- #tar-'. $countRoom .'{ position: absolute; left: '. $drop_tar_left .'px; opacity: 0;} -->';
 		echo '</style>';
 		$drop_tar_left += 115;
 	}
@@ -594,7 +709,7 @@ echo $this->Html->css('page_schedule');
 <?php
 	echo $this->Form->create('Schedule', array('action'=>'save_rooting'));
 	echo $this->Form->input('room', array('id'=>'room', 'class'=>'form-control', 'options'=>$option, 'required' => false));
-	echo $this->Form->input('order', array('id'=>'order','class'=>'form-control', 'required' => false, 'min'=>'1'));
+	echo $this->Form->input('order', array('id'=>'order','class'=>'form-control', 'required' => false, 'min'=>'0'));
 	echo $this->Form->input('category', array('id'=>'category','class'=>'form-control','label'=>'Session Name', 'required' => false));
 	echo '<fieldset class="chair">';
 	echo '<legend>ChairPerson</legend>';
