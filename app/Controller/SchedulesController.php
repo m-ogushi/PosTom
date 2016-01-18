@@ -37,7 +37,7 @@ class SchedulesController extends AppController {
 			if($this->request->data['Schedule']['root_flag'] == "add-session"){
 				// roomがALLだったらいらない情報を消す & order=0
 				if($this->request->data['Schedule']['room'] == "ALL"){
-					debug("ALLLLLLLLLLLLLL");
+					// debug("ALLLLLLLLLLLLLL");
 				}
 				if($this->Schedule->add_session($this->request->data)){
 					$this->redirect(array('action'=>'index'));
