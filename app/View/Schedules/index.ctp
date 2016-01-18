@@ -651,7 +651,6 @@ echo $this->Html->css('page_schedule');
 			}
 
 
-
 			$session = $room.$order;
 			$give_id = "id-".$id;
 			echo '<button id='. $give_id .' name="session-'. $id .'" type="button" class="btn btn-default session session-modal-open" data-toggle="popover" data-trigger="hover" data-html="true" data-target="session-edit" data-placement="top" data-content="'. $session .': ' . $category . '<br>'. $start_hover . '~' . $end_hover . '<br>'. $cha .''. $com .'" >' . $session . ': ' . $category . '</button>';
@@ -669,10 +668,12 @@ echo $this->Html->css('page_schedule');
 			// 配列の何番目のroomか検索
 			$roomN = array_search($room, $roomGroup);
 			$left = 75 + ($roomN * 115);
-
+			$all_session_width = count($roomGroup)*100 + (count($roomGroup)-1)*15;
 			echo '<style type="text/css">';
 			echo '<!-- #'. $give_id .'{ position: absolute; top: '. $top .'px; left: '. $left .'px; height: '. $sessionWidth .'px; } -->';
-
+			if($room == "ALL"){
+				echo '<!-- #'. $give_id .'{ width: '. $all_session_width .'px; background-color: #fff; } -->';
+			}
 			echo '</style>';
 		}
 	}
