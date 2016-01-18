@@ -59,6 +59,7 @@ for($i=0; $i<count($areas); $i++){
 	areas[<?php echo $i ?>].color = "<?php echo $areas[$i]["Area"]["color"]; ?>";
 	areas[<?php echo $i ?>].date = <?php echo $areas[$i]["Area"]["date"]; ?>;
 	areas[<?php echo $i ?>].event_id = <?php echo $areas[$i]["Area"]["event_id"]; ?>;
+	areas[<?php echo $i ?>].name = "<?php echo $areas[$i]["Area"]["name"]; ?>";
 <?php
 } // end for
 
@@ -369,6 +370,7 @@ echo $presentation['Presentation']['title'];
 <option value='#663300' class='bg9' >&nbsp;</option>
 </select>
 </p>
+<p>name :<input type="text" class="form-control" name="areaName" value="" onKeyup="" disabled="disabled"></p>
 <p><input type="button" name="updateAreaButton" class="btn btn-default" onClick="updateAreaObject()" value="Update" disabled="disabled"></p>
 </fieldset>
 </div>
