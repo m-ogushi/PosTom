@@ -24,10 +24,16 @@ class Schedule extends AppModel {
 						'commentator_affiliation' => $row[9],
 						'event_id' => $_SESSION['event_id']
 					);
+					//すでに登録していないroomでないか、一行目の説明でないか
 					if(!in_array($row[0], $roomGroup) && $row[0] != "room"){
-						array_push($roomGroup, $row[0]);
-						array_push($saveRooms, array('name' => $row[0], 'order' => $roomOrder, 'event_id' => $event_id));
-						$roomOrder++;
+						// 予約語ALLは小文字大文字関わらずroomには登録しない、allの場合はALLに変換してsession保存
+						if(mb_strtolower($row[0]) != 'all'){
+							array_push($roomGroup, $row[0]);
+							array_push($saveRooms, array('name' => $row[0], 'order' => $roomOrder, 'event_id' => $event_id));
+							$roomOrder++;
+						}else{
+							$scheduleData['room'] = 'ALL';
+						}
 					}
 					// フォーマットヘッダー無視用
 					if($row[0] != "room") {

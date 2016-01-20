@@ -350,7 +350,7 @@
 				return false;
 			}
 			// 予約語ALLを使わせない
-			if($('#r-name').val() == "ALL"){
+			if($('#r-name').val().toLowerCase() == "all"){
 					err_elm = $('<p>').text("~ALL~ is reserved word.");
 					err_box.append(err_elm);
 					slideDown(err_box);
