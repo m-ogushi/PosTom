@@ -7,8 +7,9 @@ class Presentation extends AppModel {
 				// ˆê“xA‚·‚×‚Ä‚Ìƒf[ƒ^‚ðíœ‚·‚é‘O‚É‘ÎÛ‚Æ‚È‚éƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚ªŠÖ˜A•t‚¯‚³‚ê‚Ä‚¢‚éƒ|ƒXƒ^[‚Ìƒf[ƒ^‚ð‰Šú‰»‚·‚é
 				self::checkRelatedPoster();
 				$handle = fopen($filename,"r");
-				while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
+				while(($row = fgetcsv($handle, 3000, ",")) !== FALSE){
 					mb_convert_variables("UTF-8", "auto", $row);
+					// var_dump($row);
 					$presenData = array(
 						'room' => $row[0],
 						'session_order' => $row[1],
