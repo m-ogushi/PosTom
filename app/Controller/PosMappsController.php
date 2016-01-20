@@ -1,7 +1,7 @@
 <?php
 class PosMappsController extends AppController {
 	public $helpers = array('Html', 'Form', 'Text');
-	public $uses =array('Poster','Event','Schedule','Area');
+	public $uses =array('Poster','Event','Schedule','Area','Disuse');
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow(array('index', 'deletestorage', 'makejson', 'phoneclear', 'qr', 'sendmail'));
@@ -13,74 +13,86 @@ class PosMappsController extends AppController {
     public function makejson()
     {
         $this->Event->id = $_SESSION['event_id'];
-        $event= $this->Event->read();
-        $floormap=false;
-        if($event['Event']['set_floormap']==true)
-        {
-            $floormap=true;
+        $event = $this->Event->read();
+
+
+
+        $floormap = false;
+        if ($event['Event']['set_floormap'] == true) {
+            $floormap = true;
         }
-        $posters=
+        $disuses=$this->Disuse->find('all', array(
+            'conditions' => array('event_id' => $_SESSION['event_id'])
+        ));
+        $posters =
             $this->Poster->find('all', array(
                 'conditions' => array('event_id' => $_SESSION['event_id'])
             ));
-        $areas=
+        $areas =
             $this->Area->find('all', array(
                 'conditions' => array('event_id' => $_SESSION['event_id'])
             ));
         //--------------------------------------------------------------------------------------------------floor map----------------------------------------------------------------------
-        $url='"venuemap":"",';
-        if($floormap==true)
-        {
-            if (file_exists("floormap/".$_SESSION["event_str"]."." ."jpg"))
-            {
-                $url='"venuemap":"'.str_replace('/','\/', $this->webroot).'floormap\/'.$_SESSION["event_str"] .'.jpg",';
-            }
-            else  if (file_exists("floormap/".$_SESSION["event_str"]."."  ."png"))
-            {
-                $url='"venuemap":"'.str_replace('/','\/', $this->webroot).'floormap\/'.$_SESSION["event_str"] .'.png",';
-            }
-            else  if (file_exists("floormap/".$_SESSION["event_str"]."."  ."gif"))
-            {
-                $url='"venuemap":"'.str_replace('/','\/', $this->webroot).'floormap\/'.$_SESSION["event_str"] .'.gif",';
+        $url = '"venuemap":"",';
+        if ($floormap == true) {
+            if (file_exists("floormap/" . $_SESSION["event_str"] . "." . "jpg")) {
+                $url = '"venuemap":"' . str_replace('/', '\/', $this->webroot) . 'floormap\/' . $_SESSION["event_str"] . '.jpg",';
+            } else if (file_exists("floormap/" . $_SESSION["event_str"] . "." . "png")) {
+                $url = '"venuemap":"' . str_replace('/', '\/', $this->webroot) . 'floormap\/' . $_SESSION["event_str"] . '.png",';
+            } else if (file_exists("floormap/" . $_SESSION["event_str"] . "." . "gif")) {
+                $url = '"venuemap":"' . str_replace('/', '\/', $this->webroot) . 'floormap\/' . $_SESSION["event_str"] . '.gif",';
             }
         }
         //--------------------------------------------------------------------------------------------------top image----------------------------------------------------------------------
-        $topImg='img\/thumb\/toppage_pbla.png';
-        if (file_exists("img/thumb/".$_SESSION["event_str"]."." ."jpeg"))
-        {
-            $topImg='img\/thumb\/'.$_SESSION["event_str"] .'.jpeg';
-        }
-        else if (file_exists("img/thumb/".$_SESSION["event_str"]."." ."jpg"))
-        {
-            $topImg='img\/thumb\/'.$_SESSION["event_str"] .'.jpg';
-        }
-        else if (file_exists("img/thumb/".$_SESSION["event_str"]."."  ."png"))
-        {
-            $topImg='img\/thumb\/'.$_SESSION["event_str"] .'.png';
-        }
-        else if (file_exists("img/thumb/".$_SESSION["event_str"]."."  ."gif"))
-        {
-            $topImg='img\/thumb\/'.$_SESSION["event_str"] .'.gif';
+        $topImg = 'img\/thumb\/toppage_pbla.png';
+        if (file_exists("img/thumb/" . $_SESSION["event_str"] . "." . "jpeg")) {
+            $topImg = 'img\/thumb\/' . $_SESSION["event_str"] . '.jpeg';
+        } else if (file_exists("img/thumb/" . $_SESSION["event_str"] . "." . "jpg")) {
+            $topImg = 'img\/thumb\/' . $_SESSION["event_str"] . '.jpg';
+        } else if (file_exists("img/thumb/" . $_SESSION["event_str"] . "." . "png")) {
+            $topImg = 'img\/thumb\/' . $_SESSION["event_str"] . '.png';
+        } else if (file_exists("img/thumb/" . $_SESSION["event_str"] . "." . "gif")) {
+            $topImg = 'img\/thumb\/' . $_SESSION["event_str"] . '.gif';
         }
         //--------------------------------------------------------------------------------------------------posmapp BG--------------------------------------------------------
-        $posmapp_bg='img\/thumb\/toppage_pbla.png';
-        if (file_exists("img/bg/".$_SESSION["event_str"]."." ."jpeg"))
-        {
-            $posmapp_bg='img\/bg\/'.$_SESSION["event_str"] .'.jpeg';
-        }
-        else if (file_exists("img/bg/".$_SESSION["event_str"]."." ."jpg"))
-        {
-            $posmapp_bg='img\/bg\/'.$_SESSION["event_str"] .'.jpg';
-        }
-        else if (file_exists("img/bg/".$_SESSION["event_str"]."."  ."png"))
-        {
-            $posmapp_bg='img\/bg\/'.$_SESSION["event_str"] .'.png';
-        }
-        else if (file_exists("img/bg/".$_SESSION["event_str"]."."  ."gif"))
-        {
-            $posmapp_bg='img\/bg\/'.$_SESSION["event_str"] .'.gif';
-        }
+        $startDate = $event['Event']['event_begin_date'];
+        $endDate = $event['Event']['event_end_date'];
+        $dif = $this->diffBetweenTwoDays($startDate, $endDate) + 1;
+        //$this->set("message", $startDate . $endDate . "dif:" . $dif);
+        $posmapp_bg = '';
 
+        $j=0;
+        for($i=1;$i<=$dif;$i++)
+        {
+            if($i==$disuses[$j]['Disuse']['date']) {
+                $j++;
+            }else{
+                $posmapp_tmp='';
+                if (file_exists("img/bg/".$_SESSION["event_str"]."_".$i.".jpeg"))
+                {
+                    $posmapp_tmp.=str_replace('/','\/',$this->webroot).'img\/bg\/'.$_SESSION["event_str"] .'_'.$i.'.jpeg';
+                }
+                else if (file_exists("img/bg/".$_SESSION["event_str"]."_".$i .".jpg"))
+                {
+                    $posmapp_tmp.=str_replace('/','\/',$this->webroot).'img\/bg\/'.$_SESSION["event_str"] .'_'.$i.'.jpg';
+                }
+                else if (file_exists("img/bg/".$_SESSION["event_str"]."_".$i.".png"))
+                {
+                    $posmapp_tmp.=str_replace('/','\/',$this->webroot).'img\/bg\/'.$_SESSION["event_str"] .'_'.$i.'.png';
+                }
+                else if (file_exists("img/bg/".$_SESSION["event_str"]."_".$i.".gif"))
+                {
+                    $posmapp_tmp.=str_replace('/','\/',$this->webroot).'img\/bg\/'.$_SESSION["event_str"] .'_'.$i.'.gif';
+                }
+                if ($posmapp_tmp == '') {
+                    $posmapp_tmp =str_replace('/','\/',$this->webroot).'img\/thumb\/toppage_pbla.png';
+                }
+                $posmapp_bg.='"'.$posmapp_tmp.'",';
+            }
+        }
+        if(substr($posmapp_bg,-1)==",") {
+            $posmapp_bg = substr($posmapp_bg, 0, strlen($posmapp_bg) - 1);
+        }
         //--------------------------------------------------------------------------------------------------Basic Info------------------------------------------------------------------------------------
         $JsonFile='{
         "basic_info" : {
@@ -92,7 +104,7 @@ class PosMappsController extends AppController {
             "webpage" : "' . $event['Event']['event_webpage'] . '"
         },
         "toppage_img":"'. str_replace('/','\/',$this->webroot).$topImg.'",
-        "posmapp_bg":["'.str_replace('/','\/',$this->webroot).$posmapp_bg.'"],'.$url.'
+        "posmapp_bg":['.$posmapp_bg.'],'.$url.'
 
         "STATIC_WIDTH":"720",
         "STATIC_HEIGHT":"960",';
@@ -116,6 +128,7 @@ class PosMappsController extends AppController {
             $JsonArea.='"y":'. $area['Area']['y'].',';
             $JsonArea.='"width":'.$area['Area']['width'].',';
             $JsonArea.='"height":'.$area['Area']['height'].',';
+            $JsonArea.='"date":'.$area['Area']['date'].',';
             $JsonArea.='"direction":"longways",';
 
             $color=$area['Area']['color'];
@@ -488,6 +501,18 @@ class PosMappsController extends AppController {
     public function clear()
     {
         $this->autoLayout=false;
+    }
+    function diffBetweenTwoDays ($day1, $day2)
+    {
+        $second1 = strtotime($day1);
+        $second2 = strtotime($day2);
+
+        if ($second1 < $second2) {
+            $tmp = $second2;
+            $second2 = $second1;
+            $second1 = $tmp;
+        }
+        return ($second1 - $second2) / 86400;
     }
 }
 ?>
