@@ -20,8 +20,9 @@ function initHammer() {
         var $posterArea = $("#posterArea");
         $posterArea.empty();
         taparea.forEach(function(area) {
+            var day = area.date;
             var $divarea = $("<div>")
-                .attr("id", "area" + area.id)
+                .attr("id", "area" + area.id+" areaDay"+day)
                 .addClass("mapArea")
                 .css("position", "absolute")
                 .css("z-index", 70)
@@ -36,6 +37,8 @@ function initHammer() {
                 });
             $posterArea.append($divarea);
         });
+
+
     }
     else{
         $(".posterfont").show();
@@ -118,6 +121,15 @@ function resetZoom() {
         changeLabel(sessionStorage.getItem("label"));
     }
     $(".mapArea").show();
+    for(var i=1;i<=poster_days;i++){
+        $findID="areaDay"+i;
+        if(i == Number(1)){
+            $('[id$='+$findID+']').show();
+        }
+        else{
+            $('[id$='+$findID+']').hide();
+        }
+    }
     $("#resetScaleButtonFrame").hide();
     if(taparea != null){
         $(".posterfont").hide();

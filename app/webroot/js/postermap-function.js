@@ -737,6 +737,18 @@ function changePosterMapDate(date) {
 	    $(".posterfont").hide();
 	}
 	$(".bookmarkstar").sizeUpBookmarkStar();
+
+	for(var i=1;i<=poster_days;i++){
+		$findID="areaDay"+i;
+		if(i == Number(date)){
+
+			$('[id$='+$findID+']').show();
+		}
+		else{
+			$('[id$='+$findID+']').hide();
+		}
+	}
+
 }
 
 // 代表者名を取得
