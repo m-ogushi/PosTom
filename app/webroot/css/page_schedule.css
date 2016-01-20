@@ -35,6 +35,7 @@ div.drop-target{
 .session-group>.btn{
 	width: 100px;
 	padding: 6px 2px;
+	background-color: #D7F4F7;
 	/*文字折り返し*/
 	white-space: pre;           /* CSS 2.0 */
 	white-space: pre-wrap;      /* CSS 2.1 */
@@ -124,4 +125,9 @@ legend {
 	font-size: 15px;
 	padding-left: 10px;
 	border-bottom: 0;
+}
+/*required*/
+label[for=r-name]:after, label[for=room]:after, label[for=order]:after, label[for=category]:after, label[for=date]:after{
+	content: "*";
+	color: #e74c3c;
 }

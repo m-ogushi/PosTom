@@ -28,7 +28,7 @@ class AreasController extends AppController {
 	public function delete(){
 		$this->autoRender = FALSE;
 		if ($this->request->is('ajax')) {
-			$this->Area->deleteAll(array('id' => $this->request->data['__id']), false);
+			$this->Area->deleteAll(array('id' => $this->request->data), false);
 			return true;
 		}
 		return false;

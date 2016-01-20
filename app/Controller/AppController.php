@@ -35,7 +35,6 @@ class AppController extends Controller {
 public $components = array('Session', 'Auth');
 
 	public function beforeFilter() {
-
 	$this->Auth->allow(array('controller' => 'posMapps', 'action' => 'index'));
 	// 全ての固定ページを認証なしで見えるようにする
 	$this->Auth->allow(array('controller' => 'pages', 'action' => 'display'));
@@ -44,7 +43,7 @@ public $components = array('Session', 'Auth');
 	// ログイン後のリダイレクト先のアクション
 	$this->Auth->loginRedirect = array('controller' => 'events', 'action' => 'index');
 	// ユーザがログアウトした後のリダイレクト先となるデフォルトのアクション
-	$this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+	$this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'display');
 	// ユーザの権限判定のためにアクティブなコントローラの isAuthorized() の戻り値を使う
 	$this->Auth->authorize = array('Controller');
 	// ユーザのログインに使いたい認証オブジェクトの配列
