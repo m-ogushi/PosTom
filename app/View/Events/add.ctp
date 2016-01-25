@@ -52,8 +52,8 @@ echo $this->Form->create('Event');
 echo $this->Form->input('event_name', array('class'=>'form-control required', 'required' => false));
 echo $this->Form->input('event_location', array('class'=>'form-control'));
 echo $this->Form->input('event_begin_date', array('class'=>'form-control'));
-echo $this->Form->input('event_begin_time', array('class'=>'form-control', 'value' => '00:00:00'));
+echo $this->Form->input('event_begin_time', array('class'=>'form-control', 'value' => '00:00:00', 'interval' => 10));
 echo $this->Form->input('event_end_date', array('class'=>'form-control'));
-echo $this->Form->input('event_end_time', array('class'=>'form-control', 'value' => '00:00:00'));
+echo $this->Form->input('event_end_time', array('class'=>'form-control', 'value' => '00:00:00', 'interval' => 10));
 echo $this->Form->submit('Create', array('class'=>'btn btn-custom'));
 ?>

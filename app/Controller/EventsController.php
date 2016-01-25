@@ -159,12 +159,18 @@ class EventsController extends AppController {
 	}
 	
 	/* イベントのポスター背景図がセットされているかどうか */
-	public function isSetPosterBackground($id) {
-		$results = $this->Event->find('all', array(
-			'conditions' => array('id' => $id)
-		));
-		// ユニークな文字列による検索のため結果は1件のみ
-		return $results[0]['Event']['set_posterbg'];
+	public function isSetPosterBackground($str, $date) {
+		// ファイルパス
+		$path_jpg = "img/bg/".$str."_".$date.".jpg";
+		$path_png = "img/bg/".$str."_".$date.".png";
+		$path_gif = "img/bg/".$str."_".$date.".gif";
+		
+		// 指定のイベントと、指定の日数のポスター背景画像がアップロードされているかどうか
+		$isUploaded = false;
+		if (file_exists($path_jpg) || file_exists($path_png) || file_exists($path_gif)){
+			$isUploaded = true;
+		}
+		return $isUploaded;
 	}
 	
 	public function edit($id = null){
