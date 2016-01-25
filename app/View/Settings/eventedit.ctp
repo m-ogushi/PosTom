@@ -1,4 +1,17 @@
 <?php
+
+// 編集しようとしているイベントID
+$event_id = $this->params['pass'][0];
+// ログイン中のユーザーID
+$login_user_id = $_SESSION['login_user_id'];
+
+// 権限があるかどうかチェック
+if(! $this->requestAction('/settings/checkPermission/'.$login_user_id.'/'.$event_id)){
+	// 編集権限がなければイベントトップページへリダイレクト
+	echo "Event ID:".$event_id." の編集権限がありません";
+}else{
+	// 編集権限があればレンダーを開始する
+
 	$url="";
 	if (file_exists("img/thumb/".$_SESSION["event_str"]."." ."jpg")){
 		$url="img/thumb/".$_SESSION["event_str"] ."." ."jpg";
@@ -44,7 +57,6 @@
 	}
  })
 </script>
-
 <h2>Edit event</h2>
 <div id="pageSetting">
 <p class="attention">* : Required</p>
@@ -70,3 +82,7 @@ if($url!=""){
 }
 ?>
 </div>
+
+<?php
+} // 編集権限ありの場合のレンダーを終了
+?>

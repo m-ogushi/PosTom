@@ -1,86 +1,103 @@
 <p class="location">Location: <?php echo h($event['Event']['event_location']); ?></p>
 <p class="datetime">DateTime：<?php echo $event['Event']['event_begin_date']; ?> <?php echo $this->Time->format($event['Event']['event_begin_time'], '%H:%M'); ?> - <?php echo $event['Event']['event_end_date']; ?> <?php echo $this->Time->format($event['Event']['event_end_time'], '%H:%M'); ?></p>
-<h3>Description of the side bar</h3>
-<div class="list">
-	<div class="title">
-	・Schedule
-	</div>
-	<div>
-	<p>&nbsp;You can register Session of the event.</p>
-	<p>&nbsp;&nbsp;・registration by import scv file</p>
-	<p>&nbsp;&nbsp;・registration by visually</p>
-	</div> 
-</div>
 
-<div class="list">
-	<div class="title">
-	・Poster
-	</div>
-	<div>
-	</p>&nbsp;You can set poster by visually.</p>
-	</p>&nbsp;You can also poster associate with presentation.(register presentation ahead)</p>
-	</div>
-</div>
-
-<div class="list">
-	<div class="title">
-	・Presentation
-	</div>
-	<div>
-	<p>&nbsp;You can register Presentaion of the event.</p>
-	<p>&nbsp;&nbsp;・registration by import scv file</p>
-	<p>&nbsp;&nbsp;・registration by visually</p>
-	</div> 
-</div>
-
-<div class="list">
-	<div class="title">
-	・Floor Map
-	</div>
-	<div>
-	You can upload floor map image simply.
-	</div>
-</div>
-
-<div class="list">
-	<div class="title">
-	・Setting
-	</div>
-	<div>
-	<p>&nbsp;You can edit the following information of the event.</p>
-	<p>&nbsp;&nbsp;・Eevnt Name</p>
-	<p>&nbsp;&nbsp;・Event Location</p>
-	<p>&nbsp;&nbsp;・Event Begin Date</p>
-	<p>&nbsp;&nbsp;・Event Begin Time</p>
-	<p>&nbsp;&nbsp;・Event End Datev</p>
-	<p>&nbsp;&nbsp;・Event End Time</p>
-	<p>&nbsp;and You can upload event top image.</p>
-	</div>
-</div>
-
-<h3>Manage Your Event</h3>
-<ul id="viewlist2">
-<li><a href="
-<?php echo $this->Html->url(array('controller' => 'schedules', 'action' => 'index')) ?>
-" target="_blank"><i class="fa fa-calendar  fa-5x"></i></a>
-<p>Add Sessions</p>
+<h3>Description Of Dashboard Menu</h3>
+<ul id="dashboardlist">
+<li><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="fa fa-calendar fa-5x"></i></a>
+<p>Schedule</p>
 </li>
-<li><a href="
-<?php echo $this->Html->url(array('controller' => 'posters', 'action' => 'index')) ?>
-"><i class="fa fa-file-image-o  fa-5x"></i></a>
-<p>Make Poster Map</p>
+<li><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><i class="fa fa-file-image-o fa-5x"></i></a>
+<p>Poster</p>
 </li>
-<li><a href="
-<?php echo $this->Html->url(array('controller' => 'presentations', 'action' => 'index')) ?>
-" target="_blank"><i class="fa fa-television  fa-5x"></i></a>
-<p>Add Presentations</p>
+<li><a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><i class="fa fa-television fa-5x"></i></a>
+<p>Presentation</p>
+</li>
+<li><a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><i class="fa fa-map-o fa-5x"></i></a>
+<p>Floor Map</p>
+</li>
+<li><a data-toggle="collapse" data-parent="#accordion" href="#collapseFive"><i class="fa fa-cog fa-5x"></i></a>
+<p>Setting</p>
 </li>
 </ul>
+<!-- アコーディオングループ -->
+<div class="panel-group" id="accordion">
+<!-- スケジュール -->
+<div class="panel panel-default">
+<div id="collapseOne" class="panel-collapse collapse">
+<!-- panel-body -->
+<div class="panel-body">
+<p>You can register Session of the event.</p>
+<ul>
+<li>Registration by import scv file</li>
+<li>Registration by visually</li>
+</ul>
+</div>
+<!-- //panel-body -->
+</div>
+</div>
+<!-- //スケジュール -->
+<!-- ポスター -->
+<div class="panel panel-default">
+<div id="collapseTwo" class="panel-collapse collapse">
+<!-- panel-body -->
+<div class="panel-body">
+<p>You can set poster by visually.</p>
+<p>You can also poster associate with presentation ( register presentation ahead ).</p>
+</div>
+<!-- //panel-body -->
+</div>
+</div>
+<!-- //ポスター -->
+<!-- プレゼンテーション -->
+<div class="panel panel-default">
+<div id="collapseThree" class="panel-collapse collapse">
+<!-- panel-body -->
+<div class="panel-body">
+<p>You can register Presentaion of the event.</p>
+<ul>
+<li>Registration by import scv file</li>
+<li>Registration by visually</li>
+</ul>
+</div>
+<!-- //panel-body -->
+</div>
+</div>
+<!-- //プレゼンテーション -->
+<!-- フロアマップ -->
+<div class="panel panel-default">
+<div id="collapseFour" class="panel-collapse collapse">
+<!-- panel-body -->
+<div class="panel-body">
+<p>You can upload floor map image simply.</p>
+</div>
+<!-- //panel-body -->
+</div>
+</div>
+<!-- //フロアマップ -->
+<!-- セッティング -->
+<div class="panel panel-default">
+<div id="collapseFive" class="panel-collapse collapse">
+<!-- panel-body -->
+<div class="panel-body">
+<p>You can edit the following information of the event.</p>
+<ul>
+<li>Event Name</li>
+<li>Event Location</li>
+<li>Event Begin Date / Time</li>
+<li>Event End Date / Time</li>
+</ul>
+<p>And you can upload event top image.</p>
+</div>
+<!-- //panel-body -->
+</div>
+</div>
+<!-- //セッティング -->
+</div>
+<!-- //アコーディオングループ -->
 
-<h3>How to make the event?</h3>
-
-example)
-
+<h3>How to make the event</h3>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ToPRDDPN4xg" frameborder="0" allowfullscreen></iframe>
+<!--
 <div class="list">
 <div class="title">
 	1.Add Sessions
@@ -116,17 +133,18 @@ And, if you already register presentation information, presentations can be asso
 Last, you register floor map.
 You can upload a picture in your computer.
 </div>
+-->
 
 <h3>View Your Event</h3>
 <ul id="viewlist">
 <li><a href="
 <?php echo $this->Html->url(array('controller' => 'PosMapps', 'action' => 'deletestorage')) ?>
-" target="_blank"><i class="fa fa-television  fa-5x"></i></a>
+" target="_blank"><i class="fa fa-television fa-5x"></i></a>
 <p>by PC</p>
 </li>
 <li><a href="
 <?php echo $this->Html->url(array('controller' => 'PosMapps', 'action' => 'qr')) ?>
-"><i class="fa fa-mobile  fa-5x"></i></a>
+"><i class="fa fa-mobile fa-5x"></i></a>
 <p>by SmartPhone</p>
 </li>
 </ul>
