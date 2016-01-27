@@ -31,8 +31,10 @@ $("[id^=Presentable]").on('click',function(){
 		$(':text[id="PresentationSessionOrder"]').val($(this).children(".Session_order").text());
 		$(':text[id="PresentationPresentationOrder"]').val($(this).children(".Presentation_order").text());
 		$(':text[id="PresentationTitle"]').val($(this).children(".Title").text());
-		$(':text[id="PresentationAuthor"]').val($(this).children(".Author").text());
-		$('#Session').val($(this).children(".Sessionvalue").text());
+		console.log(clickid);
+		$(':text[id="PresentationAuthor"]').val($(this).children(".Name").text());
+		$(':text[id="PresentationAffiliation"]').val($(this).children(".Affiliation").text());
+		$('#Session').val($(this).children(".Room").text()+$(this).children(".Session_order").text());
 		/*$( "#dialogSelectConfirm" ).dialog({
 			resizable: false,
 			modal: true,

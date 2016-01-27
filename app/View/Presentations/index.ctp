@@ -97,8 +97,6 @@ function confirmer(){
 			<th>No.</th>
 			<th>Title</th>
 			<th>Author</th>
-			<th>Affiliation</th>
-			<th>Session</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -106,7 +104,6 @@ function confirmer(){
 			for($i=0; $i<10; $i++){
 				echo '<tr>';
 				echo "<td height='20'>&nbsp;</td>";
-				echo "<td>&nbsp;</td>";
 				echo "<td>&nbsp;</td>";
 				echo "<td>&nbsp;</td>";
 				echo '</tr>';
@@ -122,23 +119,27 @@ function confirmer(){
 			echo '<td class="Session_order" style="display: none;">'.$presentation['Presentation']['session_order'].'</td>';
 			echo '<td class="Presentation_order" style="display: none;">'.$presentation['Presentation']['presentation_order'].'</td>';
 			echo '<td class="Title">'.$presentation['Presentation']['title'].'</td>';
-			echo '<td class="Author">'.$presentation['Presentation']['authors_name'].'</td>';
-			echo '<td class="Affiliation">'.$presentation['Presentation']['authors_affiliation'].'</td>';
-			echo '<td class="Session">';
-			if($presentation['Presentation']['session_id']!=0){
-			$session_text = $presentation['Presentation']['session_id'];
-			echo $options[$session_text];
-			echo '</td>';
-			echo '<td class="Sessionvalue"  style="display: none;">';
-			echo $presentation['Presentation']['session_id'];
+			echo '<td class="Author">';
+
+			$person = explode(",", $presentation['Presentation']['authors_name']);
+			$group = explode(",", $presentation['Presentation']['authors_affiliation']);
+			for($i = 0; $i < count($person); $i++) {
+				if($i>0){
+					echo ",";
+				}
+				echo $person[$i];
+				if(isset($group[$i]) && $group[$i] != ""){
+					echo "(".trim($group[$i]).")";
+				}
 			}
 			echo '</td>';
+			echo '<td class="Name" style="display: none;">'.$presentation['Presentation']['authors_name'].'</td>';
+			echo '<td class="Affiliation" style="display: none;">'.$presentation['Presentation']['authors_affiliation'].'</td>';
 			echo '</tr>';
 		endforeach;
         ?>
     </tbody>
 </table>
-
 <button type="button" id="plus" name="add-new-session" class="btn btn-default session-modal-open" data-target="session-edit">＋</button>
 <!-- dialogDeleteConfirm -->
 <div id="dialogDeleteConfirm" class="disno" title="Confirm Delete">
@@ -152,22 +153,22 @@ function confirmer(){
 <?php
 echo $this->Form->create('Presentation', array('action'=>'edit'));
 echo $this->Form->hidden('sessionid', array('class'=>'form-control required','required' => false));
-echo $this->Form->input('Room', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
+/*echo $this->Form->input('Room', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
 echo "(Part of No.)";
-echo $this->Form->input('Session_order', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
-echo "(Part of No. Please input a numerical value.)";
-echo $this->Form->input('Presentation_order', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
-echo "(Part of No. Please input a numerical value.)";
-echo $this->Form->input('Title', array('class'=>'form-control','default' => $datas["Event"]["event_location"],'required' => false));
-echo $this->Form->input('Author', array('class'=>'form-control','default' => $datas["Event"]["event_begin_date"],'required' => false));
+echo $this->Form->input('Session_order', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));*/
+//Room and Session_order
 echo $this->form->input('Session', array(
   'class'=>'form-control',
   'div'=>false,
   'label' => array(
             'text'=>'Session'
         ),
-  'options'=>$options
+  'options'=>$options,
   )); 
+echo $this->Form->input('Presentation_order', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
+echo $this->Form->input('Title', array('class'=>'form-control','default' => $datas["Event"]["event_location"],'required' => false));
+echo $this->Form->input('Author', array('class'=>'form-control','default' => $datas["Event"]["event_begin_date"],'required' => false));
+echo $this->Form->input('Affiliation', array('class'=>'form-control','required' => false));
 echo $this->Form->submit('Make', array('name'=>'Make','id'=>'session_make_btn', 'class'=>'btn btn-primary', 'onclick'=>'return validate();'));
 echo $this->Form->submit('Save', array('name'=>'Save','id'=>'session_save_btn', 'class'=>'btn btn-primary', 'onclick'=>'return validate();'));
 echo '<button id="session_cancel_btn" type="button" class="btn btn-default modal-close">cancel</button>';
