@@ -1255,10 +1255,19 @@ function deleteObject(){
 				for(i=deleteArray.length - 1; i>=0; i--){
 					for(j=childArray.length - 1; j>=0; j--){
 						if(childArray[j].id == deleteArray[i] || childArray[j].__relationID == deleteArray[i]){
-						if(childArray[j].id == deleteArray[i]){
-						//解除するポスター情報を、データベースから削除
-							deleteJson(childArray[j]);
-						}
+							if(childArray[j].id == deleteArray[i]){
+								var targetID = childArray[j].id;
+								
+								// __parentにtargetIDを持つテキストオブジェクトを削除する
+								for(var k=0; k<stage.children.length; k++){
+									if(stage.children[k].__parent == targetID){
+										stage.removeChildAt(k);
+									}
+								}
+								
+								//解除するポスター情報を、データベースから削除
+								deleteJson(childArray[j]);
+							}
 							stage.removeChildAt(j);
 							stage.update();
 						}
