@@ -3,7 +3,8 @@
 class EventsController extends AppController {
 
 	public $helpers = array('Html', 'Form');
-	public $uses =array('Event','Poster','Editor');
+	public $uses = array('Event','Poster','Editor');
+	
 
 	public function index() {
 		// ログイン中ユーザID取得
