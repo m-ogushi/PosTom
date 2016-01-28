@@ -5,7 +5,6 @@ class Event extends AppModel {
 	public function dayDiff(){
 		$event_id = $_SESSION['event_id'];
 		$event = $this->find('all', array('conditions' => array('id' => $event_id)));
-		// 謎なんでevent[0]つけなきゃエラーでるようになった？
 		$begin = $event[0]['Event']['event_begin_date'];
 		$end = $event[0]['Event']['event_end_date'];
 		$timeStamp1 = strtotime($begin);

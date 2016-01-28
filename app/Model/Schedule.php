@@ -24,7 +24,7 @@ class Schedule extends AppModel {
 						'commentator_affiliation' => $row[9],
 						'event_id' => $_SESSION['event_id']
 					);
-					//すでに登録していないroomでないか、一行目の説明でないか
+					//すでに登録しているroomでないか、一行目の説明でないか
 					if(!in_array($row[0], $roomGroup) && $row[0] != "room"){
 						// 予約語ALLは小文字大文字関わらずroomには登録しない、allの場合はALLに変換してsession保存
 						if(mb_strtolower($row[0]) != 'all'){

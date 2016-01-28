@@ -3,8 +3,11 @@
 ini_set('auto_detect_line_endings', true);
 class PresentationsController extends AppController {
 	public $helpers = array('Html', 'Form', 'Text');
-	public $uses = array('Schedule','Presentation');
-
+	public $uses = array('Schedule','Presentation','Event');
+	public $checkResult = array();
+	public $preGroup = array();
+	public $error = "";
+	public $check = true;
 	public function index(){
 		$event_id = $_SESSION['event_id'];
 		$this->set('presentations', $this->Presentation->find('all', array('conditions' => array('event_id' => $event_id))));
@@ -51,8 +54,14 @@ class PresentationsController extends AppController {
 			$fileName = 'PresentationTest.csv';
 			if(is_uploaded_file($up_file)){
 				move_uploaded_file($up_file, $fileName);
-				$this->Presentation->loadCSV($fileName);
-				$this->redirect(array('action'=>'index'));
+				$this->_checkFile($fileName);
+				if($this->check == true){
+					$this->Presentation->loadCSV($fileName);
+					$this->redirect(array('action'=>'index'));
+				}else{
+					$this->set('checkResult', $this->checkResult);
+					$this->render('checked');
+				}
 			}
 		}else{
 			echo "error";
@@ -123,7 +132,6 @@ class PresentationsController extends AppController {
 		}
 		$this->redirect(['action'=>'index']);
 	}
-	
 	// 裏コマンド：全件削除
 	public function deletePresentationAll(){
 		// 選択中のイベントのすべてのプレゼンテーションを取得
@@ -150,5 +158,126 @@ class PresentationsController extends AppController {
 			$this->requestAction('/posters/initRelatedPoster/'.$poster['Poster']['id']);
 		}
 	}
+
+	/******************************************************************
+	*******************import前のバリデーションチェック*********************
+	*******************************************************************/
+	public function _checkFile($file){
+	try{
+			$handle = fopen($file,"r");
+			$countRow = 1;
+			while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
+				mb_convert_variables("UTF-8", "auto", $row);
+				$this->error = "";
+				$this->check = true;
+				$targetrow = $this->_setContent($row);
+				if($row[0] != "room"){
+					// バリデーションチェック関数呼び出し
+					$this->_elementNum($row);
+					$this->_orBlank($row);
+					$this->_checkHyphen($row[0]);
+					$this->_checkNumeric($row[1]);
+					$this->_checkNumeric($row[2]);
+					$this->_checkPresenCombi($row[0], $row[1], $row[2]);
+					$this->_checkDate($row[3]);
+					$this->_authorsCheck($row[7], $row[8]);
+
+					array_push($this->checkResult, array('row' => $countRow, 'content' => $targetrow, 'error' => $this->error));
+					$countRow++;
+				}
+			}
+		}catch(Exception $e){
+			$this->rollback();
+		}
+	}
+	// 読み込んだ内容を補完
+	public function _setContent($row){
+		$content = "";
+		$rowN = 0;
+		while($rowN < count($row)){
+			if(strlen($row[$rowN]) > 30){
+				$content .= substr($row[$rowN], 0, 30).".....";
+			}else{
+				$content .= $row[$rowN];
+			}
+			$content .= "  ";
+			$rowN++;
+		}
+		return $content;
+	}
+	// 要素数は１０
+	public function _elementNum($row){
+		if(count($row) != 9){
+			$this->error .= "Element number is wrong. Format needs 10 elements. <br>";
+			$this->check = false;
+		}
+	}
+	// 空項目がないか
+	public function _orBlank($row){
+		if($row[0] == "" || $row[1] == "" || $row[2] == ""){
+			$this->error .= "Blank element exists. <br>";
+			$this->check = false;
+		}
+	}
+	// roomのハイフン拒否
+	public function _checkHyphen($room){
+		if(strpos($room, "-")){
+			$this->error .= "Can't use hyphen(-) in room. <br>";
+			$this->check = false;
+		}
+		// 先頭にある時
+		 if($room != ""){
+		 	if($room[0] == "-"){
+				$this->error .= "Can't use hyphen(-) in room. <br>";
+				$this->check = false;
+		 	}
+		 }
+	}
+	// session order が0以上の整数どうか
+	public function _checkNumeric($order){
+		if((Int)$order < 0 || (string)$order !== (string)(Int)$order){
+			$this->error .= "Order needs an integer of 1 or more. <br>";
+			$this->check = false;
+		}
+	}
+	// room, orderの組み合わせが他と被らないこと
+	public function _checkPresenCombi($room, $sesOrder, $preOrder){
+		$i=0;
+		while($i < count($this->preGroup)){
+			$targetRoom = $this->preGroup[$i]['room'];
+			$targetSesOrder = $this->preGroup[$i]['sesorder'];
+			$targetPreOrder = $this->preGroup[$i]['preorder'];
+			if($targetRoom == $room && $targetSesOrder == $sesOrder && $targetPreOrder == $preOrder){
+				$r = $i+1;
+				$this->error .= "Already exist this combination of room and this session,presentation order. ";
+				$this->error .= "Overlap in row".$r." .<br>";
+				$this->check = false;
+				break;
+			}
+			$i++;
+		}
+		array_push($this->preGroup, array('room' => $room, 'sesorder' => $sesOrder, 'preorder' => $preOrder));
+	}
+	// dateがイベントに存在するかどうか
+	public function _checkDate($date){
+		// 空は許可
+		if($date != ""){
+			if((Int)$date < 1 || $this->Event->dayDiff() < (Int)$date || (string)$date !== (string)(Int)$date){
+				$this->error .= "Nothing date in event. <br>";
+				$this->check = false;
+			}
+		}
+	}
+	// commentatorsの名前と所属の項目数が合致すること
+	public function _authorsCheck($name, $affili){
+		if(substr_count($name, ',') !== substr_count($affili, ',')){
+			$this->error .= "authors name and affiliation is not match number. <br>";
+			$this->check = false;
+		}
+	}
+
+
+
 }
+
 ?>

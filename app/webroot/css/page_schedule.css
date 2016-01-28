@@ -16,6 +16,9 @@ div.time-group p {
 	width: 100px;
 	height: 30px;
 	margin-top: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .room-group>.btn:not(:first-child){
