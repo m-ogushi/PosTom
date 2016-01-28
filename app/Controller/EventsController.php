@@ -27,7 +27,7 @@ class EventsController extends AppController {
 				'id'=>$event_id_group
 			),
 			'order'=>array(
-				'event_begin_date'=>'DESC'
+				'event_begin_date'=>'DESC','event_begin_time'=>'DESC'
 			)
 		)));
 		$this->set('title_for_layout', 'イベント一覧');

@@ -1,7 +1,7 @@
 <?php
 class PosMappsController extends AppController {
 	public $helpers = array('Html', 'Form', 'Text');
-	public $uses =array('Poster','Event','Schedule','Area','Disuse');
+	public $uses =array('Poster','Event','Schedule','Area','Disuse','Room');
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow(array('index', 'deletestorage', 'makejson', 'phoneclear', 'qr', 'sendmail'));
@@ -30,6 +30,10 @@ class PosMappsController extends AppController {
             ));
         $areas =
             $this->Area->find('all', array(
+                'conditions' => array('event_id' => $_SESSION['event_id'])
+            ));
+        $rooms=
+            $this->Room->find('all', array(
                 'conditions' => array('event_id' => $_SESSION['event_id'])
             ));
         //--------------------------------------------------------------------------------------------------floor map----------------------------------------------------------------------
@@ -317,14 +321,15 @@ class PosMappsController extends AppController {
         );
 
         $schedules = $this->Schedule->find('all',$where);
-
+        $dateplus=0;
         for($i=$schedules[0]['Schedule']['date']-1;$i<$schedules[count($schedules)-1]['Schedule']['date'];$i++)
         {
+
             $this->Event->id = $_SESSION['event_id'];
             $event= $this->Event->read();
             $date=$event['Event']['event_begin_date'];
-            $monthday=explode("-",$date);
-            $monthdayStr=$monthday[1]."/".(string)(((int)$monthday[2])+i);
+            $monthday=explode("-",date('Y-m-d',strtotime('+'.$dateplus++.' day',strtotime($date))));
+            $monthdayStr=$monthday[1]."/".(string)(((int)$monthday[2]));
             //TODO:ŽžŠÔŠm”F
 
             $JsonDay .= '{';
@@ -347,7 +352,7 @@ class PosMappsController extends AppController {
 
                 $JsonDay .= '"start_time":"' .$startTime[0].":".$startTime[1] . '",';
                 $JsonDay .= '"end_time":"'.$endTime[0].":".$endTime[1]  . '",';
-                if( $sessions[$j]['Schedule']['room']=="break") {
+                if( $sessions[$j]['Schedule']['room']=="ALL") {
                     $JsonDay .= '"slot_type":"break",';
                 }
                 else{
@@ -372,28 +377,46 @@ class PosMappsController extends AppController {
                         break;
                     }
                 }
-                for($p=$whilePointStart;$p<=$whilePointEnd;$p++)
+                $sessionList = null;
+                if($sessions[$whilePointStart]['Schedule']['room']=="ALL")
                 {
-                    $JsonDay .= '{';
-                    if($sessions[$p]['Schedule']['room']=="break") {
-                        $JsonDay .= '"room":"",';
+                    $sessionList[1]=$sessions[$whilePointStart];
+                }
+                else {
+
+                    for ($a = 0; $a <= $whilePointEnd - $whilePointStart; $a++) {
+                        for ($b = 0; $b < count($rooms); $b++) {
+                            if ($rooms[$b]['Room']['name'] == $sessions[$whilePointStart + $a]['Schedule']['room']) {
+                                $sessionList[$rooms[$b]['Room']['order']] = $sessions[$whilePointStart + $a];
+                            }
+
+                        }
                     }
-                    else{
-                        $JsonDay .= '"room":"' . $sessions[$p]['Schedule']['room'] . '",';
+                }
+                for($p=1;$p<=count($rooms) ;$p++)
+                {
+                    if($sessionList[$p]!=null) {
+                        $JsonDay .= '{';
+                        if ($sessionList[$p]['Schedule']['room'] == "break") {
+                            $JsonDay .= '"room":"",';
+                        } else {
+                            if($sessionList[$p]['Schedule']['room']!="ALL") {
+                                $JsonDay .= '"room":"' . $sessionList[$p]['Schedule']['room'] . '",';
+                            }
+                            else{
+                                $JsonDay .= '"room":"",';
+                            }
+                        }
+                        if ($sessionList[$p]['Schedule']['order'] == 0) {
+                            $JsonDay .= '"sessionid": "",';
+                        } else {
+                            $JsonDay .= '"sessionid":"' . $sessionList[$p]['Schedule']['room'] . $sessionList[$p]['Schedule']['order'] . '",';
+                        }
+                        $JsonDay .= '"session_name":"' . $sessionList[$p]['Schedule']['category'] . '"},';
                     }
-                    if($sessions[$p]['Schedule']['order']==0) {
-                        $JsonDay .= '"sessionid": "",';
-                    }
-                    else{
-                        $JsonDay .= '"sessionid":"' . $sessions[$p]['Schedule']['room'].  $sessions[$p]['Schedule']['order']. '",';
-                    }
-                    if($p==$whilePointEnd)
-                    {
-                        $JsonDay .= '"session_name":"' . $sessions[$p]['Schedule']['category'] . '"}';
-                    }
-                    else{
-                        $JsonDay .= '"session_name":"' . $sessions[$p]['Schedule']['category'] . '"},';
-                    }
+                }
+                if(substr($JsonDay,-1)==",") {
+                    $JsonDay = substr($JsonDay, 0, strlen($JsonDay) - 1);
                 }
                 $JsonDay .= ']';
                 if($j==count($sessions)-1) {
