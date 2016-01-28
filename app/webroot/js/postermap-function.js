@@ -142,7 +142,7 @@ function setPosterIcons() {
 							<div class='posterfont' id='font" + i + "'>" + presenid + "</div>\
 						</div>\
 					</div>\
-					<img id='star" + pos + "No" + i +"' class='star bookmarkstar' style='"+angle+" display:none;' src='img/bookmark.png'></img>\
+					<img id='star" + pos + "No" + i +"' class='star bookmarkstar' style='"+angle+" display:none;' src='"+webroot+"img/bookmark.png'></img>\
 				</div>\n";
 		}
 	}
@@ -546,8 +546,18 @@ function touchBookmarkFun(presenid, bookmarkIcon){
 	var starpos = [null, "Top", "Right", "Bottom", "Left"];
 	if (bookmarkIcon !== null) {
 		var posterid = getPosterid(presenid);
-		var p = poster[posterid-1];
+		var p;
+		for(var i=0;i<poster.length;i++)
+		{
+			if(poster[i].posterid==posterid);
+			{
+				p = poster[i];
+				posterid=i;
+			}
+		}
+
 		starelem = document.getElementById("star" + starpos[p.star] + "No" + posterid);
+
 		starelem.style.display = starstatus;
 	}
 

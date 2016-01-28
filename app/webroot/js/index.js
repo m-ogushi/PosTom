@@ -210,7 +210,7 @@ function init() {
 	$(".posterMapPageButton").goToMapPage("click");
 	$(".presenListPageButton").goToListPage("click");
 
-	if(venuemap != null){
+	if(venuemap != null&&venuemap!=""){
 		$(".venuePageButton").goToVenuePage("click");
 	}
 	else{
@@ -220,7 +220,7 @@ function init() {
 
 	}
 
-	if(timetable != null){
+	if(timetable != null&&timetable!=""){
 		$(".informationPageButton").goToInformationPage("click");
 	}
 	else{

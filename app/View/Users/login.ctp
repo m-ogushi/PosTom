@@ -1,4 +1,10 @@
 <h2>Sign In</h2>
+
+<div style="color:red">
+<?php
+echo $this->Html->para('attention',$this->Session->flash());
+?>
+</div>
 <?php
 echo $this->Form->create('User');
 echo $this->Form->input('username', array('label' => 'User Name', 'class'=>'form-control'));
