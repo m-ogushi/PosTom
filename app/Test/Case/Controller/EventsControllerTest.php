@@ -6,10 +6,6 @@ class EventsControllerTest extends ControllerTestCase {
 	
 	// viewテスト
 	public function testView(){
-		/*
-		$result = $this->testAction('/events/view/abcdefgh');
-		debug($result);	
-		*/
 		$expected = array(
 			'event' => array(
 				'Event' => array(
