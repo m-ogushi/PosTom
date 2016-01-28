@@ -220,7 +220,7 @@ $(function() {
 			// ポスターのdateが(j+1)日と一致していれば、そのキャンバスに描写する
 			if(poster[i].date == (j+1)){
 				//ポスター情報を反映
-				var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color);
+				var instance = createObject(parseInt(poster[i].x), parseInt(poster[i].y), parseInt(poster[i].width), parseInt(poster[i].height), poster[i].color, poster[i].date);
 				instance.NextId = poster[i].NextId;
 				if(poster[i].NextId >= NextId){
 					NextId = poster[i].NextId+1;
@@ -366,7 +366,7 @@ function setObject(){
 		alert("you must input smaller than width"+canvasWidth/gridSize+"grid, height"+canvasHeight/gridSize+"grid");
 	}else{
 		var objectCreateColor = $('[name^="objectCreateColor"]').val();
-		var object = createObject(initX, initY, objectWidth , objectHeight , objectCreateColor);
+		var object = createObject(initX, initY, objectWidth , objectHeight , objectCreateColor, selectedDay);
 		stage.addChild(object);
 		stage.update();
 		object.addEventListener("mousedown", startDrag);
@@ -377,7 +377,7 @@ function setObject(){
 }
 
 // オブジェクト生成処理
-function createObject(x, y, w, h, color) {
+function createObject(x, y, w, h, color, date) {
 	var object = new createjs.Shape();
 	object.x = x;
 	object.y = y;
@@ -388,6 +388,7 @@ function createObject(x, y, w, h, color) {
     object.__presenter = "";
     object.__abstract = "";
 	object.__id = '';
+	object.__date = date;
 	object.NextId=NextId;
 	NextId++;
 	object.graphics.beginFill(color);
@@ -944,7 +945,8 @@ function singlesaveJson(object){
 	h = parseInt(object.graphics.command.h);
 	color = rgbToHex(object.color);
 	relation = object.__relation;
-	poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'presentation_id': relation, 'date': selectedDay, 'event_id': selectedEventID};
+	date = object.__date;
+	poster = {'id': id,'x': x, 'y': y, 'width': w, 'height': h, 'color': color, 'presentation_id': relation, 'date': date, 'event_id': selectedEventID};
 	$.ajax({
 		type: "POST",
 		cache : false,
@@ -1401,6 +1403,7 @@ function resizeMap(){
 	$('input[name="objectHeight"]').attr("max",canvasHeight/gridSize);
 	stage.update();
 	stageAreaArray[selectedDay-1].update();
+	stage.update();
 	
 	// eachdaysテーブルに格納
 	eachday = {'event_id': parseInt(selectedEventID), 'date': selectedDay, 'canvas_width': canvasWidth, 'canvas_height': canvasHeight};
@@ -1502,6 +1505,9 @@ $(function(){
 		if(selectMode == 'create' || selectMode == 'delete'){
 			// 現在のモードを記憶しておく
 			formerMode = selectMode;
+		}else{
+			// エリアタブからの遷移の場合
+			stage = stagePosterArray[selectedDay-1];
 		}
 		selectMode = 'presentation';
 		// ポスターキャンバスを手前にする
@@ -1580,7 +1586,6 @@ function onDrop(e){
 	//console.log('キャンバスの位置: ('+e.target.offsetLeft+', '+e.target.offsetTop+')');
 	//console.log('ドロップした位置: ('+e.originalEvent.clientX+', '+e.originalEvent.clientY+')');
 	//console.log('キャンバス上の位置: ('+onCanvasX+', '+onCanvasY+')');
-
 	// ステージ上に存在するオブジェクトを特定する
 	for(var i=0; i<stage.children.length; i++){
 		var target = stage.children[i];
@@ -1593,21 +1598,29 @@ function onDrop(e){
 				if($('.presentationlist li#'+selectedPresentationID).hasClass('related') == true){
 					// もともと関連済みであったポスターのIDを取得
 					var formerRelatedPosterID = $('.presentationlist li#'+selectedPresentationID).attr('data-relation');
-					for(var j=0; j<stage.children.length; j++){
-						var object = stage.children[j];
-						// もともと関連済みであったポスターを特定
-						if(object.id == formerRelatedPosterID){
-							// ポスターを元の状態に戻す
-							object.graphics._fill.style = defaultColor;
-							object.color = defaultColor;
-							object.__relation = '';
-							// もともと関連済みであったポスターも変更部分をデータベースに反映させる
-							singlesaveJson(object);
-						}
-						// もともと関連済みであったポスターを親とするテキストオブジェクトを特定
-						if(object.__parent == formerRelatedPosterID){
-							// テキストオブジェクトを削除する
-							stage.removeChildAt(j);
+					// 複数日にまたがる可能性があるためポスターのステージすべてをチェックします
+					for(var k=0; k<stagePosterArray.length; k++){
+						// チェックを行うステージ
+						var targetStage = stagePosterArray[k];
+						
+						for(var j=0; j<targetStage.children.length; j++){
+							var object = targetStage.children[j];
+							// もともと関連済みであったポスターを特定
+							if(object.id == formerRelatedPosterID){
+								// ポスターを元の状態に戻す
+								object.graphics._fill.style = defaultColor;
+								object.color = defaultColor;
+								object.__relation = '';
+								// もともと関連済みであったポスターも変更部分をデータベースに反映させる
+								// もともと関連済みであったポスターが選択中のタブとは限らない
+								singlesaveJson(object);
+							}
+							// もともと関連済みであったポスターを親とするテキストオブジェクトを特定
+							if(object.__parent == formerRelatedPosterID){
+								// テキストオブジェクトを削除する
+								targetStage.removeChildAt(j);
+							}
+							targetStage.update();
 						}
 					}
 				}

@@ -146,6 +146,16 @@ for($i=0; $i<count($disuseArray); $i++){
 		echo "repeat, no-repeat; ";
 	}
 	
+	// disuseにチェックが入っていれば、背景画像を上塗りする
+	/*
+	if($disuses[$i-1]){
+		echo "background-image: ";
+		echo "url(".$this->webroot."img/bg_canvas_disuse.png);";
+		echo "background-repeat: ";
+		echo "no-repeat; ";
+	}
+	*/
+	
 	// キャンバスの幅と高さ設定
 	echo "width: ".$canvas_width."px; ";
 	echo "height: ".$canvas_height."px;";
@@ -243,38 +253,7 @@ for($i=0; $i<count($disuseArray); $i++){
 </p>
 </div>
 <!-- //deleteForm -->
-<!-- editForm-->
-<!--
-<div id="editForm" class="form">
-<fieldset>
-<legend>Edit</legend>
-<p>Title:<input type="text" class="form-control" name="title" disabled="disabled"></p>
-<p>Presentor:<input type="text" class="form-control" name="presenter" disabled="disabled"></p>
-<p>Content:<textarea class="form-control"  name="abstract" rows="5" disabled="disabled"></textarea></p>
-<p>color:<br>
-<select name="objectEditColor" class="selectpicker" onChange="editSelectColor()" disabled="disabled">
-<option value='#999999' class='bg1' >&nbsp;</option>
-<option value='#000000' class='bg2' >&nbsp;</option>
-<option value='#ffffff' class='bg3' >&nbsp;</option>
-<option value='#E60012' class='bg4' >&nbsp;</option>
-<option value='#F39800' class='bg5' >&nbsp;</option>
-<option value='#FFF100' class='bg6' >&nbsp;</option>
-<option value='#8FC31F' class='bg7' >&nbsp;</option>
-<option value='#009944' class='bg8' >&nbsp;</option>
-<option value='#009E96' class='bg9' >&nbsp;</option>
-<option value='#00A0E9' class='bg10' >&nbsp;</option>
-<option value='#0068B7' class='bg11' >&nbsp;</option>
-<option value='#1D2088' class='bg12' >&nbsp;</option>
-<option value='#920783' class='bg13' >&nbsp;</option>
-<option value='#E4007F' class='bg14' >&nbsp;</option>
-<option value='#E5004F' class='bg15' >&nbsp;</option>
-</select>
-</p>
-<p><input type="button" class="btn btn-default" name="inputForm"  onClick="setParam()" value="submit" disabled="disabled"></p>
-</fieldset>
-</div>
--->
-<!-- //editForm-->
+
 <!-- mapForm-->
 <div id="mapForm" class="form">
 <fieldset>
