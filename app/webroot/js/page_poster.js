@@ -141,10 +141,12 @@ $(function() {
 	// 複数日対応 ポスターキャンバス要素配列・エリアキャンバス要素配列・ステージ配列の格納
 	for(var i=0; i<eventDays; i++){
 		// ポスターキャンバス・エリアキャンバスサイズを指定
+		/*
 		$('#posterCanvas'+(i+1)).get(0).width = canvasWidth;
 		$('#posterCanvas'+(i+1)).get(0).height = canvasHeight;
 		$('#areaCanvas'+(i+1)).get(0).width = canvasWidth;
 		$('#areaCanvas'+(i+1)).get(0).height = canvasHeight;
+		*/
 		// ポスターキャンバスにプレゼンテーションからの関連づけのマウスイベントを受け付ける
 		$('#posterCanvas'+(i+1)).on('dragover', onDragOver);
 		$('#posterCanvas'+(i+1)).on('drop', onDrop);
@@ -200,6 +202,11 @@ $(function() {
 			// セレクトボックスがまだなければ何もしない
 		}
 	}, 100);
+
+	// 初日のキャンバスのサイズをマップ編集フォームの項目にセットする
+	$('input[name="mapWidth"]').attr('value', $('#posterCanvas1').attr('width'));
+	$('input[name="mapHeight"]').attr('value', $('#posterCanvas1').attr('height'));
+	
 
 	/********************************************************
 	 * データベースから取得したポスターを各日数におけるポスターキャンバスに描写する処理
@@ -1383,27 +1390,62 @@ function resizeMap(){
 	canvasWidth = mapWidth;
 	canvasHeight = mapHeight;
 	// マップサイズの変更を反映
-	$('#posterCanvas'+(selectedDay-1)).get( 0 ).width = canvasWidth;
-	$('#posterCanvas'+(selectedDay-1)).get( 0 ).height = canvasHeight;
+	$('#posterCanvas'+selectedDay).get( 0 ).width = canvasWidth;
+	$('#posterCanvas'+selectedDay).get( 0 ).height = canvasHeight;
+	$('#posterCanvas'+selectedDay).css('width', canvasWidth).css('height', canvasHeight);
+	$('#areaCanvas'+selectedDay).get( 0 ).width = canvasWidth;
+	$('#areaCanvas'+selectedDay).get( 0 ).height = canvasHeight;
+	$('#areaCanvas'+selectedDay).css('width', canvasWidth).css('height', canvasHeight);
+	
 	$('input[name="objectWidth"]').attr("max",canvasWidth/gridSize);
 	$('input[name="objectHeight"]').attr("max",canvasHeight/gridSize);
 	stage.update();
+	stageAreaArray[selectedDay-1].update();
+	
+	// eachdaysテーブルに格納
+	eachday = {'event_id': parseInt(selectedEventID), 'date': selectedDay, 'canvas_width': canvasWidth, 'canvas_height': canvasHeight};
+	$.ajax({
+		type: "POST",
+		cache : false,
+		url: "eachdays/modifyCanvasSize",
+		data: { "data": eachday },
+		success: function(response){
+			// 格納成功
+		}
+	});
 }
 
 // マップを小さくする際に、飛び出してしまうオブジェクトがあるかチェックします
 function existMapOverObject(mapWidth, mapHeight){
+	// 飛び出しをしているか否か
+	var outFlg = false;
 	// オブジェクトの右下座標
 	var objectRightBottom = {"x": 0, "y": 0};
+	// ポスターステージにて検証
 	for(var i=0; i<stage.children.length; i++){
 		if(stage.children[i].__type != "selectSquare"){
 			// オブジェクトの右下座標がマップのサイズより上回っている場合
 			objectRightBottom = {"x": stage.children[i].x + stage.children[i].width, "y": stage.children[i].y + stage.children[i].height };
 			if(objectRightBottom.x > mapWidth || objectRightBottom.y > mapHeight){
-				return true;
+				outFlg = true;
 			}
 		}
 	}
-	return false;
+	
+	// エリアステージの取得
+	var areaStage = stageAreaArray[selectedDay - 1];
+	// エリアステージにて検証
+	for(var i=0; i<areaStage.children.length; i++){
+		if(areaStage.children[i].__type != "selectSquare"){
+			// オブジェクトの右下座標がマップのサイズより上回っている場合
+			objectRightBottom = {"x": areaStage.children[i].x + areaStage.children[i].width, "y": areaStage.children[i].y + areaStage.children[i].height };
+			if(objectRightBottom.x > mapWidth || objectRightBottom.y > mapHeight){
+				outFlg = true;
+			}
+		}
+	}
+	
+	return outFlg;
 }
 
 /********************************************************
@@ -1751,6 +1793,10 @@ $(function(){
 			formerMode = selectMode;
 			selectMode = "create";
 		}
+		
+		// マップ編集フォームの値をキャンバスのサイズに更新する
+		$('input[name="mapWidth"]').attr('value', canvasElement.width);
+		$('input[name="mapHeight"]').attr('value', canvasElement.height);
 	});
 });
 

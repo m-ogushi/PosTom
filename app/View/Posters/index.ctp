@@ -9,6 +9,9 @@ var presentations = new Array();
 // データベースから取得したエリアデータを格納するためのエリア配列変数
 var areas = new Array();
 
+// データベースから取得したeachdaysデータを格納するための配列変数
+var eachdays = new Array();
+
 // Disuseになっている日数を格納するための配列
 var disuses = new Array(eventDays);
 // Disuseの初期化　はじめはすべてdisuseにチェックが入っていない状態とする
@@ -60,6 +63,19 @@ for($i=0; $i<count($areas); $i++){
 <?php
 } // end for
 
+// 選択中のイベントに関するeachdaysデータを取得する
+$eachdays = $this->requestAction('/eachdays/getCanvasWidthHeight/'.$_SESSION['event_id']);
+
+for($i=0; $i<count($eachdays); $i++){
+?>
+	var list = {
+		canvas_width: <?php echo $eachdays[$i]['Eachday']['canvas_width']; ?>,
+		canvas_height: <?php echo $eachdays[$i]['Eachday']['canvas_height']; ?>
+	}
+	eachdays['<?php echo $eachdays[$i]['Eachday']['date']; ?>'] = list;
+<?php
+}
+
 
 // イベントの開催日数を取得
 $days = $this->requestAction('/events/getEventDays/'.$_SESSION['event_id']);
@@ -104,6 +120,18 @@ for($i=0; $i<count($disuseArray); $i++){
 <?php
 	// イベントの開催日数分のキャンバスを生成する
 	for($i=1; $i<=$days; $i++){
+		
+		// キャンバスサイズの初期化
+		$canvas_width = 720;
+		$canvas_height = 960;
+		// eachdaysデータからキャンバスの幅・高さを取得する
+		for($j=0; $j<count($eachdays); $j++){
+			// もしdateが一致するならば、キャンバスの幅・高さを更新する
+			if($eachdays[$j]['Eachday']['date'] == $i){
+				$canvas_width = $eachdays[$j]['Eachday']['canvas_width'];
+				$canvas_height = $eachdays[$j]['Eachday']['canvas_height'];
+			}
+		}
 ?>
 <div id="tcCanvas<?php echo $i; ?>" class="tab-pane <?php echo $i==1?'active':''; ?>">
 <p><input type="checkbox" name="checkDisuse<?php  echo $i; ?>" onChange="onChangeDisuse(this, <?php echo $i; ?>)" <?php echo $disuses[$i-1]==true?'checked':''; ?>>&nbsp;Disuse</p>
@@ -115,13 +143,23 @@ for($i=0; $i<count($disuseArray); $i++){
 		echo "background-image: ";	
 		echo "url(".$this->webroot."img/dot.png), url(".$this->webroot."img/bg/".$_SESSION['event_str']."_".$i.".png); ";
 		echo "background-repeat: ";
-		echo "repeat, no-repeat;";
+		echo "repeat, no-repeat; ";
 	}
+	
+	// キャンバスの幅と高さ設定
+	echo "width: ".$canvas_width."px; ";
+	echo "height: ".$canvas_height."px;";
 ?>
-"></canvas>
+" width="<?php echo $canvas_width; ?>" height="<?php echo $canvas_height; ?>"></canvas>
 <!-- // poster canvas -->
 <!-- area canvas -->
-<canvas id="areaCanvas<?php echo $i; ?>" class="areaCanvas <?php echo $disuses[$i-1]?'disuse':''; ?>"></canvas>
+<canvas id="areaCanvas<?php echo $i; ?>" class="areaCanvas <?php echo $disuses[$i-1]?'disuse':''; ?>" style="
+<?php
+	// キャンバスの幅と高さ設定
+	echo "width: ".$canvas_width."px; ";
+	echo "height: ".$canvas_height."px;";
+?>
+" width="<?php echo $canvas_width; ?>" height="<?php echo $canvas_height; ?>"></canvas>
 <!-- // area canvas -->
 </div>
 <?php

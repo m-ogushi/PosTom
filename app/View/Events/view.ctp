@@ -97,46 +97,7 @@
 
 
 <h3>How To Make The Event</h3>
-<p>----- Now At Work.. -----</p>
-<!--<iframe width="560" height="315" src="https://www.youtube.com/embed/ToPRDDPN4xg" frameborder="0" allowfullscreen></iframe>-->
-
-<!--
-<div class="list">
-<div class="title">
-	1.Add Sessions
-</div>
-First,you register sessions information.
-Import csv file about sessions, or register visually.
-If you use csv file,the form is decided.But you can download format sample. So don't worry.
-If you register visually,first add information of the rooms by tab,then add new session in each rooms.
-You can do easily.
-</div>
-
-<div class="list">
-<div class="title">
-	2.Add presentation
-</div>
-Next,you register presentation information.
-In the same way as sessions,this can do easily,import csv file about presentation, or register visually.
-</div>
-
-<div class="list">
-<div class="title">
-	3.Make poster map
-</div>
-Next,you register poster information.
-You can A poster can be arranged.you can register visually.
-And, if you already register presentation information, presentations can be associated with posters.
-</div>
-
-<div class="list">
-<div class="title">
-	4.Make Floor Map
-</div>
-Last, you register floor map.
-You can upload a picture in your computer.
-</div>
--->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pQ8oD7f7RKU" frameborder="0" allowfullscreen></iframe>
 
 <h3>View Your Event</h3>
 <ul id="viewlist">
