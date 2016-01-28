@@ -460,7 +460,7 @@
 			for(var count in rooms){
 			}
 			count = Number(count) + 2;
-			if(rooms == null){
+			if(rooms.length == 0){
 				count = 1;
 			}
 			return count;
@@ -493,6 +493,7 @@ echo $this->Html->css('page_schedule');
 <p>　　　(*1) In "Order" column,  fill the order of the session in the room.   </p>
 <p>　　　For example, the "Order" value of the first session in the room A is "1". </p>
 <p>* The first two attributes "Room" and "Order" should be filled. </p>
+<p>* Import data must be utf-8. </p>
 <p>* You also can download the sample file from there:</p>
 <p>When you register rest time,register order as "0".The form of the rest is different from a general case.</p>
 
@@ -595,6 +596,7 @@ echo $this->Html->css('page_schedule');
 	for($countRoom = 0; $countRoom < count($roomGroup); $countRoom++){
 		echo '<button draggable="true" type="button" id="' . $roomGroup[$countRoom] . '-'. $countRoom .'" class="btn btn-info room room-modal-open" data-target="room-edit">' . $roomGroup[$countRoom] . '</button>';
 	}
+	// room 追加ボタン
 	echo '<button type="button" id="add-new-room" class="btn btn-default room-modal-open" data-target="room-edit">+</button>';
 	echo '</div>';
 
@@ -654,7 +656,11 @@ echo $this->Html->css('page_schedule');
 
 			$session = $room.$order;
 			$give_id = "id-".$id;
+			if($room != "ALL"){
 			echo '<button id='. $give_id .' name="session-'. $id .'" type="button" class="btn btn-default session session-modal-open" data-toggle="popover" data-trigger="hover" data-html="true" data-target="session-edit" data-placement="top" data-content="'. $session .': ' . $category . '<br>'. $start_hover . '~' . $end_hover . '<br>'. $cha .''. $com .'" >' . $session . ': ' . $category . '</button>';
+			}else{
+			echo '<button id='. $give_id .' name="session-'. $id .'" type="button" class="btn btn-default session session-modal-open" data-toggle="popover" data-trigger="hover" data-html="true" data-target="session-edit" data-placement="top" data-content="' . $category . '<br>'. $start_hover . '~' . $end_hover . '" >' . $category . '</button>';
+			}
 			// 時間、分を格納
 			$sessionStartTime = (Int)substr($sessionStart,0,2);
 			$sessionStartMin = (Int)substr($sessionStart,3,2);
@@ -682,9 +688,11 @@ echo $this->Html->css('page_schedule');
 	echo '</div>'; // tab-pane end
 	// session追加ボタン設置
 	echo '<div class="add-session-group">';
-
 	$top = 675 + ($end - $first) * 90;
-
+	// sessionが一つもない時用
+	if(($end - $first) < 0){
+		$top = 675;
+	}
 	$left = 240;
 	for($countRoom = 0; $countRoom < count($roomGroup); $countRoom++){
 		echo '<button type="button" id="add-in-' . $roomGroup[$countRoom] . '" name="add-new-session" class="btn btn-default session-modal-open" data-target="session-edit">＋</button>';
