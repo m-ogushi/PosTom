@@ -23,8 +23,13 @@ if ($_FILES['backGroundImage']) {
 			unlink($path_gif);
 		}
 		// 画像をアップロード
+		$upload_file = $_FILES['backGroundImage']['tmp_name'];
 		$upload_path = "../img/bg/".$event_str."_".$event_date.".png"; //階層が変わるなら書き換え
 		move_uploaded_file($_FILES['backGroundImage']['tmp_name'],$upload_path);
+		
+		// TODO: PosMApp側がまだ_1.png, _2.pngの表示に対応していないので、ノーマルのバージョンでもアップロードします 実装されたら消してください
+		$upload_path = "../img/bg/".$event_str.".png";
+		move_uploaded_file($upload_file, $upload_path);
 		echo 'upload successed';
 	}else{
 		echo 'can not find the file';

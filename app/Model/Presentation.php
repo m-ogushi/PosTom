@@ -9,7 +9,7 @@ class Presentation extends AppModel {
 				$handle = fopen($filename,"r");
 				while(($row = fgetcsv($handle, 3000, ",")) !== FALSE){
 					mb_convert_variables("UTF-8", "auto", $row);
-					// var_dump($row);
+					//var_dump($row);
 					$presenData = array(
 						'room' => $row[0],
 						'session_order' => $row[1],
