@@ -181,7 +181,7 @@ But, you can arrange for poster position by intuitive handling.</p>
 <!-- column 4 -->
 <div id="col4" class="cd-scrolling-bg cd-color-2">
 <div class="inner cd-container">
-<p class="tit">If You Haven't Already, Please Newly Register</p>
+<p class="tit">Create your PosTom Account</p>
 <p class="txt">All contents are free. When you completed temporarily registered, you can receive emails.</p>
 <div class="error-messages disno"></div>
 <div class="signup-form">

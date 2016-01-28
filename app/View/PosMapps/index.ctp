@@ -1,3 +1,7 @@
+<?php
+	// パラメータの受け取り
+	$event_str = $this->params['pass'][0];
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -174,7 +178,7 @@
 		<div id="mapFrame" style="z-index: 255;background-color:#FFFFFF">
 			<div id="mapMain">
 				<!-- ポスターマップ表示 -->
-				<img id="mapImg" src="<?php echo $this->Html->webroot;?>img/postermap_1.png" border="0"
+				<img id="mapImg" src="<?php echo $this->Html->webroot;?>img/bg/<?php echo $event_str; ?>_1.png" border="0"
 					style="position: relative; z-index: 1;"></img>
 				<!-- ポスターアイコン -->
 				<div id="posters"></div>

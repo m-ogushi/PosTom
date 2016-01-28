@@ -163,7 +163,7 @@ function init() {
     }
 
     if(posmapp_bg != null && posmapp_bg.length>0){
-    	$("#mapImg").attr("src",posmapp_bg[0]);
+    	//$("#mapImg").attr("src",posmapp_bg[0]);
     }
 
 

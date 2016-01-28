@@ -95,8 +95,9 @@
 </div>
 <!-- //アコーディオングループ -->
 
-<h3>How to make the event</h3>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ToPRDDPN4xg" frameborder="0" allowfullscreen></iframe>
+<h3>How To Make The Event</h3>
+<p>----- Now At Work.. -----</p>
+<!--<iframe width="560" height="315" src="https://www.youtube.com/embed/ToPRDDPN4xg" frameborder="0" allowfullscreen></iframe>-->
 <!--
 <div class="list">
 <div class="title">
