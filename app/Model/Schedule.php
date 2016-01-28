@@ -27,12 +27,19 @@ class Schedule extends AppModel {
 					//すでに登録しているroomでないか、一行目の説明でないか
 					if(!in_array($row[0], $roomGroup) && $row[0] != "room"){
 						// 予約語ALLは小文字大文字関わらずroomには登録しない、allの場合はALLに変換してsession保存
-						if(mb_strtolower($row[0]) != 'all'){
+						if(strtolower($row[0]) != 'all'){
 							array_push($roomGroup, $row[0]);
 							array_push($saveRooms, array('name' => $row[0], 'order' => $roomOrder, 'event_id' => $event_id));
 							$roomOrder++;
 						}else{
 							$scheduleData['room'] = 'ALL';
+							$scheduleData['order'] = 0;
+							$scheduleData['chairperson_name'] = "";
+							$scheduleData['chairperson_affiliation'] = "";
+							$scheduleData['commentator_name'] = "";
+							$scheduleData['commentator_affiliation'] = "";
+							debug($schedule);
+
 						}
 					}
 					// フォーマットヘッダー無視用
