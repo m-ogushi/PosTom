@@ -4,9 +4,9 @@ var clickid;
 function validate(){
 	//console.log($("#PresentationRoom").val()+$("#PresentationSessionOrder").val()+"-"+$("#PresentationPresentationOrder").val());
 	var validation = true;
-	var editNum =$("#PresentationRoom").val()+$("#PresentationSessionOrder").val()+"-"+$("#PresentationPresentationOrder").val();
+	var editNum =$("#Session").val()+"-"+$("#PresentationId").val();
 	
-	if (!$("#PresentationRoom").val().match(/\S/g)　||!$("#PresentationSessionOrder").val().match(/\S/g)　|| !$("#PresentationPresentationOrder").val().match(/\S/g)){
+	if (!$("#Session").val().match(/\S/g)　|| !$("#PresentationId").val().match(/\S/g)){
 		//window.confirm("Room and Session Order and Presentation Order are required fields");
 		$("#error-messages").text("Room and Session Order and Presentation Order are required fields");
 		validation = false;
@@ -15,18 +15,11 @@ function validate(){
 	
 	
 		//Session OrderとPresentation Orderに数値が入っているかどうかチェックする
-	if(isFinite($("#PresentationSessionOrder").val()) == false || isFinite($("#PresentationPresentationOrder").val())== false){
+	if(isFinite($("#PresentationId").val())== false){
 		//window.confirm("Session Order and Presentation Order are must be numeric character");
 		$("#error-messages").text("Session Order and Presentation Order are must be numeric character");
 		validation = false;
 		return false;
-	}
-	
-		//Session OrderとPresentation Orderが数値かどうかチェックする
-	if(isFinite($("#PresentationSessionOrder").val()) == false || isFinite($("#PresentationPresentationOrder").val())== false){
-		//window.confirm("Session Order and Presentation Order are must be numeric character");
-		$("#error-messages").text("Session Order and Presentation Order are must be numeric character");
-		validation = false;
 	}
 	
 	        $(".Num").each(function(i){
@@ -161,11 +154,13 @@ echo $this->form->input('Session', array(
   'class'=>'form-control',
   'div'=>false,
   'label' => array(
-            'text'=>'Session'
+            'text'=>'Session',
+			'class'=>'required'
         ),
   'options'=>$options,
+  'required' => false
   )); 
-echo $this->Form->input('Presentation_order', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
+echo $this->Form->input('Presentation_order', array('id'=>'PresentationId','class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
 echo $this->Form->input('Title', array('class'=>'form-control','default' => $datas["Event"]["event_location"],'required' => false));
 echo $this->Form->input('Author', array('class'=>'form-control','default' => $datas["Event"]["event_begin_date"],'required' => false));
 echo $this->Form->input('Affiliation', array('class'=>'form-control','required' => false));
