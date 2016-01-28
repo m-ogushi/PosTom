@@ -15,12 +15,12 @@ function validate(){
 	
 	
 		//Session OrderとPresentation Orderに数値が入っているかどうかチェックする
-	if(isFinite($("#PresentationId").val())== false){
-		//window.confirm("Session Order and Presentation Order are must be numeric character");
-		$("#error-messages").text("Session Order and Presentation Order are must be numeric character");
-		validation = false;
-		return false;
-	}
+	if(isFinite($("#PresentationId").val())== false || Math.round($("#PresentationId").val()) != parseInt($("#PresentationId").val()) || $("#PresentationId").val() < 1){
+			//window.confirm("Session Order and Presentation Order are must be numeric character");
+			$("#error-messages").text("Session Order and Presentation Order are must be numeric character");
+			validation = false;
+			return false;
+		}
 	
 	        $(".Num").each(function(i){
 	if(i == clickid){

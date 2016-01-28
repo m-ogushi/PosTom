@@ -13,11 +13,22 @@
 		var startdate = new Date($('#EventEventBeginDateYear').val() + "/" + $('#EventEventBeginDateMonth').val() + "/" + $('#EventEventBeginDateDay').val());
 		var enddate = new Date($('#EventEventEndDateYear').val() + "/" + $('#EventEventEndDateMonth').val() + "/" + $('#EventEventEndDateDay').val());
 		var daysDiff = getDiff(startdate, enddate);
-
+		
+		var starttime = parseInt($('#EventEventBeginTimeHour').val()*60) + parseInt($('#EventEventBeginTimeMin').val());
+		var endtime = parseInt($('#EventEventEndTimeHour').val()*60) + parseInt($('#EventEventEndTimeMin').val());
+		
 		// エラーメッセージを空に
 		err_box = $('.error-messages');
 		err_box.empty();
-
+		if(daysDiff == 1){
+			if(endtime<=starttime){
+			//イベントが一日の時、開始日時が終了日時より遅い場合
+				err_elm = $('<p>').text("Event Begin Time must be earlier than Event End Time.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+		}
 		if(daysDiff < 1){
 			// 開始日時の方が小さい場合
 			err_elm = $('<p>').text("Event Begin Date must be earlier than Event End Date.");

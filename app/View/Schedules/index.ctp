@@ -494,6 +494,7 @@ echo $this->Html->css('page_schedule');
 <p>　　　For example, the "Order" value of the first session in the room A is "1". </p>
 <p>* The first two attributes "Room" and "Order" should be filled. </p>
 <p>* You also can download the sample file from there:</p>
+<p>When you register rest time,register order as "0".The form of the rest is different from a general case.</p>
 
 <p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/session_format.csv">Download Format Sample</a></p>
 <p></p>
