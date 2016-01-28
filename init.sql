@@ -1,10 +1,12 @@
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+
 
 -- --------------------------------------------------------
 
@@ -23,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `areas` (
   `event_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
 
 -- --------------------------------------------------------
 
@@ -69,6 +71,20 @@ CREATE TABLE IF NOT EXISTS `disuses` (
 -- --------------------------------------------------------
 
 --
+-- テーブルの構造 `eachdays`
+--
+
+CREATE TABLE IF NOT EXISTS `eachdays` (
+  `event_id` int(11) NOT NULL,
+  `date` int(11) NOT NULL,
+  `canvas_width` int(11) NOT NULL,
+  `canvas_height` int(11) NOT NULL,
+  PRIMARY KEY (`event_id`,`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- テーブルの構造 `editors`
 --
 
@@ -86,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `editors` (
 
 CREATE TABLE IF NOT EXISTS `events` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_name_short` varchar(100) NOT NULL,
+  `short_event_name` varchar(100) NOT NULL,
   `event_name` varchar(100) NOT NULL,
   `event_location` varchar(100) NOT NULL,
   `event_begin_date` date NOT NULL,
@@ -100,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `set_posterbg` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_str` (`unique_str`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=70 ;
 
 -- --------------------------------------------------------
 
@@ -120,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `posters` (
   `date` int(11) NOT NULL,
   `event_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=162 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=311 ;
 
 -- --------------------------------------------------------
 
@@ -142,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `presentations` (
   `session_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=200 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=723 ;
 
 -- --------------------------------------------------------
 
@@ -156,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `order` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=228 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=954 ;
 
 -- --------------------------------------------------------
 
@@ -178,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `schedules` (
   `end_time` time NOT NULL,
   `event_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=580 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3096 ;
 
 -- --------------------------------------------------------
 
@@ -206,4 +222,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `active` tinyint(1) NOT NULL DEFAULT '0',
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;

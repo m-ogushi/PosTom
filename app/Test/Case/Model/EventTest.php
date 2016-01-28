@@ -17,8 +17,9 @@ class EventTest extends CakeTestCase {
 	
 	// テストケース dayDiff(x, y)
 	function testDayDiff() {
+		$_SESSION['event_id'] = 1;
 		$result = $this->Event->dayDiff();
-		$this->assertEquals(3, $result);
+		$this->assertEquals(1, $result);
 	}
 }
 ?>
