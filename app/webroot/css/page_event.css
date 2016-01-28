@@ -11,13 +11,16 @@
 	font-size: 18px;
 	margin-bottom: 10px;
 }
-
-.list{
-	font-size:130%;
-	margin-bottom:30px;
-
+#contents #main .panel-group {
+	margin-top: 15px;
 }
-
-.title{
-	font-size:120%;
+#contents #main .panel-group .panel-default {
+	width: 850px;
+	border: none;
+	background-color: #222;
+	color: #fff;
+	margin-top: 0;
+}
+#contents #main .panel-group .panel-body  {
+	width: 850px;
 }
