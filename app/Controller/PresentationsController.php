@@ -108,6 +108,21 @@ class PresentationsController extends AppController {
 			$this->Presentation->save($data, false, $fields);
 			}
 		else if(isset($this->request->data['Make'])) {
+			$presentations = $this->Presentation->find('all', array('conditions' => array('event_id' => $event_id),
+			'fields'=>array('id')));
+			$presenid = $this->request->data["Presentation"]["sessionid"];
+			$this->request->data["Presentation"]["id"] = $presentations[$presenid]["Presentation"]["id"];
+			unset($this->request->data["Presentation"]["sessionid"]);
+			
+			$val_arrays= $this->Schedule->find('all', array('conditions' => array('event_id' => $event_id),
+				'fields'=>array('room','order')
+			));
+			for($i=0;$i<count($val_arrays);$i++){
+				if($this->request->data["Session"]==$val_arrays[$i]["Schedule"]["room"].$val_arrays[$i]["Schedule"]["order"]){
+					$this->request->data["Presentation"]["Room"]=$val_arrays[$i]["Schedule"]["room"];
+					$this->request->data["Presentation"]["Session_order"]=$val_arrays[$i]["Schedule"]["order"];
+				}
+			}
 			$data = array('Presentation' => 
 			array( 
 			'room' => $this->request->data["Presentation"]["Room"],
