@@ -120,8 +120,8 @@ var areaObjectColor = '';
 // エリアオブジェクト生成初期変数
 var areaObjectInitWidth = 10;
 var areaObjectInitHeight = 10;
-// エリアオブジェクト生成の際の閾値（10*15ほどの距離がないとエリアオブジェクトとしない）
-var areaObjectThreshold = Math.abs(Math.sqrt(Math.pow(100,2)+Math.pow(150,2)));
+// エリアオブジェクト生成の際の閾値（2*3グリッドほどの距離がないとエリアオブジェクトとしない）
+var areaObjectThreshold = Math.abs(Math.sqrt(Math.pow(2*gridSize,2)+Math.pow(3*gridSize,2)));
 // エリアオブジェクトの色配列（page_poster.cssの#inputArea .bgの順序と同じにしてください）
 var areaObjectColorArray = ['#ff2800', '#faf500', '#35a16b', '#0041ff', '#66ccff', '#ff99a0', '#ff9900', '#9a0079', '#663300'];
 // エリアオブジェクトの色配列の登場回数
@@ -1262,16 +1262,11 @@ function fileUpLoad(event_str){
 		alert(msg);
 		// データベースにポスター背景がセットされていることを格納する
 		savePosterBg();
-		backGroundFileName = selectedEventStr+".png";
+		backGroundFileName = selectedEventStr+"_"+selectedDay+".png";
 		// アップロードした画像を背景として挿入する
-		// TODO: 現状はイベントすべての日をつうじて同じポスター会場であることを想定している
 		for(var i=0; i<canvasPosterElementArray.length; i++){
-			$(canvasPosterElementArray[i]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
-			$(canvasPosterElementArray[i]).css("background-repeat","repeat, no-repeat");
-			/* 選択している日に対応する場合は以下のコメントアウトを外して適宜編集してください
 			$(canvasPosterElementArray[selectedDay-1]).css("background-image","url("+webroot+"img/dot.png), url("+webroot+"img/bg/"+backGroundFileName.toString()+"?"+$.now()+")");
 			$(canvasPosterElementArray[selectedDay-1]).css("background-repeat","repeat, no-repeat");
-			*/
 		}
 	});
 }
@@ -1716,12 +1711,14 @@ $(function(){
  * ポスターキャンバスタブに関する処理
  ********************************************************/
 $(function(){
-	// ポスターキャンバスタブをクリックしたときの処理
+	// ポスターキャンバスタブ（日数選択）をクリックしたときの処理
 	$('#canvasArea .nav li > a').click(function(){
 		// 選択される前の日数を一時的に記憶しておく
 		previousDay = selectedDay;
 		// 選択されたタブの日数を最新のものに更新する
 		selectedDay = $(this).attr('data-days');
+		// 背景画像アップロードフォームのバリューを更新する
+		$('[name^="EventDate"]').attr('value', selectedDay);
 		// 選択中の日数のタブをクリックしたときは処理をおこなわない
 		if(previousDay != selectedDay){
 			// 選択された日数をセッションに記録する(ajax)

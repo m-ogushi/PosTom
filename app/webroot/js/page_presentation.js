@@ -29,10 +29,12 @@ $("[id^=Presentable]").on('click',function(){
 		$(':hidden[id="PresentationSessionid"]').val($(this).attr("id").replace(/Presentable/g,""));
 		$(':text[id="PresentationRoom"]').val($(this).children(".Room").text());
 		$(':text[id="PresentationSessionOrder"]').val($(this).children(".Session_order").text());
-		$(':text[id="PresentationPresentationOrder"]').val($(this).children(".Presentation_order").text());
+		$(':text[id="PresentationId"]').val($(this).children(".Presentation_order").text());
 		$(':text[id="PresentationTitle"]').val($(this).children(".Title").text());
-		$(':text[id="PresentationAuthor"]').val($(this).children(".Author").text());
-		$('#Session').val($(this).children(".Sessionvalue").text());
+		console.log(clickid);
+		$(':text[id="PresentationAuthor"]').val($(this).children(".Name").text());
+		$(':text[id="PresentationAffiliation"]').val($(this).children(".Affiliation").text());
+		$('#Session').val($(this).children(".Room").text()+$(this).children(".Session_order").text());
 		/*$( "#dialogSelectConfirm" ).dialog({
 			resizable: false,
 			modal: true,
@@ -54,10 +56,11 @@ $("#plus").on('click',function(){
 		$(':hidden[id="PresentationSessionid"]').val("");
 		$(':text[id="PresentationRoom"]').val("");
 		$(':text[id="PresentationSessionOrder"]').val("");
-		$(':text[id="PresentationPresentationOrder"]').val("");
+		$(':text[id="PresentationId"]').val("");
 		$(':text[id="PresentationTitle"]').val("");
 		$(':text[id="PresentationAuthor"]').val("");
 		$('#Session').val("");
+		$(':text[id="PresentationAffiliation"]').val();
 		
 		/*$( "#dialogSelectConfirm" ).dialog({
 			resizable: false,
@@ -98,6 +101,8 @@ $("#plus").on('click',function(){
 			$('.modal-overlay').fadeOut('slow',function(){
 				// オーバーレイを削除
 				$('.modal-overlay').remove();
+				// エラーメッセージ削除
+				$("#error-messages").text("");
 			});
 		});
 
@@ -107,6 +112,8 @@ $("#plus").on('click',function(){
 			$('.modal-overlay').fadeOut('slow',function(){
 				// オーバーレイを削除
 				$('.modal-overlay').remove();
+				// エラーメッセージ削除
+				$("#error-messages").text("");
 			});
 		});
 });

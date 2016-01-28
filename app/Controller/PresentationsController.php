@@ -17,10 +17,10 @@ class PresentationsController extends AppController {
 	$key_array=array();
 	$val_array=array();
 		for($i=0;$i<count($val_arrays);$i++){
-		array_push($key_array,$key_arrays[$i]["Schedule"]["id"]);
-		array_push($val_array,$val_arrays[$i]["Schedule"]["room"].$val_arrays[$i]["Schedule"]["order"]);
+			//array_push($key_array,$key_arrays[$i]["Schedule"]["id"]);
+			array_push($val_array,$val_arrays[$i]["Schedule"]["room"].$val_arrays[$i]["Schedule"]["order"]);
 		}
-		$this->set('options', array_combine($key_array,$val_array));
+		$this->set('options', array_combine($val_array,$val_array));
 	}
 
 	// すべてのプレゼンテーションを取得する
@@ -78,6 +78,16 @@ class PresentationsController extends AppController {
 			$presenid = $this->request->data["Presentation"]["sessionid"];
 			$this->request->data["Presentation"]["id"] = $presentations[$presenid]["Presentation"]["id"];
 			unset($this->request->data["Presentation"]["sessionid"]);
+			
+			$val_arrays= $this->Schedule->find('all', array('conditions' => array('event_id' => $event_id),
+				'fields'=>array('room','order')
+			));
+			for($i=0;$i<count($val_arrays);$i++){
+				if($this->request->data["Session"]==$val_arrays[$i]["Schedule"]["room"].$val_arrays[$i]["Schedule"]["order"]){
+					$this->request->data["Presentation"]["Room"]=$val_arrays[$i]["Schedule"]["room"];
+					$this->request->data["Presentation"]["Session_order"]=$val_arrays[$i]["Schedule"]["order"];
+				}
+			}
 			// 更新する内容を設定
 			$data = array('Presentation' => 
 			array(
@@ -87,11 +97,12 @@ class PresentationsController extends AppController {
 			'presentation_order' => $this->request->data["Presentation"]["Presentation_order"],
 			'title' => $this->request->data["Presentation"]["Title"],
 			'authors_name' => $this->request->data["Presentation"]["Author"],
-			'session_id' => $this->request->data["Session"]
+			'authors_affiliation' => $this->request->data["Presentation"]["Affiliation"],
+			//'session_id' => $this->request->data["Session"]
 			));
  
 			// 更新する項目（フィールド指定）
-			$fields = array('room','session_order','presentation_order','title','authors_name','session_id');
+			$fields = array('room','session_order','presentation_order','title','authors_name','authors_affiliation');
  
 			// 更新
 			$this->Presentation->save($data, false, $fields);
@@ -104,11 +115,11 @@ class PresentationsController extends AppController {
 			'presentation_order' => $this->request->data["Presentation"]["Presentation_order"],
 			'title' => $this->request->data["Presentation"]["Title"],
 			'authors_name' => $this->request->data["Presentation"]["Author"],
-			'session_id' => $this->request->data["Session"],
+			//'session_id' => $this->request->data["Session"],
 			'event_id' => $_SESSION['event_id']
 			));
 			// 更新する項目（フィールド指定）
-			$fields = array('room','session_order','presentation_order','title','authors_name','session_id','event_id');
+			$fields = array('room','session_order','presentation_order','title','authors_name','authors_affiliation','event_id');
 			 
 			 $this->Presentation->save($data, false, $fields);
 			}
