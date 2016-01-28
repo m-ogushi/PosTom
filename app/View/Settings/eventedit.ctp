@@ -27,10 +27,31 @@ if(! $this->requestAction('/settings/checkPermission/'.$login_user_id.'/'.$event
 		var startdate = new Date($('#EventEventBeginDateYear').val() + "/" + $('#EventEventBeginDateMonth').val() + "/" + $('#EventEventBeginDateDay').val());
 		var enddate = new Date($('#EventEventEndDateYear').val() + "/" + $('#EventEventEndDateMonth').val() + "/" + $('#EventEventEndDateDay').val());
 		var daysDiff = getDiff(startdate, enddate);
+		
+		var starttime = parseInt($('#EventEventBeginTimeHour').val()*60) + parseInt($('#EventEventBeginTimeMin').val());
+		var endtime = parseInt($('#EventEventEndTimeHour').val()*60) + parseInt($('#EventEventEndTimeMin').val());
+		
+		if($('#EventEventBeginTimeMeridian').val() == 'pm'){
+			starttime=starttime+720;
+		}
+		
+		if($('#EventEventEndTimeMeridian').val() == 'pm'){
+			endtime=endtime+720;
+		}
+		console.log(starttime);
+		console.log(endtime);
 		// エラーメッセージを空に
 		err_box = $('.error-messages');
 		err_box.empty();
-
+		if(daysDiff == 1){
+			if(endtime<=starttime){
+			//イベントが一日の時、開始日時が終了日時より遅い場合
+				err_elm = $('<p>').text("Event Begin Time must be earlier than Event End Time.");
+				err_box.append(err_elm);
+				slideDown(err_box);
+				return false;
+			}
+		}
 		if(daysDiff < 1){
 			// 開始日時の方が小さい場合
 			err_elm = $('<p>').text("Event Begin Date must be earlier than Event End Date.");
@@ -63,6 +84,7 @@ if(! $this->requestAction('/settings/checkPermission/'.$login_user_id.'/'.$event
 <div class="error-messages disno"></div>
 <?php
 echo $this->Form->create('',array('enctype' => 'multipart/form-data'));
+echo $this->Form->input('short_event_name', array('class'=>'form-control required','default' => $datas["Event"]["short_event_name"],'required' => false));
 echo $this->Form->input('event_name', array('class'=>'form-control required','default' => $datas["Event"]["event_name"],'required' => false));
 echo $this->Form->input('event_location', array('class'=>'form-control','default' => $datas["Event"]["event_location"],'required' => false));
 echo $this->Form->input('event_begin_date', array('class'=>'form-control','default' => $datas["Event"]["event_begin_date"],'required' => false));
