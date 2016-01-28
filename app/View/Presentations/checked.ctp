@@ -2,7 +2,7 @@
 	echo $this->Html->css('page_checked');
 	echo '<h3>File Check Result</h3>';
 	echo '<div name="result">';
-	echo '<p>File content is this.<br>room,session_order,presentation_order,date,title,abstract,keyword,authors_name,authors_belongs</p>';
+	echo '<p>File content is followings.<br>room,session_order,presentation_order,date,title,abstract,keyword,authors_name,authors_belongs</p>';
 	$i = 0;
 	while($i < count($checkResult)){
 		// debug($checkResult);
