@@ -770,15 +770,30 @@ function FrameDragOver(eventObject){
 		if(k==i || stage.children[k].__type =="selectSquare"){//sq.__type="selectSquare";
 			continue;
 		}
-//他のオブジェクトと重なった場合は、位置、大きさ共に元に戻す
+		//他のオブジェクトと重なった場合は、位置、大きさ共に元に戻す
 		if(stage.children[i].x > stage.children[k].x - (stage.children[i].width) && stage.children[i].x < stage.children[k].x + (stage.children[k].width) && stage.children[i].y > stage.children[k].y- (stage.children[i].height) && stage.children[i].y < stage.children[k].y + (stage.children[k].height)){
 			stage.children[i].graphics.command.w =previewbigx;
 			stage.children[i].graphics.command.h =previewbigy;
-			stage.children[i].x =previewscalex;
-			stage.children[i].y =previewscaley;
-			previewscalex=instance.x;
-		previewscaley=instance.y;
+			stage.children[i].width = previewbigx;
+			stage.children[i].height = previewbigy;
+			stage.children[i].x = previewscalex;
+			stage.children[i].y = previewscaley;
+			previewscalex = instance.x;
+			previewscaley=instance.y;
 			updateFrame(stage.children[i].x,stage.children[i].y,stage.children[i].graphics.command.w,stage.children[i].graphics.command.h);
+			
+			// 対象オブジェクトが関連付け済みである場合、関連付けされているプレゼンテーションテキストも移動させる
+			if(stage.children[i].__relation != "" && stage.children[i].__relation != undefined){
+				// 関連付けされているプゼンテーションテキストを特定する
+				for(var j=0; j<stage.children.length; j++){
+					var object = stage.children[j];
+					if(object.__parent == stage.children[i].id){
+						object = relocateCenter(object, stage.children[i]);
+						break;
+					}
+				}
+			}
+			
 			stage.update();
 			break;
 		}
@@ -801,26 +816,69 @@ function resizeDrag(eventObject) {
 	var changeFrame = stage.children[nowwhite].__number;
 	var instance = eventObject.target;
 	var dragedID = instance.id;
-	// 0:左上		1:中央上		2:右上
+	/*
+	// 他のオブジェクトとの衝突判定
+	var collisionFlg = false;
+	// 移動中オブジェクトの中心座標・幅・高さ
+	var centerX = instance.x + (instance.width/2);
+	var centerY = instance.y + (instance.height/2);
+	var width = instance.width;
+	var height = instance.height
+	
+	for(var i=0; i<stage.children.length; i++){
+		// 衝突判定のターゲットオブジェクト
+		var target = stage.children[i];
+		// セレクトスクエアやテキストオブジェクトや自分自身のオブジェクトは判定に除く
+		if(!(target.__type=="selectSquare") && !(target.__type=="text") && !(target.id==dragedID)){
+			// ターゲットの中心座標・幅・高さ
+			var targetCenterX = target.x + (target.width/2);
+			var targetCenterY = target.y + (target.height/2);
+			var targetWidth = target.width;
+			var targetHeight = target.height;
+			
+			// 水平方向での衝突判定
+			var horizontal = false;
+			// 水平方向チェック
+			if(Math.abs(centerX - targetCenterX) < (width/2 + targetWidth/2)){
+				horizontal = true;
+			}
+			console.log("horizontal: "+horizontal);
+			
+			// 垂直方向での衝突判定
+			var vertical = false;
+			if(Math.abs(centerY - targetCenterY) < (height/2 + targetHeight/2)){
+				vertical = true;
+			}
+			console.log("vertical: "+vertical);
+			
+			// 水平方向も垂直方向も衝突していれば、衝突している
+			if(horizontal && vertical){
+				collisionFlg = true;
+			}
+		}
+	}
+	*/	
+	// 0:左上	1:中央上	2:右上
 	// 3:左中央	4:-			5:右中央
-	// 6:左下		7:中央下		8:右下
-	// 図形の右部分
+	// 6:左下	7:中央下	8:右下
+	
+	// 図形の右部分（右方向への更新処理）
 	if(changeFrame == 2 || changeFrame == 5 || changeFrame==8){
 		instance.graphics.command.w = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
 		instance.width = Math.ceil((eventObject.stageX - instance.x)/gridSize)*gridSize;
 	}
-	// 図形の下部分
+	// 図形の下部分（下方向への更新処理）
 	if(changeFrame == 6 || changeFrame == 7 || changeFrame==8){
 		instance.graphics.command.h =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
 		instance.height =  Math.ceil((eventObject.stageY - instance.y)/gridSize)*gridSize;
 	}
-	// 図形の左部分
+	// 図形の左部分（左方向への更新処理）
 	if(changeFrame == 0 || changeFrame==3 || changeFrame==6){
 		instance.x = Math.round((eventObject.stageX - onPointX)/gridSize)*gridSize;
 		instance.graphics.command.w = nowright-instance.x;
 		instance.width = nowright-instance.x;
 	}
-	// 図形の上部分
+	// 図形の上部分（上方向への更新処理）
 	if(changeFrame == 0 || changeFrame==1 || changeFrame==2){
 		instance.y = Math.round((eventObject.stageY - onPointY)/gridSize)*gridSize;
 		instance.graphics.command.h = nowbottom-instance.y;
@@ -844,9 +902,9 @@ function resizeDrag(eventObject) {
 		instance.graphics.command.h = gridSize;
 		instance.height = gridSize;
 	}
-    if(instance.array!=null){
-        updateFrame(instance.x,instance.y,instance.graphics.command.w,instance.graphics.command.h);
-    }
+	if(instance.array!=null){
+		updateFrame(instance.x,instance.y,instance.graphics.command.w,instance.graphics.command.h);
+	}
 	// ドラッグ中のオブジェクトが関連付け済みである場合、関連付けされているプレゼンテーションテキストも移動させる
 	if(instance.__relation != "" && instance.__relation != undefined){
 		// 関連付けされているプゼンテーションテキストを特定する
@@ -858,36 +916,9 @@ function resizeDrag(eventObject) {
 			}
 		}
 	}
-
 	stage.update();
 	onResizing = true;
 }
-
-//　選択オブジェクトが変わったときの編集内容確認ダイアログ処理
-/*
-function changeSelectObject(editObject, title, presenter, abstract, formColor){
-    $( "#dialogEditConfirm" ).dialog({
-        resizable: false,
-        height:140,
-        modal: true,
-        buttons: {
-            "Confirm": function() {
-                // 編集フォームの内容を書き込む
-                editObject.__title=title;
-                editObject.__presenter=presenter;
-                editObject.__abstract=abstract;
-                editObject.color = formColor; // 独自で準備した変数に格納したのみ
-                editObject.graphics._fill.style = formColor; // ここに格納しなければ色は反映されない
-                stage.update();
-                $( this ).dialog( "close" );
-            },
-            "Cancel": function() {
-                $( this ).dialog( "close" );
-            }
-        }
-    });
-}
-*/
 
 /********************************************************
  * オブジェクトのサイズ変更処理
@@ -1543,6 +1574,8 @@ $(function(){
 		}
 		// ポスターキャンバスを手前にする
 		exchangeCanvasLayerOrder($('.posterCanvas'), $('.areaCanvas'));
+		// ステージの切り替え
+		stage = stagePosterArray[selectedDay - 1];
 	});
 });
 
