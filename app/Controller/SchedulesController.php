@@ -19,6 +19,7 @@ class SchedulesController extends AppController {
 		$this->set('checkResult', $this->checkResult);
 	}
 	public function import(){
+		$this->check = true;
 		if($this->request->is('post')){
 			// event内のsession, roomを削除
 			$this->Schedule->deleteAll(array('event_id'=>$_SESSION['event_id']));
@@ -53,7 +54,6 @@ class SchedulesController extends AppController {
 				while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
 					mb_convert_variables("UTF-8", "auto", $row);
 					$this->error = "";
-					$this->check = true;
 					$targetrow = $this->_setContent($row);
 					if($row[0] != "room"){
 						// バリデーションチェック関数呼び出し

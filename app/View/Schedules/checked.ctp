@@ -9,10 +9,10 @@
 		$errorText = "";
 		if($checkResult[$i]['error'] != ""){
 			$errorText = 'Error '.$checkResult[$i]['error'];
+			echo '<hr>';
+			echo '<p>Row '. $checkResult[$i]['row'] .' <br>Content '. $checkResult[$i]['content'].'</p>';
+			echo '<p class="error">'.$errorText.'</p>';
 		}
-		echo '<hr>';
-		echo '<p>Row '. $checkResult[$i]['row'] .' <br>Content '. $checkResult[$i]['content'].'</p>';
-		echo '<p class="error">'.$errorText.'</p>';
 		$i++;
 	}
 	echo '</div>';

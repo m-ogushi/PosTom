@@ -8,9 +8,10 @@ class PresentationsController extends AppController {
 	public $preGroup = array();
 	public $error = "";
 	public $check = true;
+	public $sessionGroup = array();
 	public function index(){
 		$event_id = $_SESSION['event_id'];
-		$this->set('presentations', 
+		$this->set('presentations',
 			$this->Presentation->find('all',
 				array(
 					'conditions' => array(
@@ -26,19 +27,18 @@ class PresentationsController extends AppController {
 		);
 		$key_arrays= $this->Schedule->find('all', array('conditions' => array('event_id' => $event_id),
 				'fields'=>array('id')
-	));
-		$val_arrays= $this->Schedule->find('all', array('conditions' => array('event_id' => $event_id),
-				'fields'=>array('room','order')
-	));
-	$key_array=array();
-	$val_array=array();
+		));
+			$val_arrays= $this->Schedule->find('all', array('conditions' => array('event_id' => $event_id),
+					'fields'=>array('room','order','date')
+		));
+		$key_array=array();
+		$val_array=array();
 		for($i=0;$i<count($val_arrays);$i++){
-			//array_push($key_array,$key_arrays[$i]["Schedule"]["id"]);
 			array_push($val_array,$val_arrays[$i]["Schedule"]["room"].$val_arrays[$i]["Schedule"]["order"]);
 		}
+		$this->sessionGroup = $val_arrays;
 		$this->set('options', array_combine($val_array,$val_array));
 	}
-
 	// すべてのプレゼンテーションを取得する
 	public function getall(){
 		return $this->Presentation->find('all');
@@ -205,10 +205,10 @@ class PresentationsController extends AppController {
 	try{
 			$handle = fopen($file,"r");
 			$countRow = 1;
-			while(($row = fgetcsv($handle, 1000, ",")) !== FALSE){
+			$this->check = true;
+			while(($row = fgetcsv($handle, 1500, ",")) !== FALSE){
 				mb_convert_variables("UTF-8", "auto", $row);
 				$this->error = "";
-				$this->check = true;
 				$targetrow = $this->_setContent($row);
 				if($row[0] != "room"){
 					// バリデーションチェック関数呼び出し
@@ -220,6 +220,7 @@ class PresentationsController extends AppController {
 					$this->_checkPresenCombi($row[0], $row[1], $row[2]);
 					$this->_checkDate($row[3]);
 					$this->_authorsCheck($row[7], $row[8]);
+					$this->_relatedSession($row[0], $row[1], $row[3]);
 
 					array_push($this->checkResult, array('row' => $countRow, 'content' => $targetrow, 'error' => $this->error));
 					$countRow++;
@@ -235,7 +236,8 @@ class PresentationsController extends AppController {
 		$rowN = 0;
 		while($rowN < count($row)){
 			if(strlen($row[$rowN]) > 30){
-				$content .= substr($row[$rowN], 0, 30).".....";
+				// $content .= substr($row[$rowN], 0, 30).".....";
+				$content .= $row[$rowN];
 			}else{
 				$content .= $row[$rowN];
 			}
@@ -247,7 +249,7 @@ class PresentationsController extends AppController {
 	// 要素数は１０
 	public function _elementNum($row){
 		if(count($row) != 9){
-			$this->error .= "Element number is wrong. Format needs 10 elements. <br>";
+			$this->error .= "Element number is wrong. Format needs 9 elements. <br>";
 			$this->check = false;
 		}
 	}
@@ -314,9 +316,27 @@ class PresentationsController extends AppController {
 			$this->check = false;
 		}
 	}
+	public function _setSesGroup(){
+		$event_id = $_SESSION['event_id'];
+		$group = $this->Schedule->find('all', array('conditions' => array('event_id' => $event_id)));
+		return $group;
+	}
+	// 追加するプレゼンが存在するセッションに紐づくか
+	public function _relatedSession($r, $o, $d){
+		$this->sessionGroup = $this->_setSesGroup();
+		$exist = false;
+		for($i=0; $i<count($this->sessionGroup); $i++){
+			if($r == $this->sessionGroup[$i]['Schedule']['room'] && (Int)$o == (Int)$this->sessionGroup[$i]['Schedule']['order'] && (Int)$d == (Int)$this->sessionGroup[$i]['Schedule']['date']){
+				$exist = true;
+			}
+		}
+		if($exist == false){
+			// sessionがなかった場合
+			$this->error .= 'This session is not exist in this event. <br>';
+			$this->check = false;
+		}
 
-
-
+	}
 }
 
 ?>

@@ -70,6 +70,7 @@ function confirmer(){
 <p>　　　* (*2) Select a session number from the session number list in the time schedule.</p>
 <p>　　　* (*3) The value means the order of the presentation in the session.</p>
 <p>　　　* (*4) The names and their affiliations are separated by comma (",").</p>
+<p>* Import data character code must be utf-8. </p>
 <p>* The first five attributes should be filled.</p>
 <p>* You can download the sample file from there:</p>
 
