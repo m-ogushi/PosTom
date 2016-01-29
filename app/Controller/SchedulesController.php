@@ -21,16 +21,15 @@ class SchedulesController extends AppController {
 	public function import(){
 		$this->check = true;
 		if($this->request->is('post')){
-			// event内のsession, roomを削除
-			$this->Schedule->deleteAll(array('event_id'=>$_SESSION['event_id']));
-			$this->Room->deleteAll(array('event_id'=>$_SESSION['event_id']));
-
 			$up_file = $this->data['Schedule']['CsvFile']['tmp_name'];
 			$fileName = 'ScheduleTest.csv';
 			if(is_uploaded_file($up_file)){
 				move_uploaded_file($up_file, $fileName);
 				$this->_checkFile($fileName);
 				if($this->check == true){
+					// event内のsession, roomを削除
+					$this->Schedule->deleteAll(array('event_id'=>$_SESSION['event_id']));
+					$this->Room->deleteAll(array('event_id'=>$_SESSION['event_id']));
 					$this->Schedule->loadCSV($fileName);
 					$this->redirect(array('action'=>'index'));
 				}else{

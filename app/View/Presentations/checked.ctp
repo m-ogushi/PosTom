@@ -1,8 +1,10 @@
 <?php
 	echo $this->Html->css('page_checked');
-	echo '<h3>File Check Result</h3>';
+	echo '<h3>File(Presentation) Check Result</h3>';
 	echo '<div name="result">';
 	echo '<p>File content is followings.<br>room,session_order,presentation_order,date,title,abstract,keyword,authors_name,authors_belongs</p>';
+	echo '<br><p>※File check is failed</p><p class="formatDownload"><a href="./">go back to presentation page</a></p>';
+
 	$i = 0;
 	while($i < count($checkResult)){
 		// debug($checkResult);
