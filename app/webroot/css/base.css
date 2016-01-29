@@ -223,17 +223,24 @@ input[type=file].disno {
 	color: #e74c3c;
 }
 /* main event index */
-#contents #main #eventlist li {
+#contents #main #upcomingEventList,
+#contents #main #pastEventList {
 	margin-bottom: 10px;
 }
-#contents #main #eventlist li a {
+#contents #main #upcomingEventList li,
+#contents #main #pastEventList li {
+	margin-bottom: 10px;
+}
+#contents #main #upcomingEventList li a,
+#contents #main #pastEventList li a {
 	display: block;
 	width: 80%;
 	padding: 16px 21px;
 	border: 1px solid #ccc;
 	border-radius: 10px;
 }
-#contents #main #eventlist li > a > span {
+#contents #main #upcomingEventList li > a > span,
+#contents #main #pastEventList li > a > span {
 	display: block;
 }
 /* main event view */

@@ -34,3 +34,18 @@
 	left: 54px;
 	top: 200px;
 }
+#pageSetting #textInfo {
+	position: absolute;
+	left: 63px;
+	top: 215px;
+}
+#pageSetting #textInfo p {
+	font-size: 15px;
+	line-height: 16px;
+	margin-bottom: 0;
+	text-shadow: 2px 2px #fff;
+	color: #222;
+}
+#pageSetting #textInfo .textBigger {
+	font-size: 20px;
+}
