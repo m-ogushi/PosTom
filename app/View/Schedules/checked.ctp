@@ -3,6 +3,7 @@
 	echo '<h3>File Check Result</h3>';
 	echo '<div name="result">';
 	echo '<p>File content is followings.<br>room,order,session_name,date,start_time,end_time,chairperson_name,chairperson_affiliation,commentators_name,commentators_affiliation</p>';
+	echo '<br/><p class="formatDownload"><a href="./">go back to schedule page</a></p>';
 	$i = 0;
 	while($i < count($checkResult)){
 		// debug($checkResult);
