@@ -38,8 +38,6 @@ class Schedule extends AppModel {
 							$scheduleData['chairperson_affiliation'] = "";
 							$scheduleData['commentator_name'] = "";
 							$scheduleData['commentator_affiliation'] = "";
-							debug($schedule);
-
 						}
 					}
 					// フォーマットヘッダー無視用
