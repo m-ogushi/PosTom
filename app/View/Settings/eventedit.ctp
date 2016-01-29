@@ -100,6 +100,12 @@ if($url!=""){
 	<div id="posmappImage">
 	<p id="topImage"><img src="<?php echo $this->html->webroot.$url; ?>"></p>
 	<p id="menuImage"><img src="<?php echo $this->html->webroot; ?>img/fr_posmapp_top_menu.png" alt="PosMAppメニュー画像" width="320" height="460"></p>
+	<div id="textInfo">
+		<p class="textBigger"><?= $datas["Event"]["short_event_name"] ?></p>
+		<p><?= $datas["Event"]["event_name"] ?></p>
+		<p><?= $datas["Event"]["event_begin_date"] ?> - <?= $datas["Event"]["event_end_date"] ?></p>
+		<p><?= $datas["Event"]["event_location"] ?></p>
+	</div>
 	</div>
 <?php
 }
