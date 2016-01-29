@@ -67,15 +67,22 @@ $.fn.showBasicInfo = function(){
     var desc = $("<div>").attr("id","topPageEventDescription")
                 .append($("<span/>").text(basic_info.event_name_full))
                 .append($("<br/>"));
+
     if(basic_info.start_date!=basic_info.end_date){
-        desc.append($("<span/>").text(basic_info.start_date + " - " +basic_info.end_date));
+        desc.append($("<span/>").text(basic_info.start_date + " - " +basic_info.end_date)).append($("<br/>"));
     }
     else{
-        desc.append($("<span/>").text(basic_info.start_date));
+        desc.append($("<span/>").text(basic_info.start_date)).append($("<br/>"));
     }
+	desc.append($("<span/>").text(basic_info.venue));
     $(this).append(desc);
-
-    $("#event-webpage").append($("<a/>").attr("href",basic_info.event_webpage).text(basic_info.event_name_short));
+	if(basic_info.event_webpage.indexOf("http")>=0)
+	{
+		$("#event-webpage").append($("<a/>").attr("href",basic_info.event_webpage).text(basic_info.event_name_short));
+	}
+	else{
+		$("#event-webpage").append($("<a/>").attr("href","http://"+basic_info.event_webpage).text(basic_info.event_name_short));
+	}
 }
 
 function setTopPageProperties(){

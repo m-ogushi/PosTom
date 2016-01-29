@@ -101,11 +101,11 @@ class PosMappsController extends AppController {
         $JsonFile='{
         "basic_info" : {
             "event_name_full" : "' . $event['Event']['event_name'] . '",
-            "event_name_short" : "' . $event['Event']['event_name_short'] . '",
+            "event_name_short" : "' . $event['Event']['short_event_name'] . '",
             "start_date" : "' . $event['Event']['event_begin_date'] . '",
             "end_date" : "' .$event['Event']['event_end_date'] . '",
             "venue" : "'. $event['Event']['event_location'] .'",
-            "webpage" : "' . $event['Event']['event_webpage'] . '"
+            "event_webpage" : "' . $event['Event']['event_webpage'] . '"
         },
         "toppage_img":"'. str_replace('/','\/',$this->webroot).$topImg.'",
         "posmapp_bg":['.$posmapp_bg.'],'.$url.'
