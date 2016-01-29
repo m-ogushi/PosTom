@@ -60,15 +60,14 @@ class PresentationsController extends AppController {
 
 	public function import(){
 		if($this->request->is('post')){
-			// import前にevent内のpresentationを削除
-			$this->Presentation->deleteAll(array('event_id'=>$_SESSION['event_id']));
-
 			$up_file = $this->data['Presentation']['CsvFile']['tmp_name'];
 			$fileName = 'PresentationTest.csv';
 			if(is_uploaded_file($up_file)){
 				move_uploaded_file($up_file, $fileName);
 				$this->_checkFile($fileName);
 				if($this->check == true){
+					// import前にevent内のpresentationを削除
+					$this->Presentation->deleteAll(array('event_id'=>$_SESSION['event_id']));
 					$this->Presentation->loadCSV($fileName);
 					$this->redirect(array('action'=>'index'));
 				}else{
