@@ -37,6 +37,11 @@ img {
 	max-width: 100%;
 	height: auto;
 }
+iframe {
+	display: block;
+	margin: 0px auto;
+	margin-bottom: 30px;
+}
 .disno {
 	display: none;
 }
