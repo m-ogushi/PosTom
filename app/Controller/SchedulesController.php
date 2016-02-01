@@ -133,7 +133,7 @@ class SchedulesController extends AppController {
 	// dateがイベントに存在するかどうか
 	public function _checkDate($date){
 		if((Int)$date < 1 || $this->Event->dayDiff() < (Int)$date || (string)$date !== (string)(Int)$date){
-			$this->error .= "Nothing date in event. <br>";
+			$this->error .= "Nothing date in this event. <br>";
 			$this->check = false;
 		}
 	}
@@ -200,14 +200,14 @@ class SchedulesController extends AppController {
 	// chair personは一人であること
 	public function _chairPersonOne($name, $affili){
 		if(strpos($name, ",") || strpos($affili, ",")){
-			$this->error .= "Chair person is one . Can't use comma.<br>";
+			$this->error .= "Chair person is one. Can't use comma.<br>";
 			$this->check = false;
 		}
 	}
 	// commentatorsの名前と所属の項目数が合致すること
 	public function _commentatorsCheck($name, $affili){
 		if(substr_count($name, ',') !== substr_count($affili, ',')){
-			$this->error .= "commentators name and commentators affiliation is not match number. <br>";
+			$this->error .= "Commentators name and commentators affiliation is not match number. <br>";
 			$this->check = false;
 		}
 	}

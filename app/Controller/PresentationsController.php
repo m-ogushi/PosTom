@@ -245,7 +245,7 @@ class PresentationsController extends AppController {
 		}
 		return $content;
 	}
-	// 要素数は１０
+	// 要素数は9
 	public function _elementNum($row){
 		if(count($row) != 9){
 			$this->error .= "Element number is wrong. Format needs 9 elements. <br>";
@@ -276,11 +276,11 @@ class PresentationsController extends AppController {
 	// session order が0以上の整数どうか
 	public function _checkNumeric($order){
 		if((Int)$order < 0 || (string)$order !== (string)(Int)$order){
-			$this->error .= "Order needs an integer of 1 or more. <br>";
+			$this->error .= "Session order needs an integer of 1 or more. <br>";
 			$this->check = false;
 		}
 	}
-	// room, orderの組み合わせが他と被らないこと
+	// room, sessionorder, presenorderの組み合わせが他と被らないこと
 	public function _checkPresenCombi($room, $sesOrder, $preOrder){
 		$i=0;
 		while($i < count($this->preGroup)){
@@ -303,7 +303,7 @@ class PresentationsController extends AppController {
 		// 空は許可
 		if($date != ""){
 			if((Int)$date < 1 || $this->Event->dayDiff() < (Int)$date || (string)$date !== (string)(Int)$date){
-				$this->error .= "Nothing date in event. <br>";
+				$this->error .= "Nothing date in this event. <br>";
 				$this->check = false;
 			}
 		}
@@ -311,7 +311,7 @@ class PresentationsController extends AppController {
 	// commentatorsの名前と所属の項目数が合致すること
 	public function _authorsCheck($name, $affili){
 		if(substr_count($name, ',') !== substr_count($affili, ',')){
-			$this->error .= "authors name and affiliation is not match number. <br>";
+			$this->error .= "	Authors name and affiliation is not match number. <br>";
 			$this->check = false;
 		}
 	}
