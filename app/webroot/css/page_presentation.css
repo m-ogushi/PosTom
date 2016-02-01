@@ -1,5 +1,9 @@
 @charset "utf-8";
- 
+/*説明部*/
+p#check-specification{
+    text-decoration: underline;
+    color: #565371;
+}
  #plus{
  position:relative;
  }

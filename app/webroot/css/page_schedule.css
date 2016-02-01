@@ -1,3 +1,9 @@
+/*説明部*/
+p#check-specification{
+	text-decoration: underline;
+	color: #565371;
+}
+
 /*時間軸*/
 .time-group{
 	margin-top: 10px;

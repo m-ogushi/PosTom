@@ -1,3 +1,9 @@
+<script type="text/javascript">
+	$(function(){
+	// ダッシュボードのPresentationを選択状態にする
+		$('#dashboard #gNav #gNavPre').addClass('current');
+	});
+</script>
 <?php
 	echo $this->Html->css('page_checked');
 	echo '<h3>File(Presentation) Check Result</h3>';

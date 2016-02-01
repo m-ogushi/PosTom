@@ -11,6 +11,20 @@
 	function selectFile(){
 		$('#selectFile').trigger('click');
 	}
+	/**************************************************
+	**********************フォーマットの仕様表示非表示*****
+	***************************************************/
+	function disp(){
+		$('#check-specification').css("cursor","pointer");
+		slideDown($('#specifications'));
+
+	}
+	function undisp(){
+		$('#specifications').css('display', 'none');
+	}
+
+
+
 	// popover
 	$(document).ready(function(){
 		// roomsを並び替える
@@ -488,14 +502,17 @@ echo $this->Html->css('page_schedule');
 ?>
 <h2>CSV Import</h2>
 <h3>Upload the session schedule of the event by a CSV formatted file. </h3>
+<p id="check-specification" onmouseover="disp()" onmouseout="undisp()">Check the specifications of the format</p>
+<div id="specifications" div style="display:none">
 <p>* For each session, you can write the following information:</p>
 <p>　　　Room, Order(*1),  Date,  Session name, Start time, End time, Chairperson's name, Chairperson's affiliation</p>
 <p>　　　(*1) In "Order" column,  fill the order of the session in the room.   </p>
 <p>　　　For example, the "Order" value of the first session in the room A is "1". </p>
-<p>* The first two attributes "Room" and "Order" should be filled. </p>
+<p>* The first six attributes "Room" and "Order", "Date", "Session name", "Start time", "End time" should be filled. </p>
 <p>* Import data must be utf-8. </p>
 <p>* You also can download the sample file from there:</p>
 <p>When you register rest time,register order as "0".The form of the rest is different from a general case.</p>
+</div>
 
 <p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/session_format.csv">Download Format Sample</a></p>
 <p></p>
@@ -688,7 +705,7 @@ echo $this->Html->css('page_schedule');
 	echo '</div>'; // tab-pane end
 	// session追加ボタン設置
 	echo '<div class="add-session-group">';
-	$top = 675 + ($end - $first) * 90;
+	$top = 570 + ($end - $first) * 90;
 	// sessionが一つもない時用
 	if(($end - $first) < 0){
 		$top = 675;
