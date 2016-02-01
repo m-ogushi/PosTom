@@ -14,6 +14,19 @@
 			array_push($upcomingEvents, $event);
 		}
 	endforeach;
+	
+	// これから開催されるイベントについては、現在日時に近いものほど上位に表示するため並び替える
+	for($i=0; $i<count($upcomingEvents)-1; $i++){
+		for($j=$i+1; $j<count($upcomingEvents); $j++){
+			if(date($upcomingEvents[$i]['Event']['event_begin_date']) > date($upcomingEvents[j]['Event']['event_begin_date'])){
+				// スワップ処理
+				$tmp = $upcomingEvents[$i];
+				$upcomingEvents[$i] = $upcomingEvents[$j];
+				$upcomingEvents[$j] = $tmp;
+			}
+		}
+	}
+	
 ?>
 <h2>Event List</h2>
 <!-- Upcoming Events -->
