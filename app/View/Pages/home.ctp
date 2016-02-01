@@ -181,6 +181,10 @@ But, you can arrange for poster position by intuitive handling.</p>
 <!-- column 4 -->
 <div id="col4" class="cd-scrolling-bg cd-color-2">
 <div class="inner cd-container">
+
+<p class="tit">How To Make The Event</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pQ8oD7f7RKU" frameborder="0" allowfullscreen></iframe>
+
 <p class="tit">Create your PosTom Account</p>
 <p class="txt">All contents are free. When you completed temporarily registered, you can receive emails.</p>
 <div class="error-messages disno"></div>
