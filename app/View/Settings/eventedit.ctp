@@ -25,7 +25,7 @@ if(! $this->requestAction('/settings/checkPermission/'.$login_user_id.'/'.$event
  $(function(){
 	$('#EventEventeditForm').submit(function(){
 		// イベント名
-		var envetName = $('#EventEventName').val();
+		var eventName = $('#EventEventName').val();
 		// 開始日付
 		var startYear = $('#EventEventBeginDateYear').val();
 		var startMonth = $('#EventEventBeginDateMonth').val();
@@ -55,7 +55,7 @@ if(! $this->requestAction('/settings/checkPermission/'.$login_user_id.'/'.$event
 		err_box = $('.error-messages');
 		err_box.empty();
 		
-		if(envetName == '' || envetName == undefined || eventName == null){
+		if(eventName == '' || eventName == undefined || eventName == null){
 			// イベント名が空の場合
 			err_elm = $('<p>').text("Event Name is required.");
 			err_box.append(err_elm);
