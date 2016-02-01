@@ -1,6 +1,20 @@
 <script type="text/javascript"> 
 //現在編集しているプレゼンのidを格納する
 var clickid;
+	/**************************************************
+	**********************フォーマットの仕様表示非表示*****
+	***************************************************/
+function disp(){
+		$('#check-specification').css("cursor","pointer");
+		slideDown($('#specifications'));
+
+	}
+function undisp(){
+		$('#specifications').css('display', 'none');
+	}
+function slideDown(slideEle){
+		slideEle.slideDown(300).removeClass('disno');
+	}
 function validate(){
 	//console.log($("#PresentationRoom").val()+$("#PresentationSessionOrder").val()+"-"+$("#PresentationPresentationOrder").val());
 	var validation = true;
@@ -12,8 +26,6 @@ function validate(){
 		validation = false;
 		return false;
 	}
-	
-	
 		//Session OrderとPresentation Orderに数値が入っているかどうかチェックする
 	if(isFinite($("#PresentationId").val())== false || Math.round($("#PresentationId").val()) != $("#PresentationId").val() || $("#PresentationId").val() < 1){
 			//window.confirm("Session Order and Presentation Order are must be numeric character");
@@ -64,6 +76,8 @@ function confirmer(){
 
 <h2>CSV Import</h2>
 <h3>Upload the list of presentations by a CSV formatted file. </h3>
+<p id="check-specification" onmouseover="disp()" onmouseout="undisp()">Check the specifications of the format</p>
+<div id="specifications" div style="display:none">
 <p>* For each presentation, you can write the following information:</p>
 <p>　　Room(*1), Session Order(*2), Presentation Order(*3), Date, Title, Abstract, Keywords, Authors' names(*4), Authors' affiliations(*4)</p>
 <p>　　　* (*1) Select a room from the room list in the time schedule.</p>
@@ -73,6 +87,7 @@ function confirmer(){
 <p>* Import data character code must be utf-8. </p>
 <p>* The first five attributes should be filled.</p>
 <p>* You can download the sample file from there:</p>
+</div>
 
 <p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/presentation_format.csv">Download Format Sample</a></p>
 <br>
