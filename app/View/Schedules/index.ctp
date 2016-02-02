@@ -500,21 +500,21 @@
 <?php
 echo $this->Html->css('page_schedule');
 ?>
-<h2>CSV Import</h2>
-<h3>Upload the session schedule of the event by a CSV formatted file. </h3>
-<p id="check-specification" onmouseover="disp()" onmouseout="undisp()">Check the specifications of the format</p>
+<h2>Import the session list</h2>
+<p>・The data is saved as UTF-8 encoded CSV file.</p>
+<p class="formatDownload">・<a href="<?php echo $this->Html->webroot;?>format/session_format.csv">Download the sample session list file</a></p>
+	<p style="display:inline;">・</p><p id="check-specification" onmouseover="disp()" onmouseout="undisp()" style="display:inline;">A session includes the following attributes:</p>
 <div id="specifications" div style="display:none">
-<p>* For each session, you can write the following information:</p>
-<p>　　　Room, Order(*1),  Date,  Session name, Start time, End time, Chairperson's name, Chairperson's affiliation</p>
-<p>　　　(*1) In "Order" column,  fill the order of the session in the room.   </p>
-<p>　　　For example, the "Order" value of the first session in the room A is "1". </p>
-<p>* The first six attributes "Room" and "Order", "Date", "Session name", "Start time", "End time" should be filled. </p>
-<p>* Import data must be utf-8. </p>
-<p>* You also can download the sample file from there:</p>
-<p>When you register rest time,register order as "0".The form of the rest is different from a general case.</p>
+	<p>  Room (required) :</p>
+	<p>  Session number (required) : the number of session in the room.</p>
+	<p>  Date (required): "1" means the first day, "2" means the second day.</p>
+	<p>  Session name (required):</p>
+	<p>  Start-time, End time (required) : They are specified as "HH:MM"</p>
+	<p>  Chairperson's name and the affiliation</p>
+	<p>  Commentators' name and their affiliations: Commtators are separated by comma(",").</p>
 </div>
+<p>・Coffee breaks can be added by specifying "ALL" as the Room and "0" as the Session number.</p>
 
-<p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/session_format.csv">Download Format Sample</a></p>
 <p></p>
 <p></p>
 <br>
