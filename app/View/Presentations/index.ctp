@@ -74,22 +74,16 @@ function confirmer(){
 </script>
 
 
-<h2>CSV Import</h2>
-<h3>Upload the list of presentations by a CSV formatted file. </h3>
-<p id="check-specification" onmouseover="disp()" onmouseout="undisp()">Check the specifications of the format</p>
+<h2>Import the presentation list</h2>
+<p>・The data is saved as UTF-8 encoded CSV file.</p>
+<p class="formatDownload">・[<a href="<?php echo $this->Html->webroot;?>format/presentation_format.csv">Download the sample presentation list file</a>]</p>
+<p style="display:inline;">・</p><p id="check-specification" onmouseover="disp()" onmouseout="undisp()" style="display:inline;">A presentation includes the following attributes:</p>
 <div id="specifications" div style="display:none">
-<p>* For each presentation, you can write the following information:</p>
-<p>　　Room(*1), Session Order(*2), Presentation Order(*3), Date, Title, Abstract, Keywords, Authors' names(*4), Authors' affiliations(*4)</p>
-<p>　　　* (*1) Select a room from the room list in the time schedule.</p>
-<p>　　　* (*2) Select a session number from the session number list in the time schedule.</p>
-<p>　　　* (*3) The value means the order of the presentation in the session.</p>
-<p>　　　* (*4) The names and their affiliations are separated by comma (",").</p>
-<p>* Import data character code must be utf-8. </p>
-<p>* The first five attributes should be filled.</p>
-<p>* You can download the sample file from there:</p>
+	<p>Room , Session number, Date (All required) : The values is in the session list.</p>
+	<p>Presentation number(Required) : is the number in the session.</p>
+	<p>Title, Abstract, Keywords:</p>
+	<p>Authors and their affiliations: They are separated by comma (",")</p>
 </div>
-
-<p class="formatDownload"><a href="<?php echo $this->Html->webroot;?>format/presentation_format.csv">Download Format Sample</a></p>
 <br>
 <br>
 <p><?php echo $this->Html->tag('button', 'Add Presentation From CSV File', array('class'=>'btn btn-custom', 'onClick'=>"selectFile()")); ?></p>

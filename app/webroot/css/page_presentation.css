@@ -4,6 +4,11 @@ p#check-specification{
     text-decoration: underline;
     color: #565371;
 }
+div#specifications p{
+    margin-left: 30px;
+}
+
+
  #plus{
  position:relative;
  }
