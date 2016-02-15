@@ -555,7 +555,7 @@ echo $this->Html->css('page_schedule');
 <div class="<?= $orActive; ?>" id="tab<?= $day; ?>">
 <!-- タブの内容 -->
 <p> </p>
-<div class="container">
+<div class="container" style="width: 1680px;">
 <?php
 	$first = '23:59:59';
 	$end = '0:0:0';
