@@ -178,7 +178,7 @@ You can generate the applications quickly and easily.
 <div id="col4" class="cd-scrolling-bg cd-color-2">
 <div class="inner cd-container">
 
-<p class="tit">How To Make The Event</p>
+<p class="tit">How to make the event</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/pQ8oD7f7RKU" frameborder="0" allowfullscreen></iframe>
 
 <p class="tit">Sign up to try PosTom !</p>

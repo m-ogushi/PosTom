@@ -205,10 +205,11 @@ class PresentationsController extends AppController {
 			$handle = fopen($file,"r");
 			$countRow = 1;
 			$this->check = true;
-			while(($row = fgetcsv($handle, 1500, ",")) !== FALSE){
+			while(($row = fgetcsv($handle, 2500, ",")) !== FALSE){
 				mb_convert_variables("UTF-8", "auto", $row);
 				$this->error = "";
 				$targetrow = $this->_setContent($row);
+				// var_dump($row);
 				if($row[0] != "room"){
 					// バリデーションチェック関数呼び出し
 					$this->_elementNum($row);
