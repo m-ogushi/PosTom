@@ -174,36 +174,43 @@ iframe {
 #col3 .inner {
 	padding-bottom: 0;
 }
-
 /* column 4 */
-#col4 .signup-form {
+#col4 {
+	background-color: #f1f1f1;
+}
+#col4 iframe {
+	max-width: 100%;
+}
+
+/* column 5 */
+#col5 .signup-form {
 	margin: 0 auto;
 }
-#col4 .signup-form label {
+#col5 .signup-form label {
 	font-family: 'Montserrat', sans-serif, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka;
 	font-size: 18px;
 	line-height: 50px;
 	margin-bottom: 0;
 }
-#col4 .signup-form label.required:after {
+#col5 .signup-form label.required:after {
 	content: "*";
 	color: #e74c3c;
 }
-#col4 .signup-form .submit {
+#col5 .signup-form .submit {
 	text-align: center;
 }
-#col4 .signup-form .submit input {
+#col5 .signup-form .submit input {
 	padding: 10px 110px;
 }
-#col4 .signup-form dl {
+#col5 .signup-form dl {
 	margin-bottom: 10px;
 }
-#col4 .signup-form dt {
+#col5 .signup-form dt {
 	display: inline-block;
 	width: 30%;
 	float: left;
 }
-#col4 .signup-form dd {
+#col5 .signup-form dd {
 	display: inline-block;
 	width: 70%;
 	float: left;	
@@ -278,12 +285,12 @@ h3 {
 	font-size: 22px;
 }
 /* column 4 */
-#col4 .signup-form dt {
+#col5 .signup-form dt {
 	display: block;
 	width: 100%;
 	float: none;
 }
-#col4 .signup-form dd {
+#col5 .signup-form dd {
 	display: block;
 	width: 100%;
 	float: none;	

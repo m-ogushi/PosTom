@@ -125,12 +125,13 @@ $(function(){
 <!-- header -->
 <div id="header">
 <div class="inner">
-<h1><a href="#"><img src="img/top/i_logo.png" alt="PosTom" width="120" height="70"></a></h1>
+<h1><a href="#"><img src="img/top/i_logo.png" alt="PosTom" width="674" height="70"></a></h1>
 <!-- PC向けメニュー -->
 <ul id="hnav" class="hidden-xs">
 <li><a href="#col2">SERVICE</a></li>
 <li><a href="#col3">FEATURE</a></li>
-<li><a href="#col4">SIGN UP</a></li>
+<li><a href="#col4">MOVIE</a></li>
+<li><a href="#col5">SIGN UP</a></li>
 <li><a href="users/login">SIGN IN</a></li>
 </ul>
 <!-- スマートフォン向けメニュー -->
@@ -175,12 +176,18 @@ You can generate the applications quickly and easily.
 <!-- // column 3 -->
 
 <!-- column 4 -->
-<div id="col4" class="cd-scrolling-bg cd-color-2">
+<div id="col4" class="cd-scrolling-bg cd-color-3">
 <div class="inner cd-container">
-
 <p class="tit">How to make the event</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/pQ8oD7f7RKU" frameborder="0" allowfullscreen></iframe>
+<p class="tac"><iframe width="560" height="315" src="https://www.youtube.com/embed/pQ8oD7f7RKU" frameborder="0" allowfullscreen></iframe></p>
+</div> 
+</div> 
+<!-- // column 4 -->
 
+<<<<<<< HEAD
+<!-- column 5 -->
+<div id="col5" class="cd-scrolling-bg cd-color-2">
+<div class="inner cd-container">
 <p class="tit">Sign up to try PosTom !</p>
 <p class="txt">Fill your account information and sign up.</p>
 <div class="error-messages disno"></div>
@@ -213,7 +220,7 @@ You can generate the applications quickly and easily.
 
 </div> 
 </div> 
-<!-- // column 4 -->
+<!-- // column 5 -->
 
 <!-- footer -->
 <div id="footer">
