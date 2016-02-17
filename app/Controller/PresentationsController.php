@@ -3,7 +3,7 @@
 ini_set('auto_detect_line_endings', true);
 class PresentationsController extends AppController {
 	public $helpers = array('Html', 'Form', 'Text');
-	public $uses = array('Schedule','Presentation','Event');
+	public $uses = array('Schedule','Presentation','Event','Poster');
 	public $checkResult = array();
 	public $preGroup = array();
 	public $error = "";
@@ -69,6 +69,8 @@ class PresentationsController extends AppController {
 					// import前にevent内のpresentationを削除
 					$this->Presentation->deleteAll(array('event_id'=>$_SESSION['event_id']));
 					$this->Presentation->loadCSV($fileName);
+					// 選択中のイベントに設定済みのポスターのすべての関連付けを初期化
+					$this->requestAction('/posters/initRelation');
 					$this->redirect(array('action'=>'index'));
 				}else{
 					$this->set('checkResult', $this->checkResult);
