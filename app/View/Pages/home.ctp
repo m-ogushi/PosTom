@@ -125,7 +125,7 @@ $(function(){
 <!-- header -->
 <div id="header">
 <div class="inner">
-<h1><a href="#"><img src="img/top/i_logo.png" alt="PosTom" width="674" height="70"></a></h1>
+<h1><a href="#"><img src="img/top/i_logo.png" alt="PosTom" width="120" height="70"></a></h1>
 <!-- PC向けメニュー -->
 <ul id="hnav" class="hidden-xs">
 <li><a href="#col2">SERVICE</a></li>
@@ -184,7 +184,6 @@ You can generate the applications quickly and easily.
 </div> 
 <!-- // column 4 -->
 
-<<<<<<< HEAD
 <!-- column 5 -->
 <div id="col5" class="cd-scrolling-bg cd-color-2">
 <div class="inner cd-container">

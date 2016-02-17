@@ -71,5 +71,17 @@ class PostersController extends AppController {
 		// ポスター配置画面へ戻る
 		$this->redirect(array('action'=>'index'));
 	}
+	
+	// 選択中のイベントのすべてのポスターの関連付け情報を初期化する
+	public function initRelation(){
+		// 選択中のイベントのすべてのポスターを削除する
+		$posters = $this->Poster->find('all', array(
+			'conditions' => array('event_id' => $_SESSION['event_id'])
+		));
+		foreach($posters as $id => $poster){
+			$target_id = $poster['Poster']['id'];
+			$this->Poster->save(array('id' => $target_id, 'presentation_id' => 0, 'color' => '#999999'));
+		}
+	}
 }
 ?>
