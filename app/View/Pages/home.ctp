@@ -125,12 +125,13 @@ $(function(){
 <!-- header -->
 <div id="header">
 <div class="inner">
-<h1><a href="#"><img src="img/top/i_logo.png" alt="PosTom" width="120" height="70"></a></h1>
+<h1><a href="#"><img src="img/top/i_logo.png" alt="PosTom" width="674" height="70"></a></h1>
 <!-- PC向けメニュー -->
 <ul id="hnav" class="hidden-xs">
 <li><a href="#col2">SERVICE</a></li>
 <li><a href="#col3">FEATURE</a></li>
-<li><a href="#col4">SIGN UP</a></li>
+<li><a href="#col4">MOVIE</a></li>
+<li><a href="#col5">SIGN UP</a></li>
 <li><a href="users/login">SIGN IN</a></li>
 </ul>
 <!-- スマートフォン向けメニュー -->
@@ -147,8 +148,8 @@ $(function(){
 <h2>SMARTPHONE APPLICATION GENERATOR</h2>
 <h3>FOR CONFERENCES INCLUDING POSTER SESSIONS</h3>
 <h4>
-PosTom is Web service witch generates smartphone applications for conferences including poster session.<br>
-You can create contents easily.
+PosTom is a web service which generates smartphone applications for onferences including poster sessions.<br>
+You can generate the applications quickly and easily.
 </h4>
 </div> 
 </div> 
@@ -157,11 +158,8 @@ You can create contents easily.
 <!-- column 2 -->
 <div id="col2" class="cd-scrolling-bg cd-color-1">
 <div class="inner cd-container">
-<p class="tit">Create Application For Smartphone By PC</p>
-<p class="txt">You can create Web application for conference.<br>
-You may think it's a hassle.<br>
-What you need is only minimal operations and uploading data.<br>
-You can create Web application about 3 minutes and all free.</p>
+<p class="tit">Generate an application for smartphone on the web site.</p>
+<p class="txt">If you already have the program data for a conference, you can easily generate the program pages by importing it.
 <p class="thumb"><img src="img/top/i_col1.png" alt="サービス画像" width="745" height="495"></p>
 </div> 
 </div>
@@ -170,23 +168,27 @@ You can create Web application about 3 minutes and all free.</p>
 <!-- column 3 -->
 <div id="col3" class="cd-fixed-bg cd-bg-2 no-min-height">
 <div class="inner cd-container">
-<p class="tit">Arrange Poster Position By Intuitive Handling</p>
-<p class="txt">The contents of poster session is a bother.<br>
-But, you can arrange for poster position by intuitive handling.</p>
+<p class="tit">By intuitive handling</p>
+<p class="txt">PosTom provides the poster layout tool.<br>You can make the layout and assign poster information intuitively!</p>
 <p class="thumb"><img src="img/top/i_col2.png" alt="フィーチャー画像" width="940" height="484"></p>
 </div> 
 </div> 
 <!-- // column 3 -->
 
 <!-- column 4 -->
-<div id="col4" class="cd-scrolling-bg cd-color-2">
+<div id="col4" class="cd-scrolling-bg cd-color-3">
 <div class="inner cd-container">
+<p class="tit">How to make the event</p>
+<p class="tac"><iframe width="560" height="315" src="https://www.youtube.com/embed/pQ8oD7f7RKU" frameborder="0" allowfullscreen></iframe></p>
+</div> 
+</div> 
+<!-- // column 4 -->
 
-<p class="tit">How To Make The Event</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/pQ8oD7f7RKU" frameborder="0" allowfullscreen></iframe>
-
-<p class="tit">Create your PosTom Account</p>
-<p class="txt">All contents are free. When you completed temporarily registered, you can receive emails.</p>
+<!-- column 5 -->
+<div id="col5" class="cd-scrolling-bg cd-color-2">
+<div class="inner cd-container">
+<p class="tit">Sign up to try PosTom !</p>
+<p class="txt">Fill your account information and sign up.</p>
 <div class="error-messages disno"></div>
 <div class="signup-form">
 <form action="users/signup" id="UserSignupForm" method="post" accept-charset="utf-8">
@@ -217,7 +219,7 @@ But, you can arrange for poster position by intuitive handling.</p>
 
 </div> 
 </div> 
-<!-- // column 4 -->
+<!-- // column 5 -->
 
 <!-- footer -->
 <div id="footer">

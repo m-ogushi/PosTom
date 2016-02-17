@@ -33,43 +33,39 @@ PosTomはCakePHP 2.xを使用して開発されております。
 ここでは、githubリポジトリの取得からサービス開始までの手順を説明します。
 
 ### Step.1 GitHubからソースを取得
+事前にgitをインストールしておくこと。
 ```
-wget --no-check-certificate https://github.com/tsss-a/PosTom/archive/master.zip
-```
-
-### Step.2 ファイルを解凍
-```
-unzip master.zip
+git clone https://github.com/tsss-a/PosTom.git
 ```
 
-### Step.3 プロジェクトフォルダの権限を設定
+### Step.2 プロジェクトフォルダの権限を設定
 ```
 chmod -R 755 プロジェクト名
 ```
 
-### Step.4 .gitignoreされているtmpフォルダを生成
+### Step.3 .gitignoreされているtmpフォルダを生成
 ```
 cd プロジェクト名/app/
 mkdir tmp
 ```
 
-### Step.5 .gitignoreされているtmpフォルダの権限を設定
+### Step.4 .gitignoreされているtmpフォルダの権限を設定
 ```
 chmod -R 755 tmp
 ```
 
-### Step.6 .gitignoreされているtmpファルダ内のemptyファイルを個別生成
+### Step.5 .gitignoreされているtmpファルダ内のemptyファイルを個別生成
 ```
 cd tmp && mkdir cache && mkdir logs && mkdir sessions && mkdir tests && cd cache && mkdir models && mkdir persistent && mkdir views && touch models/empty && touch persistent/empty && touch views/empty && cd ../ && touch logs/empty && touch sessions/empty && touch tests/empty
 ```
 
-### Step.7 databaseファイルの複製
+### Step.6 databaseファイルの複製
 ```
 cd ../Config/
 cp database.php.default database.php
 ```
 
-### Step.8 databaseファイルの編集
+### Step.7 databaseファイルの編集
 ```
 class DATABASE_CONFIG {
 	public $default = array(
@@ -141,7 +137,9 @@ mysql > show tables;
 ## 使用マニュアル
 ここでは一通り、学会用スマートフォン向けWebアプリ「PosMApp」を生成するための手順を説明します。
 
-−−−−−−−−−−− 只今、ガイド用動画作成中 −−−−−−−−−−−
+PosTom利用マニュアル動画を配信しています。
+
+[![PosTom Guide Movie](http://img.youtube.com/vi/pQ8oD7f7RKU/0.jpg)](https://www.youtube.com/watch?v=pQ8oD7f7RKU)
 
 PosMAppを生成するには以下の手順をおこないます。
 

@@ -13,6 +13,13 @@
 </script>
 <h2>Floor Map</h2>
 <div id="pageFloormap">
+<p>・The file is encoded as PNG, GIF or JPG.</p>
+<p>・The image size is less than 960px in width and 720px in height.</p>
+<form action="floormaps/upload" method="post" id="floormapImport" enctype="multipart/form-data">
+<p><input value="Upload floor map image"  type="button"  class="btn btn-custom" onClick="GetFile()"></p>
+<p><input type="file" name="file" id="file" class="disno" onChange="PostFrom()"></p>
+<p><input type="submit" value="Submit" class="disno"></p>
+</form>
 <div>
 <form action="floormaps/setmap" method="post" id="changeStateFrom" enctype="multipart/form-data">
 <?php
@@ -26,24 +33,19 @@
 	}
 
 	if($url==""){
-		echo "<Label>Please set your floor map first.</Label>";
+		//echo "<p>・The file is encoded as PNG, GIF or JPG.</p>";
+		//echo "<p>・The image size is less than 000px in width and 000px in hight.</p>";
 	}else{
 		if($event['Event']['set_floormap']==true ){
-			echo "<label> <input type='checkbox' name='useFloormap' onchange='changeState()' />check this box on to hide the floor map in PosmApp.</label>";
+			echo "<label> <input type='checkbox' name='useFloormap' onchange='changeState()' />Check the box to hide the floor map in PosMapp</label>";
 		}else if($event['Event']['set_floormap']==false){
-			echo "<label> <input type='checkbox' name='useFloormap' checked=true onchange='changeState()' />check this box on to hide the floor map in PosmApp.</label>";
+			echo "<label> <input type='checkbox' name='useFloormap' checked=true onchange='changeState()' />Check the box to hide the floor map in PosMapp</label>";
 		}
 	}
 ?>
 </form>
 </div>
 <div>
-<form action="floormaps/upload" method="post" id="floormapImport" enctype="multipart/form-data">
-<p>Please click the following button to upload your floor map:</p>
-<p><input value="Upload floor map image"  type="button"  class="btn btn-custom" onClick="GetFile()"></p>
-<p><input type="file" name="file" id="file" class="disno" onChange="PostFrom()"></p>
-<p><input type="submit" value="Submit" class="disno"></p>
-</form>
 <?php
 if($url!=""){
 ?>
