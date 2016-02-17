@@ -184,6 +184,7 @@ You can generate the applications quickly and easily.
 </div> 
 <!-- // column 4 -->
 
+<<<<<<< HEAD
 <!-- column 5 -->
 <div id="col5" class="cd-scrolling-bg cd-color-2">
 <div class="inner cd-container">
