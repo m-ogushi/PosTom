@@ -717,7 +717,7 @@ function setChangePosterMapDate() {
 function changePosterMapDate(date) {
 
 	if(posmapp_bg != null){
-		//$("#mapImg").attr("src", posmapp_bg[date-1]);
+		$("#mapImg").attr("src", posmapp_bg[date-1]);
 	}
 	sessionStorage.setItem("currentPosterMapDate",date);
 	if(date < poster_days){
