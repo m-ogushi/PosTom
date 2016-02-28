@@ -45,6 +45,7 @@ function ajaxdownload(pageName){
 	var flag = localStorage.getItem("downloadSuccess");
 	if(flag === "false" || flag === null){
 		localStorage.clear();
+		
 		$.ajax({
 		   		url: posMAppDataURL,
 				type: "POST",
