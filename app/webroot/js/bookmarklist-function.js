@@ -34,16 +34,15 @@ $.fn.showBookmarkList = function() {
 					presens["author"].push(getAuthors(p.presenid));
 
 					str += "<tr id='bookmarkedpresen" + p.presenid + "'><td><div> 	" + p.presenid;
-
 					// ポスター発表があるときのみマップへ遷移するボタンを表示
 					if (posterid !== -1) {
-						str += "<img class='bookmarklistToMapBtn' id='bookmarklistToMap" +posterid+ "' src='img/logo_posmapp.png' style='zoom: 8%;'></img>";
+						str += "<img class='bookmarklistToMapBtn' id='bookmarklistToMap" +posterid+ "' src='"+webroot+"img/logo_posmapp.png' style='zoom: 8%;'></img>";
 					}
 
-					str += "&nbsp;&nbsp;<img class='bookmarklistbookmarkbutton' id='bookmarklistbookmark"+p.presenid+"' src='img/bookmark.png' style='zoom: 22%;'></img><br>";
+					str += "&nbsp;&nbsp;<img class='bookmarklistbookmarkbutton' id='bookmarklistbookmark"+p.presenid+"' src='"+webroot+"img/bookmark.png' style='zoom: 22%;'></img><br>";
 					str += "<span class='bookmarklistTitle'><strong><small>" + p.title + "</small></strong></span><br>";
 					str += "<div class='authors-on-list'><span class='bookmarklistAuthors'>" + authorname + ", 他</span></div></td>";
-					str += "<td><div><td><img class='bookmarklistToDetailBtn' id='bookmarklistToDetail"+p.presenid+"' src='img/detailinfo.png' style='zoom: 3%;'> </img></div>";
+					str += "<td><div><td><img class='bookmarklistToDetailBtn' id='bookmarklistToDetail"+p.presenid+"' src='"+webroot+"img/detailinfo.png' style='zoom: 3%;'> </img></div>";
 				}
 			}
 		}
@@ -92,7 +91,9 @@ $.fn.bookmarklistToDetailPage = function() {
 $.fn.bookmarklistToMapPage = function() {
 	$(this).on("click", function(e) {
 		// ポスターのIDを取得する
-		var posterid = Number(e.target.id.substring(10));
+
+		var posterid = Number(e.target.id.substring(17));
+
 		listToMap(posterid);
 	});
 };
@@ -126,9 +127,10 @@ function removebookmark(presenid){
 	var location = bookmarkArr.indexOf(presenid);
 	bookmarkArr.splice(location, 1);
 
+
 	var bookmarkIcon = $("#bookmarkbutton");
-	$("#bookmarkbutton").attr("src","img/unbookmark.png");
-	$("#listbookmark" + presenid).attr("src","img/unbookmark.png");
+	$("#bookmarkbutton").attr("src",webroot+"img/unbookmark.png");
+	$("#listbookmark" + presenid).attr("src",webroot+"img/unbookmark.png");
 	saveLog("unbookmark", {presenid:presenid, page:window.location.hash});
 
 	var posterid = getPosterid(presenid);
@@ -138,7 +140,15 @@ function removebookmark(presenid){
 		var starpos = [null, "Top", "Right", "Bottom", "Left"];
 		if (bookmarkIcon !== null) {
 			var posterid = getPosterid(presenid);
-			var p = poster[posterid-1];
+			var p ;
+			for(var i=0;i<poster.length;i++)
+			{
+				if(poster[i].posterid==posterid);
+				{
+					p = poster[i];
+					posterid=i;
+				}
+			}
 			starelem = document.getElementById("star" + starpos[p.star] + "No" + posterid);
 			starelem.style.display = starstatus;
 		}

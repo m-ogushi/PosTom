@@ -198,10 +198,12 @@ function listToMap(posterid){
 	}
 
 	resetAllIcons();
-	var nextFlag = touchPoster(nowPosterId+1);
-	pflag[nowPosterId+1] = nextFlag;
-	showPosterIcons();
 
+	var nextFlag = touchPoster(nowPosterId+1);
+	//var nextFlag = touchPoster(posterid);
+	pflag[nowPosterId+1] = nextFlag;
+	//pflag[posterid]=nextFlag;
+	showPosterIcons();
 	var word = sessionStorage.getItem("searchWord");
 	if (word !== "" && word !== null) {
 		searchAll(sessionStorage.getItem("searchWord"));
