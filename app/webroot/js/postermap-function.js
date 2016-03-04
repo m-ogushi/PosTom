@@ -5,6 +5,7 @@
 // s：検索ヒット（緑）
 // e：検索中の強調表示（赤）
 var pflag;
+var posterIconNo = {}; //key: posterid, value: IconNo
 
 // アイコンのラベルを何文字目まで表示するか
 var labelmax = 7;
@@ -31,7 +32,7 @@ function initPosterMap() {
 			pflag[i] = "d";
 		}
 	}
-	
+
 }
 
 // 詳細情報画面を表示する
@@ -49,7 +50,6 @@ $.fn.touchPoster = function() {
 		// ポスターのIDを取得する
 		var posterid = Number(e.target.id.substring(4));
 		saveLog("poster_tap", {posterid:posterid});
-
 		var nextFlag = touchPoster(posterid);
 
 		pflag[posterid] = nextFlag;
@@ -108,7 +108,6 @@ function setPosterIcons() {
 	if(poster !== null && position != null){
 		var starAngle = [null, "top:-5px;", "right:-5px;", "bottom:-5px;", "left:-5px;"];
 		var starpos = [null, "Top", "Right", "Bottom", "Left"];
-
 		var str = "";
 		var angle;
 		var pos;
@@ -134,6 +133,8 @@ function setPosterIcons() {
 
 			iconWidth = icondata.width * INIT_SCALE;
 			iconHeight = icondata.height * INIT_SCALE;
+
+			posterIconNo[poster[i-1].posterid]=i;
 
 			str +=
 				"<div class='postericonframe "+ day_divclass + "' id='iconNo" + i + "' style='left:"+(icondata.x*INIT_SCALE)+"px;top:"+(icondata.y*INIT_SCALE)+"px;width:" + iconWidth + "px;height:" + iconHeight + "px;'>\
@@ -272,9 +273,11 @@ function setLabelSize() {
 // 現在のフラグを元にポスターのアイコンを表示する
 function showPosterIcons() {
 	var pic;
-	var ptotal = poster.length;
-	for (var i = 1; i <= ptotal; i++) {
-		switch (pflag[i]) {
+//	var ptotal = poster.length;
+//	for (var i = 1; i <= ptotal; i++) {
+	for (key in pflag){
+
+		switch (pflag[key]) {
 			case "d":
 				pic = "dpic";
 				break;
@@ -288,43 +291,46 @@ function showPosterIcons() {
 				pic = "epic";
 				break;
 		}
-    	document.getElementById("icon" + i).className = pic;
+		if(key!=null&&key!=0)
+		{
+			document.getElementById("icon"+key).className = pic;
+		}
+
 	}
 }
-
 
 // ポスターをタッチ
 // return : タッチしたポスターの次の状態
 // TODO: パターンを導入しようか・・・
-function touchPoster(posterid) {
-	if (posterid < 1 || posterid > ptotal) {
+function touchPoster(iconID) {
+//	if (posterid < 1 || posterid > ptotal) {
+	if (iconID < 0 ) {
 		throw new Exception();
 	}
-
 	if (sessionStorage.getItem("searching") === "true") {
-		if (pflag[posterid] === "d") {
+		if (pflag[iconID] === "d") {
 			unselectPoster();
-			selectPoster(posterid);
+			selectPoster(iconID);
 			return "t";
-		} else if (pflag[posterid] === "t") {
+		} else if (pflag[iconID] === "t") {
 			changeBasicInfoPanel(false);
 			unselectPoster();
 			return "d";
-		} else if (pflag[posterid] === "s") {
+		} else if (pflag[iconID] === "s") {
 			unselectPoster();
-			selectPoster(posterid);
+			selectPoster(iconID);
 			return "e";
-		} else if (pflag[posterid] === "e") {
+		} else if (pflag[iconID] === "e") {
 			changeBasicInfoPanel(false);
 			unselectPoster();
 			return "s";
 		}
 	} else {
-		if (pflag[posterid] === "d") {
+		if (pflag[iconID] === "d") {
 			unselectPoster();
-			selectPoster(posterid);
+			selectPoster(iconID);
 			return "t";
-		} else if (pflag[posterid] === "t") {
+		} else if (pflag[iconID] === "t") {
 			changeBasicInfoPanel(false);
 			unselectPoster();
 			return "d";
@@ -386,11 +392,12 @@ function changeBasicInfoPanel(flag) {
 function emphasisSearchedPosters(posterids) {
 
 	// 前回の検索結果をリセットする
-	for (var i = 1; i <= ptotal; i++) {
+	//for (var i = 1; i <= ptotal; i++) {
+	for(i in pflag){
 		if (pflag[i] !== "t" && pflag[i] !== "e") {
 			pflag[i] = "d";
 		}
-		
+
 		//前回強調表示かつタッチされたポスターの状態が普通のタッチ状態に戻る
 		//#75「前回のsearch結果をタッチしている状態キーワード変更してまた検索するフラグがおかしい」バグの修正
 		if(pflag[i] === "e"){
@@ -401,14 +408,15 @@ function emphasisSearchedPosters(posterids) {
 	// ヒットしたポスターを強調表示する
 	posterids.forEach(function(id) {
 		// すでに選択されていれば、検索ヒット中の強調表示にする
-		if (pflag[id] === "t") {
-			pflag[id] = "e";
-		// 検索ヒット中の強調表示になっていない限り、検索ヒットにする
-		} else if (pflag[id] !== "e") {
-			pflag[id] = "s";
+		var posteridTemp=posterIconNo[id];
+		if (pflag[posteridTemp] === "t") {
+			pflag[posteridTemp] = "e";
+			// 検索ヒット中の強調表示になっていない限り、検索ヒットにする
+		} else if (pflag[posteridTemp] !== "e") {
+			pflag[posteridTemp] = "s";
 		}
 	});
-	
+
 	showPosterIcons();
 	
 }
@@ -602,7 +610,8 @@ function searchChanged(bar) {
 		sessionStorage.removeItem("searchWord");
 
 		// 各ポスターに対して検索中状態から未検索状態へフラグを変化させる
-		for (var i = 1; i <= ptotal; i++) {
+		for(i in pflag){
+			//for (var i = 1; i <= ptotal; i++) {
 			// 検索中強調表示ならばただの強調表示に、ヒット状態なら元に戻す
 			if (pflag[i] === "e") {
 				pflag[i] = "t";
