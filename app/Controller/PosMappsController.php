@@ -306,11 +306,17 @@ class PosMappsController extends AppController {
                 $JsonSession .= '"chairpersonname":"' . $schedule['Schedule']['chairperson_name'] . '",';
                 $JsonSession .= '"chairpersonaffiliation":"' . $schedule['Schedule']['chairperson_affiliation'] . '"';
                 $JsonSession .= '}';
-                $JsonComentator .= '{';
-                $JsonComentator .= '"sessionid":"' . $schedule['Schedule']['room'] . $schedule['Schedule']['order'] . '",';
-                $JsonComentator .= '"name":"' . $schedule['Schedule']['commentator_name'] . '",';
-                $JsonComentator .= '"affiliation":"' . $schedule['Schedule']['commentator_affiliation'] . '"';
-                $JsonComentator .= '},';
+                $arr = explode(",",$schedule['Schedule']['commentator_name']);
+                $brr = explode(",",$schedule['Schedule']['commentator_affiliation']);
+                for($i=0;$i<count($arr);$i++) {
+                    $JsonComentator .= '{';
+                    $JsonComentator .= '"sessionid":"' . $schedule['Schedule']['room'] . $schedule['Schedule']['order'] . '",';
+                    $JsonComentator .= '"name":"' .$arr[$i] . '",';
+                    $JsonComentator .= '"affiliation":"'  .$brr[$i]  . '"';
+                    $JsonComentator .= '},';
+                }
+
+
                 if ($pointer < count($schedules)) {
                     $pointer = $pointer + 1;
                     $JsonSession .= ',';
